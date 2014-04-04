@@ -2,9 +2,9 @@
 
 bitTricks;
 
-function v = MinToPPRMOrder(n)
+function v = MinToPPRMOrder(nbit)
 
-  [s,i] = sort(hamWeight(2^n-1:-1:0));
+  [s,i] = sort(hamWeight(2^nbit-1:-1:0));
   v = flipud(i)';
 
 end
