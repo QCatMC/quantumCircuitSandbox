@@ -4,7 +4,7 @@
 
 
 1;
-warning( "off","Octave:broadcast");
+#warning( "off","Octave:broadcast");
 
 # for a single pre-computed m<=n bit operator targeting 
 # bits [t,t+m). y=Ax
@@ -18,7 +18,8 @@ function y = applyOp(x,A,t,n)
   
   # error checking
   if( rows(A) != columns(A) || m>n) # bad operator size
-    error("Operator must be square and order = 2^m for 0<=m<=n. n=%d and A is %dx%d",n,rows(A),cols(A));      
+    error("Operator must be square and order = 2^m for 0<=m<=n. n=%d and A is %dx%d", ...
+	  n,rows(A),cols(A));      
   elseif ( t>=n || (t+1)-m<0) # bad target
      error("bad target. target not in [m-1,n) : t=%d n=%d m=%d",t,n,m); 
   elseif ( length(x) != 2^n ) #bad vector
@@ -27,7 +28,7 @@ function y = applyOp(x,A,t,n)
 
   # Cases: m=n, op targets highest order bits, loweset order bits, or somewhere
   #   in the middle
-  if( m == n )
+  if( m == n ) #
     y = A*x;
   elseif ( t == n-1 ) # highest order bits [n-1,n-m]
     X=reshape(x,2^(n-m),rows(A));
@@ -82,10 +83,12 @@ function y = proj(x,t,b,n)
   X = reshape(x,2^(t),2,2^(n-t-1));
   mask = [ones(2^(t),1,2^(n-t-1)),zeros(2^t,1,2^(n-t-1))];
   
+  # swap 1s and 0s for projection to b==1
   if( b == 1 )
     mask = flipdim(mask,2);
   endif
 
+  # mask
   X = X .* mask;
   y = reshape(X,2^n,1);
 
