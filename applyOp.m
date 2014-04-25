@@ -25,11 +25,9 @@ function y = applyOp(x,A,t,n)
   elseif ( t == n-1 ) # highest order bits [n-1,n-m]
     X=reshape(x,2^(n-m),rows(A));
     X=X*transpose(A);
-    y=reshape(X,2^n,1);
   elseif ( t+1-m == 0 ) # lowest order bits [m-1,0]
     X=reshape(x,rows(A),2^(n-m));
     X=A*X;
-    y=reshape(X,2^n,1);
   else # in the middle
     #    n = high+m+low
     high = (n-1)-t; # number of untargeted, high-order bits
@@ -42,9 +40,9 @@ function y = applyOp(x,A,t,n)
     for i = 1:(2^high)
 	X(:,:,i)=X(:,:,i)*Atrans;
     endfor
-    y=reshape(X,2^n,1);
   endif
 
+    y=reshape(X,2^n,1);
 endfunction
 
 %!test
