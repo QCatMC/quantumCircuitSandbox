@@ -1,5 +1,6 @@
-1;
 
+# compute the hamming weight (number of 1s) of a vector
+# of intgers
 function r = hamWeight(n)
 
   shifts = [-1, -2, -4, -8, -16];
@@ -16,12 +17,4 @@ function r = hamWeight(n)
 
 end
 
-function b = binaryRep(k,n)
-  b = zeros(length(k),n);
-	 
-  for j=1:length(k)
-    b(j,:) = uint64(bitget(k(j),n:-1:1));
-  endfor
-end
-
-
+%!assert(hamWeight([0:7]),[0,1,1,2,1,2,2,3]')
