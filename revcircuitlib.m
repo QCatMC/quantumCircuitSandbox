@@ -1,6 +1,4 @@
-PPRMlib;
-
-
+1;
 #Signature: RandomVector: int n
 #Purpose: Takes a number that signifies the # of bit and returns a random n bit vector
 #Pre-Condition: Must take a integer greater than 0
