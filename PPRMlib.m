@@ -8,8 +8,3 @@ function v = MinToPPRMOrder(nbit)
   v = flipud(i)';
 
 end
-
-
-  
-
-	

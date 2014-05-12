@@ -10,7 +10,7 @@ function r = hamWeight(n)
     r(j) = n(j);
     for i=1:5
       r(j) = bitand(bitshift(r(j), shifts(i)), masks(i)) + ...
-	bitand(r(j), masks(i));
+      bitand(r(j), masks(i));
     endfor
   endfor
 
@@ -18,10 +18,8 @@ end
 
 function b = binaryRep(k,n)
   b = zeros(length(k),n);
-	 
+
   for j=1:length(k)
     b(j,:) = uint64(bitget(k(j),n:-1:1));
   endfor
 end
-
-
