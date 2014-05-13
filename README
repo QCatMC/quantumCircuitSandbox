@@ -1,3 +1,4 @@
-This repository contains octave/matlab m scripts for 
+This repository contains octave/matlab package for  
 use in the construction and evaluation of reversible 
-boolean logic circuits and quantum circuits.
+boolean logic circuits,quantum circuits, as well as some 
+general purpose Quantum Information Science funtions.

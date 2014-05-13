@@ -1,0 +1,7 @@
+Name: oct-circuits
+Version: 0.0.1
+Date: 2014-13-05
+Author: James Logan Mayfield
+Mainainer: James Logan Mayfield
+Title: Functions for describing, synthesizing, and simulating
+ quantum circuits.
