@@ -6,7 +6,7 @@
 ## rep of the corresponding entry in K
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: binary
+## Keywords: Misc
 
 function b = binaryRep(k,n)
   b = zeros(length(k),n);

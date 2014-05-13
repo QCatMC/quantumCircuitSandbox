@@ -1,10 +1,16 @@
-# for a single pre-computed m<=n bit operator targeting 
-# bits [t,t+m). y=Ax
-#  x is the 2^n column vector 
-#  A is a 2^m by 2^m unitary
-#  t is the highest-order target of A. A targets [t,t-m)
-#  n is the circuit size in bits
-# based on paper by Kaushik, Gropp, Minkoff, and Smith
+## Usage: y = applyOp(x,A,t,n)
+##
+## apply the pre-computed m<=n bit operator A with target 
+## bits [t,t+m). i.e. compute y=Ax
+##  x is a 2^n column vector of a pure state
+##  A is a 2^m by 2^m unitary matrix for the operator
+##  t is the highest-order target of A. A targets [t,t-m)
+##  n is the circuit size in bits
+## based on paper by Kaushik, Gropp, Minkoff, and Smith
+
+## Author: Logan Mayfield
+## Keyword: Circuits
+
 function y = applyOp(x,A,t,n)
   m = log2(rows(A));
   

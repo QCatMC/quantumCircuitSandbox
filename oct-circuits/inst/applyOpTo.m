@@ -1,4 +1,15 @@
+## Usage: y = applyOpTo(x,A,ts,n)
+##
+## apply the single qubit operator A to all the bits given
+## in the vector ts. 
+##  x is a 2^n column vector of a pure state
+##  A is a 2 by 2 unitary matrix for the operator
+##  ts is a vector of target bits 
+##  n is the circuit size in bits
+## based on paper by Kaushik, Gropp, Minkoff, and Smith
 
+## Author: Logan Mayfield
+## Keyword: Circuits
 
 function y = applyOpTo(x,A,ts,n)
   
