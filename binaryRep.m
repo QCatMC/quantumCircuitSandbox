@@ -1,8 +1,13 @@
+## usage: B = binaryRep(K,n)
+##
+## Compute the n bit binary representation of the natural
+## numbers found in the vector K. The result is the 
+## |K|x n martix where each row is the binary
+## rep of the corresponding entry in K
 
-# compute the n bit binary representation of
-# each integer in vector k and return as 
-# |k|x n vector where each row is the binary
-# rep of the corresponding entry in k
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Keywords: binary
+
 function b = binaryRep(k,n)
   b = zeros(length(k),n);
 	 
@@ -10,7 +15,6 @@ function b = binaryRep(k,n)
     b(j,:) = uint64(bitget(k(j),n:-1:1));
   endfor
 end
-
 
 %!test
 %!  expect = [0,0,0; 0,0,1; 0,1,0; 0,1,1; ...
