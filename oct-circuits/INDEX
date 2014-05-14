@@ -1,6 +1,6 @@
 toolbox >> Toolbox name
 Category States 1
- stdBasis
+ stdBasis pureToDensity
 Category Operators 2
 Category Circuits 3
  applyOp applyOpTo CNot proj

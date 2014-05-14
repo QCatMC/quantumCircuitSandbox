@@ -30,15 +30,15 @@
 function y = applyOp(x,A,t,n)
   m = log2(rows(A));
   
-  # error checking
-  if( rows(A) != columns(A) || m>n) # bad operator size
-    error("Operator must be square and order = 2^m for 0<=m<=n. n=%d and A is %dx%d", ...
-	  n,rows(A),cols(A));      
-  elseif ( t>=n || (t+1)-m<0) # bad target
-     error("bad target. target not in [m-1,n) : t=%d n=%d m=%d",t,n,m); 
-  elseif ( length(x) != 2^n ) #bad vector
-    error("vector size must be 2^n: n=%d |x|=%d",n,length(x));
-  endif
+  ## error checking
+  ##if( rows(A) != columns(A) || m>n) # bad operator size
+  ##   error("Operator must be square and order = 2^m for 0<=m<=n. n=%d and A is %dx%d", ...
+  ##	  n,rows(A),cols(A));      
+  ##elseif ( t>=n || (t+1)-m<0) # bad target
+  ##   error("bad target. target not in [m-1,n) : t=%d n=%d m=%d",t,n,m); 
+  ##elseif ( length(x) != 2^n ) #bad vector
+  ##  error("vector size must be 2^n: n=%d |x|=%d",n,length(x));
+  ##endif
 
   # Cases: m=n, op targets highest order bits, loweset order bits, or somewhere
   #   in the middle

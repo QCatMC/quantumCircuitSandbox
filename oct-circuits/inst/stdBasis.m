@@ -16,16 +16,27 @@
 ## usage: b = stdBasis(i,n)
 ##
 ## Compute the n qubit standard basis corresponding to
-## the natural number i and return it as a 2^n column
-## vector of type values
+## the natural number i OR binary representation of i as a vector
+## and return it as a 2^n column vector of type values
+##
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
 
 function b = stdBasis(i,n,type="double")
   validTypes = ["double";"complex";"single";"int";"logical"];	 
-
   tVal = strmatch(type,validTypes,"exact");
+
+  ## convert to i to integer
+  if( length(i) > 1 ) # its a vector
+    if( length(i) > n )
+      error("binary number too long");
+    endif
+    ## convert to integer
+    pows = (2*ones(1,length(i))) .^ [0:length(i)-1];
+    i = sum(pows .* i);    
+  endif # i is now a postiver integer
 
   if( i < 0 || i > (2^n-1) )
     error("i must be in [0,%d). Given i=%d",2^n,i);    

@@ -22,14 +22,14 @@
 
 function y = proj(x,t,b,n)
 
-  #error checking
-  if( b < 0 || b > 1) #bad projector value
-    error("b must be 0 or 1. b=%d",b);
-  elseif ( t>=n || t<0 ) #bad target
-    error("bad target. must be in [0,n). t=%d n=%d",t,n);
-  elseif ( length(x) != 2^n ) # bad vector/bit combo
-	 error("vector/dimension mismatch length(x) must be 2^n. n=%d. len=%d",n,length(x));
-  endif
+  ##error checking
+  ##if( b < 0 || b > 1) #bad projector value
+  ##  error("b must be 0 or 1. b=%d",b);
+  ##elseif ( t>=n || t<0 ) #bad target
+  ##  error("bad target. must be in [0,n). t=%d n=%d",t,n);
+  ##elseif ( length(x) != 2^n ) # bad vector/bit combo
+  ##	 error("vector/dimension mismatch length(x) must be 2^n. n=%d. len=%d",n,length(x));
+  ##endif
 
   # project by reshaping and masking
   X = reshape(x,2^(t),2,2^(n-t-1));

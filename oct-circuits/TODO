@@ -1,0 +1,4 @@
+For Version 0.0.1
+- complete, computational basis measurement : pure and density
+- applyOp and applyOpTo for density matrix representation 
+- partial trace
