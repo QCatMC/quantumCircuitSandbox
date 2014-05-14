@@ -1,11 +1,27 @@
+## Copyright (C) 2014  James Logan Mayfield
+##
+##  This program is free software: you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation, either version 3 of the License, or
+##  (at your option) any later version.
+##
+##  This program is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
+##
+##  You should have received a copy of the GNU General Public License
+##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ## Usage: y = applyOp(x,A,t,n)
 ##
-## apply the pre-computed m<=n bit operator A with target 
-## bits [t,t+m). i.e. compute y=Ax
-##  x is a 2^n column vector of a pure state
-##  A is a 2^m by 2^m unitary matrix for the operator
-##  t is the highest-order target of A. A targets [t,t-m)
-##  n is the circuit size in bits
+## apply the m<=n bit operator A to bits [t-m+1,t] of 
+## the n qubit pure state x. 
+##
+## A should be a 2^m x 2^m unitary matrix where m <= n. The target 
+## t should be in [t-m+1,n). x should be a normalized 2^n column
+## vector. 
+##
 ## based on paper by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield

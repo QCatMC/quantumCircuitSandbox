@@ -1,11 +1,27 @@
+## Copyright (C) 2014  James Logan Mayfield
+##
+##  This program is free software: you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation, either version 3 of the License, or
+##  (at your option) any later version.
+##
+##  This program is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
+##
+##  You should have received a copy of the GNU General Public License
+##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ## Usage: y = applyOpTo(x,A,ts,n)
 ##
-## apply the single qubit operator A to all the bits given
-## in the vector ts. 
-##  x is a 2^n column vector of a pure state
-##  A is a 2 by 2 unitary matrix for the operator
-##  ts is a vector of target bits 
-##  n is the circuit size in bits
+## apply the single qubit operator A to all the bits listed in 
+## the vector ts of the n bit pure state x.  
+##
+## ts should contain no duplicate entries and all entries in ts 
+## should be from [0,n). The operator A should be a 2x2 unitary
+## matrix. The pure state x is a 2^n vector.
+##
 ## based on paper by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield
