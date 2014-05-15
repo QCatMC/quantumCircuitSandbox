@@ -35,9 +35,7 @@ function Q = pTrace(r,P)
   outSize = 2^(length(r)); #size of traced out space
   inSize = 2^(numBits-length(r)); #size of remaining space 
 
-
-
-  Q = zeros(inSize,inSize); # allocate result
+  Q = zeros(inSize,inSize); # allocate result space
 
 
   if( r(1) == 0 ) # low order bitspace
@@ -46,16 +44,18 @@ function Q = pTrace(r,P)
     for i = 1:(inSize^2)
       row =  floor(((i-1)/inSize))+1; # row number in block matrix
       col =  i-((row-1)*inSize); # col number in block matrix
+      ## get the ith block
       blocks(:,:,i) = P((row-1)*outSize+1:row*outSize, ...
 			(col-1)*outSize+1:col*outSize);
     endfor
     
-    # trace out
+    # trace out each block
     q = zeros(1,size(blocks)(3));
     for i = 1:length(q)
       q(i) = trace(blocks(:,:,i));
     endfor
-    Q = reshape(q,inSize,inSize);
+    # reshape to density matrix
+    Q = transpose(reshape(q,inSize,inSize));
 
   elseif( r(length(r)) == numBits-1 ) # high order bit space
     ## collect blocks
@@ -63,11 +63,12 @@ function Q = pTrace(r,P)
     for i = 1:(outSize^2)
       row =  floor(((i-1)/outSize))+1; # row number in block matrix
       col =  i-((row-1)*outSize); # col number in block matrix
+      ## collect ith Block
       blocks(:,:,i) = P((row-1)*inSize+1:row*inSize, ...
 			(col-1)*inSize+1:col*inSize);
     endfor
     
-    ## trace out
+    ## trace out 
     for i = [1:outSize]
       Q = Q + blocks(:,:,((i-1)*outSize)+i);
     endfor
