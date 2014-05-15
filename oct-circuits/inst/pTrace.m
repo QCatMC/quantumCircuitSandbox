@@ -26,8 +26,10 @@
 function Q = pTrace(r,P)
   numBits = log2(rows(P));
 
-  if( length(r) >= numBits )
+  if( length(r) > numBits )
     error("Trace out space too large");
+  elseif( length(r) == numBits )
+    error("Did you mean a complete trace?");
   endif
 
   outSize = 2^(length(r)); #size of traced out space
@@ -36,6 +38,7 @@ function Q = pTrace(r,P)
 
 
   Q = zeros(inSize,inSize); # allocate result
+
 
   if( r(1) == 0 ) # low order bitspace
     ## collect blocks
