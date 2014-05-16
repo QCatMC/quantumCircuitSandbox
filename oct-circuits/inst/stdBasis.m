@@ -24,9 +24,9 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
 
-function b = stdBasis(i,n,type="double")
+function b = stdBasis(i,n,t="double")
   validTypes = ["double";"complex";"single";"int";"logical"];	 
-  tVal = strmatch(type,validTypes,"exact");
+  tVal = strmatch(t,validTypes,"exact");
 
   ## convert to i to integer
   if( length(i) > 1 ) # its a vector

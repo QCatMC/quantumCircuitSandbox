@@ -1,10 +1,11 @@
 For Version 0.0.1 (Essentials for Pure state computation/analysis)
 
-- complete, computational basis measurement for pure states
-- partial trace
+- testing
 - named operators
-- Phase/Amplitude Operator
 
-Next
+For 0.0.2
 
 - Mixed State computation (apply*,cNot,etc. )
+- General Partial Trace
+- Partial Measurement in std basis
+
