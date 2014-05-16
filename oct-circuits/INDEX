@@ -1,8 +1,0 @@
-toolbox >> Toolbox name
-Category States 1
- stdBasis pureToDensity
-Category Operators 2
-Category Circuits 3
- applyOp applyOpTo CNot proj
-Category Misc 4
- binaryRep

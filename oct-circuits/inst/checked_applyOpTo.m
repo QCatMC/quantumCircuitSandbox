@@ -13,26 +13,32 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: y = applyOpTo(x,A,ts,n)
+## Usage: y = checked_applyOpTo(x,A,ts,n)
 ##
 ## apply the single qubit operator A to all the bits listed in 
-## the vector ts of the n bit pure state x.  
-##
-## ts should contain no duplicate entries and all entries in ts 
-## should be from [0,n). The operator A should be a 2x2 unitary
-## matrix. The pure state x is a 2^n vector.
+## the vector ts of the n bit pure state x. Checks the following
+## preconditions: ts should contain no duplicate entries and all 
+## entries in ts should be from [0,n). The operator A should be a 2x2
+## unitary matrix. The pure state x is a 2^n vector.
 ##
 ## based on paper by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
-function y = applyOpTo(x,A,ts,n)
+function y = checked_applyOpTo(x,A,ts,n)
   
-  for t = ts
-      x = applyOp(x,A,t,n);
-  end
+  if( !isequal(size(A),[2,2]) )
+    error("Operator must be Single Qubit (2x2). Given %dx%d",rows(A),columns(A));
+  elseif( (rows(ts) != 1 || columns(ts) != 1) && ...
+  	  (length(ts) < 1 || length(ts) > n) )
+    error("Target Vector size mismatch. Given %dx%d",rows(ts),columns(ts));
+  elseif( !isequals(unique(ts),ts) )
+    error("Target Vector contains duplicate entries");
+  elseif( log2(x) != n )
+    error("State vector, dimension mismatch");
+  endif
 
-  y=x;
+  y=applyOpTo(x,A,ts,n);
 
 endfunction

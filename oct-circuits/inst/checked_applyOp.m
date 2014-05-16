@@ -13,47 +13,36 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: y = applyOp(x,A,t,n)
+## Usage: y = checked_applyOp(x,A,t,n)
 ##
 ## apply the m<=n bit operator A to bits [t-m+1,t] of 
-## the n qubit pure state x. 
+## the n qubit pure state x. This version checks arguments for the 
+## following preconditions: A should be a 2^m x 2^m unitary matrix
+## where m <= n. The target t should be in [t-m+1,n). x should be 
+## a normalized 2^n column vector. 
 ##
-## A should be a 2^m x 2^m unitary matrix where m <= n. The target 
-## t should be in [t-m+1,n). x should be a normalized 2^n column
-## vector. 
+## see applyOp for an unchecked version
 ##
 ## based on paper by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
-function y = applyOp(x,A,t,n)
+function y = checked_applyOp(x,A,t,n)
   m = log2(rows(A));
   
-
-  if( m == n ) # whole-register operator 
-    y = A*x;
-  elseif ( t == n-1 ) # highest order bits [n-m,n-1]
-    X=reshape(x,2^(n-m),rows(A));
-    X=X*transpose(A);
-  elseif ( t+1-m == 0 ) # lowest order bits [0,m-1]
-    X=reshape(x,rows(A),2^(n-m));
-    X=A*X;
-  else # in the middle
-    high = (n-1)-t; # number of untargeted, high-order bits
-    low = t-m+1; # number of untargeted low order bits
-        
-    # need series of Xs.. 
-    X=reshape(x,2^low,rows(A),2^high);
-    Atrans = transpose(A);
-    #iterate over Xs
-    for i = 1:(2^high)
-	X(:,:,i)=X(:,:,i)*Atrans;
-    endfor
+  ## error checking
+  if( rows(A) != columns(A) || m>n) # bad operator size
+    error("Operator must be square and order = 2^m for 0<=m<=n.n=%d and A is %dx%d", ...
+  	   n,rows(A),cols(A));      
+  elseif ( t>=n || (t+1)-m<0) # bad target
+    error("bad target. target not in [m-1,n) : t=%d n=%d m=%d",t,n,m); 
+  elseif ( length(x) != 2^n ) #bad vector
+    error("vector size must be 2^n: n=%d |x|=%d",n,length(x));
   endif
-  
-  ## reshape to state vector
-  y=reshape(X,2^n,1);
+
+  y = applyOp(x,A,t,n);
+
 endfunction
 
 %!test
