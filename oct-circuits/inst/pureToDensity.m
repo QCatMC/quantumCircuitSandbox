@@ -24,3 +24,4 @@
 function D = pureToDensity(p)
   D = p*p';
 endfunction
+

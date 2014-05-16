@@ -26,17 +26,24 @@
 function Q = pTrace(r,P)
   numBits = log2(rows(P));
 
-  if( length(r) > numBits )
+  if( length(r) > numBits ) # too many bits? 
     error("Trace out space too large");
-  elseif( length(r) == numBits )
-    error("Did you mean a complete trace?");
+  elseif( length(r) == numBits ) # all the bits?
+    error("Did you mean a complete trace?"); 
+  elseif( !isequal(diff(r),ones(1,length(r))) && length(r) > 1 ) # not a sequence
+    error("Trace out space must be sequential");
+  elseif(r(1) != 0 && r(length(r)) != numBits-1 ) # not a high/low group
+    error("Trace space must be [0,k] or [k,n]");
   endif
 
+  ## get sizes of subspaces
   outSize = 2^(length(r)); #size of traced out space
   inSize = 2^(numBits-length(r)); #size of remaining space 
 
   Q = zeros(inSize,inSize); # allocate result space
-
+  
+  ## There's gotta be a better way to collect blocks and generalize
+  ## to non-high/low groups
 
   if( r(1) == 0 ) # low order bitspace
     ## collect blocks
@@ -75,3 +82,10 @@ function Q = pTrace(r,P)
   endif
 
 endfunction
+
+%!test
+%! X = transpose(reshape([1:16]',4,4));
+%! low = [7,11;23,27];
+%! high = [12,14;20,22];
+%! assert(low,pTrace([0],X));
+%! assert(high,pTrace([1],X));

@@ -26,15 +26,6 @@
 
 function y= cNot(x,c,t,n)
 
-  ## error checking
-  ##if( c < 0 || c >= n || t < 0 || t >= n)
-  ##  error("Bad control or target. Must be in [0,n). n=%d c=%d t=%d",n,c,t);
-  ##elseif ( length(x) != 2^n )
-  ##  error("Vector input size mismatch. len msut be 2^n. n=%d len=%d",n,length(x));
-  ##elseif ( c == t )
-  ##  error("Control cannot be the same as target. c=%d t=%d",c,t);
-  ##endif 
-	 
   NOT = [0,1;1,0];
   a = proj(x,c,0,n); # get the unchanged, c=0 subspace
   b = applyOp(x,NOT,t,n); # apply not everywhere

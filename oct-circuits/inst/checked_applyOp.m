@@ -15,21 +15,23 @@
 
 ## Usage: y = checked_applyOp(x,A,t,n)
 ##
-## apply the m<=n bit operator A to bits [t-m+1,t] of 
+## apply the m<=n qubit operator A to bits [t-m+1,t] of 
 ## the n qubit pure state x. This version checks arguments for the 
-## following preconditions: A should be a 2^m x 2^m unitary matrix
-## where m <= n. The target t should be in [t-m+1,n). x should be 
-## a normalized 2^n column vector. 
+## following preconditions: A should be a 2^m x 2^m matrix
+## where m <= n. The target qubit t should be one of [t-m+1,n). x should be 
+## a 2^n column vector. 
 ##
 ## see applyOp for an unchecked version
 ##
-## based on paper by Kaushik, Gropp, Minkoff, and Smith
+## based on "Improving the Performance of Tensor Matrix Vector 
+## Multiplication in Cumulative Reaction Probability Based Quantum 
+## Chemistry Codes" by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
 function y = checked_applyOp(x,A,t,n)
-  m = log2(rows(A));
+  m = log2(rows(A)); # operator size in qubits
   
   ## error checking
   if( rows(A) != columns(A) || m>n) # bad operator size
@@ -37,20 +39,17 @@ function y = checked_applyOp(x,A,t,n)
   	   n,rows(A),cols(A));      
   elseif ( t>=n || (t+1)-m<0) # bad target
     error("bad target. target not in [m-1,n) : t=%d n=%d m=%d",t,n,m); 
-  elseif ( length(x) != 2^n ) #bad vector
+  elseif ( length(x) != 2^n ) #bad vector size
     error("vector size must be 2^n: n=%d |x|=%d",n,length(x));
   endif
-
+  
+  ## 
   y = applyOp(x,A,t,n);
 
 endfunction
 
-%!test
-%! x = [0:7]'==7;
-%! NOT = [0,1;1,0];
-%! R = zeros(8,3);
-%! for i = 2:-1:0
-%!    R(:,3-i) = applyOp(x,NOT,i,3);
-%! endfor
-%! expect = double([[0:7]'==3,[0:7]'==5,[0:7]'==6]);
-%! assert(R,expect);
+
+## Test for error checking here
+
+
+## Demo error checks

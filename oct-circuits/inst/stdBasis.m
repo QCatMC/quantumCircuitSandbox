@@ -60,3 +60,10 @@ function b = stdBasis(i,n,t="double")
 
 end
 
+%!test
+%! r = zeros(8,8);
+%! for i = [0:7]
+%!  r(:,i+1) = stdBasis(i,3);
+%! endfor
+%! expect = eye(8);
+%! assert(r,expect);

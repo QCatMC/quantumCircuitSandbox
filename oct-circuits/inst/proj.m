@@ -13,12 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## Usage: y = proj(x,t,b,n)
+##
+## project x to the n qubit subspace where the t'th bit is b, i.e.
+## zero out all locations where t^th bit is !b
 
-# project to a subspace of x where the t'th bit is b, i.e.
-# zero out all locations where t^th bit is !b
-
-# Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-# Keywords: Circuits
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Keywords: Circuits
 
 function y = proj(x,t,b,n)
 

@@ -40,13 +40,4 @@ function y= checked_cNot(x,c,t,n)
 
 endfunction
 
-%!test
-%!  x=[0:7]'==7;
-%!  expect = (ones(8,6).*[0:7]') == [6,5,6,3,5,3];
-%!  res = ones(8,6).*x;
-%!  c = [2,2,1,1,0,0]'; 
-%!  t = [0,1,0,2,1,2]';
-%!  for i = [1:6]
-%!     res(:,i) = cNot(res(:,i),c(i),t(i),3);
-%!  endfor
-%!  assert(res,double(expect));
+## test for error checking here

@@ -22,7 +22,9 @@
 ## t should be in [t-m+1,n). x should be a normalized 2^n column
 ## vector. 
 ##
-## based on paper by Kaushik, Gropp, Minkoff, and Smith
+## based on "Improving the Performance of Tensor Matrix Vector 
+## Multiplication in Cumulative Reaction Probability Based Quantum 
+## Chemistry Codes" by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield
 ## Keyword: Circuits

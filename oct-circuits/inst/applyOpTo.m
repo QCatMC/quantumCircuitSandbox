@@ -22,7 +22,9 @@
 ## should be from [0,n). The operator A should be a 2x2 unitary
 ## matrix. The pure state x is a 2^n vector.
 ##
-## based on paper by Kaushik, Gropp, Minkoff, and Smith
+## based on "Improving the Performance of Tensor Matrix Vector 
+## Multiplication in Cumulative Reaction Probability Based Quantum 
+## Chemistry Codes" by Kaushik, Gropp, Minkoff, and Smith
 
 ## Author: Logan Mayfield
 ## Keyword: Circuits
@@ -36,3 +38,14 @@ function y = applyOpTo(x,A,ts,n)
   y=x;
 
 endfunction
+
+%!test
+%! x = [0:7]'==7;
+%! NOT = [0,1;1,0];
+%! r = applyOpTo(x,NOT,[0:2],3); 
+%! expect = double([0:7]'==0);
+%! assert(r,expect);
+%! r = applyOpTo(x,NOT,[0,1],3);
+%! expect = double([0:7]'== 4);
+%! assert(r,expect);
+%!
