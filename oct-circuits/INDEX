@@ -1,0 +1,8 @@
+toolbox >> Toolbox name
+Category Simulation 1
+ applyOp applyOpTo cNot stdMeasure checked_applyOp 
+ checked_applyOpTo checked_cNot
+Category States 2
+ stdBasis pureToDensity pTrace proj
+Category Misc 3
+ binaryRep 
