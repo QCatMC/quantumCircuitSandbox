@@ -1,11 +1,9 @@
-For Version 0.0.1 (Essentials for Pure state computation/analysis)
-
-- testing
-- named operators
-
 For 0.0.2
 
-- Mixed State computation (apply*,cNot,etc. )
-- General Partial Trace
+- Mixed State computation primative (apply*,cNot,etc. )
 - Partial Measurement in std basis
 
+For 0.1.0
+
+- Boolean Oracle Synthesis
+- Arbitrary Unitary Synthesis/Approximation 
