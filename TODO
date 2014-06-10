@@ -1,7 +1,14 @@
 For 0.0.2
 
-- Mixed State computation primative (apply*,cNot,etc. )
-- Partial Measurement in std basis
+- Operator Constants: I,X,Y,Z,H,S,T,CNoT (N.B. I is globally defined 
+    the imaginary number  i)
+- Circuit Specification ... Object? Language?
+- partial transpose
+
+For 0.0.3
+
+- Mixed State Computation
+- Partial Measurement Operations
 
 For 0.1.0
 
