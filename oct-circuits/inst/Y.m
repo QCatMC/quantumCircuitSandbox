@@ -13,34 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: y = cNot(x,c,t,n)
+## usage: U = Y(n)
 ##
-## apply the controlled not to n qubit pure state x using bit c as the
-## control and t as the target.
-##
-## x should be a length 2^n normalized column vector. c and t should be in 
-## [0,n) and c != t.
+## Compute the operator that applies the single qubit Pauli Y gate to
+## n sequential qubits
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: Operators
 
-function y= cNot(x,c,t,n)
-
-  NOT = [0,1;1,0];
-  a = proj(x,c,0,n); # get the unchanged, c=0 subspace
-  b = applyOp(x,NOT,t,n); # apply not everywhere
-  b = proj(b,c,1,n); # project result to c=1 space
-  y=a+b; #sum the c=0 and c=1 spaces	 
-
+function U = Y(n=1)
+ 
+  Y1 = i*[0,-1;1,0];
+  U = nBitOp(Y1,n);
+  
 endfunction
 
+
 %!test
-%!  x=[0:7]'==7;
-%!  expect = (ones(8,6).*[0:7]') == [6,5,6,3,5,3];
-%!  res = ones(8,6).*x;
-%!  c = [2,2,1,1,0,0]'; 
-%!  t = [0,1,0,2,1,2]';
-%!  for i = [1:6]
-%!     res(:,i) = cNot(res(:,i),c(i),t(i),3);
-%!  endfor
-%!  assert(res,double(expect));
+%! Y1 = i*[0,-1;1,0];
+%! assert(Y,Y1);
+%! assert(kron(Y1,Y1),Y(2));
+%! assert(kron(Y1,kron(Y1,Y1)),Y(3));

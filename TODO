@@ -1,7 +1,4 @@
 For 0.0.2
-
-- Operator Constants: I,X,Y,Z,H,S,T,CNoT (N.B. I is globally defined 
-    the imaginary number  i)
 - Circuit Specification ... Object? Language?
 - partial transpose
 
