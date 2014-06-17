@@ -1,0 +1,73 @@
+## Copyright (C) 2014  James Logan Mayfield
+##
+##  This program is free software: you can redistribute it and/or modify
+##  it under the terms of the GNU General Public License as published by
+##  the Free Software Foundation, either version 3 of the License, or
+##  (at your option) any later version.
+##
+##  This program is distributed in the hope that it will be useful,
+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##  GNU General Public License for more details.
+##
+##  You should have received a copy of the GNU General Public License
+##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+## usage: b = validCirc(circArr)
+##
+## Checks if circArr is a valid circuit description cell array and returns
+## true if it is.
+## 
+
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Keywords: Simulation
+
+function b = validCirc(circArr)
+
+  b = true;
+  
+  if( !iscell(circArr) )  #wrong container type
+    b = false; return;
+  else # right container. check each field
+    for k = 1:length(circArr);
+	curr = circArr{k}; #current field
+      if( !iscell(curr) ) #not a cell array
+	b = false; return;
+      elseif( length(curr) > 3 || length(curr) < 2 ) #wrong length
+	b = false; return;
+      endif
+      ## must be cell of length 2 or 3
+
+      ## unconditional Op (length 2 cell)
+      if( length(curr) == 2 )
+	## totally wrong in both fields 
+	if( !validOp(curr{1}) || curr{2} < 0 )
+	  b=false; return;
+	endif
+	## no CNot
+	if( strcmp(curr{1},"CNot") )
+	  b=false; return;
+	endif
+      endif
+
+      ## Conditional Op
+      if(length(curr) == 3) 
+	## way off
+	if( !strcmp(curr{1},"CNot") || curr{2} < 0 || curr{3} < 0 )
+	  b=false; return;
+	endif
+	## target == control
+	if( curr{2} == curr{3} )
+	  b = false; return;
+	endif	
+      endif
+    
+    ## else it's a valid cell, keep going.
+    endfor
+  endif
+
+end
+
+%!test
+%! assert(true);
+
