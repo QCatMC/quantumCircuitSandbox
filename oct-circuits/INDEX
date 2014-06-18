@@ -7,4 +7,4 @@ Category States 2
 Category Operators 3
  H Iop X Z Y S T CNot
 Category Misc 4
- binaryRep 
+ binaryRep isBitArray
