@@ -30,16 +30,21 @@ function b = validCirc(circArr)
     b = false; return;
   else # right container. check each field
     for k = 1:length(circArr);
-	curr = circArr{k}; #current field
-      if( !iscell(curr) ) #not a cell array
+      curr = circArr{k}; #current field
+      if( !iscell(curr) ) #not a cell array?
 	b = false; return;
-      elseif( length(curr) > 3 || length(curr) < 2 ) #wrong length
+      elseif( length(curr) > 3 || length(curr) < 1 ) #wrong length?
 	b = false; return;
       endif
-      ## must be cell of length 2 or 3
 
-      ## unconditional Op (length 2 cell)
-      if( length(curr) == 2 )
+      ## it's a cell and the has a length of 1,2, or 3
+      ## measure Op (length 1 cell)?
+      if( length(curr) == 1)
+	if( !strcmp(curr{1},"Measure") )
+	  b=false; return;
+	endif
+      ## unconditional,single qubit Op (length 2 cell)?
+      elseif( length(curr) == 2 )
 	## totally wrong in both fields 
 	if( !validOp(curr{1}) || curr{2} < 0 )
 	  b=false; return;
@@ -48,10 +53,9 @@ function b = validCirc(circArr)
 	if( strcmp(curr{1},"CNot") )
 	  b=false; return;
 	endif
-      endif
-
-      ## Conditional Op
-      if(length(curr) == 3) 
+	
+      ## Conditional Not Op (length 3 cell)?
+      elseif(length(curr) == 3) 
 	## way off
 	if( !strcmp(curr{1},"CNot") || curr{2} < 0 || curr{3} < 0 )
 	  b=false; return;
@@ -62,7 +66,7 @@ function b = validCirc(circArr)
 	endif	
       endif
     
-    ## else it's a valid cell, keep going.
+    ## it's a valid cell, keep going.
     endfor
   endif
 

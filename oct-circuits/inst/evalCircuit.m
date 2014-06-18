@@ -16,14 +16,28 @@
 ## usage: V = evalCircuit(in,circ,n,t)
 ##
 ## Evaluate the quantum circuit described by circ using input in with
-## n qubits for t steps.  
+## n qubits for t steps and return the pure state that results. 
 ##
-## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation
 
-function V = evalCircuit(in,circ,n,t)
+function V = evalCircuit(in,circ,n,t=length(circ))
+  V=zeros(2^n,1);
+
+  ## initialize state
+  V = stdBasis(in,n);
+
+  ## step through circuit
+  for k = 1:t
+      if( strcmp(circ{k}{1},"CNot") )
+	V = applyCNot(V,circ{k}{3},circ{k}{2},n);
+      elseif( strcmp(circ{k}{1},"Measure") )
+	V = stdMeasure(V);
+      else
+	V = applyOp(V,getOp(circ{k}{1}),circ{k}{2},n);
+      endif
+  endfor
 
 endfunction
 

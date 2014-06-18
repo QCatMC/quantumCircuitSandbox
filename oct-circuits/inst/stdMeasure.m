@@ -23,7 +23,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
 
-function [i,s] = stdMeasure(q)
+function [s,i] = stdMeasure(q)
   pmf = zeros(log2(rows(q)));
   if( rows(q) == columns(q) ) 
     pmf = diag(q);
@@ -39,12 +39,12 @@ endfunction
 %!test
 %! x = stdBasis(5,3);
 %! for i = 1:30
-%!  [j,s] =  stdMeasure(x);
+%!  [s,j] =  stdMeasure(x);
 %!  assert(j,5);
 %!  assert(s,stdBasis(5,3))
 %! endfor
 %! for i = 1:30
-%!  [j,s] =  stdMeasure(pureToDensity(x));
+%!  [s,j] =  stdMeasure(pureToDensity(x));
 %!  assert(j,5);
 %!  assert(s,stdBasis(5,3))
 %! endfor
@@ -54,7 +54,7 @@ endfunction
 %! x = 1/2*[1,-1,1,-1]';
 %! res = zeros(4,1); 
 %! for i = 1:250
-%!   r = stdMeasure(x);
+%!   [s,r] = stdMeasure(x);
 %!   res(r+1) = res(r+1) + 1;
 %! endfor
 %! res = res ./ 250;

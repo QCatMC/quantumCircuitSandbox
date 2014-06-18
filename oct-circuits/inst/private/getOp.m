@@ -37,7 +37,9 @@ function U = getOp(OpStr)
     case "T"
       U=T;
     case "S"
-      U=S;  
+      U=S; 
+    case {"CNot","Measure"}
+      error("CNot and Measure operators should not be handled in this way.");
     otherwise
       error("Unknown Operation");
   endswitch
