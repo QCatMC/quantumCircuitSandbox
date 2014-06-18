@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: y = cNot(x,c,t,n)
+## usage: y = CNot(x,c,t,n)
 ##
 ## apply the controlled not to n qubit pure state x using bit c as the
 ## control and t as the target.
@@ -24,7 +24,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function y= checked_cNot(x,c,t,n)
+function y= checked_CNot(x,c,t,n)
 
   ##error checking
   if( c < 0 || c >= n || t < 0 || t >= n)
@@ -36,8 +36,10 @@ function y= checked_cNot(x,c,t,n)
     error("Control cannot be the same as target. c=%d t=%d",c,t);
   endif 
 
-  y=cNot(x,c,t,n);
+  y=applyCNot(x,c,t,n);
 
 endfunction
 
 ## test for error checking here
+%!test
+%! assert(true)
