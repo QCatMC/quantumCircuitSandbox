@@ -30,7 +30,7 @@ function y= checked_CNot(x,c,t,n)
   if( c < 0 || c >= n || t < 0 || t >= n)
     error("Bad control or target. Must be in [0,n). n=%d c=%d t=%d",n,c,t);
   elseif ( length(x) != 2^n )
-    error("Vector input size mismatch. len msut be 2^n. n=%d len=%d", ...
+    error("Vector input size mismatch. len must be 2^n. n=%d len=%d", ...
 	  n,length(x));
   elseif ( c == t )
     error("Control cannot be the same as target. c=%d t=%d",c,t);
@@ -42,4 +42,10 @@ endfunction
 
 ## test for error checking here
 %!test
-%! assert(true)
+%! fail('checked_CNot(stdBasis(1,2),1,1,2)')
+%! fail('checked_CNot(stdBasis(1,2),0,0,2)')
+%! fail('checked_CNot(stdBasis(1,2),1,2,2)')
+%! fail('checked_CNot(stdBasis(1,2),2,1,2)')
+%! fail('checked_CNot(stdBasis(1,3),1,1,2)')
+%! fail('checked_CNot(stdBasis(1,1),1,1,2)')
+

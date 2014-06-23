@@ -42,3 +42,10 @@ function y = checked_applyOpTo(x,A,ts,n)
   y=applyOpTo(x,A,ts,n);
 
 endfunction
+
+%!test
+%! fail('checked_applyOpTo(stdBasis(1,2),eye(4),[0,1],2')
+%! fail('checked_applyOpTo(stdBasis(1,2),eye(2),[0,1,2],2')
+%! fail('checked_applyOpTo(stdBasis(1,2),eye(2),[],2')
+%! fail('checked_applyOpTo(stdBasis(1,2),eye(2),[1,1],2')
+%! fail('checked_applyOpTo(stdBasis(1,1),eye(4),[0,1],2')

@@ -1,6 +1,6 @@
 For 0.0.2
-- Write tests for: checked_applyOp checked_applyOpTo checked_CNot 
-    checked_evalCircuit private/getOp private/minCircSize private/validCirc
+- Write tests for: private/minCircSize private/validCirc checked_evalCircuit 
+        private/getOp 
 
 For 0.0.3
 - Variably described circuits via target/control variables

@@ -34,9 +34,9 @@ function y = checked_applyOp(x,A,t,n)
   m = log2(rows(A)); # operator size in qubits
   
   ## error checking
-  if( rows(A) != columns(A) || m>n) # bad operator size
+  if( rows(A) != columns(A) || m!=n || log2(columns(A)) != n ) # bad operator size
     error("Operator must be square and order = 2^m for 0<=m<=n.n=%d and A is %dx%d", ...
-  	   n,rows(A),cols(A));      
+  	   n,rows(A),columns(A));      
   elseif ( t>=n || (t+1)-m<0) # bad target
     error("bad target. target not in [m-1,n) : t=%d n=%d m=%d",t,n,m); 
   elseif ( length(x) != 2^n ) #bad vector size
@@ -50,6 +50,13 @@ endfunction
 
 
 ## Test for error checking here
+%!test
+%! fail('checked_applyOp(stdBasis(1,2),eye(3),0,2)')
+%! fail('checked_applyOp(stdBasis(1,2),eye(2),0,2)')
+%! fail('checked_applyOp(stdBasis(1,2),eye(4),3,2)')
+%! fail('checked_applyOp(stdBasis(1,2),eye(4),-1,2)')
+%! fail('checked_applyOp(stdBasis(1,2),eye(4),0,2)')
+%! fail('checked_applyOp(stdBasis(1,1),eye(4),1,2)')
 
 
-## Demo error checks
+
