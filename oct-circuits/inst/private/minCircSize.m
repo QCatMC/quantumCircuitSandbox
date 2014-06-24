@@ -23,15 +23,20 @@
 ## Keywords: Simulation
 
 function n = minCircSize(circArr)
-  n=0;
+  n=-1;
   for k = 1:length(circArr)
     n = max(n,circArr{k}{2});
     if (length(circArr{k}) == 3)
        n = max(n,circArr{k}{3});
     endif
   endfor
-
+  n = n+1;
 endfunction
 
 %!test
-%! assert(true);
+%! C = {{"H",3},{"H",2},{"CNot",1,5}};
+%! assert(minCircSize(C),6);
+%! C = {{"H",0},{"H",2},{"CNot",1,0}};
+%! assert(minCircSize(C),3);
+%! C = {};
+%! assert(minCircSize(C),0);

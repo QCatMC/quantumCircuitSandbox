@@ -42,4 +42,29 @@ function V = evalCircuit(in,circ,n,t=length(circ))
 endfunction
 
 %!test
-%! assert(true)
+%! bal_id = {{"H",1},{"H",0},{"CNot",0,1},{"H",1},{"Measure"}};
+%! ts = 0:length(bal_id)-1;
+%! res = zeros(4,length(ts));
+%! for k = ts
+%!   res(:,k+1) = evalCircuit(1,bal_id,2,k);
+%! endfor
+%! expt =  transpose( [0,1,0,0; ...
+%!                    0,sqrt(1/2),0,sqrt(1/2); ...
+%!                    1/2,-1/2,1/2,-1/2; ...
+%!                    1/2,-1/2,-1/2,1/2; ...
+%!                    0,0,sqrt(1/2),-sqrt(1/2)] );
+%! assert(expt,res,0.0000001);
+
+%!test
+%! const_one = {{"H",1},{"H",0},{"X",0},{"H",1},{"Measure"}};        
+%! ts = 0:length(const_one)-1;
+%! res = zeros(4,length(ts));
+%! for k = ts
+%!   res(:,k+1) = evalCircuit(1,const_one,2,k);
+%! endfor
+%! expt =  transpose( [0,1,0,0; ...
+%!                    0,sqrt(1/2),0,sqrt(1/2); ...
+%!                    1/2,-1/2,1/2,-1/2; ...
+%!                    -1/2,1/2,-1/2,1/2; ...
+%!                    -sqrt(1/2),sqrt(1/2),0,0] );
+%! assert(expt,res,0.0000001);

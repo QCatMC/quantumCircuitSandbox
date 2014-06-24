@@ -73,5 +73,17 @@ function b = validCirc(circArr)
 end
 
 %!test
-%! assert(true);
-
+%! C = {{"H",3},{"H",2},{"CNot",1,5}};
+%! assert(validCirc(C));
+%! C = {{"H",3},{"H",-1},{"CNot",1,5}};
+%! assert(!validCirc(C));
+%! C = {{"H",3},{"H",2},{"CNot",5,5}};
+%! assert(!validCirc(C));
+%! C = {{"H",3},{"Measure"},{"H",2},{"CNot",1,5}};
+%! assert(validCirc(C));
+%! C = {{"H",3},{"Q",2},{"CNot",1,5}};
+%! assert(!validCirc(C));
+%! C = {{"H",3},{"H",2},{"CNot",5}};
+%! assert(!validCirc(C));
+%! C = {{"H",3},{"H",2,4},{"CNot",1,5}};
+%! assert(!validCirc(C));

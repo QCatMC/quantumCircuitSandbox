@@ -47,4 +47,9 @@ function U = getOp(OpStr)
 end
 
 %!test
-%! assert(true);
+%! fail('getOp("G")');
+%! fail('getOp("Measure")');
+%! fail('getOp("CNot")');
+%! assert(getOp("Y"),Y);
+%! assert(getOp("S"),S);
+

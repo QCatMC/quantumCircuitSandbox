@@ -1,7 +1,3 @@
-For 0.0.2
-- Write tests for: private/minCircSize private/validCirc checked_evalCircuit 
-        private/getOp 
-
 For 0.0.3
 - Variably described circuits via target/control variables
 - Variably described circuits via operator variables

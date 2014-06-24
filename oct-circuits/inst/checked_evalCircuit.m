@@ -1,4 +1,4 @@
-oc## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2014  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -55,4 +55,13 @@ function V = checked_evalCircuit(in,circ,n,t=length(circ))
 endfunction
 
 %!test
-%! assert(true)
+%! C = {{"H",0},{"H",1},{"CNot",0,1},{"H",1},{"Measure"}};
+%! fail('checked_evalCircuit(1,C,2,-1)');
+%! fail('checked_evalCircuit(1,C,2,7)');
+%! fail('checked_evalCircuit(1,C,2,3.5)');
+%! fail('checked_evalCircuit(1,C,1)');
+%! fail('checked_evalCircuit(-1,C,2)');
+%! fail('checked_evalCircuit(4,C,2)');
+%! fail('checked_evalCircuit(stdBasis(1,3),C,2)');
+%! fail('checked_evalCircuit([1:4],C,2)');
+
