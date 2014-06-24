@@ -34,7 +34,7 @@ function b = stdBasis(i,n,t="double")
       error("binary number too long");
     endif
     ## convert to integer
-    pows = (2*ones(1,length(i))) .^ [0:length(i)-1];
+    pows = (2*ones(1,length(i))) .^ [length(i)-1:-1:0];
     i = sum(pows .* i);    
   endif # i is now a postiver integer
 
@@ -67,3 +67,12 @@ end
 %! endfor
 %! expect = eye(8);
 %! assert(r,expect);
+
+%!test
+%! r = [0,0,0; 0,0,1; 0,1,0; 0,1,1; ...
+%!      1,0,0; 1,0,1; 1,1,0; 1,1,1];
+%! ans = zeros(8,8);
+%! for k = [1:8]
+%!  ans(:,k) = stdBasis(r(k,:),3);
+%! endfor
+%! assert(ans,eye(8))
