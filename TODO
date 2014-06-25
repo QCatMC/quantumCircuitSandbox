@@ -1,15 +1,13 @@
-For 0.0.3
-- Variably described circuits via target/control variables
-- Variably described circuits via operator variables
-- Variably described circuits via spec (cell) variables
+See Issues Tracker on GitHub site: 
+  https://github.com/jlmayfield/octaveCircuits/issues
 
-For 0.0.4
+Other Ideas
 
+- Built-in Support For (as opposed to native functions)
+--- Variably described circuits via target/control variables
+--- Variably described circuits via operator variables
+--- Variably described circuits via spec (cell) variables
 - Mixed State Computation
-- Partial Measurement Operations
 - partial transpose
-
-For 0.1.0
-
 - Boolean Oracle Synthesis
 - Arbitrary Unitary Synthesis/Approximation 
