@@ -24,28 +24,63 @@
 ## Keywords: States
 
 function [s,i] = stdMeasure(q,t=[])
+  ## number of bits
   n = log2(length(q));
   
   ##complete measurement
-  if( isequal(t,[]) || isequal(t,[0:n-1]) )
+  if( isequal(t,[]) || isequal(sort(t),[0:n-1]) )
+    ## compute pmf
     pmf = zeros(n);
     if( rows(q) == columns(q) ) 
       pmf = diag(q);
     else
       pmf = q .* conj(q);
     endif
+
     ## get result
     i = discrete_rnd([0:length(q)-1],pmf,1);
     ## compute basis of result
-    s = stdBasis(i,log2(length(q)));
-  ## partial measurement
+    s = stdBasis(i,n);
+  ## partial measurement of |t|<n qubits
   else
-    if( !isTargetVector(t) )
-      error("Bad Measurement targets.");
+    ##if( !isTargetVector(t) )
+    ##  error("Bad Measurement targets.");
+    ##endif
+
+    ## density matrix
+    if( rows(q) == columns(q) )       
+      ## STUB
+      s = q;
+      i = -1;
+    ## pure states
+    else  
+      ## initial state is current
+      curr = q;
+      ## measure each bit
+      for k = t
+	## collect 0,1 subspaces
+	zSpc = proj(curr,k,0,n);
+	onSpc = proj(curr,k,1,n);
+
+	## get subspace norms
+	zLen = sqrt(zSpc'*zSpc);
+	oLen = sqrt(onSpc'*onSpc);
+
+	## measure
+	res = discrete_rnd([0,1],[zLen^2,oLen^2],1);
+	## set curr and normalize
+	if ( res == 1 )
+	   curr = onSpc/oLen;
+	else
+	  curr = zSpc/zLen;
+	endif
+
+      endfor
+      ## set result(s)
+      s = curr;
+      i = -1; ## should be ignored!
     endif
-  
-    i = 0;
-    s = stdBasis(0,log2(length(q)));
+
   
 
   endif
@@ -75,3 +110,20 @@ endfunction
 %! endfor
 %! res = res ./ 250;
 %! assert(1/4,mean(res))
+
+## pure state, partial mesaurement tests
+%!test
+%! x = (1/2)*[1,-1,1,-1]';
+%! r = zeros(4,1);
+%! for k = [1:500]
+%!  r = r + stdMeasure(x,[1]);
+%! endfor
+%! expect = (1/(2*sqrt(2)))*[1,-1,1,-1]';
+%! assert(r/500,expect,0.1);
+%!
+%! r = zeros(4,1);
+%! for k = [1:500]
+%!  r = r + stdMeasure(x,[0]);
+%! endfor
+%! expect = (1/(2*sqrt(2)))*[1,-1,1,-1]';
+%! assert(r/500,expect,0.1);
