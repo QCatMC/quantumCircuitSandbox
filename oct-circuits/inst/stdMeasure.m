@@ -23,17 +23,33 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
 
-function [s,i] = stdMeasure(q)
-  pmf = zeros(log2(rows(q)));
-  if( rows(q) == columns(q) ) 
-    pmf = diag(q);
+function [s,i] = stdMeasure(q,t=[])
+  n = log2(length(q));
+  
+  ##complete measurement
+  if( isequal(t,[]) || isequal(t,[0:n-1]) )
+    pmf = zeros(n);
+    if( rows(q) == columns(q) ) 
+      pmf = diag(q);
+    else
+      pmf = q .* conj(q);
+    endif
+    ## get result
+    i = discrete_rnd([0:length(q)-1],pmf,1);
+    ## compute basis of result
+    s = stdBasis(i,log2(length(q)));
+  ## partial measurement
   else
-    pmf = q .* conj(q);
+    if( !isTargetVector(t) )
+      error("Bad Measurement targets.");
+    endif
+  
+    i = 0;
+    s = stdBasis(0,log2(length(q)));
+  
+
   endif
-  ## get result
-  i = discrete_rnd([0:length(q)-1],pmf,1);
-  ## compute basis of result
-  s = stdBasis(i,log2(length(q)));
+
 endfunction
 
 %!test
