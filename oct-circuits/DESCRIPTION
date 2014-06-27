@@ -1,6 +1,6 @@
 Name: oct-circuits
-Version: 0.1.2
-Date: 2014-24-06
+Version: 0.2.0
+Date: 2014-27-06
 Author: James Logan Mayfield
 Maintainer: James Logan Mayfield
 Description: Functions for describing, synthesizing, and simulating

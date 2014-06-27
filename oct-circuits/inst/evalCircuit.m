@@ -16,20 +16,29 @@
 ## usage: V = evalCircuit(in,circ,n,t)
 ##
 ## Evaluate the quantum circuit described by circ using input in with
-## n qubits for t steps and return the pure state that results. 
-##
+## n qubits for steps given in t and return the pure state that results. 
+## Inputs can be positive integers(0 to 2^n-1), binary representations
+## of integers (n bits) as vectors, or a quantum pure state (2^n unit
+## column vector). The time steps t should be sequential and increasing.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation
 
-function V = evalCircuit(in,circ,n,t=length(circ))
+function V = evalCircuit(in,circ,n,t=1:length(circ))
   V=zeros(2^n,1);
 
-  ## initialize state
-  V = stdBasis(in,n);
+  ## initialize state for non-pure-state inputs
+  if( isequal(size(in),[1,1]) || (rows(in) == 1 && columns(in) == n) )
+    V = stdBasis(in,n);
+  ## its a pure-state
+  elseif( columns(in) == 1 )
+    V = in;
+  endif
 
-  ## step through circuit
-  for k = 1:t
+  ## compute if needed
+  if( !isempty(t) )
+    ## step through circuit
+    for k = t
       if( strcmp(circ{k}{1},"CNot") )
 	V = applyCNot(V,circ{k}{3},circ{k}{2},n);
       elseif( strcmp(circ{k}{1},"Measure") )
@@ -43,7 +52,8 @@ function V = evalCircuit(in,circ,n,t=length(circ))
       else
 	V = applyOp(V,getOp(circ{k}{1}),circ{k}{2},n);
       endif
-  endfor
+    endfor
+  endif
 
 endfunction
 
@@ -52,7 +62,7 @@ endfunction
 %! ts = 0:length(bal_id)-1;
 %! res = zeros(4,length(ts));
 %! for k = ts
-%!   res(:,k+1) = evalCircuit(1,bal_id,2,k);
+%!   res(:,k+1) = evalCircuit(1,bal_id,2,1:k);
 %! endfor
 %! expt =  transpose( [0,1,0,0; ...
 %!                    0,sqrt(1/2),0,sqrt(1/2); ...
@@ -66,7 +76,7 @@ endfunction
 %! ts = 0:length(const_one)-1;
 %! res = zeros(4,length(ts));
 %! for k = ts
-%!   res(:,k+1) = evalCircuit(1,const_one,2,k);
+%!   res(:,k+1) = evalCircuit(1,const_one,2,1:k);
 %! endfor
 %! expt =  transpose( [0,1,0,0; ...
 %!                    0,sqrt(1/2),0,sqrt(1/2); ...
@@ -75,4 +85,37 @@ endfunction
 %!                    -sqrt(1/2),sqrt(1/2),0,0] );
 %! assert(expt,res,0.0000001);
 
-## Test with partial measurement
+
+%!test
+%! const_one = {{"H",1},{"H",0},{"X",0},{"H",1},{"Measure",[1]}};        
+%! res = zeros(4,1);
+%! for k = 30
+%!   res = evalCircuit(1,const_one,2);
+%!   assert(res,sqrt(1/2)*[-1,1,0,0]',0.00000001);
+%! endfor
+
+
+%!test
+%! const_one = {{"H",1},{"X",0},{"H",1},{"Measure"}};   
+%! in = sqrt(1/2)*[1,-1,0,0]';     
+%! ts = 0:length(const_one)-1;
+%! res = zeros(4,length(ts));
+%! for k = ts
+%!   res(:,k+1) = evalCircuit(in,const_one,2,1:k);
+%! endfor
+%! expt =  transpose( [sqrt(1/2),-sqrt(1/2),0,0; ...
+%!                     1/2,-1/2,1/2,-1/2; ...
+%!                    -1/2,1/2,-1/2,1/2; ...
+%!                    -sqrt(1/2),sqrt(1/2),0,0] );
+%! assert(expt,res,0.0000001);
+
+
+%!test
+%! const_one = {{"H",1},{"H",0},{"X",0},{"H",1},{"Measure",[1]}};        
+%! res = zeros(4,1);
+%! in = evalCircuit(1,{{"H",1},{"H",0}},2);
+%! for k = 30
+%!   res = evalCircuit(in,const_one,2,3:length(const_one));
+%!   assert(res,sqrt(1/2)*[-1,1,0,0]',0.00000001);
+%! endfor
+

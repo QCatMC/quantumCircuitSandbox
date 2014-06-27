@@ -1,0 +1,21 @@
+v0.2.0
+ - Circuit evaluation now allows pure-state vector inputs
+ - Circuit evaluation now utilizes time step sequences. Still defaults
+     to the complete circuit. Single time values will only evaluate that step.
+     any sequence (must be squence) in [1,|circuit|] can now be evaluated by
+     passing that sequnce as the time argument.
+
+v0.1.2
+ - Evaluate Circuits operating on pure-states (vector form) using the
+    elementary gates I,X,Z,Y,S,T,H,CNot.
+ - Complete and partial measurements in the stantard basis
+ - Input to n qubit circuit can be n bit binary number as row vector
+    or integer from [0,2^n).
+ - Circuits can be partial evaluated from step 1 to t<|circuit|. 
+ - Circuits described by simple cell array which is interpreted by evalCircuit
+ - Can compute density operator form of pure-states
+ - Can compute partial trace of density operators
+ - Checked version of key operations evaluated pre-conditions of inputs where
+   unchecked versions do not. 
+ - Easy computation of standard basis vectors and matrix representations of 
+   elementary operators. 

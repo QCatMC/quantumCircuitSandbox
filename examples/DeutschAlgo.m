@@ -37,12 +37,15 @@ res = evalCircuit([0,1],const_one,2);
 ##  Because this is a constant function, we should get |0><0| as the result.
 pTrace(0,pureToDensity(res))
 
+## Maybe the standard basis?
+res = evalCircuit(stdBasis(1,2),const_one,2);
+pTrace(0,pureToDensity(res))
 
-##  We can also evaluate a circuit from t=0 to t = b < |cir|.  Let's "step" through bal_not
+##  We can also evaluate part of the circuit.  Let's "step" through bal_not
 ##  and push each intermidiate result to a matrix column for easy viewing/reference
 res = zeros(4,length(bal_not));
 for k = [0:length(bal_not)]
-  res(:,k+1) = evalCircuit(1,bal_not,2,k);
+  res(:,k+1) = evalCircuit(1,bal_not,2,1:k);
 endfor
 res
 
@@ -58,7 +61,7 @@ resOp
 ## One last time with const_zero
 res = zeros(4,length(const_zero));
 for k = [0:length(const_zero)]
-  res(:,k+1) = evalCircuit(1,const_zero,2,k);
+  res(:,k+1) = evalCircuit(1,const_zero,2,1:k);
 endfor
 res
 
