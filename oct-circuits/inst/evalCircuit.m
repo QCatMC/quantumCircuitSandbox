@@ -33,7 +33,13 @@ function V = evalCircuit(in,circ,n,t=length(circ))
       if( strcmp(circ{k}{1},"CNot") )
 	V = applyCNot(V,circ{k}{3},circ{k}{2},n);
       elseif( strcmp(circ{k}{1},"Measure") )
-	V = stdMeasure(V);
+	## complete measure
+	if(length(circ{k}) == 1)
+	  V = stdMeasure(V);
+	## partial measure
+	else
+	  V = stdMeasure(V,circ{k}{2});
+	endif
       else
 	V = applyOp(V,getOp(circ{k}{1}),circ{k}{2},n);
       endif
@@ -68,3 +74,5 @@ endfunction
 %!                    -1/2,1/2,-1/2,1/2; ...
 %!                    -sqrt(1/2),sqrt(1/2),0,0] );
 %! assert(expt,res,0.0000001);
+
+## Test with partial measurement

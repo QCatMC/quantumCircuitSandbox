@@ -55,7 +55,9 @@ function y = applyOp(x,A,t,n)
   endif
   
   ## reshape to state vector
-  y=reshape(X,2^n,1);
+  if( m != n )
+    y=reshape(X,2^n,1);
+  endif
 endfunction
 
 %!test

@@ -100,7 +100,8 @@ endfunction
 %!  assert(s,stdBasis(5,3))
 %! endfor
 
-### better testing here?
+## These tests are crude, for now?
+
 %!test
 %! x = 1/2*[1,-1,1,-1]';
 %! res = zeros(4,1); 
