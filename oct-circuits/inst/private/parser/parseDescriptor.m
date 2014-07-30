@@ -13,24 +13,30 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: C = parseDescriptor(desc)
 ##
-## Return true if ts is a subset of [0,n).
-##
+## construct a quantum circuit by parsing a descriptor cell array.
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+
+function C = parseDescriptor(desc)
+
+  if( iscell(desc) )
+    if( ischar(desc{1}) )
+      C = parseGate(desc);
+    else ## should be a sequence
+      s={};
+      for k = 1:length(desc)
+	s={parseDescriptor(desc{k})}
+      endfor
+      C = @seqNode(s);
+    endif
+  else
+    error("Expecting Cell array and got something different");
+  endif
+
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-

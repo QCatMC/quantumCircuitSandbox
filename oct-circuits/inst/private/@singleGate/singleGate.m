@@ -13,24 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: g = @singleGate(name,tar)
 ##
-## Return true if ts is a subset of [0,n).
-##
-## 
+## Construct a gate object for apply 'name' gate to target qubit number
+## tar
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+function g = singleGate(name,tar)
+
+  if( nargin == 0 )
+    ## default to Identity on qubit 0
+    g.name = "I";
+    g.tar = 0;
+    g = class(g,"singleGate");
+  else
+    g.name = name;
+    g.tar = tar;
+    g = class(g,"singleGate");
+  endif
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-

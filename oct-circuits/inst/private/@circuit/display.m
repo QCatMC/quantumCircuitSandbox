@@ -13,24 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: display(sGate)
 ##
-## Return true if ts is a subset of [0,n).
+## Display singleGate sGate 
 ##
-## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+function display(sGate)
+
+  if(!strcmp(inputname(1),"") )
+    fprintf ("%s = \n", inputname (1)); 
+  endif
+
+  fprintf ("{%s,%d}\n",sGate.name,sGate.tar );
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-

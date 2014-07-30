@@ -13,24 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: g = @cNotGate(tar,ctrl)
 ##
-## Return true if ts is a subset of [0,n).
-##
-## 
+## Construct a gate object for apply CNot with target qubit number
+## tar and control qubit number ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+function g = cNotGate(tar,ctrl)
+
+  if( nargin == 0 )
+    ## default to a bad gate (ctrl == tar)
+    g.tar = 0
+    g.ctrl = 0;
+    g = class(g,"cNotGate");
+  else
+    g.ctrl = ctrl;
+    g.tar = tar;
+    g = class(g,"cNotGate");
+  endif
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-

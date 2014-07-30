@@ -13,24 +13,24 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: c = circuit(desc,n)
 ##
-## Return true if ts is a subset of [0,n).
-##
+## construct an n qubit circuit object from a descriptor cell array
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+function c = circuit(desc,n)
+
+  if(nargin == 0 )
+    c.bits = 0;
+    c.seq = @seqNode({});
+  elseif(nargin == 1)
+    error("@circuit requires 0 or 2 arguments. given 1.");
+  else
+    c.bits = n;
+    c.seq = parseDescriptor(desc);   
+  endif
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-

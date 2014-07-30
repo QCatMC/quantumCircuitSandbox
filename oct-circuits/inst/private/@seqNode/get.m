@@ -13,24 +13,31 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: s = get(sn, f)
 ##
-## Return true if ts is a subset of [0,n).
-##
-## 
+## sequenceNode field selector place holder text
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+function s = get(sn,f)
+
+  if (nargin == 1)
+    s.seq = sn.seq;
+  elseif (nargin == 2)
+    if ( ischar(f) )
+      switch(f)
+	case "seq"
+	  s = sn.seq;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
+  else
+    print_usage();
+  endif
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-

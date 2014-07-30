@@ -13,24 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = isTargetVector(ts,n)
+## Usage: g = @measureGate(tars)
 ##
-## Return true if ts is a subset of [0,n).
+## Construct a gate object for measuring the qubits listed in tars
 ##
-## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Misc
+## Keywords: Circuits
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+
+function g = measureGate(tars)
+
+  if( nargin == 0 )
+    g.tar = {};
+    g = class(g,"measureGate");
+  else
+    g.tar = tars;
+    g = class(g,"measureGate");
+  endif
+
 endfunction
-
-%!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-
