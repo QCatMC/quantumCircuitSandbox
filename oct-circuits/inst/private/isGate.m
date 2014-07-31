@@ -13,40 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = get(cir, f)
+## usage: b = isGate(g)
 ##
-## circuit field selector place holder text
-
+## true if g is a singleGate,cNotGate, or measureGate object
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: Simulation
 
-function s = get(cir,f)
+function b = isGate(g)
+  b = isa(g,"singleGate") || isa(g,"cNotGate") || isa(g,"measureGate");	 
+end
 
-  if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
-    s.maxDepth = cir.maxDepth;
-    s.stepsAt = cir.stepsAt;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = cir.seq;
-	case "bits"
-	  s = cir.bits;
-	case "maxDepth"
-	  s = cir.maxDepth;
-	case "stepsAt"
-	  s = stepsAt;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-    print_usage();
-  endif
-
-endfunction

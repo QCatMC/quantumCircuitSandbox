@@ -13,30 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = parseDescriptor(desc)
+## Usage: d = maxDepth(g)
 ##
-## construct a quantum circuit by parsing a descriptor cell array.
+##  used to compute maxDepth of a circuit. The max depth of seq node
+##  is one more than the max of the sequence
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-
-function C = parseDescriptor(desc)
-
-  if( iscell(desc) )
-    if( ischar(desc{1}) )
-      C = parseGate(desc);
-    else ## should be a sequence
-      s={};
-      for k = 1:length(desc)
-	s={parseDescriptor(desc{k})}
-      endfor
-      C = @seqNode(s);
-    endif
-  else
-    error("Expecting Cell array and got something different");
-  endif
-
-
+function d = maxDepth(g)
+  childMax = cellfun(@maxDepth,g.seq);  
+  d = 1 + max(childMax);
 endfunction

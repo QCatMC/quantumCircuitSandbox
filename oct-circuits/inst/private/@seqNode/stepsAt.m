@@ -13,40 +13,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = get(cir, f)
+## Usage: s = stepsAt(g,d)
 ##
-## circuit field selector place holder text
-
+##  used to compute number of steps at depth d of a circuit. 
+##  
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = get(cir,f)
-
-  if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
-    s.maxDepth = cir.maxDepth;
-    s.stepsAt = cir.stepsAt;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = cir.seq;
-	case "bits"
-	  s = cir.bits;
-	case "maxDepth"
-	  s = cir.maxDepth;
-	case "stepsAt"
-	  s = stepsAt;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+function s = stepsAt(g,d)
+  if( d == 1 )
+    s = length(g.seq);
   else
-    print_usage();
+    sarr = cellfun(@stepsAt, ...
+		   g.seq, num2cell((d-1)*ones(length(g.seq),1))');
+    s = sum(sarr);
   endif
-
 endfunction

@@ -26,42 +26,23 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function C = buildCircuit( varargin )
-
-  nargs = length( varargin );
-
-  ## 1 arg --> Descriptor only
-  if( nargs == 1 && iscell(varargin{1}) )
-    cir = parseDescriptor(varargin{1});
-    C = @circuit(cir,minCircSize(varargin{1}));    
-  ## 2 arg case 1: Descriptor + number of bits
-  elseif( nargs == 2 && iscell(varargin{1}) )
-    ## parse descriptor
-    cir = parseDescriptor(varargin{1});
-    
-    ## check size
-    size = varargin{2};
-    if( !isNat(size) || size == 0  )
-      error(" circuit size must be a strictly positive integer ");
-    elseif( size < 1+max(get(cir,"tars")))
-      error("Size is too small for given circuit");    
-    endif
-
-    C = @circuit(cir,size);
-	
-  ## 2+ arg circuit append case
-  elseif( nargs >= 2 )  #
-    for k = 1:nargs
-      if( !isa(varargin{k},"circuit") )
-	error("Expecting 2 or more circuits. Found something else.");
-      endif
-    endfor
-
-    ## append circuits
-    C = append(varargin)
-
-  else
-    print_usage();
+function C = append(cir,varargin )
+  if( nargin == 0 )
+    error("append: too few arguments. Need at least 1 circuit.");
   endif
- 
+  
+  C = cir;
+  for k = 1:length(varargin)
+    curr = varargin{k};
+
+    C.bits = max(C.bits,get(curr,"bits"))
+
+    C.seq = append(C.seq,get(curr,"seq"));
+
+    C.maxDepth = max(C.maxDepth,get(curr,"maxDepth"));
+
+    currSteps = get(curr.stepsAt);
+    C.stepsAt = padarray(C.stepsAt,C.maxDepth) + padarray(currSteps,C.maxDepth);
+  endfor
+
 endfunction

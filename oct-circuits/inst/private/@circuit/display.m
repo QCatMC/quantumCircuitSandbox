@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(sGate)
+## Usage: display(cir)
 ##
 ## Display singleGate sGate 
 ##
@@ -21,12 +21,28 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function display(sGate)
+function display(cir)
 
   if(!strcmp(inputname(1),"") )
     fprintf ("%s = \n", inputname (1)); 
   endif
 
-  fprintf ("{%s,%d}\n",sGate.name,sGate.tar );
+  pad = blanks(3);
+  fprintf("%sseq = \n",pad);
+  nestedPrint(cir.seq,2);
+  fprintf("%snum bits = %d\n",pad,cir.bits);
+  fprintf("%smax depth = %d\n",pad,cir.maxDepth);
+  arrayfun(@stepWriter,1:cir.maxDepth',cir.stepsAt);
+
+endfunction
+
+function stepWriter(s,d)
+  if( s == 1)
+    sstr = "step";
+  else
+    sstr = "steps";
+  endif
+
+  fprintf("%s%d %s at Depth %d\n",blanks(3),s,sstr,d)
 
 endfunction

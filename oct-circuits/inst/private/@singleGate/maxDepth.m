@@ -13,40 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = get(cir, f)
+## Usage: d = maxDepth(g)
 ##
-## circuit field selector place holder text
-
+##  used to compute maxDepth of a circuit. The max depth of a gate
+##  node is always 0.
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = get(cir,f)
-
-  if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
-    s.maxDepth = cir.maxDepth;
-    s.stepsAt = cir.stepsAt;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = cir.seq;
-	case "bits"
-	  s = cir.bits;
-	case "maxDepth"
-	  s = cir.maxDepth;
-	case "stepsAt"
-	  s = stepsAt;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-    print_usage();
-  endif
-
+function d = maxDepth(g)
+  d=0;
 endfunction

@@ -13,11 +13,11 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: [i,s] = stdMeasure(q)
+## usage: [i,s] = stdMeasure(q,t)
 ##
-## Perform a complete measurement in the standard basis of the state
-## q where q can either be  a vector or a density matrix. Both the integer and 
-## state vector of the result are returned. 
+## Perform a measurement of the bit numbers listed in t in the
+## standard basis of the state q where q can either be  a vector or 
+## a density matrix. Both the integer and state vector of the result are returned. 
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

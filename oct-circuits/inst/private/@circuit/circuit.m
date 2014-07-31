@@ -21,16 +21,26 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function c = circuit(desc,n)
+function c = circuit(cNode,n)
 
   if(nargin == 0 )
     c.bits = 0;
     c.seq = @seqNode({});
+    c.maxDepth = 0;
+    c.stepsAt = [];
+    c.tars = [];
   elseif(nargin == 1)
     error("@circuit requires 0 or 2 arguments. given 1.");
   else
     c.bits = n;
-    c.seq = parseDescriptor(desc);   
+    if( isGate(cNode) )
+      c.seq = @seqNode({cNode});
+    else
+      c.seq = cNode;
+    endif
+    c.maxDepth = maxDepth(c.seq);
+    c.stepsAt = arrayfun( @(d) stepsAt(c.seq,d), 1:c.maxDepth);    
   endif
+  c = class(c,"circuit");
 
 endfunction
