@@ -24,12 +24,11 @@
 
 function g = measureGate(tars)
 
-  if( nargin == 0 )
-    g.tar = {};
-    g = class(g,"measureGate");
+  if( nargin == 0)
+    g.tar = [];
   else
     g.tar = tars;
-    g = class(g,"measureGate");
   endif
+  g = class(g,"measureGate");
 
 endfunction

@@ -35,12 +35,18 @@ function c = circuit(cNode,n)
     c.bits = n;
     if( isGate(cNode) )
       c.seq = @seqNode({cNode});
-    else
+    elseif (isa(cNode,"seqNode"))
       c.seq = cNode;
+    else
+      error("Something went wrong. Expecting Circuit Node, go \
+something else");
     endif
     c.maxDepth = maxDepth(c.seq);
     c.stepsAt = arrayfun( @(d) stepsAt(c.seq,d), 1:c.maxDepth);    
+    c.tars = collectTars(c.seq,c.bits);
   endif
   c = class(c,"circuit");
 
 endfunction
+
+

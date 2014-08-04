@@ -13,39 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(mg, f)
+## Usage: t = collectTars(this)
 ##
-## measureGate field selector place holder text
-
+## returns the target set
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = get(mg,f)
+function t = collectTars(this,n)
 
-  if (nargin == 1)
-    s.tar = mg.tar;
-  elseif (nargin == 2 )
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	s = mg.tar;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-      print_usage();
-  endif
+  t = [this.tar];
 
 endfunction
-
-%!test
-%! a = @measureGate();
-%! b = @measureGate(1:3);
-%! assert([],get(a,"tar"));
-%! assert([1,2,3],get(b,"tar"));
-%! bs.tar = [1,2,3];
-%! assert(bs,get(b));

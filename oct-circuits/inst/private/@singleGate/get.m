@@ -44,3 +44,16 @@ function s = get(sg,f)
   endif
 
 endfunction
+
+%!test
+%! a = @singleGate("X",0);
+%! b = @singleGate("H",1);
+%! c = @singleGate("Z",2);
+%! assert(get(a,"tar"),0);
+%! assert(get(b,"tar"),1);
+%! assert(get(c,"tar"),2);
+%! assert(get(c,"name"),"Z");
+%! assert(get(a,"name"),"X");
+%! as.name = "X";
+%! as.tar = 0;
+%! assert(get(a),as);

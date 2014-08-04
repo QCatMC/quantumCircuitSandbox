@@ -31,3 +31,4 @@ function s = stepsAt(g,d)
     s = sum(sarr);
   endif
 endfunction
+

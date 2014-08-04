@@ -22,11 +22,15 @@
 ## Keywords: Circuits
 
 function nestedPrint(mGate,dep)
+
   pad = blanks(dep*3);
-  fprintf ("%s{\"Measure\",[",pad);
-  for k = 1:length(mGate.tar)-1
-    fprintf ("%d,",mGate.tar(k));
-  endfor
-  fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
+
+  if( isempty(mGate.tar) )
+    fprintf("%s{\"Measure\"}\n",pad);
+  else
+    fprintf ("%s{\"Measure\",[",pad);
+    arrayfun(@(t) fprintf ("%d,",t), mGate.tar(1:length(mGate.tar)-1));
+    fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
+  endif
 
 endfunction

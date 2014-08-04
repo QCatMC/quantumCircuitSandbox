@@ -19,10 +19,19 @@
 ##  is one more than the max of the sequence
 ## 
 
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu> 
 ## Keywords: Circuits
 
 function d = maxDepth(g)
   childMax = cellfun(@maxDepth,g.seq);  
   d = 1 + max(childMax);
 endfunction
+
+%!test
+%! a = @seqNode({@singleGate("X",1)});
+%! b = @seqNode({@cNotGate(3,5),a});
+%! c = @seqNode({b,a,b,@measureGate()});
+%! assert(maxDepth(a),1);
+%! assert(maxDepth(b),2);
+%! assert(maxDepth(c),3);
+%! assert(maxDepth(@seqNode({}),1));

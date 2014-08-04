@@ -13,39 +13,36 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(mg, f)
+## Usage: b = eq(this,other)
 ##
-## measureGate field selector place holder text
-
+## returns true if @seqNode this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = get(mg,f)
-
-  if (nargin == 1)
-    s.tar = mg.tar;
-  elseif (nargin == 2 )
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	s = mg.tar;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
+function b = eq(this,other)
+  b = false;
+  if( isa(other,"seqNode") )
+    othseq = get(other,"seq");
+    if( length(this.seq) == length(othseq) )
+      eqvals = cellfun(@eq,this.seq,get(other,"seq"));
+      if( sum(eqvals) == length(this.seq) )
+	b = true;
+      endif
     endif
-  else
-      print_usage();
   endif
-
 endfunction
 
+
 %!test
-%! a = @measureGate();
-%! b = @measureGate(1:3);
-%! assert([],get(a,"tar"));
-%! assert([1,2,3],get(b,"tar"));
-%! bs.tar = [1,2,3];
-%! assert(bs,get(b));
+%! a = @seqNode({@singleGate("H",1),@cNotGate(0,1)});
+%! b = @seqNode({@singleGate("H",1),@cNotGate(0,1)});
+%! c = @seqNode({@singleGate("H",1)});
+%! d = @seqNode({@singleGate("H",1),@cNotGate(0,1),@seqNode({@measureGate()})});
+%! e = @seqNode({@singleGate("H",1),@cNotGate(0,1),@seqNode({@measureGate()})});
+%! assert(eq(a,a));
+%! assert(eq(a,b));
+%! assert(eq(d,e));
+%! assert(!eq(a,c));
+%! assert(!eq(a,d));

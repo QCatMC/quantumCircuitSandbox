@@ -31,6 +31,9 @@ function display(cir)
   fprintf("%sseq = \n",pad);
   nestedPrint(cir.seq,2);
   fprintf("%snum bits = %d\n",pad,cir.bits);
+  fprintf("%stargets = [",pad);
+  fprintf("%d,",cir.tars(1:length(cir.tars)-1));
+  fprintf("%d]\n",cir.tars(length(cir.tars)));
   fprintf("%smax depth = %d\n",pad,cir.maxDepth);
   arrayfun(@stepWriter,1:cir.maxDepth',cir.stepsAt);
 

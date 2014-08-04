@@ -27,11 +27,6 @@ function display(mGate)
     fprintf ("%s = \n", inputname (1)); 
   endif
 
-  #fprintf ("{\"Measure\",[");
-  #for k = 1:length(mGate.tar)-1
-  #  fprintf ("%d,",mGate.tar(k));
-  #endfor
-  #fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
   nestedPrint(mGate,1);
 
 endfunction

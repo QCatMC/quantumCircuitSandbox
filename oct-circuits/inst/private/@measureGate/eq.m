@@ -13,39 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(mg, f)
+## Usage: b = eq(this,other)
 ##
-## measureGate field selector place holder text
-
+## returns true if @measureGate this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
+ 
 
-function s = get(mg,f)
+function b = eq(this,other)
 
-  if (nargin == 1)
-    s.tar = mg.tar;
-  elseif (nargin == 2 )
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	s = mg.tar;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+  b=false;
+  if( !isa(other,"measureGate") )
+    b=false;
+  elseif( isequal(this.tar,get(other,"tar")) )
+    b=true; 
   else
-      print_usage();
+    b=false;
   endif
 
 endfunction
 
+
 %!test
 %! a = @measureGate();
-%! b = @measureGate(1:3);
-%! assert([],get(a,"tar"));
-%! assert([1,2,3],get(b,"tar"));
-%! bs.tar = [1,2,3];
-%! assert(bs,get(b));
+%! b = @measureGate(0:3);
+%! c = @measureGate(0:3);
+%! d = @measureGate(1:3);
+%! assert(eq(b,b));
+%! assert(eq(b,c));
+%! assert(!eq(b,d));
+%! assert(eq(a,a));
+%! assert(!eq(a,b));
+%! assert(eq(a,@measureGate()));

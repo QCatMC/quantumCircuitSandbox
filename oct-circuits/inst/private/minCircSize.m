@@ -25,9 +25,11 @@
 function n = minCircSize(circArr)
   n=-1;
   for k = 1:length(circArr)
-    n = max(n,circArr{k}{2});
-    if (length(circArr{k}) == 3)
-       n = max(n,circArr{k}{3});
+    if( length(circArr{k}) > 1)
+      n = max(n,circArr{k}{2});
+      if (length(circArr{k}) == 3)
+	n = max(n,circArr{k}{3});
+      endif
     endif
   endfor
   n = n+1;

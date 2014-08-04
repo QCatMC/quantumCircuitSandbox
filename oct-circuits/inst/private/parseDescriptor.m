@@ -25,11 +25,13 @@
 function C = parseDescriptor(desc)
 
   if( iscell(desc) )
+
     if( ischar(desc{1}) ) 
       C = parseGate(desc);
-    else ## should be a sequence
-      C = @seqNode(cellfun(@parseDescriptor,desc));
+    elseif( iscell(desc{1}) )
+      C = @seqNode(cellfun(@parseDescriptor,desc,"UniformOutput",false));
     endif
+
   else
     error("parse error: expecting Cell array and got something different");
   endif
@@ -75,7 +77,7 @@ endfunction
 
 
 function C = parseSingle(gDesc)
-  op = desc{1};
+  op = gDesc{1};
 
   if(length(gDesc) != 2)
     error("parse error: too many arguments given to %s",op);

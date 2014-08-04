@@ -44,3 +44,10 @@ function s = get(cng,f)
   endif
 
 endfunction
+
+%!test
+%! a = @cNotGate(0,1);
+%! as.tar = 0; as.ctrl =1;
+%! assert(get(a),as);
+%! assert(get(a,"tar"),0);
+%! assert(get(a,"ctrl"),1);
