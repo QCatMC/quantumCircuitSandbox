@@ -35,7 +35,7 @@ function display(cir)
   fprintf("%d,",cir.tars(1:length(cir.tars)-1));
   fprintf("%d]\n",cir.tars(length(cir.tars)));
   fprintf("%smax depth = %d\n",pad,cir.maxDepth);
-  arrayfun(@stepWriter,1:cir.maxDepth',cir.stepsAt);
+  arrayfun(@stepWriter,cir.stepsAt,1:cir.maxDepth);
 
 endfunction
 

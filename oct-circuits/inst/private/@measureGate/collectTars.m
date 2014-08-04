@@ -20,12 +20,8 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function t = collectTars(this,n)
+function t = collectTars(this)
 
-  if(isempty(this.tar))
-    t = 0:(n-1);
-  else
-    t = sort(this.tar);
-  endif
+  t = this.tar;  
 
 endfunction

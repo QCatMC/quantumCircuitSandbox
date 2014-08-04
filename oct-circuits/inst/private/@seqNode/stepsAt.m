@@ -26,8 +26,7 @@ function s = stepsAt(g,d)
   if( d == 1 )
     s = length(g.seq);
   else
-    sarr = cellfun(@stepsAt, ...
-		   g.seq, num2cell((d-1)*ones(length(g.seq),1))');
+    sarr = cellfun(@(c) stepsAt(c,d-1), g.seq);
     s = sum(sarr);
   endif
 endfunction

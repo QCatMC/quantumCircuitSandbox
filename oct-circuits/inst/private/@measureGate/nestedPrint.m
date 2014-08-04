@@ -25,12 +25,9 @@ function nestedPrint(mGate,dep)
 
   pad = blanks(dep*3);
 
-  if( isempty(mGate.tar) )
-    fprintf("%s{\"Measure\"}\n",pad);
-  else
-    fprintf ("%s{\"Measure\",[",pad);
-    arrayfun(@(t) fprintf ("%d,",t), mGate.tar(1:length(mGate.tar)-1));
-    fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
-  endif
+  fprintf ("%s{\"Measure\",[",pad);
+  arrayfun(@(t) fprintf ("%d,",t), mGate.tar(1:length(mGate.tar)-1));
+  fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
+  
 
 endfunction

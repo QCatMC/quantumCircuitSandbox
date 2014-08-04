@@ -13,36 +13,40 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = circuit(desc,n)
+## Usage: s = set(cir, varargin)
 ##
-## construct an n qubit circuit object from a descriptor cell array
-## 
+## circuit field mutator. place holder text
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function c = circuit(cNode,n)
-
-  if(nargin == 0 )
-    c.bits = 0;
-    c.seq = @seqNode({});
-    c.maxDepth = 0;
-    c.stepsAt = [];
-    c.tars = [];
-  elseif(nargin == 1 || nargin == 2)
-    c.bits = 0;
-    c.seq = cNode;
-    c.maxDepth = maxDepth(c.seq);
-    c.tars = collectTars(c.seq);
-    c.stepsAt = arrayfun( @(d) stepsAt(c.seq,d), 1:c.maxDepth);        
-    if( nargin == 2 )
-      c.bits = n;
-    else
-      c.bits = 1+max(c.tars);
-    endif
+function s = set(cir,varargin)
+  s = cir;
+  if (length (varargin) < 2 || rem (length (varargin), 2) != 0)
+    error ("set: expecting property/value pairs");
   endif
-  c = class(c,"circuit");
+
+  while (length (varargin) > 1)
+    prop = varargin{1};
+    val = varargin{2};
+    varargin(1:2) = [];
+    if (ischar (prop) )
+       switch(prop)
+	 case "bits"
+	   if(isNat(val))
+	     s.bits = val;
+	   else
+	     error("Number of bits must be a natural number.");
+	   endif
+	 otherwise
+	   error("Property not currently mutable");
+       endswitch
+    else
+      error("Expecting property to be a string. Given something else.");
+    endif
+
+  endwhile
+
 
 endfunction
-
-

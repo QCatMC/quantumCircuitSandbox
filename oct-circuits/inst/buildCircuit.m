@@ -31,24 +31,23 @@ function C = buildCircuit( varargin )
   nargs = length( varargin );
 
   ## 1 arg --> Descriptor only
-  if( nargs == 1 && iscell(varargin{1}) && iscell(varargin{1}{1}) )
+  if( nargs <= 2 && iscell(varargin{1}) )
+    ## build circuit with size inferred from targets
     cir = parseDescriptor(varargin{1});
-    C = @circuit(cir,minCircSize(varargin{1}));    
-  ## 2 arg case 1: Descriptor + number of bits
-  elseif( nargs == 2 && iscell(varargin{1}) && iscell(varargin{1}{1}) )
-
-    minsize = minCircSize(varargin{1});
-    ## check size
-    size = varargin{2};
-    if( !isNat(size) || size == 0  )
-      error(" circuit size must be a strictly positive integer ");
-    elseif( size < minsize )
-      error(" specified size too small for given circuit ");
-    endif    
-
-    cir = parseDescriptor(varargin{1});
-    C = @circuit(cir,size);
-	
+    C = @circuit(cir);
+    ## 2 arg case 1: Descriptor + number of bits
+    if( nargs == 2 )
+      ## check size
+      size = varargin{2};
+      if( !isNat(size) || size == 0  )
+	error(" circuit size must be a strictly positive integer ");
+      elseif( size < get(C,"bits") )
+	error(" specified size too small for given circuit ");
+      else
+	## change size
+        C = set(C,"bits",size);
+      endif
+    endif
   ## 2+ arg circuit append case
   elseif( nargs >= 2 )  #
     for k = 1:nargs
@@ -56,7 +55,7 @@ function C = buildCircuit( varargin )
 	error("Expecting 2 or more circuits. Found something else.");
       endif
     endfor
-
+    
     ## append circuits
     C = append(varargin)
 

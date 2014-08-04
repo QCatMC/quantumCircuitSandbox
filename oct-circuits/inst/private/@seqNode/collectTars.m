@@ -22,9 +22,9 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function t = collectTars(this,n)
+function t = collectTars(this)
 
-  tset = cellfun(@(cn) collectTars(cn,n),this.seq,"UniformOutput",false);
+  tset = cellfun(@collectTars,this.seq,"UniformOutput",false);
   t = [];
   for k = 1:length(tset) 
     t = union(t,tset{k});

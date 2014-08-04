@@ -28,6 +28,7 @@ function s = get(cir,f)
     s.seq = cir.seq;
     s.maxDepth = cir.maxDepth;
     s.stepsAt = cir.stepsAt;
+    s.tars = cir.tars;
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
@@ -38,7 +39,9 @@ function s = get(cir,f)
 	case "maxDepth"
 	  s = cir.maxDepth;
 	case "stepsAt"
-	  s = stepsAt;
+	  s = cir.stepsAt;
+	case "tars"
+	  s = cir.tars;
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch

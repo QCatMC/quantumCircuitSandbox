@@ -25,15 +25,26 @@
 function C = parseDescriptor(desc)
 
   if( iscell(desc) )
-
-    if( ischar(desc{1}) ) 
-      C = parseGate(desc);
-    elseif( iscell(desc{1}) )
-      C = @seqNode(cellfun(@parseDescriptor,desc,"UniformOutput",false));
-    endif
-
+    C = @seqNode(cellfun(@parseCNode,desc,"UniformOutput",false));
   else
-    error("parse error: expecting Cell array and got something different");
+    error("parse error: expecting cell array and got something different");
+  endif
+
+endfunction
+
+function C = parseCNode(cndesc)
+
+  if( iscell(cndesc) )
+    if(ischar(cndesc{1}) )
+      C = parseGate(cndesc);
+    elseif( iscell(cndesc{1}) )
+      C = parseDescriptor(cndesc);
+    else
+      error("parse error: expecting gate or seqence descriptor, got \
+somethign else");
+    endif
+  else
+    error("parse error: expecting cell array and got something different");
   endif
 
 endfunction
@@ -108,11 +119,9 @@ endfunction
 
 function C = parseMeasure(gDesc)
 	 
-  if( length(gDesc) > 2 )
-    error("parse error: Measure gate takes zero or 1 argument. \
+  if( length(gDesc) != 2 )
+    error("parse error: Measure gate takes 1 argument. \
 Given something else.")
-  elseif( length(gDesc) == 1 )
-    C = @measureGate();	
   elseif( !isvector(gDesc{2}) )
     error("parse error: Measurement target must be a vector or \
 scalar.");
@@ -122,9 +131,9 @@ scalar.");
 numbers");
     elseif( length(unique(gDesc{2})) != length(gDesc{2}) )
       error("parse error: Measurement targets must be unique.");
+    else
+      C = @measureGate(gDesc{2});
     endif
-  else
-    C = @measureGate(gDesc{2});
   endif
 
 endfunction
