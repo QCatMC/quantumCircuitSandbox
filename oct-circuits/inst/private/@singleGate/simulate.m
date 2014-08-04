@@ -24,11 +24,8 @@
 
 function y = simulate(gate,in,bits,currd,dlim,currt,tlim)
 
-  if( gate.tar >= bits)
-    error("simulate: Target bit out of bounds. Given target %d in %d space.",...
-	  gate.tar,bits);
-  elseif( currt > tlim || currd > dlim )
-    y = zeros(2^bits);
+  if( currt > tlim || currd > dlim )
+    y = zeros(2^bits,1);
   else  
     y = applyOp(in,getOp(gate.name),gate.tar,bits);
   endif

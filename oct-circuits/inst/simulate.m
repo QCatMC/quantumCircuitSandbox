@@ -31,12 +31,17 @@ function s = simulate(cir,in,d=1,t=stepsAt(cir,d))
   elseif( t < 1 || floor(t)!=ceil(t) )
     error("simulate: Number of time steps must be a non-zero, \
 positive integer.");
+  elseif( d > get(cir,"maxDepth") )
+    error("simulate: given depth exceeds circuit max depth.");
+  elseif( t > stepsAt(cir,d) )
+    error("simulate: given number of simulation steps exceepds max \
+for given depth.");
   endif
   
   ## check and convert input
   s0 = processIn(in,get(cir,"bits"));
 
-  s = simulate(cir,s0);
+  s = simulate(cir,s0,d,t);
 
 endfunction
 

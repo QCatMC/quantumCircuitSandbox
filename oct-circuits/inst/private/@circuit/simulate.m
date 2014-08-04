@@ -25,22 +25,10 @@
 
 function s = simulate(cir,in,d,t)
 
-  
-  elseif( isGate(cir) )
-
-    if( d == 1 && t == 1)
+  if( d == 1 )
       s = simulate(cir.seq,in,cir.bits,1,d,0,t);
-    else
-      error("simulate: circuit is a single gate. depth and number of \
-time steps must both be 1.");
-    endif
-
-  elseif( isa(cir.seq,"seqNode") )
-
-    if( d == 1 )
-      s = simulate(cir.seq,in,cir.bits,1,d,0,t);
-    elseif( d > 1 && isa(cir.seq,"seqNode") )
-      s=  descend(cir.seq,in,cir.bits,1,d,0,t);
+    elseif( d > 1 )
+      s = descend(cir.seq,in,cir.bits,1,d,0,t);
     endif
   endif
 

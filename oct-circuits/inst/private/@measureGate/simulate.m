@@ -22,13 +22,10 @@
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
-function y = simulate(gate,in,bits)
+function y = simulate(gate,in,bits,currd,dlim,currt,tlim)
 
-  if( isequal(gate.tar,{}) )
-    y = stdMeasure(in);
-  elseif( max(gate.tar) >= bits )
-    error("One or more measurement targets exceed the number \
-of bits in the space.");
+  if(currt > tlim || currd > dlim )
+    y = zeros(2^bits,1);
   else
     y = stdMeasure(in,gate.tar);
   endif

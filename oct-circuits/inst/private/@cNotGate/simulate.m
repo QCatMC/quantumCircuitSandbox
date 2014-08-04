@@ -23,16 +23,12 @@
 ## Keyword: Circuits
 
 
-function y = simulate(gate,in,bits)
+function y = simulate(gate,in,bits,currd,dlim,currt,tlim)
 	 
-  if(gate.tar >= bits)
-    error("Target bit out of bounds. Given target %d in %d space.",...
-	  gate.tar,bits);
-  elseif( gate.ctrl >= bits )
-    error("Control bit out of bounds. Given target %d in %d space.",...
-	  gate.ctrl,bits);
+  if( currt > tlim || currd > dlim )
+    y = zeros(2^bits,1);
+  else
+    y = applyCNot(in,gate.ctrl,gate.tar,bits);
   endif
-
-  y = applyCNot(in,gate.ctrl,gate.tar,bits);
 
 endfunction
