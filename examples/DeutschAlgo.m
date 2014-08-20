@@ -3,22 +3,28 @@
 ## load the oct-circuits package
 pkg load oct-circuits;
 
+## Circuit Descriptors. Logical sub-circuits are grouped such that
+##  each circuit follows the prep,oracle,measure pattern
+
 ## Balanced Function Circuits
-bal_id = {{"H",0},{"H",1},{"CNot",0,1},{"H",1},{"Measure"}};
-bal_not = {{"H",0},{"H",1},{"X",1},{"CNot",0,1},{"X",1},{"H",1},{"Measure"}};
+bal_id = {{{"H",0},{"H",1}},{"CNot",0,1},{"H",1},{"Measure",1}};
+bal_not = {{{"H",0},{"H",1}},{{"X",1},{"CNot",0,1},{"X",1}}, ...
+	   {"H",1},{"Measure",1}};
 
 ## Constant Functions
-const_one = {{"H",0},{"H",1},{"X",0},{"H",1},{"Measure"}};
-const_zero = {{"H",0},{"H",1},{"H",1},{"Measure"}};
+const_one = {{{"H",0},{"H",1}},{"X",0},{"H",1},{"Measure",1}};
+const_zero = {{{"H",0},{"H",1}},{"H",1},{"Measure",1}};
 
+## Construct the circuit objects.
+id_cir = buildCircuit(bal_id);
+not_cir = buildCircuit(bal_not);
+one_cir = buildCircuit(const_one);
+zero_cir = buildCircuit(const_zero);
 
-# Let's start with bal_id. The oracle here is the CNot operator which computes
-#  the ID function in a reversible setting
+## Let's start with id_cir and some basic simulation.
 
-## To run the whole circuit we just pass the input, circuit, and number of 
-##  qubits. In this case, the input is given as a positive integer which 
-##  is converted to the appropriate basis state.
-res = evalCircuit(1,bal_id,2);
+## by default the simulation will run to completion
+res = simulate(1,id_cir)
 
 ## Like many quantum algorithms, we're only interested in the value of some of the bits.
 ## However, oct-Circuits 0.0.2 only does complete measurements. It's easy to figure out 

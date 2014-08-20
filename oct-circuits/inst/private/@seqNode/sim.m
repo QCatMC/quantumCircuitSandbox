@@ -22,12 +22,29 @@
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
-function y = simulate(gate,in,bits,currd,dlim,currt,tlim)
+function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
-  if( currt > tlim || currd > dlim )
-    y = zeros(2^bits,1);
-  else  
-  ## do stuff
+  y = in; 
+  t = currt;
+  
+  if( currt <= tlim )
+    ## treat each element of this seq as an atomic unit  
+    if( currd == dlim )
+      ## steps simulated from this sequence
+      local_steps = min(length(gate.seq),(tlim-currt));
+      
+      for k = 1:local_steps
+	[y,t] = sim(gate.seq(k),y,bits,currd,dlim,t,tlim);
+      endfor
+      
+    else( currd < dlim )
+      ## simulate each local step until step limit is reached
+      k = 1;
+      while( t <= tlim )
+	[y,t] = sim(gate.seq(k),y,bits,currd+1,dlim,t,tlim);
+      endwhile
+
+    endif  
   endif
 
 endfunction

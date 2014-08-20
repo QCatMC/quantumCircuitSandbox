@@ -23,14 +23,16 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = simulate(cir,in,d,t)
+function s = sim(cir,in,d,t)
 
-  if( d == 1 )
-      s = simulate(cir.seq,in,cir.bits,1,d,0,t);
-    elseif( d > 1 )
-      s = descend(cir.seq,in,cir.bits,1,d,0,t);
-    endif
+  if( d > cir.maxDepth )
+    error("simulate: given depth exceeds circuit max depth.");
+  elseif( t > cir.stepsAt(d) )
+    error("simulate: given number of simulation steps exceepds max \
+for given depth.");
   endif
 
+  s = sim(cir.seq,in,cir.bits,1,d,0,t);
+  
 endfunction
 

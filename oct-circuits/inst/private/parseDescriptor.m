@@ -25,6 +25,7 @@
 function C = parseDescriptor(desc)
 
   if( iscell(desc) )
+    ## all descriptors are sequences
     C = @seqNode(cellfun(@parseCNode,desc,"UniformOutput",false));
   else
     error("parse error: expecting cell array and got something different");
@@ -32,32 +33,45 @@ function C = parseDescriptor(desc)
 
 endfunction
 
-function C = parseCNode(cndesc)
+%!test
+%! assert(false);
 
+function C = parseCNode(cndesc)
+  ## seq nodes and gate nodes are both cell arrays	 
   if( iscell(cndesc) )
+    ## first is string. should be a Gate
     if(ischar(cndesc{1}) )
       C = parseGate(cndesc);
+    ## frist is cell. should be another seq.
     elseif( iscell(cndesc{1}) )
       C = parseDescriptor(cndesc);
+    ## first is neither a cell nor string... that's no good.
     else
       error("parse error: expecting gate or seqence descriptor, got \
 somethign else");
     endif
+  ## This should never happen, but just in case...
   else
     error("parse error: expecting cell array and got something different");
   endif
 
 endfunction
 
+%!test
+%! assert(false);
+
 ## parses gate descriptors
 function C = parseGate(gDesc)
-
+  ## Check if gate name is one of the known, able to be simulated, set
   if( validOp(gDesc{1}) ) 
     op = gDesc{1}; 
+    ## single qubit op?
     if( isSingle(op) ) 
       C = parseSingle(gDesc);
+    ## CNot?
     elseif( strcmp(op,"CNot") )
       C = parseCNot(gDesc);
+    ## Measurement?
     elseif( strcmp(op,"Measure") )
       C = parseMeasure(gDesc);
     else
@@ -69,24 +83,16 @@ function C = parseGate(gDesc)
 
 endfunction
 
-
+## true if o is the name of a single qubit operator
 function b = isSingle(o)
   b = strcmp(o,"H") || strcmp(o,"X") || strcmp(o,"I") ...
       || strcmp(o,"Z") || strcmp(o,"S") || strcmp(o,"T") || strcmp(o,"Y");
 endfunction
 
 %!test
-%! gates = ["I","X","Y","Z","S","T","H"];
-%! for k = 1:length(gates)
-%!   res = parseGate({gates(k),2});
-%!   assert(isa(res,"singleGate"));
-%! endfor 
-%!
-%! assert(isa(parseGate({"CNot",2,0}),"cNotGate"));
-%! assert(isa(parseGate({"Measure"}),"measureGate"));
-%! assert(isa(parseGate({"Measure",0:3}),"measureGate"));
+%! assert(false)
 
-
+## parse the descriptor of a single qubit operation
 function C = parseSingle(gDesc)
   op = gDesc{1};
 
@@ -101,7 +107,10 @@ function C = parseSingle(gDesc)
 
 endfunction
 
+%!test
+%! assert(false)
 
+## parse the descriptor of a Controlled Not operation
 function C = parseCNot(gDesc)
 
   if( length(gDesc) != 3 )
@@ -117,6 +126,11 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
 
 endfunction
 
+%!test
+%! assert(false);
+
+
+## parse the descriptor of a measurement operation
 function C = parseMeasure(gDesc)
 	 
   if( length(gDesc) != 2 )
@@ -137,3 +151,15 @@ numbers");
   endif
 
 endfunction
+
+%!test
+%! gates = ["I","X","Y","Z","S","T","H"];
+%! for k = 1:length(gates)
+%!   res = parseGate({gates(k),2});
+%!   assert(isa(res,"singleGate"));
+%! endfor 
+%!
+%! assert(isa(parseGate({"CNot",2,0}),"cNotGate"));
+%! assert(isa(parseGate({"Measure"}),"measureGate"));
+%! assert(isa(parseGate({"Measure",0:3}),"measureGate"));
+

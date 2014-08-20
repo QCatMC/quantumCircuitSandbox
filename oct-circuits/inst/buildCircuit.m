@@ -30,7 +30,7 @@ function C = buildCircuit( varargin )
 
   nargs = length( varargin );
 
-  ## 1 arg --> Descriptor only
+  ## 1-2 arg --> Descriptor only or Descriptor+Size
   if( nargs <= 2 && iscell(varargin{1}) )
     ## build circuit with size inferred from targets
     cir = parseDescriptor(varargin{1});
@@ -48,19 +48,13 @@ function C = buildCircuit( varargin )
         C = set(C,"bits",size);
       endif
     endif
-  ## 2+ arg circuit append case
-  elseif( nargs >= 2 )  #
-    for k = 1:nargs
-      if( !isa(varargin{k},"circuit") )
-	error("Expecting 2 or more circuits. Found something else.");
-      endif
-    endfor
-    
-    ## append circuits
-    C = append(varargin)
-
   else
     print_usage();
   endif
  
 endfunction
+
+%!test
+%! d = {{{"H",1},{"H",0}},{"CNot",1,0},{"H",1},{"Measure",0:1}};
+%! C1 = buildCircuit(d);
+%! assert(true);

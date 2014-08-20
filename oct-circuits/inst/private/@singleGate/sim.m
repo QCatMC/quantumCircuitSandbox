@@ -15,20 +15,22 @@
 
 ## Usage: y = simulate(gate,in,bits)
 ## 
-##  simulate the action of a CNot gate 'gate' on pure state
-##  'in' in an n bits system
+##  simulate the action of single qubit operation gate on pure state
+##  in in an n bits system
 ## 
 
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
+function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
-function y = simulate(gate,in,bits,currd,dlim,currt,tlim)
-	 
   if( currt > tlim || currd > dlim )
     y = zeros(2^bits,1);
-  else
-    y = applyCNot(in,gate.ctrl,gate.tar,bits);
+    t = currt;
+  else  
+    y = applyOp(in,getOp(gate.name),gate.tar,bits);
+    t = currt+1;
   endif
 
 endfunction
+

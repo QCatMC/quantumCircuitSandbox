@@ -22,12 +22,14 @@
 ## Author: Logan Mayfield
 ## Keyword: Circuits
 
-function y = simulate(gate,in,bits,currd,dlim,currt,tlim)
+function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
   if(currt > tlim || currd > dlim )
     y = zeros(2^bits,1);
+    t = currt;
   else
     y = stdMeasure(in,gate.tar);
+    t = currt+1;
   endif
 
 endfunction

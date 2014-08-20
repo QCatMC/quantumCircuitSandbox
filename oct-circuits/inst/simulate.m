@@ -22,26 +22,26 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = simulate(cir,in,d=1,t=stepsAt(cir,d))
-
+function s = simulate(cir,in,d=1,t=-1)
+  
   if( !isa(cir,"circuit") ) 
     error("simulate: First argument must be a circuit.");
-  elseif( d < 1 || floor(d)!=ceil(d) )
+  endif
+  
+  if( d < 1 || floor(d)!=ceil(d) )
     error("simulate: Depth must be a non-zero, positive integer.");
+  elseif( t == -1 )
+    ## default initialization
+    t=get(cir,"stepsAt")(d);  
   elseif( t < 1 || floor(t)!=ceil(t) )
     error("simulate: Number of time steps must be a non-zero, \
 positive integer.");
-  elseif( d > get(cir,"maxDepth") )
-    error("simulate: given depth exceeds circuit max depth.");
-  elseif( t > stepsAt(cir,d) )
-    error("simulate: given number of simulation steps exceepds max \
-for given depth.");
   endif
   
   ## check and convert input
   s0 = processIn(in,get(cir,"bits"));
 
-  s = simulate(cir,s0,d,t);
+  s = sim(cir,s0,d,t);
 
 endfunction
 
@@ -50,11 +50,11 @@ function s = processIn(in,n)
 
   s = stdBasis(0,n);	 
   
-  if( !vector(in) )
+  if( !isvector(in) )
     error("simulate: Second argument must be a natural number, pure state \
 vector, or a bit vector.");
   elseif( isscalar(in) )
-    if( in < 0  || floor(in) != ceil(in) || in >= 2^(get(cir,"bits")) )
+    if( in < 0  || floor(in) != ceil(in) || in >= 2^n )
       error("simulate: Scalar input must be a natural number in \
 [0,|cir|)");
     else
