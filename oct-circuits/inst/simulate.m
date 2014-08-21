@@ -29,19 +29,25 @@ function s = simulate(cir,in,d=1,t=-1)
   endif
   
   if( d < 1 || floor(d)!=ceil(d) )
-    error("simulate: Depth must be a non-zero, positive integer.");
-  elseif( t == -1 )
+    error("simulate: Depth must be a Zero or a positive integer.");
+  endif
+  
+  if( t == -1 )
     ## default initialization
     t=get(cir,"stepsAt")(d);  
-  elseif( t < 1 || floor(t)!=ceil(t) )
-    error("simulate: Number of time steps must be a non-zero, \
+  elseif(!isNat(t)) 
+    error("simulate: Number of time steps must be zero or a \
 positive integer.");
   endif
   
   ## check and convert input
   s0 = processIn(in,get(cir,"bits"));
-
-  s = sim(cir,s0,d,t);
+  
+  if( t == 0 )
+    s = s0;
+  else
+    s = sim(cir,s0,d,t);
+  endif
 
 endfunction
 

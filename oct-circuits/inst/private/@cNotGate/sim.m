@@ -25,12 +25,11 @@
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 	 
-  if( currt > tlim || currd > dlim )
-    y = zeros(2^bits,1);
-    t = currt;
-  else
-    y = applyCNot(in,gate.ctrl,gate.tar,bits);
+  y = applyCNot(in,gate.ctrl,gate.tar,bits);
+  if( currd <= dlim )
     t = currt+1;
+  else
+    t = currt;
   endif
 
 endfunction

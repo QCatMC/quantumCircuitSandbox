@@ -24,11 +24,10 @@
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
-  if(currt > tlim || currd > dlim )
-    y = zeros(2^bits,1);
+  y = stdMeasure(in,gate.tar);
+  if(currt > tlim)
     t = currt;
   else
-    y = stdMeasure(in,gate.tar);
     t = currt+1;
   endif
 

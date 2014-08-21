@@ -24,13 +24,12 @@
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
-  if( currt > tlim || currd > dlim )
-    y = zeros(2^bits,1);
-    t = currt;
-  else  
-    y = applyOp(in,getOp(gate.name),gate.tar,bits);
+  y = applyOp(in,getOp(gate.name),gate.tar,bits);
+  if( currd <= dlim )
     t = currt+1;
-  endif
+  elseif( currd > dlim )
+    t = currt;
+  endif    
 
 endfunction
 
