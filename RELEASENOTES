@@ -19,3 +19,11 @@ v0.1.2
    unchecked versions do not. 
  - Easy computation of standard basis vectors and matrix representations of 
    elementary operators. 
+
+v1.0.0
+ - Complete rewrite with EDSL focus:
+ -- Circuit descriptors are compiled to circuit objects via buildCircuit
+ -- Simulation of circuit objects can be carried out via simulate
+ -- Simulation can be done w.r.t. nested depth and time steps thus allowing
+    user specified steps and step by step simulation
+ - See examples for example usage and discussion of various features. 

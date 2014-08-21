@@ -13,15 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = buildCircuit(args)
+## Usage: C = buildCircuit(args)
 ##
-## construct a quantum circuit. The args can be a circuit descriptor, 
-## a descriptor and the number of bits, or two or more circuit object.  In the
-## first case, the number of bits is the minimum number allowabled by
-## the circuit specification.  IN the second, extra bits can be added
-## above the minimum number.  The case of two or more circuits, the
-## circuits are appended to one another in the order they were given.
-## 
+## construct a quantum circuit. The args can be a circuit descriptor,
+## i.e. buildCircuit(cir), or a descriptor and the number of bits,
+## i.e. buildCircuit(cir,size). In the first case, the number of bits
+## is the minimum number allowabled by the circuit specification.  In
+## the second, extra bits can be added above the minimum number.  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

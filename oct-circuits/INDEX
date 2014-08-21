@@ -1,10 +1,11 @@
 toolbox >> Toolbox name
-Category Simulation 1
- applyOp applyOpTo applyCNot stdMeasure evalCircuit 
- checked_applyOp checked_applyOpTo checked_cNot checked_evalCircuit
+Category Circuits 1
+ buildCircuit stepsAt
 Category States 2
  stdBasis pureToDensity pTrace 
 Category Operators 3
  H Iop X Z Y S T CNot
-Category Misc 4
- binaryRep isBitArray
+Category Simulation 4
+ simulate
+Category Misc 5
+ binaryRep 

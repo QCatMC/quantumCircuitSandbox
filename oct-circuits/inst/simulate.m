@@ -16,11 +16,12 @@
 ## Usage: s = simulate(cir,in,d,t)
 ##
 ## simulate the Circuit cir with input in. Simulation will carry out t
-## time steps with respect to depth d. 
+## time steps with respect to depth d. Input can be given as a natural
+## number, a binary row vector, or a standard basis state.
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: Simulation
 
 function s = simulate(cir,in,d=1,t=-1)
   
@@ -51,7 +52,7 @@ positive integer.");
 
 endfunction
 
-## checking and converting circuit input
+## check and converting circuit input
 function s = processIn(in,n)
 
   s = stdBasis(0,n);	 
