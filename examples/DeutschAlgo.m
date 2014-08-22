@@ -28,7 +28,7 @@ zero_cir = buildCircuit(const_zero);
 id_cir
 
 ## by default the simulation will run to completion w.r.t to depth 1
-res = simulate(1,id_cir)
+res = simulate(id_cir,1)
 
 ## Like many quantum algoriths, Deutsch's Algorithm uses work bits
 ## whose ultimate value we don't care about. More specifically, we'd 
@@ -59,10 +59,11 @@ pTrace(0,pureToDensity(res))
 ## let's step through bal_not at depth 1 and save each intermediate
 ## result. At this depth gates are grouped logically: inital state
 ## prep, oracle, final 'decode', then measurement. 
-res = zeros(4,stepsAt(bal_not,1)+1);
+res = zeros(4,stepsAt(not_cir,1)+1);
 for k = 1:length(res)
-  res(:,k) = simulate(bal_not,1,1,k-1)
+  res(:,k) = simulate(not_cir,1,1,k-1);
 endfor
+res
 
 ## Then perhaps we'd like to observe the change only on the key bit, bit 1, using 
 ## density operators
@@ -75,10 +76,11 @@ resOp
 ## Now let's get a more fine grained picture by stepping through depth
 ## 2.  In this case, this gives us a gate by gate picture of what's
 ## happening.
-res = zeros(4,stepsAt(bal_not,2)+1);
+res = zeros(4,stepsAt(not_cir,2)+1);
 for k = 1:length(res)
-  res(:,k) = simulate(bal_not,1,2,k-1);
+  res(:,k) = simulate(not_cir,1,2,k-1);
 endfor
+res 
 
 ## And the density matrix for Qubit #1...
 resOp = zeros(2,2,length(res));
@@ -102,7 +104,7 @@ for k = [1:100]
   bid = bid + pTrace(0,pureToDensity(simulate(id_cir,1)));
   bnot = bnot + pTrace(0,pureToDensity(simulate(not_cir,1)));
   cone = cone + pTrace(0,pureToDensity(simulate(one_cir,1)));
-  czero = czero + pTrace(0,pureToDensity(evalCircuit(zero_cir,1)));
+  czero = czero + pTrace(0,pureToDensity(simulate(zero_cir,1)));
 endfor
 
 ## and report the sample mean.
