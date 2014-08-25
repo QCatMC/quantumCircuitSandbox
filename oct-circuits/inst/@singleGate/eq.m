@@ -15,7 +15,7 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true of @singleGate this is equivalent to other.
+## returns true if @singleGate this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

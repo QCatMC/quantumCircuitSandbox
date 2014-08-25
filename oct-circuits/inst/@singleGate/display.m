@@ -15,7 +15,7 @@
 
 ## Usage: display(sGate)
 ##
-## Display singleGate sGate 
+## Display singleGate
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

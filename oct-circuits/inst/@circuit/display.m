@@ -15,9 +15,8 @@
 
 ## Usage: display(cir)
 ##
-## Display singleGate sGate 
+## Display function for circuit objects. 
 ##
-
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 

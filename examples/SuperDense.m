@@ -9,7 +9,7 @@ pkg load oct-circuits;
 ##  back to the std basis and doing a standard measurement. So, we can write a basic octave 
 ## function to construct circuit arrays given the names of the operators applied by Alice.
 
-## Constructor for SuperDense Coding circuit
+## Constructor for SuperDense Coding circuit descriptor
 function C = makeSDCirc(alice)
   ## the Std to Bell basis transform
   trans = {{"H",1},{"CNot",0,1}};
@@ -21,7 +21,7 @@ function C = makeSDCirc(alice)
     C = {C{:},{alice(k),1}};
   endfor	 
   ## then change the basis back and Measure
-  C = {C{:},fliplr(trans){:},{"Measure"}};
+  C = {C{:},fliplr(trans){:},{"Measure",0:1}};
 endfunction
 
 ## Encode 00
@@ -40,10 +40,10 @@ OnOn = makeSDCirc(["X","Z"]);
 tot = zeros(4,4);
 for k = 1:100
   res = zeros(4,4);
-  res(:,1) = evalCircuit(0,ZrZr,2);
-  res(:,2) = evalCircuit(0,ZrOn,2);
-  res(:,3) = evalCircuit(0,OnZr,2);
-  res(:,4) = evalCircuit(0,OnOn,2);
+  res(:,1) = simulate(buildCircuit(ZrZr),0);
+  res(:,2) = simulate(buildCircuit(ZrOn),0);
+  res(:,3) = simulate(buildCircuit(OnZr),0);
+  res(:,4) = simulate(buildCircuit(OnOn),0);
   tot = tot + res;
 endfor
 

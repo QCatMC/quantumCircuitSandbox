@@ -15,11 +15,15 @@
 
 ## Usage: C = buildCircuit(args)
 ##
-## construct a quantum circuit. The args can be a circuit descriptor,
-## i.e. buildCircuit(cir), or a descriptor and the number of bits,
-## i.e. buildCircuit(cir,size). In the first case, the number of bits
-## is the minimum number allowabled by the circuit specification.  In
-## the second, extra bits can be added above the minimum number.  
+## Used to construct a quantum circuit from a circuit descriptor. 
+## 
+## Where cir is a circuit descriptor, buildCircuit(cir) constructs the
+## circuit whose size is determined by the maximum qubit target of
+## cir. Alternatively, buildCircuit(cir,size) will construct a circuit
+## of size 'size'. All oct-circuit circuits should be constructed via
+## this function and not by explicit usage of the @circuit object
+## hierarchy constructors. See package documentation for a discussion
+## of the oct-circuit circuit descriptor syntax. 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

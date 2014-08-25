@@ -15,8 +15,8 @@
 
 ## Usage: g = @cNotGate(tar,ctrl)
 ##
-## Construct a gate object for apply CNot with target qubit number
-## tar and control qubit number ctrl
+## Constructor for a cNot gate object. Gate targets qubit number tar
+## with control qubit ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

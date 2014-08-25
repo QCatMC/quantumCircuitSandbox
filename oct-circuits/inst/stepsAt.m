@@ -15,7 +15,7 @@
 
 ## usage: t = stepsAt(cir,d)
 ##
-## Return the number of steps at depth d for the circuit cir
+## Returns the number of steps at depth d for the circuit object cir
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

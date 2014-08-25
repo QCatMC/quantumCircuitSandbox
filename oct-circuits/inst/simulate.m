@@ -15,10 +15,16 @@
 
 ## Usage: s = simulate(cir,in,d,t)
 ##
-## simulate the Circuit cir with input in. Simulation will carry out t
-## time steps with respect to depth d. Input can be given as a natural
-## number, a binary row vector, or a standard basis state.
-
+## Simulate t steps, w.r.t. nesting depth d, of the @circuit object cir on
+## input in. 
+##
+## The input argument in can be a standard basis vector, a binary row
+## vector, or a natural number. 
+##
+## When the desired number of time steps t is not given, then the
+## entire circuit will be simulated and the depth value d is optional.
+## Thus, simulate(cir,in) will carry out a simulation of the entire
+## oct-circuit. 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation

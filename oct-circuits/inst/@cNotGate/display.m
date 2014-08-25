@@ -15,7 +15,7 @@
 
 ## Usage: display(cNGate)
 ##
-## Display CNot sGate info 
+## Display CNot sGate 
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

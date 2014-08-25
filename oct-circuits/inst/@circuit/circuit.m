@@ -13,9 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = circuit(desc,n)
+## Usage: c = @circuit(seq,n)
 ##
-## construct an n qubit circuit object from a descriptor cell array
+## Users should use the buildCircuit function to construct
+## oct-circuits rather than expicitly constuct the object themselves.
+## 
+## Constructs an n qubit circuit object from a @seqNode object.
+## Statistics about nesting depth and stepts at each allowable depth
+## are computed at the time of construction  
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

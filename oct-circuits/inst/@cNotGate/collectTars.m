@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: t = collectTars(this)
+## Usage: t = collectTars(this,n)
 ##
 ## returns the target set
 

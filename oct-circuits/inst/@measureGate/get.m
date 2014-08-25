@@ -15,8 +15,7 @@
 
 ## Usage: g = get(mg, f)
 ##
-## measureGate field selector place holder text
-
+## measureGate field selector
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

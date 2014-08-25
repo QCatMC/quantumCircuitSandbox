@@ -15,7 +15,8 @@
 
 ## Usage: g = @measureGate(tars)
 ##
-## Construct a gate object for measuring the qubits listed in tars
+## Construct a gate object for measuring the qubits with indexs given
+## by the set of natural numbers tars
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

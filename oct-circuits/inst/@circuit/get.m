@@ -15,7 +15,7 @@
 
 ## Usage: s = get(cir, f)
 ##
-## circuit field selector place holder text
+## circuit field selector 
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

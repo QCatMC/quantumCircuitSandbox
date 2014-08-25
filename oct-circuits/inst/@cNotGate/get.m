@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## cNotGate field selector place holder text
+## cNotGate field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## singleGate field selector place holder text
+## singleGate field selector 
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

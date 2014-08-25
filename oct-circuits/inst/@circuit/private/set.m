@@ -15,7 +15,7 @@
 
 ## Usage: s = set(cir, varargin)
 ##
-## circuit field mutator. place holder text
+## circuit field mutator. 
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

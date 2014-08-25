@@ -15,10 +15,9 @@
 
 ## Usage: s = simulate(cir,in,d,t)
 ##
-## simulate the Circuit cir with input in. Simulation will carry out t
-## time steps with respect to depth d. Input in is a valid pure state 
-## representation of a standard basis state for |cir| qubits. 
-
+## simulate t steps, with respect to nesting depth d, of the Circuit
+## cir on input in. Input in must be a valid pure state 
+## representation of a standard basis state for the qubit space of cir.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

@@ -13,10 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: y = simulate(gate,in,bits)
+## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 ## 
-##  simulate the action of measurement  operation 'gate' on pure state
-##  'in' in an system of 'bits' number of qubits
+##  simulate the action of a @measureGate 'gate' on pure state
+##  'in' in a system of size 'bits'.  The current simulation depth is
+##  currd and dlim is the user specified simulation depth limit.
+##  Similarly, currt is the current simulation time step (w.r.t to
+##  dlim) and tlim is the user specified number of steps to simulate.
+##  The simulation returns two results, the pure state y that results
+##  from the operator and the current time step t. 
+## 
 ## 
 
 ## Author: Logan Mayfield

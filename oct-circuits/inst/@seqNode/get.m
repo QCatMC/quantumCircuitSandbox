@@ -15,7 +15,7 @@
 
 ## Usage: s = get(sn, f)
 ##
-## sequenceNode field selector place holder text
+## sequenceNode field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

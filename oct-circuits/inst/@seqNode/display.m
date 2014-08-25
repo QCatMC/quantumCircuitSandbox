@@ -15,7 +15,7 @@
 
 ## Usage: display(snode)
 ##
-## Display seqNode 
+## Display seqNode. Contained operators are indented. 
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
