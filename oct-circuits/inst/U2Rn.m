@@ -40,7 +40,7 @@ Given something else.");
   t = p(1);
   n = p(2:4);
 
-  U = e^(i*g/2)*Iop*Rn(t,n);
+  U = e^(i*g/2)*Rn(t,n);
 	 
 endfunction
 

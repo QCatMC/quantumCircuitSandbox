@@ -32,13 +32,29 @@ function p = phaseAmpParams(U,ep=0.00001)
   
   p = zeros(1,4);
   ## amplitude 
-  p(1) = acos(abs(U(1,1)));
-  ## row phase
-  p(2) = arg(-U(1,2)) - arg(U(1,1));
-  ## col phase
-  p(3) = arg(U(2,1)) - arg(U(1,1));
-  ## global phase 
-  p(4) = arg(det(U));
+  p(1) = acos(abs( U(1,1) ));
+  
+  ## non-diagonal or off-diagonal matrix
+  if( U(1,1) != 0 && U(1,2) != 0 )
+    ## row phase
+    p(2) = arg( U(2,2)*U(2,1)' );
+    ## col phase
+    p(3) = arg( U(2,1)*U(1,1)' );
+    ## global phase
+    p(4) = arg( U(1,1)*U(2,2) );
+  ##off-diagonal 
+  elseif( U(1,1) == 0 )
+    p(4) = arg( U(2,1)*-U(1,2) );
+    p(2) = 0; # let C be zero 
+    p(3) = 2*( arg(U(2,1)) - (p(4)/2) );
+  ##diagonal
+  elseif( U(1,2) == 0 )
+    p(4) = arg(U(1,1)*U(2,2));
+    p(2) = 0;
+    p(3) = 2*( arg(U(2,2)) - (p(4)/2) );
+  endif
+      
+  
 	 
 endfunction
 

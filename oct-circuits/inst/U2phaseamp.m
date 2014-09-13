@@ -44,7 +44,7 @@ Given something else.");
   U(1,1) = e^(i*(g-p(2)-p(3))/2)*cos(p(1));
   U(2,2) = e^(i*(g+p(2)+p(3))/2)*cos(p(1));
   U(2,1) = e^(i*(g+p(3)-p(2))/2)*sin(p(1));
-  U(1,2) = -e^(i*(g-p(3)+p(2))/2)*sin(p(1));
+  U(1,2) = -1*e^(i*(g-p(3)+p(2))/2)*sin(p(1));
 	 
 endfunction
 

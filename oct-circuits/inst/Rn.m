@@ -32,7 +32,8 @@ function U = Rn(t,n)
     error("Rotation axis must have unit length.");
   endif
   
-  U = e^(-i*t/2*(n(1)*X+n(2)*Y+n(3)*Z));
+  A = n(1)*X + n(2)*Y + n(3)*Z;
+  U = e^(-i*t/2*A);
 	 
 endfunction
 

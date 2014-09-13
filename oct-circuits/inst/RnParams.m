@@ -41,12 +41,20 @@ function p = RnParams(U,ep=0.00001)
   c=ph(3);
   ## angle
   p(1) = 2*acos(cos((r+c)/2)*cos(a));
-  ## nx
-  p(2) = sin((r-c)/2)*sin(a)*csc(p(1)/2);
-  ## ny
-  p(3) = cos((r-c)/2)*sin(a)*csc(p(1)/2);
-  ## nz
-  p(4) = sin((r+c)/2)*cos(a)*csc(p(1)/2);
+  
+  if( p(1) == 0 )
+    ## default to Zero rotation about z axis when no rotation occurs
+    p(2) = 0;
+    p(3) = 0;
+    p(4) = 1;
+  else
+    ## nx
+    p(2) = sin((r-c)/2)*sin(a)*csc(p(1)/2);
+    ## ny
+    p(3) = cos((r-c)/2)*sin(a)*csc(p(1)/2);
+    ## nz
+    p(4) = sin((r+c)/2)*cos(a)*csc(p(1)/2);
+  endif
 	 
 endfunction
 
