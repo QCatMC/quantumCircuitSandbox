@@ -13,6 +13,22 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## usage: Us = skalgo(U, n)
+##
+## Compute an eta(n) approximation to the unitary U using
+## the Solovay-Kitaev Algorithm. 
+## 
+
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Keywords: Operators 
+
+function Us = skalgo(U,n)
+  Us = 0;
+endfunction
+
+%!test
+%! assert(false);
+
 ## usage: [V,W] = getGroupComm(U,ep)
 ##
 ## Compute the group commutator operators V,W such that U=VWV'W'. V
@@ -57,7 +73,7 @@ endfunction
 %!test
 %! assert(false)
 
-
+## compute a similary transform S s.t. U = S'*V*S;
 function S = getSimTrans(U,V)
 	 
   S = zeros(2);
