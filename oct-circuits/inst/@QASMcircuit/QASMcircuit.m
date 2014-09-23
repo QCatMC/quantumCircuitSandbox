@@ -30,7 +30,7 @@ function c = QASMcircuit(cNode,n)
 
   if(nargin == 0 )
     c.bits = 0;
-    c.seq = @seqNode({});
+    c.seq = @QASMseq({});
     c.maxDepth = 0;
     c.stepsAt = [];
     c.tars = [];
