@@ -13,35 +13,38 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: g = get(mg, f)
 ##
-## returns true if @singleGate this is equivalent to other.
-##
+## QASMmeasure field selector
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
+function s = get(mg,f)
 
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
+  if (nargin == 1)
+    s.tar = mg.tar;
+  elseif (nargin == 2 )
+    if ( ischar(f) )
+      switch(f)
+	case "tar"
+	s = mg.tar;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
   else
-    b=false;
+      print_usage();
   endif
 
 endfunction
 
-
 %!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));
+%! a = @QASMmeasure();
+%! b = @QASMmeasure(1:3);
+%! assert([],get(a,"tar"));
+%! assert([1,2,3],get(b,"tar"));
+%! bs.tar = [1,2,3];
+%! assert(bs,get(b));

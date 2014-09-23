@@ -13,35 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## usage: b = QIASMvalidOp(OpStr)
 ##
-## returns true if @singleGate this is equivalent to other.
-##
+## Checks if OpStr is a valid operation descriptor string for QIASM and returns
+## true if it is.
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: Simulation
 
-function b = eq(this,other)
+function b = QIASMvalidOp(OpStr)
 
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
+  if( !ischar(OpStr) )
+    b = false;
   else
-    b=false;
+    if( QASMvalidOp(OpStr) )
+      b = true;
+    else
+      switch (OpStr)
+	case { "PhAmp","ZYZ","Rn" }
+	  b = true; 
+	otherwise
+	  b = false; 
+      endswitch
+    endif
   endif
 
-endfunction
-
+end
 
 %!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));
+%! assert(!validOp("dog"));
+%! assert(validOp("Y"));
+%! assert(validOp("H"));
+%! assert(validOp("X"));
+%! assert(validOp("CNot"));

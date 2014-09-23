@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = parseQASMDesc(desc)
+## Usage: C = parseQIASMDesc(desc)
 ##
 ## construct a quantum circuit by parsing a descriptor cell array.
 ## 
@@ -22,11 +22,11 @@
 ## Keywords: Circuits
 
 
-function C = parseQASMDesc(desc)
+function C = parseQIASMDesc(desc)
 
   if( iscell(desc) )
     ## all descriptors are sequences
-    C = @QASMseq(cellfun(@parseCNode,desc,"UniformOutput",false));
+    C = @QIASMseq(cellfun(@parseCNode,desc,"UniformOutput",false));
   else
     error("parse error: expecting cell array and got something different");
   endif
@@ -44,7 +44,7 @@ function C = parseCNode(cndesc)
       C = parseGate(cndesc);
     ## frist is cell. should be another seq.
     elseif( iscell(cndesc{1}) )
-      C = parseQASMDesc(cndesc);
+      C = parseQIASMDesc(cndesc);
     ## first is neither a cell nor string... that's no good.
     else
       error("parse error: expecting gate or seqence descriptor, got \
@@ -63,7 +63,7 @@ endfunction
 ## parses gate descriptors
 function C = parseGate(gDesc)
   ## Check if gate name is one of the known, able to be simulated, set
-  if( QASMvalidOp(gDesc{1}) ) 
+  if( QIASMvalidOp(gDesc{1}) ) 
     op = gDesc{1}; 
     ## single qubit op?
     if( isSingle(op) ) 
@@ -83,13 +83,14 @@ function C = parseGate(gDesc)
 
 endfunction
 
-## true if o is the name of a single qubit operator from the QASM set
+## true if o is the name of a single qubit operator from the QIASM set
 function b = isSingle(o)
   b = strcmp(o,"H") || strcmp(o,"X") || strcmp(o,"I") ...
       || strcmp(o,"Z") || strcmp(o,"S") || strcmp(o,"T") || ...
       strcmp(o,"Y") || strcmp(o,"H'") || strcmp(o,"X'")  || ...
       strcmp(o,"I'") || strcmp(o,"Z'") || strcmp(o,"S'") || ...
-      strcmp(o,"T'") || strcmp(o,"Y'");
+      strcmp(o,"T'") || strcmp(o,"Y'") || strcmp(o,"PhAmp") || ...
+      strcmp(o,"ZYZ") || strcmp(o,"Rn");
 endfunction
 
 %!test
@@ -99,13 +100,44 @@ endfunction
 function C = parseSingle(gDesc)
   op = gDesc{1};
 
-  if(length(gDesc) != 2)
-    error("parse error: too many arguments given to %s",op);
-  elseif( !isNat(gDesc{2}) )
-    error("parse error: %s target must be a natural number. Given %f.", ...
-	  op,gDesc{2});
+  if(length(gDesc) < 2 || length(gDesc) > 3 )
+    error("parse error: too many/few arguments given to %s",op);
+  endif
+
+  if(length(gDesc) == 2 )
+    if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
+      error("parse error: expecting 2 arguments for %s given 1",op);
+    elseif( !isNat(gDesc{2}) )
+      error("parse error: %s target must be a natural number. Given %f.", ...
+	    op,gDesc{2});
+    else
+      C = @QIASMsingle(op,gDesc{2});
+    endif
   else
-    C = @QASMsingle(op,gDesc{2});
+    if( !strcmp(op,"PhAmp") && !strcmp(op,"Rn") && !strcmp(op,"ZYZ") )
+      error("parse error: expecting 1 arguments for %s given 2",op);
+    elseif( !isNat(gDesc{3}) )
+      error("parse error: %s target must be a natural number. Given %f.", ...
+	    op,gDesc{2});
+    else
+      ## Error check params gDesc{2}
+      switch(op)
+	case {"PhAmp","ZYZ"}
+	  if(!isreal(gDesc{2}) || (!isequal(size(gDesc{2}),[1,3]) &&
+				   ...
+				   !isequal(size(gDesc{2}),[1,4])))
+	    error("parse error: parameter mismatch for %s",op);
+	  endif
+	case "Rn"
+	  if(!isReal(gDesc{2}) || (!isequal(size(gDesc{2}),[1,4]) &&
+				   ...
+				   !isequal(size(gDesc{2}),[1,5])))
+	    error("parse error: parameter mismatch for %s",op);
+	  endif
+      endswitch
+
+      C = @QIASMsingle(op,gDesc{3},gDesc{2});
+    endif
   endif
 
 endfunction
@@ -124,7 +156,7 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
   elseif( gDesc{2} == gDesc{3} )
     error("parse error: CNot target and control cannot be the same.");
   else
-    C = @QASMcNot(gDesc{2},gDesc{3});
+    C = @QIASMcNot(gDesc{2},gDesc{3});
   endif
 
 endfunction
@@ -149,7 +181,7 @@ numbers");
     elseif( length(unique(gDesc{2})) != length(gDesc{2}) )
       error("parse error: Measurement targets must be unique.");
     else
-      C = @QASMmeasure(gDesc{2});
+      C = @QIASMmeasure(gDesc{2});
     endif
   endif
 

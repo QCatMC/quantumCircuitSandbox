@@ -13,35 +13,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: g = @QIASMseq(cirList)
 ##
-## returns true if @singleGate this is equivalent to other.
-##
+## Construct a QIASMseq node where cirList is a cell array of @QIASMsingle, 
+## @QIASMcNot, and @QIASMseq.  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
+function s = QIASMseq(cirList)
 
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
+  if( nargin == 0 )
+    s.seq = {};	 
   else
-    b=false;
-  endif
+    s.seq = cirList;
+  endif  
+  s = class(s,"QIASMseq");
 
 endfunction
-
-
-%!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));

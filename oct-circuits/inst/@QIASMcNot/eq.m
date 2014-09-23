@@ -15,19 +15,19 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @singleGate this is equivalent to other.
+## returns true if @QASMcNot this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIASM
  
 
 function b = eq(this,other)
 
   b=false;
-  if( !isa(other,"QASMsingle") )
+  if( !isa(other,"QIASMcNot") )
     b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
+  elseif( eq(this.ctrl,get(other,"ctrl")) && ...
 	  eq(this.tar,get(other,"tar")) )
     b=true; 
   else
@@ -38,10 +38,11 @@ endfunction
 
 
 %!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
+%! a = @QIASMcNot(1,2);
+%! b = @QIASMcNot(2,1);
+%! c = @QIASMcNot(1,2);
+%! d = @QIASMcNot(3,4);
 %! assert(eq(a,a));
 %! assert(eq(a,c));
 %! assert(!eq(a,b));
+%! assert(!eq(a,d));

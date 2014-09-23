@@ -13,35 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = validOp(OpStr)
+## Usage: g = @QIASMmeasure(tars)
 ##
-## Checks if OpStr is a valid operation descriptor string and returns
-## true if it is.
-## 
+## Construct a gate object for measuring the qubits with indexs given
+## by the set of natural numbers tars
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIASM
 
-function b = validOp(OpStr)
 
-  if( !ischar(OpStr) )
-    b = false;
+function g = QASMmeasure(tars)
+
+  if( nargin == 0)
+    g.tar = [];
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    g.tar = tars;
   endif
+  g = class(g,"QIASMmeasure");
 
-end
-
-%!test
-%! assert(!validOp("dog"));
-%! assert(validOp("Y"));
-%! assert(validOp("H"));
-%! assert(validOp("X"));
-%! assert(validOp("CNot"));
+endfunction

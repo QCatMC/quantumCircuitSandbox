@@ -19,16 +19,17 @@
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIASM
  
 
 function b = eq(this,other)
 
   b=false;
-  if( !isa(other,"QASMsingle") )
+  if( !isa(other,"QIASMsingle") )
     b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
+  elseif( strcmp(this.name,get(other,"name")) && ...
+	  isequal(this.tar,get(other,"tar")) && ...
+	  isequal(this.params,get(other,"params")) )
     b=true; 
   else
     b=false;
@@ -39,9 +40,9 @@ endfunction
 
 %!test
 %! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
+%! a = @QIASMsingle("H",2);
+%! b = @QIASMsingle("H",1);
+%! c = @QIASMsingle("H",2);
 %! assert(eq(a,a));
 %! assert(eq(a,c));
 %! assert(!eq(a,b));

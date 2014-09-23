@@ -13,35 +13,50 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: g = get(sg, f)
 ##
-## returns true if @singleGate this is equivalent to other.
-##
+## QIASMsingle field selector 
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
+function s = get(sg,f)
 
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
+  if (nargin == 1)
+    s.name = sg.name;
+    s.tar = sg.tar;
+    s.params = sg.params;
+  elseif (nargin == 2)
+    if ( ischar(f) )
+      switch(f)
+	case "name"
+	  s = sg.name;
+	case "tar"
+	  s = sg.tar;
+	case "params"
+	  s= sg.params;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
   else
-    b=false;
+      print_usage();
   endif
 
 endfunction
 
-
 %!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));
+%! a = @QIASMsingle("X",0);
+%! b = @QIASMsingle("H",1);
+%! c = @QIASMsingle("Z",2);
+%! assert(get(a,"tar"),0);
+%! assert(get(b,"tar"),1);
+%! assert(get(c,"tar"),2);
+%! assert(get(c,"name"),"Z");
+%! assert(get(a,"name"),"X");
+%! as.name = "X";
+%! as.tar = 0;
+%! assert(get(a),as);

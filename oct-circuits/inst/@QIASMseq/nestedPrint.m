@@ -13,35 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: nestedPrint(snode,dep)
 ##
-## returns true if @singleGate this is equivalent to other.
+## Display seqNode with indentation
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
-  else
-    b=false;
-  endif
+function nestedPrint(snode,dep)
+  pad = blanks(dep*3);
+  fprintf ("%s{\n",pad);
+  for k = [1:length(snode.seq)];
+    nestedPrint(snode.seq{k},dep+1);
+  endfor
+  fprintf ("%s}\n",pad);
 
 endfunction
-
-
-%!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));

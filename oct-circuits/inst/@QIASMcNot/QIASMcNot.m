@@ -13,35 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: g = @QIASMcNot(tar,ctrl)
 ##
-## returns true if @singleGate this is equivalent to other.
-##
+## Constructor for a QIASM cNot gate object. Gate targets qubit number tar
+## with control qubit ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
+function g = QIASMcNot(tar,ctrl)
 
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
+  if( nargin == 0 )
+    ## default to a bad gate (ctrl == tar)
+    g.tar = 0
+    g.ctrl = 0;
   else
-    b=false;
+    g.ctrl = ctrl;
+    g.tar = tar;
   endif
-
+  g = class(g,"QIASMcNot");
 endfunction
-
-
-%!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));

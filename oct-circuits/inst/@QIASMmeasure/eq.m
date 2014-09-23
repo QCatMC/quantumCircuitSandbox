@@ -15,20 +15,19 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @singleGate this is equivalent to other.
+## returns true if @QASMmeasure this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIASM
  
 
 function b = eq(this,other)
 
   b=false;
-  if( !isa(other,"QASMsingle") )
+  if( !isa(other,"QIASMmeasure") )
     b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
+  elseif( isequal(this.tar,get(other,"tar")) )
     b=true; 
   else
     b=false;
@@ -38,10 +37,13 @@ endfunction
 
 
 %!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
+%! a = @QIASMmeasure();
+%! b = @QIASMmeasure(0:3);
+%! c = @QIASMmeasure(0:3);
+%! d = @QIASMmeasure(1:3);
+%! assert(eq(b,b));
+%! assert(eq(b,c));
+%! assert(!eq(b,d));
 %! assert(eq(a,a));
-%! assert(eq(a,c));
 %! assert(!eq(a,b));
+%! assert(eq(a,@QIASMmeasure()));

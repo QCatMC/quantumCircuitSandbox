@@ -13,35 +13,35 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: c = @QIASMcircuit(seq,n)
 ##
-## returns true if @singleGate this is equivalent to other.
-##
+## Users should use the buildQIASMCircuit function to construct
+## oct-circuits rather than expicitly constuct the object themselves.
+## 
+## Constructs an n qubit circuit object from a @QIASMseq object.
+## Statistics about nesting depth and stepts at each allowable depth
+## are computed at the time of construction  
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
+function c = QIASMcircuit(cNode,n)
 
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
-  else
-    b=false;
+  if(nargin == 0 )
+    c.bits = 0;
+    c.seq = @QIASMseq({});
+  elseif(nargin == 1 || nargin == 2)
+    c.bits = 0;
+    c.seq = cNode;
+    if( nargin == 2 )
+      c.bits = n;
+    else
+      c.bits = 1+max(collectTars(c.seq));
+    endif
   endif
+  c = class(c,"QIASMcircuit");
 
 endfunction
 
 
-%!test
-%! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
-%! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));

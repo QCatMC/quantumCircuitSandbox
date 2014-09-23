@@ -15,33 +15,35 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @singleGate this is equivalent to other.
+## returns true if @QIASMseq this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
- 
+## Keywords: QIASM
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
-  else
-    b=false;
+  b = false;
+  if( isa(other,"QIASMseq") )
+    othseq = get(other,"seq");
+    if( length(this.seq) == length(othseq) )
+      eqvals = cellfun(@eq,this.seq,get(other,"seq"));
+      if( sum(eqvals) == length(this.seq) )
+	b = true;
+      endif
+    endif
   endif
-
 endfunction
 
 
 %!test
 %! assert(false);
-%! a = @QASMsingle("H",2);
-%! b = @QASMsingle("H",1);
-%! c = @QASMsingle("H",2);
+%! a = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1)});
+%! b = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1)});
+%! c = @seqNode({@QIASMsingle("H",1)});
+%! d = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1),@seqNode({@QIASMmeasure()})});
+%! e = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1),@seqNode({@QIASMmeasure()})});
 %! assert(eq(a,a));
-%! assert(eq(a,c));
-%! assert(!eq(a,b));
+%! assert(eq(a,b));
+%! assert(eq(d,e));
+%! assert(!eq(a,c));
+%! assert(!eq(a,d));

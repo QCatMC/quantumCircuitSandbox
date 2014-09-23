@@ -13,41 +13,40 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(sg, f)
+## Usage: s = set(cir, varargin)
 ##
-## QASMcNot field selector
+## circuit field mutator. 
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIASM
 
-function s = get(cng,f)
-
-  if (nargin == 1)
-    s.tar = cng.tar;
-    s.ctrl = cng.ctrl;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	  s = cng.tar;
-	case "ctrl"
-	  s = cng.ctrl;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-      print_usage();
+function s = set(cir,varargin)
+  s = cir;
+  if (length (varargin) < 2 || rem (length (varargin), 2) != 0)
+    error ("set: expecting property/value pairs");
   endif
 
-endfunction
+  while (length (varargin) > 1)
+    prop = varargin{1};
+    val = varargin{2};
+    varargin(1:2) = [];
+    if (ischar (prop) )
+       switch(prop)
+	 case "bits"
+	   if(isNat(val))
+	     s.bits = val;
+	   else
+	     error("Number of bits must be a natural number.");
+	   endif
+	 otherwise
+	   error("Property not currently mutable");
+       endswitch
+    else
+      error("Expecting property to be a string. Given something else.");
+    endif
 
-%!test
-%! a = @QASMcNot(0,1);
-%! as.tar = 0; as.ctrl =1;
-%! assert(get(a),as);
-%! assert(get(a,"tar"),0);
-%! assert(get(a,"ctrl"),1);
+  endwhile
+
+
+endfunction
