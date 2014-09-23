@@ -15,11 +15,11 @@
 
 ## Usage: display(snode)
 ##
-## Display seqNode. Contained operators are indented. 
+## Display QASMseq node. Contained operators are indented. 
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function display(snode)
   if( !strcmp(inputname(1),"") ) 

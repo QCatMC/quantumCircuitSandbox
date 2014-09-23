@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## cNotGate field selector
+## QASMcNot field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -46,7 +46,7 @@ function s = get(cng,f)
 endfunction
 
 %!test
-%! a = @cNotGate(0,1);
+%! a = @QASMcNot(0,1);
 %! as.tar = 0; as.ctrl =1;
 %! assert(get(a),as);
 %! assert(get(a,"tar"),0);

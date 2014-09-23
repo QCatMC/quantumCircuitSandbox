@@ -15,7 +15,7 @@
 
 ## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 ## 
-##  simulate the action of a @cNotgate 'gate' on pure state
+##  simulate the action of a @QASMcNot 'gate' on pure state
 ##  'in' in a system of size 'bits'.  The current simulation depth is
 ##  currd and dlim is the user specified simulation depth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
@@ -25,7 +25,7 @@
 ## 
 
 ## Author: Logan Mayfield
-## Keyword: Circuits
+## Keyword: QASM
 
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)

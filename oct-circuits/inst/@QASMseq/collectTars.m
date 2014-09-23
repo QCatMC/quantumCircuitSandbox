@@ -20,7 +20,7 @@
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function t = collectTars(this)
 

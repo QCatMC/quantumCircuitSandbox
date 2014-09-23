@@ -6,7 +6,7 @@ Maintainer: James Logan Mayfield
 Title: Quantum Circuit simulation and analysis in Octave.
 Description: Functions for describing, synthesizing, and simulating
  quantum circuits. 
-Categories: Simulation, Circuits, Operators, States, Misc
+Categories: Simulation, Circuits, Operators, States, Misc, QASM
 Url: https://github.com/jlmayfield/octaveCircuits
 
 

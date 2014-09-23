@@ -15,11 +15,11 @@
 
 ## Usage: g = @QASMcNot(tar,ctrl)
 ##
-## Constructor for a cNot gate object. Gate targets qubit number tar
+## Constructor for a QASM cNot gate object. Gate targets qubit number tar
 ## with control qubit ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function g = QASMcNot(tar,ctrl)
 

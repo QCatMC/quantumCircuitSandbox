@@ -15,11 +15,11 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @seqNode this is equivalent to other.
+## returns true if @QASMseq this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function b = eq(this,other)
   b = false;
@@ -37,11 +37,11 @@ endfunction
 
 %!test
 %! assert(false);
-%! a = @seqNode({@singleGate("H",1),@cNotGate(0,1)});
-%! b = @seqNode({@singleGate("H",1),@cNotGate(0,1)});
-%! c = @seqNode({@singleGate("H",1)});
-%! d = @seqNode({@singleGate("H",1),@cNotGate(0,1),@seqNode({@measureGate()})});
-%! e = @seqNode({@singleGate("H",1),@cNotGate(0,1),@seqNode({@measureGate()})});
+%! a = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1)});
+%! b = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1)});
+%! c = @seqNode({@QASMsingle("H",1)});
+%! d = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1),@seqNode({@QASMmeasure()})});
+%! e = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1),@seqNode({@QASMmeasure()})});
 %! assert(eq(a,a));
 %! assert(eq(a,b));
 %! assert(eq(d,e));

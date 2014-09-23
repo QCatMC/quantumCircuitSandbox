@@ -13,18 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = @circuit(seq,n)
+## Usage: c = @QASMcircuit(seq,n)
 ##
-## Users should use the buildCircuit function to construct
+## Users should use the buildQASMCircuit function to construct
 ## oct-circuits rather than expicitly constuct the object themselves.
 ## 
-## Constructs an n qubit circuit object from a @seqNode object.
+## Constructs an n qubit circuit object from a @QASMseq object.
 ## Statistics about nesting depth and stepts at each allowable depth
 ## are computed at the time of construction  
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function c = QASMcircuit(cNode,n)
 

@@ -16,7 +16,8 @@
 ## usage: eta = operr(U,V)
 ##
 ## Compute the error, or distance, between V and U where V and U are
-## both n qubit operators. a.k.a d(U,V) or E(U,V). 
+## both n qubit operators. a.k.a d(U,V) or E(U,V). This is the
+## operator norm of the difference, || U-V ||.
 ##
 ## 
 

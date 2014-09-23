@@ -15,11 +15,11 @@
 
 ## Usage: g = @QASMseq(cirList)
 ##
-## Construct a seqNode where cirList is a cell array of @singleGate, 
-## @cNotGate, and @seqNodes.  
+## Construct a QASMseq node where cirList is a cell array of @QASMsingle, 
+## @QASMcNot, and @QASMseq.  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function s = QASMseq(cirList)
 

@@ -83,7 +83,7 @@ function C = parseGate(gDesc)
 
 endfunction
 
-## true if o is the name of a single qubit operator
+## true if o is the name of a single qubit operator from the QASM set
 function b = isSingle(o)
   b = strcmp(o,"H") || strcmp(o,"X") || strcmp(o,"I") ...
       || strcmp(o,"Z") || strcmp(o,"S") || strcmp(o,"T") || ...
@@ -156,13 +156,5 @@ numbers");
 endfunction
 
 %!test
-%! gates = ["I","X","Y","Z","S","T","H"];
-%! for k = 1:length(gates)
-%!   res = parseGate({gates(k),2});
-%!   assert(isa(res,"singleGate"));
-%! endfor 
-%!
-%! assert(isa(parseGate({"CNot",2,0}),"cNotGate"));
-%! assert(isa(parseGate({"Measure"}),"measureGate"));
-%! assert(isa(parseGate({"Measure",0:3}),"measureGate"));
+%! assert(false);
 

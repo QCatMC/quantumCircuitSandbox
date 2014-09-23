@@ -15,11 +15,11 @@
 
 ## Usage: s = get(sn, f)
 ##
-## sequenceNode field selector
+## QASMseq field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function s = get(sn,f)
 

@@ -15,11 +15,11 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true of @cNotGate this is equivalent to other.
+## returns true if @QASMcNot this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
  
 
 function b = eq(this,other)

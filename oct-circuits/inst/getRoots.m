@@ -15,16 +15,18 @@
 
 ## usage: Us = getRoots(U)
 ##
-## Compute the 4 square roots of 2x2 matrix U.
+## Compute the 4 square roots of 2x2 Unitary matrix U.
 ##  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
-function Us = getRoots(U)
+function Us = getRoots(U,ep=0.00001)
   
   if(!isequal(size(U),[2,2]) )
     error("Operator size mismatch. Must be 2x2.");
+  elseif( operr(U*U',Iop) > ep )
+    error("Operator does not appear to be unitary");
   endif
 
   Us = zeros(2,2,4);

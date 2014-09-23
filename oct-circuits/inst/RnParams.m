@@ -16,7 +16,8 @@
 ## usage: p = RnParams(U,ep)
 ##
 ## Compute the Rn parameters for an arbitrary operator
-## from U(2). The parameter ep is the threshold for "Unitariness".  
+## from U(2). The parameter ep is the threshold for "Unitariness" and
+## defaults. to 10^(-6).
 ##  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

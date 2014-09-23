@@ -20,7 +20,7 @@
 ## representation of a standard basis state for the qubit space of cir.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function s = sim(cir,in,d,t)
 

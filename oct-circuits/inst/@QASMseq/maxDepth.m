@@ -20,7 +20,7 @@
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu> 
-## Keywords: Circuits
+## Keywords: QASM
 
 function d = maxDepth(g)
   childMax = cellfun(@maxDepth,g.seq);  
@@ -28,10 +28,10 @@ function d = maxDepth(g)
 endfunction
 
 %!test
-%! a = @seqNode({@singleGate("X",1)});
-%! b = @seqNode({@cNotGate(3,5),a});
-%! c = @seqNode({b,a,b,@measureGate()});
+%! a = @QASMseq({@QASMsingle("X",1)});
+%! b = @QASMseq({@QASMcNot(3,5),a});
+%! c = @QASMseq({b,a,b,@QASMmeasure()});
 %! assert(maxDepth(a),1);
 %! assert(maxDepth(b),2);
 %! assert(maxDepth(c),3);
-%! assert(maxDepth(@seqNode({}),1));
+%! assert(maxDepth(@QASMseq({}),1));

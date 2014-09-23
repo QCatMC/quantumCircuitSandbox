@@ -15,15 +15,14 @@
 
 ## Usage: C = buildQASMcircuit(args)
 ##
-## Used to construct a quantum circuit from a circuit descriptor. 
+## Used to construct a QASM quantum circuit object from a circuit descriptor. 
 ## 
-## Where cir is a circuit descriptor, buildCircuit(cir) constructs the
+## Where cir is a circuit descriptor, buildQASMCircuit(cir) constructs the
 ## circuit whose size is determined by the maximum qubit target of
-## cir. Alternatively, buildCircuit(cir,size) will construct a circuit
+## cir. Alternatively, buildQASMCircuit(cir,size) will construct a circuit
 ## of size 'size'. All oct-circuit circuits should be constructed via
-## this function and not by explicit usage of the @circuit object
-## hierarchy constructors. See package documentation for a discussion
-## of the oct-circuit circuit descriptor syntax. 
+## this function and not by explicit usage of the @QASMcircuit object
+## hierarchy constructors. 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
@@ -57,6 +56,4 @@ function C = buildQASMcircuit( varargin )
 endfunction
 
 %!test
-%! d = {{{"H",1},{"H",0}},{"CNot",1,0},{"H",1},{"Measure",0:1}};
-%! C1 = buildCircuit(d);
-%! assert(true);
+%! assert(false);

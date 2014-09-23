@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Ry(t)
+## usage: U = Rx(t)
 ##
 ## Compute a 2x2 Unitary for rotating t radians about the x axis of
 ## the Bloch sphere. 

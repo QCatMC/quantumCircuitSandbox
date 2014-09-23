@@ -18,7 +18,7 @@
 ## Display function for circuit objects. 
 ##
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function display(cir)
 

@@ -15,7 +15,7 @@
 
 ## Usage: s = simulate(cir,in,d,t)
 ##
-## Simulate t steps, w.r.t. nesting depth d, of the @circuit object cir on
+## Simulate t steps, w.r.t. nesting depth d, of the @QASMcircuit object cir on
 ## input in. 
 ##
 ## The input argument in can be a standard basis vector, a binary row

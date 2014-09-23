@@ -15,8 +15,7 @@
 
 ## usage: U = getOp(OpStr)
 ##
-## Parses Operation Descriptor and returns the qubit operation matrix
-## 
+## Convert from operator name to matrix
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation

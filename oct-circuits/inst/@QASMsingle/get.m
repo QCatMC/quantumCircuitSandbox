@@ -19,7 +19,7 @@
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function s = get(sg,f)
 

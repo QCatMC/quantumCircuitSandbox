@@ -19,7 +19,7 @@
 ## tar
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
 
 function g = QASMsingle(name,tar)
 

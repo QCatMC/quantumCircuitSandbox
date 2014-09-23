@@ -15,11 +15,11 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @measureGate this is equivalent to other.
+## returns true if @QASMmeasure this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Circuits
+## Keywords: QASM
  
 
 function b = eq(this,other)
@@ -37,13 +37,13 @@ endfunction
 
 
 %!test
-%! a = @measureGate();
-%! b = @measureGate(0:3);
-%! c = @measureGate(0:3);
-%! d = @measureGate(1:3);
+%! a = @QASMmeasure();
+%! b = @QASMmeasure(0:3);
+%! c = @QASMmeasure(0:3);
+%! d = @QASMmeasure(1:3);
 %! assert(eq(b,b));
 %! assert(eq(b,c));
 %! assert(!eq(b,d));
 %! assert(eq(a,a));
 %! assert(!eq(a,b));
-%! assert(eq(a,@measureGate()));
+%! assert(eq(a,@QASMmeasure()));

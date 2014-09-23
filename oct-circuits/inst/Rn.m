@@ -15,7 +15,7 @@
 
 ## usage: U = Rn(t,n)
 ##
-## Compute a 2x2 Unitary for rotating t radians about the vector (n1,n2,n3) of
+## Compute a 2x2 Unitary for rotating t radians about the axis (n1,n2,n3) on
 ## the Bloch sphere. 
 ##  
 
