@@ -31,8 +31,8 @@
 
 function s = simulate(cir,in,d=1,t=-1)
   
-  if( !isa(cir,"circuit") ) 
-    error("simulate: First argument must be a circuit.");
+  if( !isa(cir,"QASMcircuit") ) 
+    error("simulate: First argument must be a QASM circuit.");
   endif
   
   if( d < 1 || floor(d)!=ceil(d) )
