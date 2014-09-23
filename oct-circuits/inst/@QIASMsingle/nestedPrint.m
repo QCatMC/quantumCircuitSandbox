@@ -27,8 +27,8 @@ function nestedPrint(sGate,dep)
   op=sGate.name;
   if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
     fprintf("\"%s(",op);
-    fprintf("%d,",sGate.params(1:(length(sGate.params)-1)));
-    fprintf("%d)\"",sGate.params( length(sGate.params) ));
+    fprintf("%.3f,",sGate.params(1:(length(sGate.params)-1)));
+    fprintf("%.3f)\"",sGate.params( length(sGate.params) ));
   else
     fprintf ("\"%s\"",op);
   endif

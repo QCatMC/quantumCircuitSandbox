@@ -31,7 +31,7 @@ function g = QIASMsingle(name,tar,params=[])
   else
     g.name = name;
     g.tar = tar;
-    g.params = [];
+    g.params = params;
   endif
   g = class(g,"QIASMsingle");
 
