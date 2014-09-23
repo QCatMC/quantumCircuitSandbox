@@ -13,25 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @cNotGate(tar,ctrl)
+## Usage: b = eq(this,other)
 ##
-## Constructor for a cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## returns true if @measureGate this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
+ 
 
-function g = cNotGate(tar,ctrl)
+function b = eq(this,other)
 
-  if( nargin == 0 )
-    ## default to a bad gate (ctrl == tar)
-    g.tar = 0
-    g.ctrl = 0;
-    g = class(g,"cNotGate");
+  b=false;
+  if( !isa(other,"QASMmeasure") )
+    b=false;
+  elseif( isequal(this.tar,get(other,"tar")) )
+    b=true; 
   else
-    g.ctrl = ctrl;
-    g.tar = tar;
-    g = class(g,"cNotGate");
+    b=false;
   endif
 
 endfunction
+
+
+%!test
+%! a = @measureGate();
+%! b = @measureGate(0:3);
+%! c = @measureGate(0:3);
+%! d = @measureGate(1:3);
+%! assert(eq(b,b));
+%! assert(eq(b,c));
+%! assert(!eq(b,d));
+%! assert(eq(a,a));
+%! assert(!eq(a,b));
+%! assert(eq(a,@measureGate()));

@@ -13,22 +13,24 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @seqNode(cirList)
+## Usage: g = @QASMsingle(name,tar)
 ##
-## Construct a seqNode where cirList is a cell array of @singleGate, 
-## @cNotGate, and @seqNodes.  
+## Construct a gate object for apply 'name' gate to target qubit number
+## tar
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = seqNode(cirList)
+function g = QASMsingle(name,tar)
 
   if( nargin == 0 )
-    s.seq = {};	 
-    s = class(s,"seqNode");
+    ## default to Identity on qubit 0
+    g.name = "I";
+    g.tar = 0;
   else
-    s.seq = cirList;
-    s = class(s,"seqNode");
-  endif  
+    g.name = name;
+    g.tar = tar;
+  endif
+  g = class(g,"QASMsingle");
 
 endfunction

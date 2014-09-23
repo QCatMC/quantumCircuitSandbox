@@ -15,7 +15,7 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @singleGate this is equivalent to other.
+## returns true of @cNotGate this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -25,9 +25,9 @@
 function b = eq(this,other)
 
   b=false;
-  if( !isa(other,"singleGate") )
+  if( !isa(other,"QASMcNot") )
     b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
+  elseif( eq(this.ctrl,get(other,"ctrl")) && ...
 	  eq(this.tar,get(other,"tar")) )
     b=true; 
   else
@@ -38,9 +38,11 @@ endfunction
 
 
 %!test
-%! a = @singleGate("H",2);
-%! b = @singleGate("H",1);
-%! c = @singleGate("H",2);
+%! a = @QASMcNot(1,2);
+%! b = @QASMcNot(2,1);
+%! c = @QASMcNot(1,2);
+%! d = @QASMcNot(3,4);
 %! assert(eq(a,a));
 %! assert(eq(a,c));
 %! assert(!eq(a,b));
+%! assert(!eq(a,d));

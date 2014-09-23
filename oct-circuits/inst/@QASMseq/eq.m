@@ -13,41 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = @circuit(seq,n)
+## Usage: b = eq(this,other)
 ##
-## Users should use the buildCircuit function to construct
-## oct-circuits rather than expicitly constuct the object themselves.
-## 
-## Constructs an n qubit circuit object from a @seqNode object.
-## Statistics about nesting depth and stepts at each allowable depth
-## are computed at the time of construction  
-## 
+## returns true if @seqNode this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function c = circuit(cNode,n)
-
-  if(nargin == 0 )
-    c.bits = 0;
-    c.seq = @seqNode({});
-    c.maxDepth = 0;
-    c.stepsAt = [];
-    c.tars = [];
-  elseif(nargin == 1 || nargin == 2)
-    c.bits = 0;
-    c.seq = cNode;
-    c.maxDepth = maxDepth(c.seq);
-    c.tars = collectTars(c.seq);
-    c.stepsAt = arrayfun( @(d) stepsAt(c.seq,d), 1:c.maxDepth);        
-    if( nargin == 2 )
-      c.bits = n;
-    else
-      c.bits = 1+max(c.tars);
+function b = eq(this,other)
+  b = false;
+  if( isa(other,"QASMseq") )
+    othseq = get(other,"seq");
+    if( length(this.seq) == length(othseq) )
+      eqvals = cellfun(@eq,this.seq,get(other,"seq"));
+      if( sum(eqvals) == length(this.seq) )
+	b = true;
+      endif
     endif
   endif
-  c = class(c,"circuit");
-
 endfunction
 
 
+%!test
+%! assert(false);
+%! a = @seqNode({@singleGate("H",1),@cNotGate(0,1)});
+%! b = @seqNode({@singleGate("H",1),@cNotGate(0,1)});
+%! c = @seqNode({@singleGate("H",1)});
+%! d = @seqNode({@singleGate("H",1),@cNotGate(0,1),@seqNode({@measureGate()})});
+%! e = @seqNode({@singleGate("H",1),@cNotGate(0,1),@seqNode({@measureGate()})});
+%! assert(eq(a,a));
+%! assert(eq(a,b));
+%! assert(eq(d,e));
+%! assert(!eq(a,c));
+%! assert(!eq(a,d));

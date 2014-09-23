@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = buildCircuit(args)
+## Usage: C = buildQASMcircuit(args)
 ##
 ## Used to construct a quantum circuit from a circuit descriptor. 
 ## 
@@ -28,7 +28,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function C = buildCircuit( varargin )
+function C = buildQASMcircuit( varargin )
 
   nargs = length( varargin );
 
@@ -36,7 +36,7 @@ function C = buildCircuit( varargin )
   if( nargs <= 2 && iscell(varargin{1}) )
     ## build circuit with size inferred from targets
     cir = parseDescriptor(varargin{1});
-    C = @circuit(cir);
+    C = @QASMcircuit(cir);
     ## 2 arg case 1: Descriptor + number of bits
     if( nargs == 2 )
       ## check size

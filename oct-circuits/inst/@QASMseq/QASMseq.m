@@ -13,37 +13,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: g = @QASMseq(cirList)
 ##
-## returns true if @measureGate this is equivalent to other.
-##
+## Construct a seqNode where cirList is a cell array of @singleGate, 
+## @cNotGate, and @seqNodes.  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
- 
 
-function b = eq(this,other)
+function s = @QASMseq(cirList)
 
-  b=false;
-  if( !isa(other,"measureGate") )
-    b=false;
-  elseif( isequal(this.tar,get(other,"tar")) )
-    b=true; 
+  if( nargin == 0 )
+    s.seq = {};	 
   else
-    b=false;
-  endif
+    s.seq = cirList;
+  endif  
+  s = class(s,"QASMseq");
 
 endfunction
-
-
-%!test
-%! a = @measureGate();
-%! b = @measureGate(0:3);
-%! c = @measureGate(0:3);
-%! d = @measureGate(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
-%! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@measureGate()));

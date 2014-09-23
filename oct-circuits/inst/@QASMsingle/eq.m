@@ -13,23 +13,35 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @measureGate(tars)
+## Usage: b = eq(this,other)
 ##
-## Construct a gate object for measuring the qubits with indexs given
-## by the set of natural numbers tars
+## returns true if @singleGate this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
+ 
 
+function b = eq(this,other)
 
-function g = measureGate(tars)
-
-  if( nargin == 0)
-    g.tar = [];
+  b=false;
+  if( !isa(other,"QASMsingle") )
+    b=false;
+  elseif( eq(this.name,get(other,"name")) && ...
+	  eq(this.tar,get(other,"tar")) )
+    b=true; 
   else
-    g.tar = tars;
+    b=false;
   endif
-  g = class(g,"measureGate");
 
 endfunction
+
+
+%!test
+%! assert(false);
+%! a = @singleGate("H",2);
+%! b = @singleGate("H",1);
+%! c = @singleGate("H",2);
+%! assert(eq(a,a));
+%! assert(eq(a,c));
+%! assert(!eq(a,b));

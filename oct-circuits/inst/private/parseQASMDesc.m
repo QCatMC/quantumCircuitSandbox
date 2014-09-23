@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = parseDescriptor(desc)
+## Usage: C = parseQASMDesc(desc)
 ##
 ## construct a quantum circuit by parsing a descriptor cell array.
 ## 
@@ -22,11 +22,11 @@
 ## Keywords: Circuits
 
 
-function C = parseDescriptor(desc)
+function C = parseQASMDesc(desc)
 
   if( iscell(desc) )
     ## all descriptors are sequences
-    C = @seqNode(cellfun(@parseCNode,desc,"UniformOutput",false));
+    C = @QASMseq(cellfun(@parseCNode,desc,"UniformOutput",false));
   else
     error("parse error: expecting cell array and got something different");
   endif
@@ -86,7 +86,10 @@ endfunction
 ## true if o is the name of a single qubit operator
 function b = isSingle(o)
   b = strcmp(o,"H") || strcmp(o,"X") || strcmp(o,"I") ...
-      || strcmp(o,"Z") || strcmp(o,"S") || strcmp(o,"T") || strcmp(o,"Y");
+      || strcmp(o,"Z") || strcmp(o,"S") || strcmp(o,"T") || ...
+      strcmp(o,"Y") || strcmp(o,"H'") || strcmp(o,"X'")  || ...
+      strcmp(o,"I'") || strcmp(o,"Z'") || strcmp(o,"S'") || ...
+      strcmp(o,"T'") || strcmp(o,"Y'");
 endfunction
 
 %!test
@@ -102,7 +105,7 @@ function C = parseSingle(gDesc)
     error("parse error: %s target must be a natural number. Given %f.", ...
 	  op,gDesc{2});
   else
-    C = @singleGate(op,gDesc{2});
+    C = @QASMsingle(op,gDesc{2});
   endif
 
 endfunction
@@ -121,7 +124,7 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
   elseif( gDesc{2} == gDesc{3} )
     error("parse error: CNot target and control cannot be the same.");
   else
-    C = @cNotGate(gDesc{2},gDesc{3});
+    C = @QASMcNot(gDesc{2},gDesc{3});
   endif
 
 endfunction
@@ -146,7 +149,7 @@ numbers");
     elseif( length(unique(gDesc{2})) != length(gDesc{2}) )
       error("parse error: Measurement targets must be unique.");
     else
-      C = @measureGate(gDesc{2});
+      C = @QASMmeasure(gDesc{2});
     endif
   endif
 

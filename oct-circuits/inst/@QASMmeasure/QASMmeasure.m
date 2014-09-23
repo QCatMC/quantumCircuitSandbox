@@ -13,25 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @singleGate(name,tar)
+## Usage: g = @QASMmeasure(tars)
 ##
-## Construct a gate object for apply 'name' gate to target qubit number
-## tar
+## Construct a gate object for measuring the qubits with indexs given
+## by the set of natural numbers tars
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function g = singleGate(name,tar)
 
-  if( nargin == 0 )
-    ## default to Identity on qubit 0
-    g.name = "I";
-    g.tar = 0;
-    g = class(g,"singleGate");
+function g = QASMmeasure(tars)
+
+  if( nargin == 0)
+    g.tar = [];
   else
-    g.name = name;
-    g.tar = tar;
-    g = class(g,"singleGate");
+    g.tar = tars;
   endif
+  g = class(g,"QASMmeasure");
 
 endfunction
