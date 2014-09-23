@@ -21,7 +21,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function s = @QASMseq(cirList)
+function s = QASMseq(cirList)
 
   if( nargin == 0 )
     s.seq = {};	 

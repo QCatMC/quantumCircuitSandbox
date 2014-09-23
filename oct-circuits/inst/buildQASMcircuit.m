@@ -35,7 +35,7 @@ function C = buildQASMcircuit( varargin )
   ## 1-2 arg --> Descriptor only or Descriptor+Size
   if( nargs <= 2 && iscell(varargin{1}) )
     ## build circuit with size inferred from targets
-    cir = parseDescriptor(varargin{1});
+    cir = parseQASMDesc(varargin{1});
     C = @QASMcircuit(cir);
     ## 2 arg case 1: Descriptor + number of bits
     if( nargs == 2 )
