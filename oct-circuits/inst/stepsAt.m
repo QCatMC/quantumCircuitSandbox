@@ -22,7 +22,7 @@
 
 function t = stepsAt(cir,d)
 
-  if( !isa(cir,"circuit") )
+  if( !isa(cir,"QASMcircuit") )
     error("Given something other than a circuit as first argument.");
   elseif( !isNat(d) || d == 0 )
     error("Depth must be positive, non-zero integer.");

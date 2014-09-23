@@ -40,10 +40,10 @@ OnOn = makeSDCirc(["X","Z"]);
 tot = zeros(4,4);
 for k = 1:100
   res = zeros(4,4);
-  res(:,1) = simulate(buildCircuit(ZrZr),0);
-  res(:,2) = simulate(buildCircuit(ZrOn),0);
-  res(:,3) = simulate(buildCircuit(OnZr),0);
-  res(:,4) = simulate(buildCircuit(OnOn),0);
+  res(:,1) = simulate(buildQASMcircuit(ZrZr),0);
+  res(:,2) = simulate(buildQASMcircuit(ZrOn),0);
+  res(:,3) = simulate(buildQASMcircuit(OnZr),0);
+  res(:,4) = simulate(buildQASMcircuit(OnOn),0);
   tot = tot + res;
 endfor
 

@@ -1,3 +1,13 @@
+v0.4.0
+ - Renamed in order to rename circuit objects as QASM* (Quantum
+    Assembly). This is prepartion for more abstract, high-order
+    circuits with compilation down to QASM.
+ - Added functions for computing unitary parameters and unitaries from 
+   parameters.  Supported parameterizations are: Phase-Amplitude, Rotation,
+   Z-Y-Z.  
+ - Added operr which computes the difference, as induced by the operator norm, 
+   between two operators.
+
 v0.3.0
  - Complete rewrite with EDSL focus:
  -- Circuit descriptors are compiled to circuit objects via buildCircuit 

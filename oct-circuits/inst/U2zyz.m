@@ -40,7 +40,7 @@ Given something else.");
     g = p(4);
   endif
 
-  U = (e^(i*g/2)*(Rz(p(1))*Ry(p(2))*Rz(p(3)));
+  U = e^(i*g/2)*(Rz(p(1))*Ry(p(2))*Rz(p(3)));
 	 
 endfunction
 

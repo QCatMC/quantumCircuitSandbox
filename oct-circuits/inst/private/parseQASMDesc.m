@@ -44,7 +44,7 @@ function C = parseCNode(cndesc)
       C = parseGate(cndesc);
     ## frist is cell. should be another seq.
     elseif( iscell(cndesc{1}) )
-      C = parseDescriptor(cndesc);
+      C = parseQASMDesc(cndesc);
     ## first is neither a cell nor string... that's no good.
     else
       error("parse error: expecting gate or seqence descriptor, got \
