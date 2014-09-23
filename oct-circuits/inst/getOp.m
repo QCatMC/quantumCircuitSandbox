@@ -24,20 +24,24 @@
 function U = getOp(OpStr)
 
   switch (OpStr)
-    case "I"
+    case {"I","I'"}
       U=Iop;
-    case "X"
+    case {"X","X'"}
       U=X;
-    case "Z"
+    case {"Z","Z'"}
       U=Z;
-    case "Y"
+    case {"Y","Y'"}
       U=Y;
-    case "H"
+    case {"H","H'"}
       U=H;
     case "T"
       U=T;
+    case "T'"
+      U=T';
     case "S"
       U=S; 
+    case "S'"
+      U=S';
     case {"CNot","Measure"}
       error("CNot and Measure operators should not be handled in this way.");
     otherwise

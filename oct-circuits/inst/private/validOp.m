@@ -28,7 +28,9 @@ function b = validOp(OpStr)
     b = false;
   else
     switch (OpStr)
-      case {"I","X","Z","Y","H","T","S","CNot","Measure"}
+      case {"I","X","Z","Y","H","T","S", ...
+	    "I'","X'","Z'","Y'","H'","T'","S'",...
+	    "CNot","Measure"}
 	b = true; 
       otherwise
 	b = false; 
