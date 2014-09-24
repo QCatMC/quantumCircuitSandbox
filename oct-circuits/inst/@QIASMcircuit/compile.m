@@ -13,23 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIASMmeasure(tars)
+## Usage: q = compile(this)
 ##
-## Construct a gate object for measuring the qubits with indexs given
-## by the set of natural numbers tars
+## returns approximate @QASMcircuit to @QIASMcircuit this. Non-QASM operators
+## are approximated.  
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
+ 
 
+function q = compile(this,eta)
 
-function g = QIASMmeasure(tars)
-
-  if( nargin == 0)
-    g.tar = [];
-  else
-    g.tar = tars;
-  endif
-  g = class(g,"QIASMmeasure");
+  q = @QASMcircuit(compile(this.seq,eta),this.bits);
 
 endfunction
+
+

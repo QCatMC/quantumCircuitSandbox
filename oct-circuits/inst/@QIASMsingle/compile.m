@@ -13,23 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIASMmeasure(tars)
+## Usage: q = compile(this)
 ##
-## Construct a gate object for measuring the qubits with indexs given
-## by the set of natural numbers tars
+## returns equivalent @QASMsinglet to @QIASMsingle when the operator
+## is in QASM, otherwise the operator is approximiated by a sequence
+## of QASM operators
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
+ 
 
+function q = compile(this,eta)
 
-function g = QIASMmeasure(tars)
-
-  if( nargin == 0)
-    g.tar = [];
+  if(QASMsingleOp(this.name))
+    q = @QASMsingle(this.name,this.tar);
   else
-    g.tar = tars;
+    ##use SK to approximiate to within 1/eta with a QASMseq 
+    q = @QASMseq(); ## STUB
   endif
-  g = class(g,"QIASMmeasure");
-
 endfunction
+
+
+function b = QASMsingleOp(OpStr)
+	 
+  switch (OpStr)
+    case {"I","X","Z","Y","H","T","S", ...
+	  "I'","X'","Z'","Y'","H'","T'","S'" }
+      b = true; 
+    otherwise
+      b = false; 
+  endswitch
+
+end
+

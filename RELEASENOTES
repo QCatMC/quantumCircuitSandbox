@@ -1,3 +1,9 @@
+v0.4.5
+ - QIASM layer added to QASM. Users now utilize the abstract 'buildCircuit'
+   to construct circuits and need not worry about QIASM vs QASM.  However, 
+   non-QASM operators are not currently supported. 
+ - Some housekeeping of files was done.  
+
 v0.4.0
  - Renamed in order to rename circuit objects as QASM* (Quantum
     Assembly). This is prepartion for more abstract, high-order
