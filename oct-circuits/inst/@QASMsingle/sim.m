@@ -38,3 +38,39 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
 endfunction
 
+## usage: U = getOp(OpStr)
+##
+## Convert from operator name to matrix
+function U = getOp(OpStr)
+
+  switch (OpStr)
+    case {"I","I'"}
+      U=Iop;
+    case {"X","X'"}
+      U=X;
+    case {"Z","Z'"}
+      U=Z;
+    case {"Y","Y'"}
+      U=Y;
+    case {"H","H'"}
+      U=H;
+    case "T"
+      U=T;
+    case "T'"
+      U=T';
+    case "S"
+      U=S; 
+    case "S'"
+      U=S';
+    otherwise
+      error("Unknown Operation");
+  endswitch
+
+end
+
+%!test
+%! fail('getOp("G")');
+%! fail('getOp("Measure")');
+%! fail('getOp("CNot")');
+%! assert(getOp("Y"),Y);
+%! assert(getOp("S"),S);
