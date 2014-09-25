@@ -24,9 +24,23 @@
  
 
 function q = compile(this,eta)
+  ## to achieve eta precision we must approximate each non-elementary 
+  ## operator to precision eta/m, where m is the number of
+  ## non-elementary operators in the circuit.
 
-  q = @QASMcircuit(compile(this.seq,eta),this.bits);
+
+  ## loads in global ETAZERO
+  ## This is a 2D cell array that contains precomputed 
+  ## sequences used as initial approximations
+  load("private/etazero.mat");
+
+  ## required accuracy per approximated operation
+
+  opEta = ceil(eta/this.numtoapprox);
+  q = @QASMcircuit(compile(this.seq,opEta),this.bits);
+  
+  ## clear global data
+  clear -g ETAZERO;
 
 endfunction
-
 

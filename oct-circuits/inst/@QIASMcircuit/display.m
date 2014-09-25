@@ -30,6 +30,7 @@ function display(cir)
   fprintf("%sseq = \n",pad);
   nestedPrint(cir.seq,2);
   fprintf("%snum bits = %d\n",pad,cir.bits);
+  fprintf("%snum of non-elementary ops = %d\n",pad,cir.numtoapprox);
 
 endfunction
 

@@ -17,10 +17,10 @@
 ##
 ## Used to construct a QASM quantum circuit object from a QIASM 
 ## circuit descriptor. The QASM circuit will approximate the specified
-## QIASM to within an error 1/eta, or with precision eta for eta>0.
+## QIASM to within an error less than eta.
 ## 
 ## Where cir is a circuit descriptor: buildCircuit(cir) will construct
-## a circuit with precision eta = 1024 and with a qubit size
+## a circuit with precision eta = 2^-10 and with a qubit size
 ## determiend by the max qubit target, buildCircuit(cir,eta) constructs the
 ## circuit whose size is determined by the maximum qubit target of
 ## cir and with user specified precision eta,buildCircuit(cir,eta,size) will 
@@ -31,12 +31,12 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function C = buildCircuit(desc,eta=1024,varargin )
+function C = buildCircuit(desc,eta=2^(-10),varargin )
 
   nargs = length( varargin );
 
   ## 1-2 arg --> Descriptor only or Descriptor+Size
-  if( iscell(desc) && isNat(eta) && isscalar(eta) && eta>0 )
+  if( iscell(desc) && isreal(eta) && isscalar(eta) && eta>0 )
     ## build QIASM circuit with size derived from targets
     QIASMcir = @QIASMcircuit(parseQIASMDesc(desc)); 
     ## change size if needed and possible

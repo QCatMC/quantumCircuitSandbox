@@ -28,9 +28,30 @@ function q = compile(this,eta)
 
   if(QASMsingleOp(this.name))
     q = @QASMsingle(this.name,this.tar);
+
   else
-    ##use SK to approximiate to within 1/eta with a QASMseq 
-    q = @QASMseq(); ## STUB
+    ##use SK to approximiate to within eta with a QASMseq 
+      
+    ## SK params -- From Dawson&Nielsen
+    capprox = 4*sqrt(2);
+    cgc = 1/sqrt(2);
+    eta0 = 1/33; ## eta0 < capprox^(-2);
+    
+    ## initial depth of SK algo
+    skdep = ceil(log( (log(1/(eta*capprox^2))) / ...
+		      (log(1/(eta0*capprox^2))) ) / ...
+		 log(3/2));
+    
+    ## get the SU(2) 
+    [SU,ph] = getUIASMop(this.name,this.params);
+    [qstrseq,SUapprox] = skalgo(SU,skdep);
+    ## test for eta precision
+    assert(operr(SU,SUapprox) < eta);
+    ## convert strings to QASMsingle with correct target
+    ## pack into a QASMseq
+    q = @QASMsseq(cellfun(@(name) @QASMsingle(name,this.tar),...
+			   fliplr(qstrseq), ...
+			   "UniformOutput",false));
   endif
 endfunction
 
@@ -46,4 +67,34 @@ function b = QASMsingleOp(OpStr)
   endswitch
 
 end
+
+## SU is the SU(2) matrix. ph is the global phase
+##  parameter s.t. Ph(ph)*SU = U2(name,params)
+function [SU,ph] = getQIASMOp(name,params)
+
+  switch (name)	 
+    case "PhAmp"
+      SU = U2phaseamp(params(1:3));
+      if(length(params) == 3)
+	ph = 0;
+      else
+	ph = params(4);
+      endif
+    case "Rn"
+      SU = U2Rn(params(1:4));
+      if(length(params) == 4)
+	ph = 0;
+      else
+	ph = params(5);
+      endif
+
+    case "ZYZ"
+      SU = U2zyz(params(1:3));
+      if(length(params) == 3)
+	ph = 0;
+      else
+	ph = params(4);
+  endswitch
+
+endfunction
 

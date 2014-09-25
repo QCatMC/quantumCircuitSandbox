@@ -13,17 +13,40 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: Us = skalgo(U, n)
+## usage: [Us,newU] = skalgo(U, n)
 ##
 ## Compute an eta(n) approximation to the unitary U using
-## the Solovay-Kitaev Algorithm. 
+## the Solovay-Kitaev Algorithm. newU is the approximation and Us is
+## the sequence of elementary operators,as strings, which computes 
+## that operator. Algorithm based off paper by Dawson&Nielsen 
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators 
 
-function Us = skalgo(U,n)
-  Us = 0;
+function [Us,newU] = skalgo(U,n)
+	 
+  if( n == 0 )
+    ## ETAZERO is a table of (strseq,SU(2)) pairs
+    ## findclosest picks the pair that minimizes
+    ## operr(U,SU(2))
+    [Us,newU] = findclosest(U);
+  else
+    [Unm1seq,Unm1] = skalgo(U,n-1);
+    [V,W] = getGroupComm(U*Unm1');
+    [Vnm1seq,Vnm1] = skalgo(V,n-1);
+    [Wnm1seq,Wnm1] = skalgo(W,n-1);
+
+    ## compute new operator matrix
+    newU = Vnm1*Wnm1*Vnm1'*Wnm1'*Unm1;
+    ## construct sequence for that matrix
+    Us = {Vnm1seq{:},Wnm1seq{:}, ...
+	  fliplr(cellfun(adj,Vnm1seq,"UniformOutput",false)){:}, ...
+	  fliplr(cellfun(adj,Wnm1seq,"UniformOutput",false)){:}, ...
+	  Unm1seq{:}};
+    
+  endif
+
 endfunction
 
 %!test
@@ -95,4 +118,36 @@ function S = getSimTrans(U,V)
   ## Similarity Matrix: rotate phi about the perpendicular 
   S = Rn(sphi,sB);
 	 
+endfunction
+
+## Adjoint by name/string
+## this is a bit hacky... but should work... 
+function s = adj(opstr)
+  if(length(optstr) == 2)
+    s = opstr(1);
+  else #length is 1
+    s = [opstr,"'"];
+  endif
+endfunction
+
+
+## Search the precomputed approximations to find the one closest to
+## U.
+## eww globals... is there a better way for some persistant, shared state?
+function [seq,mat] = findclosest(U)
+
+  ## ETAZERO is the 'table' of precomputed sequences
+  ## it's loaded by @QIASMcircuit compile 
+  ## it's computed by @QIASMcircuit/private/computeetazero.m script
+  ## it's stored in @QIASMcircuit/private/etazero.mat
+  global ETAZERO; # format (seq,SU(2))
+  
+  ## search ETAZERO for the closest SU(2)
+  errs = cellfun(@(V) operr(U,V),ETAZERO(:,2));  #get errors
+  [minVal,minIdx] = min(errs); ## find min
+  mat = ETAZERO{minIdx,1}; ## select matrix
+  seq = ETAZERO{minIdx,2}; ## select sequence
+  
+  ##assert(operr(mat,U) >= ETA0);
+  
 endfunction
