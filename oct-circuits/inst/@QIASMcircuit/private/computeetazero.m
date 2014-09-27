@@ -16,30 +16,55 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-## length of sequences
-global lzero = 3;
 
+### KEY VARIABLES 
+
+## length of sequences
+global lzero = 5;
 ## gate set
 global gates = {"H","T","T'"};
+
+## result file names
+global logname = sprintf("computeeta%d.log",lzero);  
+resfilename = sprintf("etazero%d.mat",lzero);
+
+##### FUNCTIONS
+
+## for logging script progress
+function logmsg(msg)
+  global logname;
+  fid = fopen(logname,"a");
+  fprintf(fid,"%s : %s\n", datestr(fix(clock)),msg);
+  fclose(fid);
+endfunction
+
 
 ## nat is base 10 integer
 ## convert to row vector corresponding to a
 ## k digit, base rad representation of nat
 ##   Not error checked !!
-function nr = base10toradk(nat,rad,k)
-  nr = zeros(1,k);
+function nr = base10toradk(nat)
+  global lzero;
+  global gates;
+
+  gits = lzero;
+  rad = length(gates);
+
+  nr = zeros(1,gits);
   
   while ( nat > 0 )
-    nr(k) = mod(nat,rad);
+    nr(gits) = mod(nat,rad);
     nat = idivide(nat,rad,"floor");
-    k = k-1;	
+    gits = gits-1;	
   endwhile
+
   
 endfunction
 
 ## operator index to string
 function opstr = opinttostr(opint)
   global gates;
+
   if( opint > length(gates) )
     error("whoops");
   else
@@ -50,75 +75,94 @@ endfunction
 
 ## convert string sequence to matrix
 function U = strseq2mat(strseq)
+
   U = eye(2);
   for k = 1:length(strseq)
     U = U*eval(strseq{k},'error("bad operator")');
   endfor
+
 endfunction
 
-## for logging script progress
-function log(msg)
-  fid = fopen("computeeta.log","a");
-  fprintf(fid,"%s : %s\n", datestr(fix(clock)),msg);
-  fclose(fid);
+## true if mat is not ETAZERO{iter}
+function b = isnotiter(mat)
+  global ETAZERO;
+  global iter;
+
+  b = 4 != (sum(sum(mat == ETAZERO{iter,2})));
+  ##  b = !isequal(mat,ETAZERO{iter,2});
+
 endfunction
+
 
 ### **** BEGIN Script **** ###
 
 ## add package parent directory to the path
 addpath ../../;
 ## remove old log
-fid=fopen("computeeta.log","w");
+fid=fopen(logname,"w");
 fclose(fid);
 
 ## let's do this...
 
-log("computeeta script started");
+logmsg("computeeta script started");
+
 ## allocate 2D cell array
 global ETAZERO = cell(length(gates)^lzero,2);
-log("initial space allocated");
+logmsg("initial space allocated");
 
 ## op sequences as base |gates|, fixed length, numbers
-ETAZERO(:,1) = arrayfun(@(n) base10toradk(n,length(gates),lzero), ...
-		[0:(length(gates)^lzero-1)]',...
-		"UniformOutput",false);
-log("sequence vectors created");
+ETAZERO(:,1) = arrayfun(@base10toradk,[0:(length(gates)^lzero-1)]',...
+			"UniformOutput",false);
+logmsg("sequence vectors created");
 
 ## convert to char sequences 
 ETAZERO(:,1) = cellfun(@opinttostr,ETAZERO(:,1),"UniformOutput",false);
-log("vectors converted to strings");
+logmsg("vectors converted to strings");
 
 ## compute operator matrix
-ETAZERO(:,2) = cellfun(@(s) strseq2mat(s),ETAZERO(:,1),...
+ETAZERO(:,2) = cellfun(@strseq2mat,ETAZERO(:,1),...
 		       "UniformOutput",false);
 
-log("operators computed. Beginning reduction process.");
+## save full set of sequences
+save(resfilename,"ETAZERO");
+logmsg("operators computed and written to file. Beginning reduction process.");
 
-## Now simplify... remove duplicates,simplify sequences
 
-iter = 1; ## num iterations
+## Now simplify... remove duplicates
+
+global iter = 1; ## num iterations
 urows = 1:length(ETAZERO); ## index of unique rows 
 
 ## ETAZERO(1:iter-1) are not duplicated in ETAZERO(iter:end) 
-while ( iter<length(urows) )
-  ## find all items not equal to 
-  uni = cellfun(@(mat) !isequal(mat,ETAZERO{iter,2}), ...
-		 ETAZERO(:,2));
-  numuni = sum(uni)+1;
+while ( iter<length(ETAZERO) )
 
-  log(sprintf("found %d duplicates on iteration %d. %d remain.", ...
+  ## find all items not equal to item at iter
+  uni = cellfun(@isnotiter,ETAZERO(iter+1:length(ETAZERO),2));
+  ## total unique items found
+  numuni = sum(uni)+iter; 
+
+  logmsg(sprintf("found %d duplicates on iteration %d. %d remain.", ...
 	      (length(urows)-numuni),iter,numuni));
 
-
-  urows = union(find(uni),[iter]); ## indices of unique elements
+  ## indices of unique elements
+  urows = [[1:iter]'(:);(iter+find(uni))(:)]; 
+  
   ETAZERO = ETAZERO(urows,:); ## select unique
+  
+  
+  ## save to file every so often on longer jobs
+  if( mod(iter,50) == 0 )
+    logmsg(sprintf("Current %d elements saved to file.",length(ETAZERO)));
+    save(resfilename,"ETAZERO");
+  endif
+
   iter++; ## next item
 endwhile
 
-log(sprintf("Finished removing duplicates %d unique items found.",...
+logmsg(sprintf("Finished removing duplicates %d unique items found.",...
 	    length(ETAZERO)))
 
-save etazero.mat ETAZERO;
+save(resfilename,"ETAZERO");
 
 ## clean up 
 clear;
