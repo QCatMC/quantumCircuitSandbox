@@ -27,9 +27,9 @@
 function [Us,newU] = skalgo(U,n)
 	 
   if( n == 0 )
-    ## ETAZERO is a table of (strseq,SU(2)) pairs
+    ## UZERO is a table of (strseq,U(2)) pairs
     ## findclosest picks the pair that minimizes
-    ## operr(U,SU(2))
+    ## operr(U,U(2))
     [Us,newU] = findclosest(U);
   else
     [Unm1seq,Unm1] = skalgo(U,n-1);
@@ -136,17 +136,17 @@ endfunction
 ## eww globals... is there a better way for some persistant, shared state?
 function [seq,mat] = findclosest(U)
 
-  ## ETAZERO is the 'table' of precomputed sequences
+  ## UZERO is the 'table' of precomputed sequences
   ## it's loaded by @QIASMcircuit compile 
-  ## it's computed by @QIASMcircuit/private/computeetazero.m script
-  ## it's stored in @QIASMcircuit/private/etazero.mat
-  global ETAZERO; # format (seq,SU(2))
+  ## it's computed by @QIASMcircuit/private/computeuzero.m script
+  ## it's stored in @QIASMcircuit/private/uzero.mat
+  global UZERO; # format (seq,U(2))
   
   ## search ETAZERO for the closest SU(2)
-  errs = cellfun(@(V) operr(U,V),ETAZERO(:,2));  #get errors
+  errs = cellfun(@(V) norm(U-V),UZERO(:,2));  #get errors
   [minVal,minIdx] = min(errs); ## find min
-  mat = ETAZERO{minIdx,1}; ## select matrix
-  seq = ETAZERO{minIdx,2}; ## select sequence
+  mat = UZERO{minIdx,1}; ## select matrix
+  seq = UZERO{minIdx,2}; ## select sequence
   
   ##assert(operr(mat,U) >= ETA0);
   

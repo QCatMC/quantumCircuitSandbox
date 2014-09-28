@@ -47,8 +47,10 @@ function q = compile(this,eta)
     [qstrseq,SUapprox] = skalgo(SU,skdep);
     ## test for eta precision
     assert(operr(SU,SUapprox) < eta);
+    ## simplify/reduce approx. seq if possible.
+    qstrseq = simpseq(qstrseq);
     ## convert strings to QASMsingle with correct target
-    ## pack into a QASMseq
+    ## pack into a QASMseq. reverse for circuit order vs. Maths order
     q = @QASMsseq(cellfun(@(name) @QASMsingle(name,this.tar),...
 			   fliplr(qstrseq), ...
 			   "UniformOutput",false));

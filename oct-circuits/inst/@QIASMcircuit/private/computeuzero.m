@@ -20,13 +20,13 @@
 ### KEY VARIABLES 
 
 ## length of sequences
-global lzero = 5;
+global lzero = 4;
 ## gate set
 global gates = {"H","T","T'"};
 
 ## result file names
-global logname = sprintf("computeeta%d.log",lzero);  
-resfilename = sprintf("etazero%d.mat",lzero);
+global logname = sprintf("computeuzero%d.log",lzero);  
+resfilename = sprintf("uzero%d.mat",lzero);
 
 ##### FUNCTIONS
 
@@ -83,13 +83,13 @@ function U = strseq2mat(strseq)
 
 endfunction
 
-## true if mat is not ETAZERO{iter}
+## true if mat is not UZERO{iter}
 function b = isnotiter(mat)
-  global ETAZERO;
+
+  global UZERO;
   global iter;
 
-  b = 4 != (sum(sum(mat == ETAZERO{iter,2})));
-  ##  b = !isequal(mat,ETAZERO{iter,2});
+  b = 10^(-10) < norm(mat-UZERO{iter,2});
 
 endfunction
 
@@ -103,66 +103,70 @@ fid=fopen(logname,"w");
 fclose(fid);
 
 ## let's do this...
-
 logmsg("computeeta script started");
 
 ## allocate 2D cell array
-global ETAZERO = cell(length(gates)^lzero,2);
+global UZERO = cell(length(gates)^lzero,2);
 logmsg("initial space allocated");
 
 ## op sequences as base |gates|, fixed length, numbers
-ETAZERO(:,1) = arrayfun(@base10toradk,[0:(length(gates)^lzero-1)]',...
+UZERO(:,1) = arrayfun(@base10toradk,[0:(length(gates)^lzero-1)]',...
 			"UniformOutput",false);
 logmsg("sequence vectors created");
 
 ## convert to char sequences 
-ETAZERO(:,1) = cellfun(@opinttostr,ETAZERO(:,1),"UniformOutput",false);
+UZERO(:,1) = cellfun(@opinttostr,UZERO(:,1),"UniformOutput",false);
 logmsg("vectors converted to strings");
 
 ## compute operator matrix
-ETAZERO(:,2) = cellfun(@strseq2mat,ETAZERO(:,1),...
+UZERO(:,2) = cellfun(@strseq2mat,UZERO(:,1),...
 		       "UniformOutput",false);
 
 ## save full set of sequences
-save(resfilename,"ETAZERO");
+save(resfilename,"UZERO");
 logmsg("operators computed and written to file. Beginning reduction process.");
 
 
 ## Now simplify... remove duplicates
 
 global iter = 1; ## num iterations
-urows = 1:length(ETAZERO); ## index of unique rows 
+urows = 1:length(UZERO); ## index of unique rows 
 
-## ETAZERO(1:iter-1) are not duplicated in ETAZERO(iter:end) 
-while ( iter<length(ETAZERO) )
+## UZERO(1:iter-1) are not duplicated in UZERO(iter:end) 
+while ( iter<length(UZERO) )
 
-  ## find all items not equal to item at iter
-  uni = cellfun(@isnotiter,ETAZERO(iter+1:length(ETAZERO),2));
+  ## find all items in (iter+1:end) not equal to item at iter
+  uni = cellfun(@isnotiter,UZERO(iter+1:length(UZERO),2));
   ## total unique items found
   numuni = sum(uni)+iter; 
 
   logmsg(sprintf("found %d duplicates on iteration %d. %d remain.", ...
-	      (length(urows)-numuni),iter,numuni));
+	      (length(UZERO)-numuni),iter,numuni));
 
   ## indices of unique elements
   urows = [[1:iter]'(:);(iter+find(uni))(:)]; 
   
-  ETAZERO = ETAZERO(urows,:); ## select unique
-  
+  UZERO = UZERO(urows,:); ## select unique  
   
   ## save to file every so often on longer jobs
   if( mod(iter,50) == 0 )
-    logmsg(sprintf("Current %d elements saved to file.",length(ETAZERO)));
-    save(resfilename,"ETAZERO");
+    logmsg(sprintf("Current %d elements saved to file.",length(UZERO)));
+    save(resfilename,"UZERO");
   endif
 
   iter++; ## next item
 endwhile
 
 logmsg(sprintf("Finished removing duplicates %d unique items found.",...
-	    length(ETAZERO)))
+	    length(UZERO)))
 
-save(resfilename,"ETAZERO");
+addpath ../../@QIASMsingle/private/;
+
+UZERO(:,1) = cellfun(@simpseq,UZERO(:,1),"UniformOutput",false);
+
+logmsg("Sequence simplification complete. Writing finished product to file.");
+
+save(resfilename,"UZERO");
 
 ## clean up 
 clear;

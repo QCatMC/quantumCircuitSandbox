@@ -29,18 +29,19 @@ function q = compile(this,eta)
   ## non-elementary operators in the circuit.
 
 
-  ## loads in global ETAZERO
+  ## loads in global UZERO
   ## This is a 2D cell array that contains precomputed 
   ## sequences used as initial approximations
-  load("private/etazero.mat");
+  load("private/uzero.mat");
 
   ## required accuracy per approximated operation
-
   opEta = ceil(eta/this.numtoapprox);
+
+
   q = @QASMcircuit(compile(this.seq,opEta),this.bits);
   
   ## clear global data
-  clear -g ETAZERO;
+  clear -g UZERO;
 
 endfunction
 
