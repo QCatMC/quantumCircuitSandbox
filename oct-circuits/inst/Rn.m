@@ -26,7 +26,7 @@ function U = Rn(t,n)
 
   if( !isscalar(t) && !isreal(t) )
     error("Angle theta must be real. Given something else.")
-  elseif( !isreal(n) || !isequal(size(n),[1,3]) )
+  elseif( !isreal(n) ) # || !isequal(size(n),[1,3]) )
     error("Rotation axis n must be a 3D real vector");
   elseif( (1 - n*n') > 0.0000001)
     error("Rotation axis must have unit length.");

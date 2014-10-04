@@ -16,158 +16,399 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
+function tab = computeuzero(len)
+  ## maybe get some speedup
+  ignore_function_time_stamp("all");
 
-### KEY VARIABLES 
+  ## add package parent directory to the path
+  addpath ../../;
 
-## length of sequences
-global lzero = 4;
-## gate set
-global gates = {"H","T","T'"};
+  ## Gate sets
+  ## elementary gate set
+  elemset = {"H","T","T'","X","Y","Z","S","S'"};
+  ## SK-algo gate set... variable?
+  gates = {"H","T","T'"};
 
-## result file names
-global logname = sprintf("computeuzero%d.log",lzero);  
-resfilename = sprintf("uzero%d.mat",lzero);
+  ## File names
+  ## result file names
+  resfilename = sprintf("uzero%d.mat",len);
+  ## logfile name
+  logname = sprintf("computeuzero%d.log",len);  
 
-##### FUNCTIONS
+  ## remove old log
+  fid=fopen(logname,"w");
+  fclose(fid);
+
+  ## let's do this...
+  logmsg("computeuzero script started",logname);
+  
+  if( len <= 4)
+    tab = computedirect(len,gates,elemset,logname);
+  elseif(uint32(floor(log2(len))) == uint32(ceil(log2(len))))
+    ## number of doublings needed
+    iters = uint32(floor(log2(len)))-2;
+    
+    tab = computedirect(4,gates,elemset,logname);
+    for k = 1:iters
+	next = double(tab,elemset);
+	next = removedupes(next,logname);
+	tab = next;
+    endfor
+  else # len>4 but not power of 2
+    lhsize = 2^uint32(floor(log2(len))); # nearst power of 2 to len
+    rhsize = len-lhsize; # what's left
+
+    ## this scales poorly. when rhsize = lhsize-1, 
+    ## then a fair ammount of repeated computation can take place
+    tab = compose(computeuzero(lhsize),...  
+		  computeuzero(rhsize),...
+		  elemset);
+    tab = removedupes(tab,logname);
+    
+  endif  
+  
+  ## save to file for use by compiler
+  global UZERO = tab; 
+  ## numeric sequences to string sequences for compilation  
+  for k = 1:length(UZERO)
+    UZERO{k,1} = stringify(UZERO{k,1},elemset);
+  endfor
+   ## save as global for use in quantum compiler
+  save(resfilename,"UZERO");
+  clear -g UZERO;
+
+  
+  ignore_function_time_stamp("none");  
+endfunction
+
+function UZERO = computedirect(len,gates,elemset,logname)
+  
+  ## allocate 2D cell array
+  UZERO = cell(length(gates)^len,2); ## the cell array
+  UZERO(:,1) = zeros(1,len); ## column one. vectors
+  UZERO(:,2) = zeros(2,2); ## column two, 2x2 matrix
+
+  logmsg("initial space allocated",logname);
+
+  ## for each.. 
+  for k = 1:length(UZERO)
+    ## encode sequence as base |gates| number
+    UZERO{k,1} = base10toradk(k-1,length(gates),len);
+
+    ## algebraic simplification
+    UZERO{k,1} = simpseq(UZERO{k,1},elemset);
+
+    ## compute matrix & reduce to SU(2)
+    UZERO{k,2} = ldig2mat(UZERO{k,1},elemset);
+
+  endfor
+
+  logmsg("Complete space of %d sequences generated. Removing \
+			    %duplicates",...
+	 logname);
+
+  UZERO = removedupes(UZERO,logname);
+
+endfunction
+
+##### Helper FUNCTIONS
 
 ## for logging script progress
-function logmsg(msg)
-  global logname;
+function logmsg(msg,logname)
   fid = fopen(logname,"a");
   fprintf(fid,"%s : %s\n", datestr(fix(clock)),msg);
   fclose(fid);
 endfunction
 
+function cseq = stringify(seq,elemset)
+  cseq = cell(1,length(seq));
 
-## nat is base 10 integer
-## convert to row vector corresponding to a
-## k digit, base rad representation of nat
-##   Not error checked !!
-function nr = base10toradk(nat)
-  global lzero;
-  global gates;
-
-  gits = lzero;
-  rad = length(gates);
-
-  nr = zeros(1,gits);
-  
-  while ( nat > 0 )
-    nr(gits) = mod(nat,rad);
-    nat = idivide(nat,rad,"floor");
-    gits = gits-1;	
-  endwhile
-
-  
+  for k = 1 : length(seq)
+    cseq{k} = elemset{seq(k)};
+  endfor
 endfunction
 
-## operator index to string
-function opstr = opinttostr(opint)
-  global gates;
+function nr = base10toradk(nat,rad,len)
 
-  if( opint > length(gates) )
-    error("whoops");
+  ## allocate vector
+  nr = zeros(1,len);
+
+  ##what's the high order bit?
+  hob = uint32(floor(log(nat)/log(rad)))+1;
+  
+  ## just in case
+  assert(hob <= len);
+
+  ## compute digits
+  for k = 1:hob
+    nr(len+1-k) = mod(nat,rad);
+    nat = idivide(nat,rad);
+  endfor
+  ## offset s.t. the values index gates/elemset
+  nr = nr+1;
+endfunction
+
+## base |gates| number -> matrix
+function U = ldig2mat(ldig,elemset)
+
+  U = eye(2);
+  
+  for k = 1:length(ldig)
+    U = U*eval(elemset{ldig(k)},'error("bad operator")');
+  endfor
+  ## factor out global phase
+  U = su2afy(U);
+
+endfunction
+
+
+## takes a cellarray containing a sequence of 
+## G = {H,T,T'} and reduces the sequence to a shorter
+## but equivalent sequence utilizing Union(G,{X,Z,S,S'})
+
+## main function to reduce sequence. keep going until
+## it stops getting shorter
+function snew = simpseq(seq,elemset)
+
+  redux = true;
+  snew = seq;
+  len = length(snew);
+  while(redux)
+    snew = reduceseq(snew,elemset); 
+    redux  = (len > length(snew));
+    len = length(snew);
+    snew = substseq(snew,elemset);
+    redux  = (len > length(snew));
+    len = length(snew);
+  endwhile
+
+endfunction
+
+## sliding windows looking for seq*seq' = I
+function sseq = reduceseq(seq,elemset)
+  len = length(seq);
+
+  size = 1;
+  while(size <= uint32(length(seq)/2) )
+    curr = 1; ## current index 
+    found = false; ## true if subsequence is removed
+    ## step through and remove U*U'=I
+    while(curr+2*size-1 <= length(seq) )
+
+      if(isadjoint( seq(curr:curr+size-1), ...
+		    seq(curr+size:curr+2*size-1),...
+		    elemset))
+	## remove subseq
+	idxs = [[1:curr-1],[curr+2*size:length(seq)]];
+	seq = seq(idxs);
+	## flag found
+	found = true; 
+      else
+	curr++;
+      endif	 
+
+    endwhile
+
+    ## no sequences found, lets try larger sequence
+    if(!found)
+      size = size * 2;
+    endif
+    ## when sequences are found, we repeat for same size
+
+  endwhile
+
+  sseq = seq;
+endfunction
+
+## true if aseq*bseq = "I". Works on strings (op names)
+## and cell array seqences of strings.  Only accounts for
+## {H,Z,T,S,T',S',X,Y}
+function b = isadjoint(aseq,bseq,elemset)
+
+  len = length(aseq);	 
+  for k = 1:len
+    if( !adjop(elemset{aseq(k)},elemset{bseq(len+1-k)}) )
+      b = false;
+      return;
+    endif
+  endfor
+  b=true;
+
+endfunction
+
+function b = adjop(astr,bstr)
+    b = (strcmp(astr,"H") && strcmp(astr,bstr)) || ...
+	(strcmp(astr,"Z") && strcmp(astr,bstr) ) || ...
+	(strcmp(astr,"X") && strcmp(astr,bstr) ) || ...
+	(strcmp(astr,"Y") && strcmp(astr,bstr) ) || ...
+	( strcmp(astr,"T") && strcmp(bstr,"T'") ) || ...
+	( strcmp(astr,"T'") && strcmp(bstr,"T") ) || ...
+	( strcmp(astr,"S'") && strcmp(bstr,"S") ) || ...
+	( strcmp(astr,"S") && strcmp(bstr,"S'") )  ;
+endfunction
+
+
+## for |seq|==2, replace with eqivalent sequence of 
+## length 2 or 1.. T^2 =S,S^2=Z
+## changing global elementset breaks this function!!!
+function snew = substpair(seq,elemset)
+
+  if(strcmp(elemset{seq(1)},elemset{seq(2)}))
+    switch (elemset{seq(1)})
+      case "T"
+	snew = [7]; #S
+      case "T'"
+	snew = [8]; #S'
+      case {"S","S'"} 
+	snew = [6]; #Z
+      otherwise
+	snew=seq;
+    endswitch
   else
-    opstr = gates(opint+1);
+    snew = seq; #no change
+  endif
+endfunction
+
+## reduces HZH=X and HXH=Z
+function snew = subshxz(seq,elemset)
+
+  snew = seq;
+  if(strcmp(elemset{seq(1)},elemset{seq(3)})...
+     && strcmp(elemset{seq(1)},"H"))
+        ## convert to strings
+
+    if(strcmp(elemset{seq(2)},"Z") )
+      snew = [4]; #X
+    elseif(strcmp(elemset{seq(2)},"X"))
+      snew = [8]; #Z 
+    else
+      snew = seq; # no change
+    endif
+    
+  else
+    snew = seq;
   endif
 
 endfunction
 
-## convert string sequence to matrix
-function U = strseq2mat(strseq)
+function snew = substseq(seq,elemset)
+  snew = seq;	 
+  found = true;
+  ## repeat until no more subst is found
+  while(found)
+  
+    found = false;
+    ## pairwise reductions (and len 2^k reductions)
+    k=1;  
+    while(k<length(snew))
+      curr = substpair(snew(k:k+1),elemset);
+      if(length(curr) == 1)
+	snew = [snew(1:k-1),curr(1),...
+		snew(k+2:end) ];
+	found=true;
+      endif
+      k++;	     
+    endwhile
 
-  U = eye(2);
-  for k = 1:length(strseq)
-    U = U*eval(strseq{k},'error("bad operator")');
+    ## look for HXH=Z and HZH=X
+    k=1;
+    while(k<(length(snew)-1))
+      curr = subshxz(snew(k:k+2),elemset);
+      if(length(curr) == 1)
+	snew = [snew(1:k-1),curr(1),...
+		snew(k+3:end)];
+	found = true;
+      endif
+      k++;
+    endwhile
+  endwhile
+
+endfunction
+
+function U = su2afy(mat)
+
+  U = zeros(2,2);
+
+  ph = det(mat);
+  if( ph != 1 ) # must be U(2). factor out global phase
+    U = sqrt(ph)' * mat;       
+  else # already SU(2)
+    U = mat;
+  endif
+
+endfunction
+
+function newus = removedupes(UZERO,logname)
+  ## remove duplicates
+  iter = 1; ## num iterations --> 1+[unique-so-far]
+
+  urows = 1:length(UZERO); ## index of unique rows 
+  
+  while ( iter<length(urows) )
+
+
+    uni = zeros(1,length(urows)-iter);
+    curr = UZERO{urows(iter),2};
+
+    for k = 1:length(uni)
+      ## true if not within eta of curr
+      ## Is this a fair 'equality check'?
+      uni(k) = (10^(-8) < norm(UZERO{urows(k+iter),2}-curr));
+    endfor
+
+    ## new size = iter unique + sum(uni) possibly unique
+    posUni = sum(uni);
+    dupes = length(urows) - posUni;
+    urows = urows([1:iter,(find(uni)+iter)]);
+  
+    logmsg(sprintf("found %d duplicates on iteration %d. %d remain.", ...
+		   dupes,iter,posUni), logname);
+    
+    ## indices of new elements
+    iter++; ## next item
+  endwhile
+  newus = UZERO(urows,:); ## select unique  
+
+  logmsg(sprintf("Finished removing duplicates %d unique items found.",...
+		 length(newus)),...
+	 logname);
+  
+endfunction
+
+function newus = double(us,elemset)
+
+  len = length(us);
+  newus = cell(len^2,2);
+  newus(:,2) = zeros(2);
+  for k = 1:len
+    for j = 1:len
+      idx = (k-1)*len+j;
+      ## simplify again to handle the composition
+      newus{idx,1} = simpseq([us{k,1},us{j,1}],elemset); 
+      ## compute from sequence for consistency
+      newus{idx,2} = ldig2mat(newus{idx,1},elemset);
+    endfor
   endfor
 
 endfunction
 
-## true if mat is not UZERO{iter}
-function b = isnotiter(mat)
+function newus = compose(lhs,rhs,elemset)
 
-  global UZERO;
-  global iter;
+  lenl = length(lhs);
+  lenr = length(rhs);
 
-  b = 10^(-10) < norm(mat-UZERO{iter,2});
+  newus = cell(lenl*lenr,2);
+  newus(:,2) = zeros(2);
+
+  for k = 1:lenl
+    for j = 1:lenr
+      idx = (k-1)*lenr+j;
+      ## simplify again to handle the composition
+      newus{idx,1} = simpseq([lhs{k,1},rhs{j,1}],elemset); 
+      ## compute from sequence for consistency
+      newus{idx,2} = ldig2mat(newus{idx,1},elemset);
+    endfor
+  endfor
+
 
 endfunction
-
-
-### **** BEGIN Script **** ###
-
-## add package parent directory to the path
-addpath ../../;
-## remove old log
-fid=fopen(logname,"w");
-fclose(fid);
-
-## let's do this...
-logmsg("computeeta script started");
-
-## allocate 2D cell array
-global UZERO = cell(length(gates)^lzero,2);
-logmsg("initial space allocated");
-
-## op sequences as base |gates|, fixed length, numbers
-UZERO(:,1) = arrayfun(@base10toradk,[0:(length(gates)^lzero-1)]',...
-			"UniformOutput",false);
-logmsg("sequence vectors created");
-
-## convert to char sequences 
-UZERO(:,1) = cellfun(@opinttostr,UZERO(:,1),"UniformOutput",false);
-logmsg("vectors converted to strings");
-
-## compute operator matrix
-UZERO(:,2) = cellfun(@strseq2mat,UZERO(:,1),...
-		       "UniformOutput",false);
-
-## save full set of sequences
-save(resfilename,"UZERO");
-logmsg("operators computed and written to file. Beginning reduction process.");
-
-
-## Now simplify... remove duplicates
-
-global iter = 1; ## num iterations
-urows = 1:length(UZERO); ## index of unique rows 
-
-## UZERO(1:iter-1) are not duplicated in UZERO(iter:end) 
-while ( iter<length(UZERO) )
-
-  ## find all items in (iter+1:end) not equal to item at iter
-  uni = cellfun(@isnotiter,UZERO(iter+1:length(UZERO),2));
-  ## total unique items found
-  numuni = sum(uni)+iter; 
-
-  logmsg(sprintf("found %d duplicates on iteration %d. %d remain.", ...
-	      (length(UZERO)-numuni),iter,numuni));
-
-  ## indices of unique elements
-  urows = [[1:iter]'(:);(iter+find(uni))(:)]; 
-  
-  UZERO = UZERO(urows,:); ## select unique  
-  
-  ## save to file every so often on longer jobs
-  if( mod(iter,50) == 0 )
-    logmsg(sprintf("Current %d elements saved to file.",length(UZERO)));
-    save(resfilename,"UZERO");
-  endif
-
-  iter++; ## next item
-endwhile
-
-logmsg(sprintf("Finished removing duplicates %d unique items found.",...
-	    length(UZERO)))
-
-addpath ../../@QIASMsingle/private/;
-
-UZERO(:,1) = cellfun(@simpseq,UZERO(:,1),"UniformOutput",false);
-
-logmsg("Sequence simplification complete. Writing finished product to file.");
-
-save(resfilename,"UZERO");
-
-## clean up 
-clear;
-

@@ -29,18 +29,29 @@ function q = compile(this,eta)
   ## non-elementary operators in the circuit.
 
 
-  ## loads in global UZERO
+  ## load in global var UZERO
   ## This is a 2D cell array that contains precomputed 
   ## sequences used as initial approximations
-  load("private/uzero.mat");
+
+  ## ** NEED Platform/install independent way to do this **
+  pkgpath = "/usr/share/octave/packages"; #package folder
+  ## name-version
+  ocstr = sprintf("oct-circuits-%s",...
+		  pkg("describe","oct-circuits"){1}.version);  
+  ## path to data within package	    
+  matpath = "@QIASMcircuit/private/uzero.mat";
+  ## absolute path to file
+  uzpath = sprintf("%s/%s/%s",pkgpath,ocstr,matpath);
+
+  load(uzpath); # load 
 
   ## required accuracy per approximated operation
-  opEta = ceil(eta/this.numtoapprox);
+  opEta = eta/this.numtoapprox;
 
 
   q = @QASMcircuit(compile(this.seq,opEta),this.bits);
   
-  ## clear global data
+  ## clear global data table
   clear -g UZERO;
 
 endfunction

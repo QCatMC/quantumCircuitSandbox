@@ -26,13 +26,14 @@
 
 function U = U2phaseamp(p)
 
-   if( !(isequal(size(p),[1,3]) || isequal(size(p),[1,4])) ) 
+  if( !(isequal(size(p),[1,3]) || isequal(size(p),[1,4])) ) 
     error("Parameter vector must be a length 3 or 4 row vector. \
 Given something else.");
   elseif( !isreal(p) )
     error("Paramters are not real valued. They should be.");
   endif
-  
+
+
   ## get global phase;
   if( length(p) == 3)
     g = 0;
@@ -44,7 +45,7 @@ Given something else.");
   U(1,1) = e^(i*(g-p(2)-p(3))/2)*cos(p(1));
   U(2,2) = e^(i*(g+p(2)+p(3))/2)*cos(p(1));
   U(2,1) = e^(i*(g+p(3)-p(2))/2)*sin(p(1));
-  U(1,2) = -1*e^(i*(g-p(3)+p(2))/2)*sin(p(1));
+  U(1,2) = -e^(i*(g-p(3)+p(2))/2)*sin(p(1));
 	 
 endfunction
 

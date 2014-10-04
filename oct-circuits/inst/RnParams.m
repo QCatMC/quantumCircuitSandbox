@@ -25,11 +25,11 @@
 
 function p = RnParams(U,ep=0.00001)
   
-  if(!isequal(size(U),[2,2]) )
-    error("Operator size mismatch. Must be 2x2 Unitary.");
-  elseif( operr(U*U',Iop) >  ep)
-    error("Given operator appears to not be unitary");	 
-  endif
+  ##if(!isequal(size(U),[2,2]) )
+  ##  error("Operator size mismatch. Must be 2x2 Unitary.");
+  ##elseif( operr(U*U',Iop) >  ep)
+  ##  error("Given operator appears to not be unitary");	 
+  ##endif
 
   ## get phase amp params
   ph = phaseAmpParams(U,ep);
@@ -41,9 +41,9 @@ function p = RnParams(U,ep=0.00001)
   r=ph(2);
   c=ph(3);
   ## angle
-  p(1) = 2*acos(cos((r+c)/2)*cos(a));
+  p(1) = 2*acos( cos((r+c)/2) * cos(a));
   
-  if( p(1) == 0 )
+  if( p(1) < 10^(-12) )
     ## default to Zero rotation about z axis when no rotation occurs
     p(2) = 0;
     p(3) = 0;

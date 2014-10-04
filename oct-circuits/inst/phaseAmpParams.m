@@ -24,37 +24,41 @@
 
 function p = phaseAmpParams(U,ep=0.00001)
   
-  if(!isequal(size(U),[2,2]) )
-    error("Operator size mismatch. Must be 2x2 Unitary.");
-  elseif( operr(U*U',Iop) >  ep)
-    error("Given operator appears to not be unitary");	 
-  endif
+  ##if(!isequal(size(U),[2,2]) )
+  ##  error("Operator size mismatch. Must be 2x2 Unitary.");
+  ##elseif( operr(U*U',Iop) >  ep)
+  ##  error("Given operator appears to not be unitary");	 
+  ##endif
   
   p = zeros(1,4);
-  ## amplitude 
+  
+  ## get global phase
+  gp = det(U);
+  p(4) = arg(gp);
+  ## factor global phase out of U to get SU(2) component
+  U = sqrt(gp)'*U;
+
+  ## get the amplitude
   p(1) = acos(abs( U(1,1) ));
   
+  md = abs(U(1,1))+abs(U(2,2));
+  od = abs(U(1,2))+abs(U(2,1));
+  fcmpeta = 10^(-12);
   ## non-diagonal or off-diagonal matrix
-  if( U(1,1) != 0 && U(1,2) != 0 )
+  if( md > fcmpeta && od > fcmpeta )
     ## row phase
     p(2) = arg( U(2,2)*U(2,1)' );
     ## col phase
     p(3) = arg( U(2,1)*U(1,1)' );
-    ## global phase
-    p(4) = arg( U(1,1)*U(2,2) );
   ##off-diagonal 
-  elseif( U(1,1) == 0 )
-    p(4) = arg( U(2,1)*-U(1,2) );
+  elseif( md < fcmpeta )
     p(2) = 0; # let C be zero 
-    p(3) = 2*( arg(U(2,1)) - (p(4)/2) );
+    p(3) = 2*( arg(U(2,1)) );
   ##diagonal
-  elseif( U(1,2) == 0 )
-    p(4) = arg(U(1,1)*U(2,2));
+  elseif( od < fcmpeta )
     p(2) = 0;
-    p(3) = 2*( arg(U(2,2)) - (p(4)/2) );
-  endif
-      
-  
+    p(3) = 2*( arg(U(2,2)) );
+  endif  
 	 
 endfunction
 

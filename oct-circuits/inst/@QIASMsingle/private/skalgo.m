@@ -25,7 +25,7 @@
 ## Keywords: Operators 
 
 function [Us,newU] = skalgo(U,n)
-	 
+  
   if( n == 0 )
     ## UZERO is a table of (strseq,U(2)) pairs
     ## findclosest picks the pair that minimizes
@@ -41,12 +41,14 @@ function [Us,newU] = skalgo(U,n)
     newU = Vnm1*Wnm1*Vnm1'*Wnm1'*Unm1;
     ## construct sequence for that matrix
     Us = {Vnm1seq{:},Wnm1seq{:}, ...
-	  fliplr(cellfun(adj,Vnm1seq,"UniformOutput",false)){:}, ...
-	  fliplr(cellfun(adj,Wnm1seq,"UniformOutput",false)){:}, ...
+	  fliplr(cellfun(@adj,Vnm1seq,"UniformOutput",false)){:}, ...
+	  fliplr(cellfun(@adj,Wnm1seq,"UniformOutput",false)){:}, ...
 	  Unm1seq{:}};
     
+    etan = norm(U-newU); ## error for n approx
+    assert(etan < etanm1); ## better get better!
   endif
-
+  
 endfunction
 
 %!test
@@ -64,11 +66,11 @@ endfunction
 
 function [V,W] = getGroupComm(U,ep=0.00001)
   
-  if(!isequal(size(U),[2,2]) )
-    error("Operator size mismatch. Must be 2x2 Unitary.");
-  elseif( operr(U*U',Iop) >  ep)
-    error("Given operator doesn't appear to be be unitary");	 
-  endif
+  #if(!isequal(size(U),[2,2]) )
+  #  error("Operator size mismatch. Must be 2x2 Unitary.");
+  #elseif( operr(U*U',Iop) >  ep)
+  #  error("Given operator doesn't appear to be be unitary");	 
+  #endif
   
   V=zeros(2);
   W=zeros(2);
@@ -123,31 +125,13 @@ endfunction
 ## Adjoint by name/string
 ## this is a bit hacky... but should work... 
 function s = adj(opstr)
-  if(length(optstr) == 2)
+
+  if(length(opstr) == 2)
     s = opstr(1);
   else #length is 1
     s = [opstr,"'"];
   endif
+
 endfunction
 
 
-## Search the precomputed approximations to find the one closest to
-## U.
-## eww globals... is there a better way for some persistant, shared state?
-function [seq,mat] = findclosest(U)
-
-  ## UZERO is the 'table' of precomputed sequences
-  ## it's loaded by @QIASMcircuit compile 
-  ## it's computed by @QIASMcircuit/private/computeuzero.m script
-  ## it's stored in @QIASMcircuit/private/uzero.mat
-  global UZERO; # format (seq,U(2))
-  
-  ## search ETAZERO for the closest SU(2)
-  errs = cellfun(@(V) norm(U-V),UZERO(:,2));  #get errors
-  [minVal,minIdx] = min(errs); ## find min
-  mat = UZERO{minIdx,1}; ## select matrix
-  seq = UZERO{minIdx,2}; ## select sequence
-  
-  ##assert(operr(mat,U) >= ETA0);
-  
-endfunction

@@ -31,7 +31,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function C = buildCircuit(desc,eta=2^(-10),varargin )
+function C = buildCircuit(desc,eta=2^(-8),varargin )
 
   nargs = length( varargin );
 

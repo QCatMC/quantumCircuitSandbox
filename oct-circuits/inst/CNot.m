@@ -24,7 +24,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
-function U = CNot(c,t=0)
+function U = CNot(c=1,t=0)
  
   if( c == t )
     error("Control and target cannot be the same qubit.");

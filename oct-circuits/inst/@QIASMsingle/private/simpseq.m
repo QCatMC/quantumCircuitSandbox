@@ -1,8 +1,10 @@
 
 ## takes a cellarray containing a sequence of 
-## {H,Z,T,T',S,S'} and reduces the sequence to a shorter
-## but equivalent sequence
+## G = {H,T,T'} and reduces the sequence to a shorter
+## but equivalent sequence utilizing Union(G,{X,Z,S,S'})
 
+## main function to reduce sequence. keep going until
+## it stops getting shorter
 function snew = simpseq(seq)
 
   redux = true;
@@ -55,23 +57,27 @@ endfunction
 
 ## true if aseq*bseq = "I". Works on strings (op names)
 ## and cell array seqences of strings.  Only accounts for
-## {H,Z,T,S,T',S'}
+## {H,Z,T,S,T',S',X,Y}
 function b = isadjoint(aseq,bseq)
   b=false;
   if(ischar(aseq) && ischar(bseq))
     b = (strcmp(aseq,"H") && strcmp(aseq,bseq)) || ...
 	(strcmp(aseq,"Z") && strcmp(aseq,bseq) ) || ...
+	(strcmp(aseq,"X") && strcmp(aseq,bseq) ) || ...
+	(strcmp(aseq,"Y") && strcmp(aseq,bseq) ) || ...
 	( strcmp(aseq,"T") && strcmp(bseq,"T'") ) || ...
 	( strcmp(aseq,"T'") && strcmp(bseq,"T") ) || ...
 	( strcmp(aseq,"S'") && strcmp(bseq,"S") ) || ...
 	( strcmp(aseq,"S") && strcmp(bseq,"S'") )  ;
   elseif(iscell(aseq) && iscell(bseq))
+
     if(length(aseq) != length(bseq))
       b= false;
     else
       b = length(aseq) == sum(cellfun(@isadjoint, 
 				      aseq,fliplr(bseq)));		      
     endif
+
   endif
 
 endfunction 
@@ -90,7 +96,18 @@ function snew = substpair(seq)
 	snew = {"Z"};
     endswitch
   endif
+endfunction
 
+## reduces HZH=X and HXH=Z
+function snew = subshxz(seq)
+  snew = seq;
+  if(strcmp(seq{1},seq{3}) && strcmp(seq{1},"H"))
+    if(strcmp(seq{2},"Z") )
+      snew = {"X"};
+    elseif(strcmp(seq{2},"X"))
+      snew = {"Z"};
+    endif
+  endif
 endfunction
 
 function snew = substseq(seq)
@@ -98,8 +115,10 @@ function snew = substseq(seq)
   found = true;
   ## repeat until no more subst is found
   while(found)
-    k=1;
+  
     found = false;
+    ## pairwise reductions (and len 2^k reductions)
+    k=1;  
     while(k<length(snew))
       curr = substpair(snew(k:k+1));
       if(length(curr) == 1)
@@ -109,6 +128,19 @@ function snew = substseq(seq)
       endif
       k++;	     
     endwhile
+
+    ## look for HXH=Z and HZH=X
+    k=1;
+    while(k<(length(snew)-1))
+      curr = subshxz(snew(k:k+2));
+      if(length(curr) == 1)
+	snew = {snew{1:k-1},curr{1},...
+		snew{k+3:end}};
+	found = true;
+      endif
+      k++;
+    endwhile
   endwhile
 
 endfunction
+

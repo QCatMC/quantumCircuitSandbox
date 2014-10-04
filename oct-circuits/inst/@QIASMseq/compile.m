@@ -25,8 +25,10 @@
 
 function q = compile(this,eta)
 
-  q = @QASMseq(cellfun(@(d) compile(d,eta),this.seq,"UniformOutput",false));
+  q = @QASMseq(cellfun(@(d) compile(d,eta),this.seq,...
+		       "UniformOutput",false));
 
 endfunction
+
 
 
