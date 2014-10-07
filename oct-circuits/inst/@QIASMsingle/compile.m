@@ -31,23 +31,20 @@ function q = compile(this,eta)
   else
     ##use SK to approximiate to within eta with a QASMseq 
     ## SK params -- From Dawson&Nielsen
-    capprox = 4*sqrt(2);
-    cgc = 1/sqrt(2);  
+    eta0 = 0.14
+    capprox = 2.6; # 4*sqrt(2);
+    ## cgc = 1/sqrt(2);  
     
     ## get the SU(2) variant of the operator
     [SU,ph] = QIASMop(this.name,this.params)
     ## get U_0 and eta_0
     [seq,mat] = findclosest(SU);
-    eta0 = norm(SU-mat)
-    seq
-    mat
-    
-    ## requirement for the algorithm to converge 
-    ## on an eta approximation
-    ##  eta0 < 0.031250
-    assert(eta0 < 1/(capprox^2));
+        
+    ## sanity check that initial approx is at least an eta0 approx
+    dist = norm(SU-mat)
+    assert(dist <= eta0);
 
-    if( eta0 < eta) # good enough. why work more!
+    if( dist <= eta0) # good enough. why work more!
       qstrseq = seq;
     else # need to do better. more work!
       	 
