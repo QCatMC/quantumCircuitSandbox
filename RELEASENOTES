@@ -1,3 +1,9 @@
+v0.5.0
+ - Added Solovay-Kitave compiler for QIASM->QASM.  You may not specify
+    arbitrary unitaries in PhaseAmp,Rn,or ZYZ parameterization. These 
+    are then compiled to a QASM circuits which approximates the QIASM 
+    circuit up to a global phase.  
+
 v0.4.5
  - QIASM layer added to QASM. Users now utilize the abstract 'buildCircuit'
    to construct circuits and need not worry about QIASM vs QASM.  However, 
