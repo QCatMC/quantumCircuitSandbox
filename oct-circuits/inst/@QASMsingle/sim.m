@@ -29,8 +29,13 @@
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
-  y = applyOp(in,eval(gate.name,'error("Unknown Operation")'), ...
-	      gate.tar,bits);
+  high = bits-gate.tar-1; # wires above tar
+  low = gate.tar; # wires below tar
+  op = eval(gate.name,'error("Unknown Operation")'); #op matrix
+  
+  
+  y = kron(speye(2^high),kron(op,speye(2^low)))*in;
+
   if( currd <= dlim )
     t = currt+1;
   elseif( currd > dlim )
