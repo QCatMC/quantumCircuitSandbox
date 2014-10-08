@@ -27,6 +27,5 @@ function display(sGate)
     fprintf ("%s = \n", inputname (1)); 
   endif
 
-  #fprintf ("{\"%s\",%d}\n",sGate.name,sGate.tar );
   nestedPrint(sGate,1);
 endfunction

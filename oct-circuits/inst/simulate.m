@@ -83,3 +83,8 @@ vector. Got some other vector.");
   endif
 
 endfunction
+
+%!test
+%! #check 
+%!
+%!

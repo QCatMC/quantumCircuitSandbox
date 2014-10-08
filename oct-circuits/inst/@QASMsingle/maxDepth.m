@@ -25,3 +25,4 @@
 function d = maxDepth(g)
   d=0;
 endfunction
+

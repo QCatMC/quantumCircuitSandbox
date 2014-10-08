@@ -27,11 +27,9 @@ function b = eq(this,other)
   b=false;
   if( !isa(other,"QASMsingle") )
     b=false;
-  elseif( eq(this.name,get(other,"name")) && ...
-	  eq(this.tar,get(other,"tar")) )
-    b=true; 
   else
-    b=false;
+    b = eq(this.name,get(other,"name")) && ...
+	eq(this.tar,get(other,"tar"));
   endif
 
 endfunction

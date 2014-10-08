@@ -33,9 +33,10 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
   low = gate.tar; # wires below tar
   op = eval(gate.name,'error("Unknown Operation")'); #op matrix
   
-  
+  ## compute output state
   y = kron(speye(2^high),kron(op,speye(2^low)))*in;
 
+  ## time steps update, or not
   if( currd <= dlim )
     t = currt+1;
   elseif( currd > dlim )
@@ -43,3 +44,45 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
   endif    
 
 endfunction
+
+%!test
+%! lH = sqrt(1/2)*[1,1;1,-1];
+%! lX = [0,1;1,0];
+%! lY = i*[0,-1;1,0];
+%! lZ = [1,0;0,-1];
+%! lS = [1,0;0,i];
+%! lT = [1,0;0,e^(i*pi/4)];
+%! in = (0:7==1)';
+%! ops = {"X","Y","Z","H","S","S'","T","T'"};
+%! mats = {lX,lY,lZ,lH,lS,lS',lT,lT'};
+%!
+%! ## all ops, currd < dlim
+%! for o = 1:length(ops)
+%!   for tar = 0:2
+%!      [y,t] = sim(@QASMsingle(ops{o},tar),in,3,1,2,0,5);
+%!      assert(t==1);
+%!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
+%!      assert(isequal(y,curOp*in));
+%!   endfor
+%! endfor
+%!
+%! ## all ops currd = dlim
+%! for o = 1:length(ops)
+%!   for tar = 0:2
+%!      [y,t] = sim(@QASMsingle(ops{o},tar),in,3,1,1,0,5);
+%!      assert(t==1);
+%!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
+%!      assert(isequal(y,curOp*in));                           
+%!   endfor
+%! endfor
+%!
+%! ## all ops, currd > dlim
+%! for o = 1:length(ops)
+%!   for tar = 0:2
+%!      [y,t] = sim(@QASMsingle(ops{o},tar),in,3,3,2,0,5);
+%!      assert(t==0);
+%!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
+%!      assert(isequal(y,curOp*in));                            
+%!   endfor
+%! endfor
+%!

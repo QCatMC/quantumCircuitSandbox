@@ -52,6 +52,7 @@ function C = buildCircuit(desc,eta=2^(-8),varargin )
         C = set(C,"bits",size);
       endif
     endif
+    printf("Parse done\n");
     ## compile to QASM
     C = compile(QIASMcir,eta);
 

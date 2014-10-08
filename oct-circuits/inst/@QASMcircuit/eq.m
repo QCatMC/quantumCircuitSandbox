@@ -13,16 +13,31 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## Usage: b = eq(this,other)
 ##
-##  used to compute number of steps at depth d of a circuit. Gates are
-##  always 1 step
-## 
+## returns true if @QASMcircuit this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
+ 
 
-function s = stepsAt(g,d)
-  s = 1;
+function b = eq(this,other)
+
+  b=false;
+  if( !isa(other,"QASMcircuit") )
+    b=false;
+  else
+    b = this.bits == get(other,"bits") && ...
+	this.maxDepth == get(other,"maxDepth") && ...
+	isequal(this.stepsAt,get(other,"stepsAt")) && ...
+	isequal(this.tar,get(other,"tars")) && ... 
+	eq(this.seq,get(other,"seq"));
+  endif
+
 endfunction
+
+
+%!test
+%! assert(false);
 
