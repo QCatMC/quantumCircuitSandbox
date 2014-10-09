@@ -30,7 +30,31 @@
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 	 
-  y = applyCNot(in,gate.ctrl,gate.tar,bits);
+  high = bits-1-max(gate.tar,gate.ctrl);
+  low  = min(gate.tar,gate.ctrl);
+  mid  = bits-high-low-2;
+
+  ## sparse versions of component matrices 
+  P0 = sparse([1,0;0,0]);
+  P1 = sparse([0,0;0,1]);
+  X = sparse([0,1;1,0]);
+  
+  ## pre-allocate output vector
+  y = zeros(length(in),1);
+
+  if( gate.ctrl > gate.tar )
+    op = kron(speye(2^high), ...
+	      ( kron(P0,speye(2^(mid+low+1))) +...
+		kron(kron(P1,speye(2^(mid))),kron(X,speye(2^low)))));
+    
+    y = op*in;
+  else # gate.ctrl < gate.tar 
+    op = kron((kron(speye(2^(high+1+mid)),P0) + ...
+	       kron(kron(speye(2^high),X),kron(speye(2^(mid)),P1))),...
+	      speye(2^low));
+    y  = op*in;	      	 
+  endif
+
   if( currd <= dlim )
     t = currt+1;
   else
@@ -38,3 +62,55 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
   endif
 
 endfunction
+
+## all tests use binaryRep and stdBasis 
+%!test    
+%! for k = 0:3
+%!   for c = 0:1
+%!        t = mod(c+1,2); # target
+%!        in = (0:3==k)'; 
+%!        out = binaryRep(k,2); 
+%!        out(2-t) = mod(out(2-c)+out(2-t),2);
+%!        out = stdBasis(out,2);
+%!        [y,ti] = sim(@QASMcNot(t,c),in,2,0,1,0,1);
+%!        assert(isequal(y,out),
+%!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...
+%!                find(in)-1, c, t, find(y)-1, find(out)-1);         
+%!   endfor
+%! endfor
+%!
+
+%!test 
+%! for k = 0:(2^4-1)
+%!   for c = 0:3
+%!     for t = setdiff(0:3,[c])
+%!        in = (0:(2^4-1)==k)'; 
+%!        out = binaryRep(k,4); 
+%!        out(4-t) = mod(out(4-c)+out(4-t),2);
+%!        out = stdBasis(out,4);
+%!        [y,ti] = sim(@QASMcNot(t,c),in,4,0,1,0,1);
+%!        assert(ti==1);
+%!        assert(isequal(y,out), ...
+%!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...
+%!                find(in)-1, c, t, find(y)-1,find(out)-1 );
+%!     endfor
+%!   endfor
+%! endfor
+
+## larger space and depth check
+%!test 
+%! for k = 0:(2^5-1)
+%!   for c = 0:4
+%!     for t = setdiff(0:4,[c])
+%!        in = (0:(2^5-1)==k)'; 
+%!        out = binaryRep(k,5); 
+%!        out(5-t) = mod(out(5-c)+out(5-t),2);
+%!        out = stdBasis(out,5);
+%!        [y,ti] = sim(@QASMcNot(t,c),in,5,2,1,0,1);
+%!        assert(ti==0);
+%!        assert(isequal(y,out), ...
+%!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...
+%!                find(in)-1, c, t, find(y)-1,find(out)-1 );
+%!     endfor
+%!   endfor
+%! endfor
