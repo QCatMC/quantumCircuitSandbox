@@ -22,16 +22,14 @@
 
 function t = stepsAt(cir,d)
 
-  if( !isa(cir,"QASMcircuit") )
-    error("Given something other than a circuit as first argument.");
-  elseif( !isNat(d) || d == 0 )
+  if( !isNat(d) || d == 0 )
     error("Depth must be positive, non-zero integer.");
   endif
 
-  if( d > get(cir,"maxDepth") )
+  if( d > cir.maxDepth )
     t = 0;
   else
-    t = get(cir,"stepsAt")(d);
+    t = cir.stepsAt(d);
   endif
 
 endfunction
