@@ -16,7 +16,7 @@
 ## Usage: s = stepsAt(g,d)
 ##
 ##  used to compute number of steps at depth d of a circuit. Gates are
-##  always 1 step
+##  always 1 step regardless of the depth
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

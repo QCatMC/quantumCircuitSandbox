@@ -24,10 +24,17 @@
 
 function t = collectTars(this)
 
-  tset = cellfun(@collectTars,this.seq,"UniformOutput",false);
+  ## set union of the target sets for all sub-circuits
   t = [];
-  for k = 1:length(tset) 
-    t = union(t,tset{k});
+  for idx = 1:length(this.seq)
+      t = union(t, collectTars(this.seq{idx}));
   endfor
 
 endfunction
+
+%!test
+%! C = @QASMseq({@QASMsingle("H",2),@QASMmeasure([1,4]),...
+%!               @QASMcNot(3,1),@QASMsingle("X",4)});
+%! assert(1:4,collectTars(C));
+%! D = @QASMseq({C,@QASMsingle("Y",7)});
+%! assert([1,2,3,4,7],collectTars(D));

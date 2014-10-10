@@ -63,3 +63,19 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
 endfunction
 
+
+## should probably do more tests here.
+%!test
+%! A = @QASMseq({@QASMsingle("X",0),@QASMsingle("X",1)});
+%! B = @QASMseq({@QASMsingle("X",1),A});
+%! ## w.r.t to B --> 2 steps @ 1, 3 @ 2+
+%! in = (0:3==0)';
+%! ## whole thing.. currd < dlim, t<tlim
+%! assert(sim(B,in,2,1,2,0,3),double((0:3==1)'))
+%! ## nothing
+%! assert(sim(B,in,2,1,2,1,1,0,3),in);
+%! ## currd == dlim
+%! assert(sim(B,in,2,1,1,1,2),double((0:3==2)'))
+%! ## 2 of three
+%! assert(sim(B,in,2,1,2,1,3),double((0:3==3)'))
+

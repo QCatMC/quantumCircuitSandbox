@@ -39,7 +39,10 @@ function c = QASMcircuit(cNode,n)
     c.seq = cNode;
     c.maxDepth = maxDepth(c.seq);
     c.tars = collectTars(c.seq);
-    c.stepsAt = arrayfun( @(d) stepsAt(c.seq,d), 1:c.maxDepth);        
+    c.stepsAt = zeros(c.maxDepth,1);
+    for d = 1:c.maxDepth
+      c.stepsAt(d) = stepsAt(c.seq,d);
+    endfor
     if( nargin == 2 )
       c.bits = n;
     else

@@ -40,12 +40,11 @@ endfunction
 
 
 %!test
-%! assert(false);
-%! a = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1)});
-%! b = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1)});
-%! c = @seqNode({@QASMsingle("H",1)});
-%! d = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1),@seqNode({@QASMmeasure()})});
-%! e = @seqNode({@QASMsingle("H",1),@QASMcNot(0,1),@seqNode({@QASMmeasure()})});
+%! a = @QASMseq({@QASMsingle("H",1),@QASMcNot(0,1)});
+%! b = @QASMseq({@QASMsingle("H",1),@QASMcNot(0,1)});
+%! c = @QASMseq({@QASMsingle("H",1)});
+%! d = @QASMseq({@QASMsingle("H",1),@QASMcNot(0,1),@QASMseq({@QASMmeasure()})});
+%! e = @QASMseq({@QASMsingle("H",1),@QASMcNot(0,1),@QASMseq({@QASMmeasure()})});
 %! assert(eq(a,a));
 %! assert(eq(a,b));
 %! assert(eq(d,e));

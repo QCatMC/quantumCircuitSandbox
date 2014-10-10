@@ -26,8 +26,19 @@ function s = stepsAt(g,d)
   if( d == 1 )
     s = length(g.seq);
   else
-    sarr = cellfun(@(c) stepsAt(c,d-1), g.seq);
+    sarr = zeros(length(g.seq),1);
+    for idx = 1:length(g.seq)
+      sarr(idx) = stepsAt(g.seq{idx},d-1);
+    endfor
     s = sum(sarr);
   endif
 endfunction
 
+%!test
+%! A = @QASMseq({@QASMsingle("H",1),@QASMcNot(2,1),...
+%!               @QASMmeasure([1,2,5])});
+%! assert(stepsAt(A,1),3);
+%! assert(stepsAt(A,2),3); 
+%! B = @QASMseq({@QASMsingle("Z",2),A});
+%! assert(stepsAt(B,1),2);
+%! assert(stepsAt(B,2),4);

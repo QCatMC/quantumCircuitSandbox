@@ -99,7 +99,8 @@ endfunction
 %!  assert(s,stdBasis(5,3))
 %! endfor
 
-## These tests are crude, for now?
+## probably better ways to test in the presence of 
+## non-determinism 
 
 %!test
 %! x = 1/2*[1,-1,1,-1]';

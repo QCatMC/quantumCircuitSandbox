@@ -22,18 +22,28 @@
 
 function t = stepsAt(cir,d)
 
-  if( !isNat(d) || d == 0 )
+  if( floor(d) != ceil(d) || !(d > 0) )
     error("Depth must be positive, non-zero integer.");
   endif
-
-  if( d > cir.maxDepth )
-    t = 0;
+  
+  if(d >= cir.maxDepth)
+    t = cir.stepsAt(cir.maxDepth);
   else
     t = cir.stepsAt(d);
   endif
+  
 
 endfunction
 
 
 %!test
-%! assert(false)
+%! ## 2 at 1, 3 at 2+
+%! A = @QASMcircuit(@QASMseq({@QASMsingle("X",2), ...
+%!                            @QASMseq({@QASMsingle("H",2),...
+%!                                      @QASMmeasure([])}) }));
+%! assert(stepsAt(A,2)==3,"depth 2 failed got %d", stepsAt(A,2));
+%! assert(stepsAt(A,1)==2,"depth 1 failed");
+%! assert(stepsAt(A,3)==3,"depth 3 failed");
+%!error stepsAt(A,0)
+%!error stepsAt(A,3.3)
+

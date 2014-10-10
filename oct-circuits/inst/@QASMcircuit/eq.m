@@ -31,7 +31,7 @@ function b = eq(this,other)
     b = this.bits == get(other,"bits") && ...
 	this.maxDepth == get(other,"maxDepth") && ...
 	isequal(this.stepsAt,get(other,"stepsAt")) && ...
-	isequal(this.tar,get(other,"tars")) && ... 
+	isequal(this.tars,get(other,"tars")) && ... 
 	eq(this.seq,get(other,"seq"));
   endif
 
@@ -39,5 +39,13 @@ endfunction
 
 
 %!test
-%! assert(false);
+%! A = @QASMcircuit(@QASMseq({@QASMsingle("H",2)}));
+%! B = @QASMcircuit(@QASMseq({@QASMsingle("X",2)}));
+%! C = @QASMcircuit(@QASMseq({@QASMsingle("H",1)}));
+%! D = @QASMcircuit(@QASMseq({@QASMsingle("H",2)}),4);
+%! assert(!eq(A,B)); #same tars different ops
+%! assert(!eq(A,C)); #
+%! assert(!eq(A,D));
+%! 
+
 
