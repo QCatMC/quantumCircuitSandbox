@@ -24,10 +24,16 @@
 
 function t = collectTars(this)
 
-  tset = cellfun(@collectTars,this.seq,"UniformOutput",false);
   t = [];
-  for k = 1:length(tset) 
-    t = union(t,tset{k});
+  for idx = 1:length(this.seq)
+      t = union(t, collectTars(this.seq{idx}));
   endfor
 
 endfunction
+
+ %!test
+ %! C = @QIASMseq({@QIASMsingle("H",2),@QIASMmeasure([1,4]),...
+ %!               @QIASMcNot(3,1),@QIASMsingle("X",4)});
+ %! assert(1:4,collectTars(C));
+ %! D = @QIASMseq({C,@QIASMsingle("Y",7)});
+%! assert([1,2,3,4,7],collectTars(D));

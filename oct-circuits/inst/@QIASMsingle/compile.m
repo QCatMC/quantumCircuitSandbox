@@ -31,49 +31,53 @@ function q = compile(this,eta)
   else
     ##use SK to approximiate to within eta with a QASMseq 
     ## SK params -- From Dawson&Nielsen
-    eta0 = 0.14
-    capprox = 2.6; # 4*sqrt(2);
-    ## cgc = 1/sqrt(2);  
+    eta0 = 0.14;
+    capprox = 2.6; 
     
-    ## get the SU(2) variant of the operator
-    [SU,ph] = QIASMop(this.name,this.params)
-    ## get U_0 and eta_0
+    ## get the SU(2) variant of this
+    [SU,ph] = QIASMop(this.name,this.params);
+    ## get eta_0 approximation
     [seq,mat] = findclosest(SU);
         
-    ## sanity check that initial approx is at least an eta0 approx
-    dist = norm(SU-mat)
-    assert(dist <= eta0);
-
-    if( dist <= eta0) # good enough. why work more!
+    ## distance from SU to eta_0 approximation mat
+    dist = norm(SU-mat);    
+    if( dist <= eta ) # good enough. why work more!
       qstrseq = seq;
-    else # need to do better. more work!
+    else # need a better approximation. more work!
       	 
       ## initial depth of SK algo
       skdep = uint32(ceil(log( (log(1/(eta*capprox^2))) / ...
 			       (log(1/(eta0*capprox^2))) ) / ...
 			  log(3/2)));
-      ##printf("SK Depth: %d\n",skdep);
+
       
-    
+  
       ## compile with Solovay-Kiteav
       [qstrseq,SUapprox] = skalgo(SU,skdep);
+
       ## test for eta precision requirement
-      assert(norm(SU-SUapprox) < eta);
-      ## simplify/reduce approx. seq if possible.
+      ##  *** Remove when not testing or keep for runtime errors
+      assert(norm(SU-SUapprox) < eta, ...
+	     "QIASM compile: unable to approximate a gate");
+
+      ## simplify/reduce approximating sequence if possible.
       qstrseq = simpseq(qstrseq);
     endif
       
     ## convert strings to QASMsingle with correct target
     ## pack into a QASMseq. reverse for circuit order vs. Maths order
-    q = @QASMseq(cellfun(@(name) @QASMsingle(name,this.tar),...
-			 fliplr(qstrseq), ...
-			 "UniformOutput",false));
+    qseq = cell(length(qstrseq));
+    len = length(qseq);
+    for k = 1:len
+	qseq{k} = @QASMsingle(qstrseq{len+1-k},this.tar);
+    endfor
 
+    ## package approximating sequence as @QASMseq
+    q = @QASMseq(qseq);
     
   endif
 
 endfunction
-
 
 
 function [SU,ph] = QIASMop(name,params)
@@ -115,3 +119,41 @@ function b = QASMsingleOp(OpStr)
   endswitch
 
 endfunction
+
+
+## no sk-algo needed
+%!test
+%! assert(eq(compile(@QIASMsingle("H",0),1/32),@QASMsingle("H",0)));
+%! assert(eq(compile(@QIASMsingle("X",0),1/32),@QASMsingle("X",0)));
+%! assert(eq(compile(@QIASMsingle("Y",1),1/32),@QASMsingle("Y",1)));
+%! assert(eq(compile(@QIASMsingle("Z",2),1/32),@QASMsingle("Z",2)));
+%! assert(eq(compile(@QIASMsingle("S",0),1/32),@QASMsingle("S",0)));
+%! assert(eq(compile(@QIASMsingle("S'",0),1/32),@QASMsingle("S'",0)));
+%! assert(eq(compile(@QIASMsingle("T",0),1/32),@QASMsingle("T",0)));
+%! assert(eq(compile(@QIASMsingle("T'",0),1/32),@QASMsingle("T'",0)));
+
+## testing SK-based compilation
+##  I don't like this, but for this works by running a large number
+##  of instances of compile, and utilizing the assert used to 
+##  verify that the final approximation is within eta.
+
+## Phase Amp 
+%!test
+%! params = zeros(10^4,4);
+%! for k = 1:length(params)
+%!   compile(@QIASMsingle("PhAmp",0,params(k,:)));
+%! endfor
+
+## Rotation about n
+%!test
+%! params = zeros(10^4,4);
+%! for k = 1:length(params)
+%!   compile(@QIASMsingle("Rn",0,params(k,:)));
+%! endfor
+
+## Z-Y-Z Rotation
+%!test
+%! params = zeros(10^4,4);
+%! for k = 1:length(params)
+%!   compile(@QIASMsingle("ZYZ",0,params(k,:)));
+%! endfor

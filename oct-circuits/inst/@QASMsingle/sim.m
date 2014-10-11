@@ -28,6 +28,13 @@
 ## Keyword: QASM
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
+	 
+  persistent H = sqrt(1/2)*([1,1;1,-1]);
+  persistent X = sparse([0,1;1,0]);
+  persistent Y = sparse([0,-i;i,0]);
+  persistent Z = sparse([1,0;0,-1]);
+  persistent S = sparse([1,0;0,i]);
+  persistent T = sparse([1,0;0,e^(i*pi/4)]); 
 
   high = bits-gate.tar-1; # wires above tar
   low = gate.tar; # wires below tar

@@ -85,6 +85,16 @@ vector. Got some other vector.");
 endfunction
 
 %!test
-%! #check 
-%!
-%!
+%! C = @QASMcircuit(@QASMseq({@QASMsingle("Z",0)}));
+%!error simulate(C,zeros(2,2)); #no matrix
+%!error simulate(C,{0,1,0}); #no arrays
+%!error simulate(C,-1); #no negatives
+%!error simulate(C,pi); #no reals
+%!error simulate(C,2); #bounds check on circuit
+%!error simulate(C,1:3); #bad vector
+%!error simulate(C,(1:3)'); #bad vector again
+%! assert(simulate(C,(0:1)'==0),simulate(C,[0]));
+%! assert(simulate(C,(0:1)'==0),simulate(C,0));
+%! assert(simulate(C,(0:1)'==1),simulate(C,[1]));
+%! assert(simulate(C,(0:1)'==1),simulate(C,1));
+

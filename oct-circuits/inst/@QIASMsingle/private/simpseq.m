@@ -7,16 +7,16 @@
 ## it stops getting shorter
 function snew = simpseq(seq)
 
-  redux = true;
-  snew = seq;
-  len = length(snew);
-  while(redux)
-    snew = reduceseq(snew); 
-    redux  = (len > length(snew));
-    len = length(snew);
-    snew = substseq(snew);
-    redux  = (len > length(snew));
-    len = length(snew);
+  redux = true; # true if reduction took place
+  snew = seq; # reduced sequence
+  len = length(snew); # current sequence length
+  while(redux) # as long as things are getting simplified...
+    snew = reduceseq(snew); #remove U*U'=I
+    redux  = (len > length(snew)); # check for reduction
+    len = length(snew); # set new length
+    snew = substseq(snew); # check for algebraic simplications 
+    redux  = (len > length(snew)); #update flag
+    len = length(snew); #update length
   endwhile
 
 endfunction
@@ -74,8 +74,14 @@ function b = isadjoint(aseq,bseq)
     if(length(aseq) != length(bseq))
       b= false;
     else
-      b = length(aseq) == sum(cellfun(@isadjoint, 
-				      aseq,fliplr(bseq)));		      
+      len = length(aseq);
+      for k =1:len
+	if( !isadjoint(aseq{k},bseq{len+1-k}) )
+	  b = false;
+	  return;
+	endif
+      endfor
+      b = true;
     endif
 
   endif
@@ -143,4 +149,26 @@ function snew = substseq(seq)
   endwhile
 
 endfunction
+
+## reductions by U*U' = I
+%!test
+%! mt = cell(1,0);
+%! assert(isequal(simpseq({"H","H","H","H"}),mt));
+%! assert(isequal(simpseq({"H","S","S'","H"}),mt));
+%! assert(isequal(simpseq({"Y","T'","T","X","Z","Z","X","Y"}),mt));
+
+## T->S->Z reductions
+%!test
+%! mt = cell(1,0);
+%! assert(isequal(simpseq({"T","T","S","S"}),{"S","Z"}));
+%! assert(isequal(simpseq({"T","T","T'","T'"}),mt));
+%! assert(isequal(simpseq({"T","T","T","T"}),{"Z"}));
+%! assert(isequal(simpseq({"T'","T'","T'","T'"}),{"Z"}));
+
+## H,Z,X relationships
+%!test
+%! mt = cell(1,0);
+%! assert(isequal(simpseq({"T","H","X","H"}),{"T","Z"}));
+%! assert(isequal(simpseq({"H","S","S","H"}),{"X"}));
+%! assert(isequal(simpseq({"H","T'","T","S","S","H"}),{"X"}));
 

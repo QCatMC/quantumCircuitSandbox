@@ -23,5 +23,16 @@
 ## Keywords: QIASM
 
 function n = numapprox(this)
-  n = sum(cellfun(@numapprox,this.seq));
+  n = 0;
+  for k = 1:length(this.seq)
+    n = n + numapprox(this.seq{k});
+  endfor
 endfunction
+
+%!test
+%! C = @QIASMseq({@QIASMcNot(0,1),@QIASMsingle("H",3),@QIASMmeasure([])});
+%! assert(0,numapprox(C));
+%! d = {@QIASMsingle("PhAmp",[pi,pi,pi],0), @QIASMsingle("ZYZ",[pi,pi,pi],0)};
+%! assert(2,numapprox(@QIASMseq(d)));
+%! assert(2,numapprox(@QIASMseq({@QIASMsingle("X",0),@QIASMseq(d)})));
+ 

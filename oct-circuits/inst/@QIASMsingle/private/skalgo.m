@@ -135,3 +135,4 @@ function s = adj(opstr)
 endfunction
 
 
+## This function, and it's sub-functions, are tested by way of @QIASMsingle/compile.m

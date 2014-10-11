@@ -24,11 +24,27 @@
  
 
 function q = compile(this,eta)
+	 
+  s = cell(length(this.seq));
+  for k = 1:length(s)
+    s{k} = compile(this.seq{k},eta);
+  endfor
 
-  q = @QASMseq(cellfun(@(d) compile(d,eta),this.seq,...
-		       "UniformOutput",false));
+  q = @QASMseq(s);		       
 
 endfunction
+
+## testing on all "H" gates as they're not likely to 
+##  change and we just need to test for proper traversal
+##  and construction. testing for Approximation-based compilation
+##  is done in @QIASMsingle/compile.m
+
+%!test
+%! c = {@QIASMsingle("H",0),@QIASMsingle("H",1)};
+%! C = @QIASMseq(c,@QIASMseq(c));
+%! r = {@QASMsingle("H",0),@QASMsingle("H",1)};
+%! R = @QASMseq(r,@QASMseq(r));
+%! assert(eq(compile(C,1/32),R));
 
 
 

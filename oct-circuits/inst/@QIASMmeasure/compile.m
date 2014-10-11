@@ -24,6 +24,7 @@
 
 function q = compile(this,eta)
 
+  ## Compile to single qubit measurements? 
   q = @QASMmeasure(this.tar);
 
 endfunction

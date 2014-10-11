@@ -26,24 +26,28 @@ function b = eq(this,other)
   if( isa(other,"QIASMseq") )
     othseq = get(other,"seq");
     if( length(this.seq) == length(othseq) )
-      eqvals = cellfun(@eq,this.seq,get(other,"seq"));
-      if( sum(eqvals) == length(this.seq) )
-	b = true;
-      endif
+      for k = 1:length(this.seq)
+	if( !eq(this.seq{k},get(other,"seq"){k}) )
+	  b = false; 
+	  return;
+	endif
+      endfor
+      b=true;
     endif
   endif
 endfunction
 
 
+
 %!test
-%! assert(false);
-%! a = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1)});
-%! b = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1)});
-%! c = @seqNode({@QIASMsingle("H",1)});
-%! d = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1),@seqNode({@QIASMmeasure()})});
-%! e = @seqNode({@QIASMsingle("H",1),@QIASMcNot(0,1),@seqNode({@QIASMmeasure()})});
+%! a = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1)});
+%! b = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1)});
+%! c = @QIASMseq({@QIASMsingle("H",1)});
+%! d = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1),@QIASMseq({@QIASMmeasure()})});
+%! e = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1),@QIASMseq({@QIASMmeasure()})});
 %! assert(eq(a,a));
 %! assert(eq(a,b));
 %! assert(eq(d,e));
 %! assert(!eq(a,c));
 %! assert(!eq(a,d));
+
