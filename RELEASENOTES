@@ -1,3 +1,7 @@
+v0.5.1
+ - performance tweaks
+ - more robust testing
+
 v0.5.0
  - Added Solovay-Kitave compiler for QIASM->QASM.  You may not specify
     arbitrary unitaries in PhaseAmp,Rn,or ZYZ parameterization. These 
