@@ -13,37 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = get(cir, f)
+## Usage: b = eq(this,other)
 ##
-## circuit field selector 
-
+## returns true if @QIASMcircuit this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
+ 
 
-function s = get(cir,f)
+function b = eq(this,other)
 
-  if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
-    s.numtoapprox = cir.numtoapprox;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = cir.seq;
-	case "bits"
-	  s = cir.bits;
-	case "numtoapprox"
-	  s = cir.numtoapprox;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+  b=false;
+  if( !isa(other,"QIASMcircuit") )
+    b=false;
   else
-    print_usage();
+    b = this.bits == get(other,"bits") && ...
+        this.numtoapprox == get(other,"numtoapprox") && ...
+	eq(this.seq,get(other,"seq"));
   endif
 
 endfunction
+
+
+%!test
+%! A = @QIASMcircuit(@QIASMseq({@QIASMsingle("H",2)}));
+%! B = @QIASMcircuit(@QIASMseq({@QIASMsingle("X",2)}));
+%! C = @QIASMcircuit(@QIASMseq({@QIASMsingle("H",1)}));
+%! D = @QIASMcircuit(@QIASMseq({@QIASMsingle("H",2)}),4);
+%! assert(!eq(A,B)); #same tars different ops
+%! assert(!eq(A,C)); #
+%! assert(!eq(A,D));
+%! 
+
+

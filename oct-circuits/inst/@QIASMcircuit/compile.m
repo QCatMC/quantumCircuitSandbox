@@ -56,3 +56,6 @@ function q = compile(this,eta)
 
 endfunction
 
+%!test
+%! assert(eq(@QASMcircuit(@QASMseq({@QASMsingle("H",0)})),...
+%!        compile(@QIASMcircuit(@QIASMseq({@QIASMsingle("H",0)})))));

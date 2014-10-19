@@ -13,7 +13,7 @@ function [seq,mat] = findclosest(U)
   ## start with first
   minVal = norm( U - UZERO{1,2} );
   minIdx = 1;
-  ## no traverse the rest
+  ## now traverse the rest
   for k = 2:length(UZERO)
       V = UZERO{k,2};
       err = norm(U-V);

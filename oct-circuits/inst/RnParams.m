@@ -25,37 +25,39 @@
 
 function p = RnParams(U,ep=0.00001)
   
-  ##if(!isequal(size(U),[2,2]) )
-  ##  error("Operator size mismatch. Must be 2x2 Unitary.");
-  ##elseif( operr(U*U',Iop) >  ep)
-  ##  error("Given operator appears to not be unitary");	 
-  ##endif
-
-  ## get phase amp params
-  ph = phaseAmpParams(U,ep);
-
-  p = zeros(1,5);
-  ## global phase
-  p(5) = ph(4);
-  a=ph(1);
-  r=ph(2);
-  c=ph(3);
-  ## angle
-  p(1) = 2*acos( cos((r+c)/2) * cos(a));
-  
-  if( p(1) < 10^(-12) )
-    ## default to Zero rotation about z axis when no rotation occurs
-    p(2) = 0;
-    p(3) = 0;
-    p(4) = 1;
-  else
-    ## nx
-    p(2) = sin((r-c)/2)*sin(a)*csc(p(1)/2);
-    ## ny
-    p(3) = cos((r-c)/2)*sin(a)*csc(p(1)/2);
-    ## nz
-    p(4) = sin((r+c)/2)*cos(a)*csc(p(1)/2);
+  if(!isequal(size(U),[2,2]) )
+    error("Operator size mismatch. Must be 2x2 Unitary.");
+  elseif( operr(U*U',Iop) >  ep)
+    error("Given operator appears to not be unitary");	 
   endif
+
+  ## factor out global phase to get SU(2) component
+  gp = arg(sqrt(det(U))); #global phase
+  U = e^(-i*gp)*U; #factor out global phase
+
+  theta = 2*acos( (U(1,1)+ U(2,2)) / 2);
+  n = zeros(1,3);
+  
+  minval = 2^(-50); #close enough to zero
+
+  if( abs(theta) < minval )#Identity
+    theta=0;
+    n(3)=1;
+  ## Diagonal Matrix
+  elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval ) 
+    n(3) = 1;
+  ## Off-Diagonal Matrix
+  elseif( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
+    theta = pi;
+    n(2) = (U(1,2)-U(2,1))/(-2);
+    n(1) = (U(1,2)+U(2,1))/(-2*i);
+  else
+    n(3) = (U(1,1)-U(2,2))/(-2*i*sin(theta/2));
+    n(2) = (U(1,2)-U(2,1))/(-2*sin(theta/2));
+    n(1) = (U(1,2)+U(2,1))/(-2*i*sin(theta/2)); 
+  endif
+
+  p = [theta,n,gp];
 	 
 endfunction
 

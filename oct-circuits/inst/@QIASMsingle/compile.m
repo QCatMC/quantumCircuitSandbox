@@ -133,27 +133,39 @@ endfunction
 %! assert(eq(compile(@QIASMsingle("T'",0),1/32),@QASMsingle("T'",0)));
 
 ## testing SK-based compilation
-##  I don't like this, but for this works by running a large number
-##  of instances of compile, and utilizing the assert used to 
-##  verify that the final approximation is within eta.
-
-## Phase Amp 
+##  skalgo is independently tested. Here we just ensure that the different
+##  operator types get handled properly. S is the table and should get picked
+##  up right away
 %!test
-%! params = zeros(10^4,4);
-%! for k = 1:length(params)
-%!   compile(@QIASMsingle("PhAmp",0,params(k,:)));
-%! endfor
+%! load("./@QIASMcircuit/private/uzero.mat");
+%! eta = 2^(-3);
+%! ## Phase Amp 
+%! params = [0,0,pi/2,pi/2]; #S
+%! assert(eq(compile(@QIASMsingle("PhAmp",0,params),eta), ...
+%!           @QASMseq({@QASMsingle("S",0)})));
+%! ## Rotation about n
+%! params = [pi/2,0,0,1,pi/4]; #S
+%! assert(eq(compile(@QIASMsingle("Rn",0,params),eta), ... 
+%!           @QASMseq({@QASMsingle("S",0)})));
+%! ## Z-Y-Z Rotation
+%! params = [pi/2,0,0,pi/2]; #S
+%! assert(eq(compile(@QIASMsingle("ZYZ",0,params),eta), ...
+%!        @QASMseq({@QASMsingle("S",0)})));
+%!
+%! clear -g UZERO
 
-## Rotation about n
+## now we just choose a random U and see if the it passes 
+## the internal check. 
 %!test
-%! params = zeros(10^4,4);
-%! for k = 1:length(params)
-%!   compile(@QIASMsingle("Rn",0,params(k,:)));
-%! endfor
-
-## Z-Y-Z Rotation
-%!test
-%! params = zeros(10^4,4);
-%! for k = 1:length(params)
-%!   compile(@QIASMsingle("ZYZ",0,params(k,:)));
-%! endfor
+%! load("./@QIASMcircuit/private/uzero.mat");
+%! eta = 2^(-3);
+%! ## Phase Amp 
+%! params = [pi/3,pi/3,pi/2,pi/2]; 
+%! compile(@QIASMsingle("PhAmp",0,params),eta);
+%! ## Rotation about n
+%! params = [pi/2,sqrt(1/3),sqrt(1/3),sqrt(1/3),pi/4]; 
+%! compile(@QIASMsingle("Rn",0,params),eta);
+%! ## Z-Y-Z Rotation
+%! params = [pi/3,pi/5,2*pi/3,pi/2]; 
+%! compile(@QIASMsingle("ZYZ",0,params),eta); 
+%! clear -g all

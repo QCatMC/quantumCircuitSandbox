@@ -29,14 +29,14 @@ function eta = operr(U,V)
   if( !isequal(size(U),size(V)) )
     error("Operators must be the same size.");
   endif
-
-  ## Compute the 2-norm of (U-V), which is the 
-  ## max singular value, aka sqrt of max eigenvalues of
-  ## (U-V)'(U-V)).
+  
+  ## 2-norm of the difference
   eta = norm(U-V);
   
 endfunction
 
 
+## just checking error checks. the reset is built-in code (norm,-)
 %!test
-%! assert(true)
+%! fail('operr(eye(2),eye(3))')
+%! fail('operr(H(3),X)')

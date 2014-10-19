@@ -37,7 +37,7 @@ endfunction
 ## testing on all "H" gates as they're not likely to 
 ##  change and we just need to test for proper traversal
 ##  and construction. testing for Approximation-based compilation
-##  is done in @QIASMsingle/compile.m
+##  is done in @QIASMsingle/compile.m and @QIASMsingle/private/skalgo.m
 
 %!test
 %! c = {@QIASMsingle("H",0),@QIASMsingle("H",1)};

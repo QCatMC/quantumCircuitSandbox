@@ -23,13 +23,14 @@
 
 function U = Ph(t)
 
-  if( !isscalar(t) && !isreal(t) )
-    error("Angle theta must be real. Given something else.")
+  if( !isscalar(t) )
+    error("Angle theta and should be real. Given something else.")
   endif
   
-  U = e^(-i*t/2)*Iop;
+  U = e^(i*t)*Iop;
 	 
 endfunction
 
 %!test
-%! assert(false)
+%! fail('Ph([1,2])');
+%! fail('Ph(ones(3))');
