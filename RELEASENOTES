@@ -1,3 +1,7 @@
+v0.5.2
+ - compile no longer loads Solovay-Kitaev data when the algorithm is not going
+   to be run.
+
 v0.5.1
  - performance tweaks
  - more robust testing

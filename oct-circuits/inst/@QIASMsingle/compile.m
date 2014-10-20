@@ -29,6 +29,8 @@ function q = compile(this,eta)
   if(QASMsingleOp(this.name))
     q = @QASMsingle(this.name,this.tar);
   else
+    ignore_function_time_stamp("all");  
+      
     ##use SK to approximiate to within eta with a QASMseq 
     ## SK params -- From Dawson&Nielsen
     eta0 = 0.14;
@@ -73,6 +75,7 @@ function q = compile(this,eta)
     ## package approximating sequence as @QASMseq
     q = @QASMseq(qseq);
     
+    ignore_function_time_stamp("none");  
   endif
 
 endfunction

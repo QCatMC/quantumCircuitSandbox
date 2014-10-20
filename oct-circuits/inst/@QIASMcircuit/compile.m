@@ -28,28 +28,25 @@ function q = compile(this,eta)
   ## operator to precision eta/m, where m is the number of
   ## non-elementary operators in the circuit.
 
-
-  ## load in global var UZERO
-  ## This is a 2D cell array that contains precomputed 
-  ## sequences used as initial approximations
-
-  ## build path off full path to this file	 
-  uzpath = sprintf("%s/private/uzero.mat",fileparts (mfilename ("fullpath")));
-
-  load(uzpath); # load 
-
-  ## required accuracy per approximated operation
   if( this.numtoapprox == 0 )
-    opEta = eta;
+    q = @QASMcircuit(compile(this.seq,eta),this.bits);
   else
+    ## load in global var UZERO
+    ## This is a 2D cell array that contains precomputed 
+    ## sequences used as initial approximations
+      
+    ## build path off full path to this file	 
+    uzpath = sprintf("%s/private/uzero.mat",fileparts (mfilename ("fullpath")));
+    
+    load(uzpath); # load 
+
     opEta = eta/this.numtoapprox;
+    
+    q = @QASMcircuit(compile(this.seq,opEta),this.bits);
+    
+    ## clear global data table
+    clear -g UZERO;
   endif
-
-
-  q = @QASMcircuit(compile(this.seq,opEta),this.bits);
-  
-  ## clear global data table
-  clear -g UZERO;
 
 endfunction
 

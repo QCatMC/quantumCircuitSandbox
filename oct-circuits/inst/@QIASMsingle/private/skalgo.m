@@ -179,17 +179,15 @@ function s = adj(opstr)
 
 endfunction
 
-## compute 0,1,2 approximations of a large number of SU(2) 
+## compute 0:dep approximations of a large number of SU(2) 
 ##  operators and verify that they get increasingly better
-##  then verify the "equivalence" of the operator and sequence
-##   - only runable from @QIASMsingle/private/
+##   - only executable from @QIASMsingle/private
 ##   - will take a fair bit of time 
-##   - logs data to skalgoTestData.mat
 
 %!test
 %! ## get the currently utilized U0 table
-%! 
-%! load("../../@QIASMcircuit/private/uzero16.mat"); 
+%!
+%! load("../../@QIASMcircuit/private/uzero.mat");
 %! addpath("../../");
 %!
 %! amp = (0:(pi/2/8):pi/2)'; #[0,pi/2]
@@ -199,7 +197,7 @@ endfunction
 %!           kron(pha,ones(length(amp),1)),...
 %!           kron(ones(length(amp),1),pha)];
 %!
-%! save "skalgoTestData.mat" params; #write params to file
+%! #save "skalgoTestData.mat" params; #write params to file
 %!
 %! eqTol = 2^(-20);
 %! dep = 2;
@@ -211,11 +209,11 @@ endfunction
 %!     etas(k,j+1) = norm(U-u); #eta-j error
 %!   endfor
 %! endfor
-%! save -append "skalgoTestData.mat" etas; # write etas to file
+%! #save -append "skalgoTestData.mat" etas; # write etas to file
 %! ediffs = diff(etas,1,2);
-%! save -append "skalgoTestData.mat" ediffs; #write diffs
+%! #save -append "skalgoTestData.mat" ediffs; #write diffs
 %! res = ediffs <= 0; # check for monotonic decrease
-%! save -append "skalgoTestData.mat" res; # write monotonic check
+%! #save -append "skalgoTestData.mat" res; # write monotonic check
 %! resS = find(sum(res,2)!= dep);
 %! assert(length(resS)==0,"Failed on %d operators",length(resS));
 %! rmpath("../../");
