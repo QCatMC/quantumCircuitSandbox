@@ -34,17 +34,18 @@ function display(cir)
   fprintf("%d,",cir.tars(1:length(cir.tars)-1));
   fprintf("%d]\n",cir.tars(length(cir.tars)));
   fprintf("%smax depth = %d\n",pad,cir.maxDepth);
-  arrayfun(@stepWriter,cir.stepsAt,1:cir.maxDepth);
+
+  for d = 1:cir.maxDepth
+
+    s=cir.stepsAt(d);
+    if( s == 1)
+      sstr = "step";
+    else
+      sstr = "steps";
+    endif
+
+    fprintf("%s%d %s at Depth %d\n",blanks(3),s,sstr,d)
+  endfor
 
 endfunction
 
-function stepWriter(s,d)
-  if( s == 1)
-    sstr = "step";
-  else
-    sstr = "steps";
-  endif
-
-  fprintf("%s%d %s at Depth %d\n",blanks(3),s,sstr,d)
-
-endfunction

@@ -26,7 +26,7 @@
 
 function U = U2zyz(p)
 
-  if( !(isequal(size(p),[1,3]) || isequal(size(p),[1,4])) ) 
+  if( !isequal(size(p),[1,3]) && !isequal(size(p),[1,4]) ) 
     error("Parameter vector must be a length 3 or 4 row vector. \
 Given something else.");
   elseif( !isreal(p) )
@@ -44,5 +44,13 @@ Given something else.");
 	 
 endfunction
 
+
 %!test
-%! assert(false)
+%! assert(isequal(eye(2),U2zyz([0,0,0])));
+%! assert(isequal(eye(2),U2zyz([0,0,0,0])));
+%! fail('U2zyz(i)');
+%! fail('U2zyz(eye(3))');
+%! fail('U2zyz([i,i,i,i])');
+%! fail('U2zyz([pi,pi])');
+%! fail('U2zyz(zeros(1,6))');
+

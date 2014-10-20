@@ -33,9 +33,6 @@ function C = parseQIASMDesc(desc)
 
 endfunction
 
-%!test
-%! assert(false);
-
 function C = parseCNode(cndesc)
   ## seq nodes and gate nodes are both cell arrays	 
   if( iscell(cndesc) )
@@ -56,9 +53,6 @@ somethign else");
   endif
 
 endfunction
-
-%!test
-%! assert(false);
 
 ## parses gate descriptors
 function C = parseGate(gDesc)
@@ -92,9 +86,6 @@ function b = isSingle(o)
       strcmp(o,"T'") || strcmp(o,"Y'") || strcmp(o,"PhAmp") || ...
       strcmp(o,"ZYZ") || strcmp(o,"Rn");
 endfunction
-
-%!test
-%! assert(false)
 
 ## parse the descriptor of a single qubit operation
 function C = parseSingle(gDesc)
@@ -142,9 +133,6 @@ function C = parseSingle(gDesc)
 
 endfunction
 
-%!test
-%! assert(false)
-
 ## parse the descriptor of a Controlled Not operation
 function C = parseCNot(gDesc)
 
@@ -160,10 +148,6 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
   endif
 
 endfunction
-
-%!test
-%! assert(false);
-
 
 ## parse the descriptor of a measurement operation
 function C = parseMeasure(gDesc)
@@ -187,6 +171,6 @@ numbers");
 
 endfunction
 
+
 %!test
 %! assert(false);
-

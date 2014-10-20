@@ -45,5 +45,13 @@ Given something else.");
 	 
 endfunction
 
+
 %!test
-%! assert(false)
+%! assert(isequal(eye(2),U2Rn([0,0,0,1])));
+%! assert(isequal(eye(2),U2Rn([0,0,0,1,0])));
+%! fail('U2Rn(i)');
+%! fail('U2Rn(eye(3))');
+%! fail('U2Rn([i,i,i,i])');
+%! fail('U2Rn([pi,pi])');
+%! fail('U2Rn(zeros(1,6))');
+

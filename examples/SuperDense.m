@@ -25,25 +25,25 @@ function C = makeSDCirc(alice)
 endfunction
 
 ## Encode 00
-ZrZr = makeSDCirc(["I"]);
+ZrZr = buildCircuit(makeSDCirc([]));
 
 ## Encode 01
-ZrOn = makeSDCirc(["X"]);
+ZrOn = buildCircuit(makeSDCirc(["X"]));
 
 ## Encode 10
-OnZr = makeSDCirc(["Z"]);
+OnZr = buildCircuit(makeSDCirc(["Z"]));
 
 ## Encode 11
-OnOn = makeSDCirc(["X","Z"]);
+OnOn = buildCircuit(makeSDCirc(["X","Z"]));
 
 ## Now let's try all 4... 100 times
 tot = zeros(4,4);
 for k = 1:100
   res = zeros(4,4);
-  res(:,1) = simulate(buildCircuit(ZrZr),0);
-  res(:,2) = simulate(buildCircuit(ZrOn),0);
-  res(:,3) = simulate(buildCircuit(OnZr),0);
-  res(:,4) = simulate(buildCircuit(OnOn),0);
+  res(:,1) = simulate(ZrZr,0);
+  res(:,2) = simulate(ZrOn,0);
+  res(:,3) = simulate(OnZr,0);
+  res(:,4) = simulate(OnOn,0);
   tot = tot + res;
 endfor
 

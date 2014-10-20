@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = buildcircuit(desc,eta,varargin)
+## Usage: C = buildcircuit(desc,eta,varagin)
 ##
 ## Used to construct a QASM quantum circuit object from a QIASM 
 ## circuit descriptor. The QASM circuit will approximate the specified
@@ -45,7 +45,7 @@ function C = buildCircuit(desc,eta=2^(-7),varargin )
     C = compile(QIASMcir,eta);
 
     ## change size if needed and possible
-    if( length(varargin) == 1 )
+    if( length(varargin) >= 1 )
       ## check size
       size = varargin{1};
       if( !isscalar(size) || !(floor(size) == ceil(size)) || size <= 0  )

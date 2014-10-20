@@ -25,7 +25,7 @@ zero_cir = buildCircuit(const_zero);
 ##  Notice that circuits carry a lot of data about their structure
 ##  bits targeted/used by gates, number of bits, and steps per depth
 ##  at each depth
-id_cir
+display(id_cir);
 
 ## by default the simulation will run to completion w.r.t to depth 1
 res = simulate(id_cir,1)
