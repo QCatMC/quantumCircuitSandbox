@@ -33,20 +33,17 @@ function q = compile(this,eta)
   ## This is a 2D cell array that contains precomputed 
   ## sequences used as initial approximations
 
-  ## ** NEED Platform/install independent way to do this **
-  pkgpath = "/usr/share/octave/packages"; #package folder
-  ## name-version
-  ocstr = sprintf("oct-circuits-%s",...
-		  pkg("describe","oct-circuits"){1}.version);  
-  ## path to data within package	    
-  matpath = "@QIASMcircuit/private/uzero.mat";
-  ## absolute path to file
-  uzpath = sprintf("%s/%s/%s",pkgpath,ocstr,matpath);
+  ## build path off full path to this file	 
+  uzpath = sprintf("%s/private/uzero.mat",fileparts (mfilename ("fullpath")));
 
   load(uzpath); # load 
 
   ## required accuracy per approximated operation
-  opEta = eta/this.numtoapprox;
+  if( this.numtoapprox == 0 )
+    opEta = eta;
+  else
+    opEta = eta/this.numtoapprox;
+  endif
 
 
   q = @QASMcircuit(compile(this.seq,opEta),this.bits);
@@ -56,6 +53,11 @@ function q = compile(this,eta)
 
 endfunction
 
+## very basic tests to be sure things get dispatched right.
+##  accuracy/correctness is tested deeper in the hierarchy
 %!test
 %! assert(eq(@QASMcircuit(@QASMseq({@QASMsingle("H",0)})),...
-%!        compile(@QIASMcircuit(@QIASMseq({@QIASMsingle("H",0)})))));
+%!        compile(@QIASMcircuit(@QIASMseq({@QIASMsingle("H",0)})),1/16)));
+%! assert(isa(compile(@QIASMcircuit(@QIASMseq({@QIASMsingle("PhAmp",0,[pi,pi/2,pi/3,pi/4])})),1/8), ...
+%!        "QASMcircuit"));
+

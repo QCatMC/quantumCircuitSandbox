@@ -24,11 +24,11 @@
 
 function U = U2Rn(p)
 
-  if( !(isequal(size(p),[1,4]) || isequal(size(p),[1,5])) ) 
+  if( !isequal(size(p),[1,4]) && !isequal(size(p),[1,5]) ) 
     error("Parameter vector must be a length 4 or 5 row vector. \
 Given something else.");
-  #elseif( !isreal(p) )
-  #  error("Paramters are not real valued. They should be.");
+  elseif( !isreal(p) )
+    error("Paramters are not real valued. They should be.");
   endif
   
   ## get global phase;

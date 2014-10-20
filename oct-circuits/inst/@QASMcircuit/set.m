@@ -34,7 +34,8 @@ function s = set(cir,varargin)
     if (ischar (prop) )
        switch(prop)
 	 case "bits"
-	   if(isNat(val))
+	   ## its a Nat
+	   if(isscalar(val) && floor(val) == ceil(val) && val > 0 )
 	     s.bits = val;
 	   else
 	     error("Number of bits must be a natural number.");

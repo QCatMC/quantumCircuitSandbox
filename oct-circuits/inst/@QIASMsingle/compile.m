@@ -49,8 +49,6 @@ function q = compile(this,eta)
       skdep = uint32(ceil(log( (log(1/(eta*capprox^2))) / ...
 			       (log(1/(eta0*capprox^2))) ) / ...
 			  log(3/2)));
-
-      
   
       ## compile with Solovay-Kiteav
       [qstrseq,SUapprox] = skalgo(SU,skdep);
@@ -66,7 +64,7 @@ function q = compile(this,eta)
       
     ## convert strings to QASMsingle with correct target
     ## pack into a QASMseq. reverse for circuit order vs. Maths order
-    qseq = cell(length(qstrseq));
+    qseq = cell(length(qstrseq),1);
     len = length(qseq);
     for k = 1:len
 	qseq{k} = @QASMsingle(qstrseq{len+1-k},this.tar);

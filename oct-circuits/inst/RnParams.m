@@ -13,27 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: p = RnParams(U,ep)
+## usage: p = RnParams(U)
 ##
 ## Compute the Rn parameters for an arbitrary operator
-## from U(2). The parameter ep is the threshold for "Unitariness" and
-## defaults. to 10^(-6).
+## from U(2).
 ##  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
-function p = RnParams(U,ep=0.00001)
+function p = RnParams(U)
   
   if(!isequal(size(U),[2,2]) )
     error("Operator size mismatch. Must be 2x2 Unitary.");
-  elseif( operr(U*U',Iop) >  ep)
-    error("Given operator appears to not be unitary");	 
   endif
 
   ## factor out global phase to get SU(2) component
-  gp = arg(sqrt(det(U))); #global phase
-  U = e^(-i*gp)*U; #factor out global phase
+  gp = arg(sqrt(det(U)));
+  U = sqrt(det(U))'*U; #factor out global phase
+  
 
   theta = 2*acos( (U(1,1)+ U(2,2)) / 2);
   n = zeros(1,3);
@@ -49,12 +47,12 @@ function p = RnParams(U,ep=0.00001)
   ## Off-Diagonal Matrix
   elseif( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
     theta = pi;
-    n(2) = (U(1,2)-U(2,1))/(-2);
-    n(1) = (U(1,2)+U(2,1))/(-2*i);
+    n(2) = -(U(1,2)-U(2,1))/2;
+    n(1) = -(U(1,2)+U(2,1))/(2*i);
   else
-    n(3) = (U(1,1)-U(2,2))/(-2*i*sin(theta/2));
-    n(2) = (U(1,2)-U(2,1))/(-2*sin(theta/2));
-    n(1) = (U(1,2)+U(2,1))/(-2*i*sin(theta/2)); 
+    n(3) = -(U(1,1)-U(2,2))/(2*i*sin(theta/2));
+    n(2) = -(U(1,2)-U(2,1))/(2*sin(theta/2));
+    n(1) = -(U(1,2)+U(2,1))/(2*i*sin(theta/2)); 
   endif
 
   p = [theta,n,gp];
@@ -62,4 +60,10 @@ function p = RnParams(U,ep=0.00001)
 endfunction
 
 %!test
-%! assert(false)
+%! assert(isequal(RnParams(eye(2)),[0,0,0,1,0]));
+%! assert(isequal(RnParams(X),[pi,1,0,0,pi/2]));
+%! assert(isequal(RnParams(Y),[pi,0,1,0,pi/2]));
+%! assert(isequal(RnParams(Z),[pi,0,0,1,pi/2]));
+%! assert(isequal(RnParams(H),[pi,sqrt(1/2),0,sqrt(1/2),pi/2]));
+%! fail('RnParams(eye(3))');
+

@@ -24,7 +24,7 @@
 
 function U = Rz(t)
 
-  if( !isscalar(t) && !isreal(t) )
+  if( !isscalar(t) ||  !isreal(t) )
     error("Angle theta must be real. Given something else.")
   endif
   
@@ -33,4 +33,6 @@ function U = Rz(t)
 endfunction
 
 %!test
-%! assert(false)
+%! fail('Rx(i)');
+%! fail('Rx(eye(2))');
+%! fail('Rx(ones(1,2))');

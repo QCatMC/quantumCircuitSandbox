@@ -25,7 +25,7 @@
 
 function q = compile(this,eta)
 	 
-  s = cell(length(this.seq));
+  s = cell(length(this.seq),1);
   for k = 1:length(s)
     s{k} = compile(this.seq{k},eta);
   endfor

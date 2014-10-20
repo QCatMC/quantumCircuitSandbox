@@ -43,13 +43,13 @@ function [Us,newU] = skalgo(U,n)
     ## construct sequence for that matrix
 
     ##  adjoint sequences
-    VseqAdj = cell(1,length(Vnm1seq));
+    VseqAdj = cell(length(Vnm1seq),1);
     len = length(VseqAdj);
     for k = 1:len
 	VseqAdj{k} = adj(Vnm1seq{len+1-k});
     endfor
 
-    WseqAdj = cell(1,length(Wnm1seq));
+    WseqAdj = cell(length(Wnm1seq),1);
     len = length(WseqAdj);
     for k = 1:len
 	WseqAdj{k} = adj(Wnm1seq{len+1-k});

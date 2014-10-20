@@ -20,7 +20,7 @@
 ## QIASM to within an error less than eta.
 ## 
 ## Where cir is a circuit descriptor: buildCircuit(cir) will construct
-## a circuit with precision eta = 2^-10 and with a qubit size
+## a circuit with precision eta = 2^-7 and with a qubit size
 ## determiend by the max qubit target, buildCircuit(cir,eta) constructs the
 ## circuit whose size is determined by the maximum qubit target of
 ## cir and with user specified precision eta,buildCircuit(cir,eta,size) will 
@@ -31,30 +31,32 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function C = buildCircuit(desc,eta=2^(-8),varargin )
+function C = buildCircuit(desc,eta=2^(-7),varargin )
 
   nargs = length( varargin );
 
   ## 1-2 arg --> Descriptor only or Descriptor+Size
-  if( iscell(desc) && isreal(eta) && isscalar(eta) && eta>0 )
+  if( iscell(desc) && isreal(eta) && isscalar(eta) && eta > 0 && eta < 1)
+
     ## build QIASM circuit with size derived from targets
-    QIASMcir = @QIASMcircuit(parseQIASMDesc(desc)); 
+    QIASMcir = @QIASMcircuit(parseQIASMDesc(desc));     
+
+    ## compile to QASM
+    C = compile(QIASMcir,eta);
+
     ## change size if needed and possible
     if( length(varargin) == 1 )
       ## check size
       size = varargin{1};
-      if( !isNat(size) || size == 0  )
+      if( !isscalar(size) || !(floor(size) == ceil(size)) || size <= 0  )
 	error(" circuit size must be a strictly positive integer ");
-      elseif( size < get(QIASMcir,"bits") )
+      elseif( size < get(C,"bits") )
 	error(" specified size too small for given circuit ");
       else
 	## change size
         C = set(C,"bits",size);
       endif
     endif
-    printf("Parse done\n");
-    ## compile to QASM
-    C = compile(QIASMcir,eta);
 
   else
     print_usage();
@@ -62,5 +64,16 @@ function C = buildCircuit(desc,eta=2^(-8),varargin )
  
 endfunction
 
+## accuracy and correctness of parse and compile functions are tested
+##  in those functions. These tests just cover error checking
 %!test
-%! assert(false);
+%! fail('buildCircuit(5,5,5)');
+%! fail('buildCircuit({{"H",0}},5,5)');
+%! fail('buildCircuit({{"H",0}},0,5)');
+%! fail('buildCircuit({{"H",0}},-2,5)');
+%! fail('buildCircuit({{"H",0}},0.5,0)');
+%! fail('buildCircuit({{"H",0}},0.5,-2)');
+%! fail('buildCircuit({{"H",3}},0.5,1)');
+%! assert(isa(buildCircuit({{"H",0}}),"QASMcircuit"));
+%! assert(isa(buildCircuit({{"H",0}},0.5),"QASMcircuit"));
+%! assert(isa(buildCircuit({{"H",0}},0.5,2),"QASMcircuit"));

@@ -24,11 +24,11 @@
 
 function U = Rn(t,n)
 
-  #if( !isscalar(t) && !isreal(t) )
-  #  error("Angle theta must be real. Given something else.")
-  #elseif( !isreal(n) ) # || !isequal(size(n),[1,3]) )
-  #  error("Rotation axis n must be a 3D real vector");
-  if( (1 - n*n') > 0.0000001)
+  if( !isscalar(t) || !isreal(t) )
+    error("Angle theta must be real. Given something else.")
+  elseif( !isreal(n) || !isequal(size(n),[1,3]) )
+    error("Rotation axis n must be a 3D real vector");
+  elseif( abs(1 - n*n') > 0.0000001)
     error("Rotation axis must have unit length.");
   endif
   
@@ -38,4 +38,10 @@ function U = Rn(t,n)
 endfunction
 
 %!test
-%! assert(false)
+%! fail('Rn([0,1],sqrt(1/3)*[1,1,1])');
+%! fail('Rn(i,sqrt(1/3)*[1,1,1])');
+%! fail('Rn(pi,[1,2,3])');
+%! fail('Rn(pi,[i,i,i])');
+%! fail('Rn(pi,sqrt(1/4)*[1,1,1,1])');
+%! fail('Rn(pi,[1/2,1/2,1/2])');
+%! assert(isequal(eye(2),Rn(0,[0,0,1])));

@@ -24,7 +24,7 @@
 
 function U = Ry(t)
 
-  if( !isscalar(t) && !isreal(t) )
+  if( !isscalar(t) || !isreal(t) )
     error("Angle theta must be real. Given something else.")
   endif
   
@@ -32,5 +32,9 @@ function U = Ry(t)
 	 
 endfunction
 
+
 %!test
-%! assert(false)
+%! fail('Ry(i)');
+%! fail('Ry(eye(2))');
+%! fail('Ry(ones(1,2))');
+

@@ -16,22 +16,20 @@
 ## usage: p = zyzParams(U,ep)
 ##
 ## Compute the Z-Y-Z decomposition angles for an arbitrary operator
-## from U(2). The parameter ep is the threshold for "Unitariness".  
+## from U(2). 
 ##  
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
-function p = zyzParams(U,ep=0.00001)
+function p = zyzParams(U)
   
   if(!isequal(size(U),[2,2]) )
     error("Operator size mismatch. Must be 2x2 Unitary.");
-  elseif( operr(U*U',Iop) >  ep)
-    error("Given operator appears to not be unitary");	 
   endif
 
   ## get phase amp params
-  ph = phaseAmpParams(U,ep);
+  ph = phaseAmpParams(U);
 
   ## [z1,y,z2,global]
   p = [ph(3),(2*ph(1)),ph(2),ph(4)];
@@ -40,4 +38,10 @@ function p = zyzParams(U,ep=0.00001)
 endfunction
 
 %!test
-%! assert(false)
+%! fail('zyzParams(eye(3))');
+%! assert(isequal(zyzParams(eye(2)),[0,0,0,0]));
+%! assert(isequal(zyzParams(X),[-pi,pi,0,pi]));
+%! assert(isequal(zyzParams(Y),[0,pi,0,pi]));
+%! assert(isequal(zyzParams(Z),[pi,0,0,pi]));
+%! assert(isequal(zyzParams(H),[0,pi/2,pi,pi]));
+
