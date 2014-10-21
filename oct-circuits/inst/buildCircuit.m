@@ -13,55 +13,111 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = buildcircuit(desc,eta,varagin)
-##
-## Used to construct a QASM quantum circuit object from a QIASM 
-## circuit descriptor. The QASM circuit will approximate the specified
-## QIASM to within an error less than eta.
+## Usages: 
+##   C = buildCircuit(cir)
+##   C = buildCircuit(cir,eta)
+##   C = buildCircuit(cir,eta,size)
+##   C = buildCircuit(cir,eta,tar)
+##   C = buildCircuit(cir,eta,size,tar)
 ## 
-## Where cir is a circuit descriptor: buildCircuit(cir) will construct
-## a circuit with precision eta = 2^-7 and with a qubit size
-## determiend by the max qubit target, buildCircuit(cir,eta) constructs the
-## circuit whose size is determined by the maximum qubit target of
-## cir and with user specified precision eta,buildCircuit(cir,eta,size) will 
-## construct a circuit of size 'size' and precision eta. 
-## All oct-circuit circuits should be constructed via this function
-## and not by explicit usage of the QIASM and QASM object constructors. 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
 function C = buildCircuit(desc,eta=2^(-7),varargin )
 
-  nargs = length( varargin );
+  ## parse optional arguments
+  [size,tar] = parseargs(varargin);
 
-  ## 1-2 arg --> Descriptor only or Descriptor+Size
-  if( iscell(desc) && isreal(eta) && isscalar(eta) && eta > 0 && eta < 1)
-
-    ## build QIASM circuit with size derived from targets
-    QIASMcir = @QIASMcircuit(parseQIASMDesc(desc));     
-
-    ## compile to QASM
-    C = compile(QIASMcir,eta);
-
-    ## change size if needed and possible
-    if( length(varargin) >= 1 )
-      ## check size
-      size = varargin{1};
-      if( !isscalar(size) || !(floor(size) == ceil(size)) || size <= 0  )
-	error(" circuit size must be a strictly positive integer ");
-      elseif( size < get(C,"bits") )
-	error(" specified size too small for given circuit ");
-      else
-	## change size
-        C = set(C,"bits",size);
-      endif
-    endif
-
-  else
-    print_usage();
+  ## validate approximation threshold eta
+  if( !isreal(eta) || !isscalar(eta) || eta <= 0 || eta >= 1) 
+    error("Given bad approximation error threshold eta");
   endif
- 
+
+  ## validate desc
+  if( !iscell(desc) && !isa(desc,"QIASM") && !isa(desc,"QASM") )
+    error("Given bad circuit");
+  endif
+
+  ##At this point all inputs are valid and initialized
+  ##  desc is either a cell array (descriptor),  a QIASM
+  ##  circuit, or a QASM circuit
+  ##  eta is from (0,1)
+  ##  size is a positive integer or 0 for impiled size
+  ##  tar is either QASM or QIASM			
+
+  ## check bad combos
+  if( isa(desc,"QASM") && strcmp(tar,"QIASM") )
+    error("Cannot decopile QASM to QIASM");
+  endif
+
+  ## workable combo
+  if( isa(desc,"QASM") ) ## does nothing
+    C = desc;
+  else # desc or QIASM with tar either QIASM or QASM
+
+    ## Descriptors at least get converted to QIASM
+    if( iscell(desc) )
+      ## build QIASM circuit with size derived from targets
+      C = @QIASMcircuit(parseQIASMDesc(desc));     
+    else #QIASM
+      C = desc;
+    endif
+    
+    ## if target is QASM then compile
+    if( strcmp(tar,"QASM") )  
+      ## compile to QASM
+      C = compile(C,eta);
+      
+      ## change size if needed and possible
+      if( size > 0 )
+	if( size < get(C,"bits") )
+	  error(" specified size too small for given circuit ");
+	else
+	  ## change size
+          C = set(C,"bits",size);
+	endif
+      endif
+  
+    endif
+  
+  endif
+  
+endfunction
+
+function [s,t] = parseargs(args)
+
+  nargs = length( args );
+  switch(nargs)
+    case 0 ## defaults
+      s = 0;
+      t = "QASM";
+    case 1 ## either or
+      arg = args{1};
+      if(ischar(arg) && (strcmp("QIASM",arg) || strcmp("QASM",arg)) )
+	s = 0;
+	t = arg;	
+      elseif(isscalar(arg) && isreal(arg) && floor(arg) == ceil(arg) && arg > 0)
+	s = arg;
+	t = "QASM";
+      else
+	error("Bad third argument. Expecting circuit size or build target string");
+      endif
+    case 2 ## size,target
+      s = args{1};
+      t = args{2};
+      if( !ischar(t) || (!strcmp("QIASM",t) && !strcmp("QASM",t)) )
+	error("Given bad build target string");
+      endif
+      if(!isscalar(s) || !isreal(s) || floor(s) != ceil(s) || s <= 0)
+	error("Given bad circuit size");
+      endif
+    otherwise
+      error("Problem with optional arguments");
+  endswitch  
+
+
+
 endfunction
 
 ## accuracy and correctness of parse and compile functions are tested
