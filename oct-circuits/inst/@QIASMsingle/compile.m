@@ -32,8 +32,8 @@ function q = compile(this,eta)
     ignore_function_time_stamp("all");  
       
     ##use SK to approximiate to within eta with a QASMseq 
-    ## SK params -- From Dawson&Nielsen
-    eta0 = 0.14;
+    ## SK params -- estimated from uzero16.mat
+    eta0 = 0.16;
     capprox = 2.6; 
     
     ## get the SU(2) variant of this

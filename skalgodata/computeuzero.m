@@ -13,6 +13,9 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## Compute the set of all unique length len sequences of H,T,T'. Sequences
+## are simplified to sequecnes involving H,T,T',S,S',X,Y,Z
+
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
@@ -21,7 +24,7 @@ function tab = computeuzero(len)
   ignore_function_time_stamp("all");
 
   ## add package parent directory to the path
-  addpath ../../;
+  addpath ../oct-circuits/inst/;
 
   ## Gate sets
   ## elementary gate set
