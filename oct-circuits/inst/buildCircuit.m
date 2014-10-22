@@ -88,30 +88,34 @@ endfunction
 function [s,t] = parseargs(args)
 
   nargs = length( args );
+
   switch(nargs)
     case 0 ## defaults
       s = 0;
       t = "QASM";
     case 1 ## either or
       arg = args{1};
-      if(ischar(arg) && (strcmp("QIASM",arg) || strcmp("QASM",arg)) )
+      if(ischar(arg) && ( strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
 	s = 0;
 	t = arg;	
-      elseif(isscalar(arg) && isreal(arg) && floor(arg) == ceil(arg) && arg > 0)
+      elseif(!ischar(arg) && isscalar(arg) && isreal(arg) && floor(arg) == ceil(arg) && arg > 0)
 	s = arg;
 	t = "QASM";
       else
 	error("Bad third argument. Expecting circuit size or build target string");
       endif
     case 2 ## size,target
-      s = args{1};
+
       t = args{2};
       if( !ischar(t) || (!strcmp("QIASM",t) && !strcmp("QASM",t)) )
 	error("Given bad build target string");
       endif
+
+      s = args{1};
       if(!isscalar(s) || !isreal(s) || floor(s) != ceil(s) || s <= 0)
 	error("Given bad circuit size");
       endif
+
     otherwise
       error("Problem with optional arguments");
   endswitch  
@@ -133,3 +137,15 @@ endfunction
 %! assert(isa(buildCircuit({{"H",0}}),"QASMcircuit"));
 %! assert(isa(buildCircuit({{"H",0}},0.5),"QASMcircuit"));
 %! assert(isa(buildCircuit({{"H",0}},0.5,2),"QASMcircuit"));
+
+%!test
+%! assert(isa(buildCircuit({{"H",0}},2^-4,"QASM"),"QASMcircuit"));
+%! assert(isa(buildCircuit({{"H",0}},2^-4,"QIASM"),"QIASMcircuit"));
+%! assert(isa(buildCircuit({{"H",0}},2^-4,2,"QASM"),"QASMcircuit"));
+%! assert(isa(buildCircuit({{"H",0}},2^-4,2,"QIASM"),"QIASMcircuit"));
+%! fail('buildCircuit({{"H",0}},2^(-4),"QIASM",4)');
+%! fail('buildCircuit({{"H",0}},2^(-4),"Q")');
+%! fail('buildCircuit({{"H",0}},2^(-4),"badarg")');
+%! fail('buildCircuit({{"H",0}},2^(-4),4,"badarg")');
+
+

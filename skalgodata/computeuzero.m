@@ -30,13 +30,13 @@ function tab = computeuzero(len)
   ## elementary gate set
   elemset = {"H","T","T'","X","Y","Z","S","S'"};
   ## SK-algo gate set... variable?
-  gates = {"H","T","T'"};
+  gates = elemset;
 
   ## File names
   ## result file names
-  resfilename = sprintf("uzero%d.mat",len);
+  resfilename = sprintf("uzero%02d.mat",len);
   ## logfile name
-  logname = sprintf("computeuzero%d.log",len);  
+  logname = sprintf("computeuzero%02d.log",len);  
 
   ## remove old log
   fid=fopen(logname,"w");
@@ -48,6 +48,7 @@ function tab = computeuzero(len)
   if( len <= 4)
     tab = computedirect(len,gates,elemset,logname);
   elseif(uint32(floor(log2(len))) == uint32(ceil(log2(len))))
+
     ## number of doublings needed
     iters = uint32(floor(log2(len)))-2;
     
@@ -57,7 +58,8 @@ function tab = computeuzero(len)
 	next = removedupes(next,logname);
 	tab = next;
     endfor
-  else # len>4 but not power of 2
+ 
+ else # len>4 but not power of 2
     lhsize = 2^uint32(floor(log2(len))); # nearst power of 2 to len
     rhsize = len-lhsize; # what's left
 
@@ -84,33 +86,45 @@ function tab = computeuzero(len)
   ignore_function_time_stamp("none");  
 endfunction
 
-function UZERO = computedirect(len,gates,elemset,logname)
+function uz = computedirect(len,gates,elemset,logname)
   
-  ## allocate 2D cell array
-  UZERO = cell(length(gates)^len,2); ## the cell array
-  UZERO(:,1) = zeros(1,len); ## column one. vectors
-  UZERO(:,2) = zeros(2,2); ## column two, 2x2 matrix
+  fn = sprintf("uzero%02d.mat",len);
 
-  logmsg("initial space allocated",logname);
+  if( exists(fn,"file") )
 
-  ## for each.. 
-  for k = 1:length(UZERO)
-    ## encode sequence as base |gates| number
-    UZERO{k,1} = base10toradk(k-1,length(gates),len);
+    load(fn);
+    uz = UZERO;
+    clear -g UZERO;
 
-    ## algebraic simplification
-    UZERO{k,1} = simpseq(UZERO{k,1},elemset);
+    logmsg("Using previously generated data",logname);
 
-    ## compute matrix & reduce to SU(2)
-    UZERO{k,2} = ldig2mat(UZERO{k,1},elemset);
+  else
+    ## allocate 2D cell array
+    uz = cell(length(gates)^len,2); ## the cell array
+    uz(:,1) = zeros(1,len); ## column one. vectors
+    uz(:,2) = zeros(2,2); ## column two, 2x2 matrix
+    
+    logmsg("initial space allocated",logname);
+    
+    ## for each.. 
+    for k = 1:length(uz)
+      ## encode sequence as base |gates| number
+      uz{k,1} = base10toradk(k-1,length(gates),len);
+      
+      ## algebraic simplification
+      uz{k,1} = simpseq(uz{k,1},elemset);
+      
+      ## compute matrix & reduce to SU(2)
+      uz{k,2} = ldig2mat(uz{k,1},elemset);
 
-  endfor
+    endfor
 
-  logmsg("Complete space of %d sequences generated. Removing \
+    logmsg("Complete space of %d sequences generated. Removing \
 			    %duplicates",...
-	 logname);
+	   logname);
 
-  UZERO = removedupes(UZERO,logname);
+    uz = removedupes(uz,logname);
+  endif
 
 endfunction
 
@@ -341,22 +355,22 @@ function U = su2afy(mat)
 
 endfunction
 
-function newus = removedupes(UZERO,logname)
+function newus = removedupes(uz,logname)
   ## remove duplicates
   iter = 1; ## num iterations --> 1+[unique-so-far]
 
-  urows = 1:length(UZERO); ## index of unique rows 
+  urows = 1:length(uz); ## index of unique rows 
   
   while ( iter<length(urows) )
 
 
     uni = zeros(1,length(urows)-iter);
-    curr = UZERO{urows(iter),2};
+    curr = uz{urows(iter),2};
 
     for k = 1:length(uni)
       ## true if not within eta of curr
       ## Is this a fair 'equality check'?
-      uni(k) = (10^(-8) < norm(UZERO{urows(k+iter),2}-curr));
+      uni(k) = (10^(-8) < norm(uz{urows(k+iter),2}-curr));
     endfor
 
     ## new size = iter unique + sum(uni) possibly unique
@@ -370,7 +384,7 @@ function newus = removedupes(UZERO,logname)
     ## indices of new elements
     iter++; ## next item
   endwhile
-  newus = UZERO(urows,:); ## select unique  
+  newus = uz(urows,:); ## select unique  
 
   logmsg(sprintf("Finished removing duplicates %d unique items found.",...
 		 length(newus)),...
