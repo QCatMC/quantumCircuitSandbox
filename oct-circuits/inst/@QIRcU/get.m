@@ -13,30 +13,45 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = get(sg, f)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## QIASMcNot field selector
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIASM
 
-function b = QASMvalidOp(OpStr)
+function s = get(cng,f)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if (nargin == 1)
+    s.tar = cng.tar;
+    s.ctrl = cng.ctrl;
+    s.op = cng.op;
+  elseif (nargin == 2)
+    if ( ischar(f) )
+      switch(f)
+	case "tar"
+	  s = cng.tar;
+	case "ctrl"
+	  s = cng.ctrl;
+	case "op"
+	  s = cng.op;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+      print_usage();
   endif
 
-end
+endfunction
 
-
+%!test
+%! a = @QIRcU(0,1,{"PhAmp",[pi,pi,pi]});
+%! as.tar = 0; as.ctrl =1; as.op = {"PhAmp",[pi,pi,pi]};
+%! assert(eq(get(a),as));
+%! assert(get(a,"tar"),0);
+%! assert(get(a,"ctrl"),1);
+%! assert(isequal(get(a,"op"),as.op));

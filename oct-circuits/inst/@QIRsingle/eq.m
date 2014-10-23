@@ -13,30 +13,38 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: b = eq(this,other)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## returns true if @QIRsingle this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
+ 
 
-function b = QASMvalidOp(OpStr)
+function b = eq(this,other)
 
-  if( !ischar(OpStr) )
-    b = false;
+  b=false;
+  if( !isa(other,"QIRsingle") )
+    b=false;
+  elseif( strcmp(this.name,get(other,"name")) && ...
+	  isequal(this.tars,get(other,"tars")) && ...
+	  isequal(this.params,get(other,"params")))
+    b=true; 
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    b=false;
   endif
 
-end
+endfunction
 
 
+%!test
+%! a = @QIIRsingle("H",2);
+%! b = @QIIRsingle("H",1);
+%! c = @QIIRsingle("H",2);
+%! assert(eq(a,a));
+%! assert(eq(a,c));
+%! assert(!eq(a,b));
+%! assert(eq(@QIIRsingle("PhAmp",0,[pi,pi,pi]),...
+%!           @QIIRsingle("PhAmp",0,[pi,pi,pi])));
+          

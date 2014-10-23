@@ -13,30 +13,19 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: display(snode)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Display QIRseq node. Contained operators are indented. 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
-
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+function display(snode)
+  if( !strcmp(inputname(1),"") ) 
+    fprintf ("%s = \n", inputname (1)); 
   endif
+  
+  nestedPrint(snode,1);
 
-end
-
-
+endfunction

@@ -13,30 +13,27 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = @QIRsingle(name,tars)
+##        g = @QIRsingle(name,tars,params)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Construct a gate object for apply 'name' gate to target qubits given in
+## tars. Tars is assumed to be in sorted, ascending order
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function g = QIRsingle(name,tars,params=[])
 
-  if( !ischar(OpStr) )
-    b = false;
+  if( nargin == 0 )
+    ## default to Identity on qubit 0
+    g.name = "I";
+    g.tar = 0;
+    g.params = [];
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    g.name = name;
+    g.tars = tars;
+    g.params = params;
   endif
+  g = class(g,"QIRsingle");
 
-end
-
-
+endfunction

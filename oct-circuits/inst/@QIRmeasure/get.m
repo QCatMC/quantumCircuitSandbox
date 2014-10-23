@@ -13,30 +13,38 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = get(mg, f)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## QIRmeasure field selector
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function s = get(mg,f)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if (nargin == 1)
+    s.tar = mg.tar;
+  elseif (nargin == 2 )
+    if ( ischar(f) )
+      switch(f)
+	case "tar"
+	s = mg.tar;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+      print_usage();
   endif
 
-end
+endfunction
 
-
+%!test
+%! a = @QIRmeasure();
+%! b = @QIRmeasure(1:3);
+%! assert([],get(a,"tar"));
+%! assert([1,2,3],get(b,"tar"));
+%! bs.tar = [1,2,3];
+%! assert(bs,get(b));

@@ -13,30 +13,32 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: q = compile(this)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## returns equivalent @QIASMseq to @QIRseq this.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
+ 
 
-function b = QASMvalidOp(OpStr)
+function q = compile(this)
+	 
+  s = cell(length(this.seq),1);
+  for k = 1:length(s)
+    s{k} = compile(this.seq{k},eta);
+  endfor
 
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
-  endif
+  q = @QIASMseq(s);		       
 
-end
+endfunction
+
+%!test
+%! c = {@QIRsingle("H",0),@QIRsingle("H",1)};
+%! C = @QIRseq(c,@QIRseq(c));
+%! r = {@QIASMsingle("H",0),@QIASMsingle("H",1)};
+%! R = @QIASMseq(r,@QIASMseq(r));
+%! assert(eq(compile(C),R));
+
 
 

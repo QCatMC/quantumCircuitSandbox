@@ -13,32 +13,50 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QIASMvalidOp(OpStr)
+## Usage: g = get(sg, f)
 ##
-## Checks if OpStr is a valid operation descriptor string for QIASM and returns
-## true if it is.
-## 
+## QIRsingle field selector 
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QIASMvalidOp(OpStr)
+function s = get(sg,f)
 
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    if( QASMvalidOp(OpStr) )
-      b = true;
-    else
-      switch (OpStr)
-	case { "PhAmp","ZYZ","Rn" }
-	  b = true; 
+  if (nargin == 1)
+    s.name = sg.name;
+    s.tars = sg.tars;
+    s.params = sg.params;
+  elseif (nargin == 2)
+    if ( ischar(f) )
+      switch(f)
+	case "name"
+	  s = sg.name;
+	case "tars"
+	  s = sg.tars;
+	case "params"
+	  s= sg.params;
 	otherwise
-	  b = false; 
+	  error("get: invalid property %s",f);
       endswitch
+    else
+      error("get: expecting the property to be a string");
     endif
+  else
+      print_usage();
   endif
 
-end
+endfunction
 
-
+%!test
+%! a = @QIRsingle("X",0);
+%! b = @QIRsingle("H",1);
+%! c = @QIRsingle("Z",2);
+%! assert(get(a,"tar"),0);
+%! assert(get(b,"tar"),1);
+%! assert(get(c,"tar"),2);
+%! assert(get(c,"name"),"Z");
+%! assert(get(a,"name"),"X");
+%! as.name = "X";
+%! as.tar = 0;
+%! assert(get(a),as);

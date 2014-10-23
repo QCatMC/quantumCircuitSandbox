@@ -13,30 +13,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = @QIASMseq(cirList)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Construct a QIRseq node where cirList is a cell array of @QIR circuit
+## elements
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function s = QIRseq(cirList)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if( nargin == 0 )
+    s.seq = {};	 
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
-  endif
+    s.seq = cirList;
+  endif  
+  s = class(s,"QIRseq");
 
-end
-
-
+endfunction

@@ -13,30 +13,41 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: b = eq(this,other)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## returns true if @QIRcU this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
+ 
 
-function b = QASMvalidOp(OpStr)
+function b = eq(this,other)
 
-  if( !ischar(OpStr) )
-    b = false;
+  b=false;
+  if( !isa(other,"QIRcU") )
+    b=false;
+  elseif( eq(this.ctrl,get(other,"ctrl")) && ...
+	  eq(this.tar,get(other,"tar")) && ...
+	  isequal(this,tar.op,get(other,"op")) )
+    b=true; 
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    b=false;
   endif
 
-end
+endfunction
 
 
+%!test
+%! a = @QIRcU(1,2,{"X"});
+%! b = @QIRcU(2,1,{"X"});
+%! c = @QIRcU(1,2,{"X"});
+%! d = @QIRcU(3,4,{"X"});
+%! assert(eq(a,a));
+%! assert(eq(a,c));
+%! assert(!eq(a,b));
+%! assert(!eq(a,d));
+
+## test for C-QIASMsingle 
+%!test
+%! assert(false);

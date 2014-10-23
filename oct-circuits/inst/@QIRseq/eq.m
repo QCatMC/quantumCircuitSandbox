@@ -13,32 +13,41 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QIASMvalidOp(OpStr)
+## Usage: b = eq(this,other)
 ##
-## Checks if OpStr is a valid operation descriptor string for QIASM and returns
-## true if it is.
-## 
+## returns true if @QIRseq this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QIASMvalidOp(OpStr)
-
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    if( QASMvalidOp(OpStr) )
-      b = true;
-    else
-      switch (OpStr)
-	case { "PhAmp","ZYZ","Rn" }
-	  b = true; 
-	otherwise
+function b = eq(this,other)
+  b = false;
+  if( isa(other,"QIRseq") )
+    othseq = get(other,"seq");
+    if( length(this.seq) == length(othseq) )
+      for k = 1:length(this.seq)
+	if( !eq(this.seq{k},get(other,"seq"){k}) )
 	  b = false; 
-      endswitch
+	  return;
+	endif
+      endfor
+      b=true;
     endif
   endif
+endfunction
 
-end
 
+
+%!test
+%! a = @QIRseq({@QIRsingle("H",1),@QIRcU(0,1,{"X"})});
+%! b = @QIRseq({@QIRsingle("H",1),@QIRcU(0,1,{"X"})});
+%! c = @QIRseq({@QIRsingle("H",1)});
+%! d = @QIRseq({@QIRsingle("H",1),@QIRcU(0,1,{"X"}),@QIRseq({@QIRmeasure()})});
+%! e = @QIRseq({@QIRsingle("H",1),@QIRcU(0,1,{"X"}),@QIRseq({@QIRmeasure()})});
+%! assert(eq(a,a));
+%! assert(eq(a,b));
+%! assert(eq(d,e));
+%! assert(!eq(a,c));
+%! assert(!eq(a,d));
 

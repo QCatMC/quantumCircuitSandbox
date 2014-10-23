@@ -13,30 +13,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: nestedPrint(mGate,dep)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Display with indentation
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function nestedPrint(mGate,dep)
 
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
-  endif
+  pad = blanks(dep*3);
 
-end
+  fprintf ("%s{\"Measure\",[",pad);
+  arrayfun(@(t) fprintf ("%d,",t), mGate.tar(1:length(mGate.tar)-1));
+  fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
+  
 
-
+endfunction

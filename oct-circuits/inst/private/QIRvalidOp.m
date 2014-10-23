@@ -13,30 +13,33 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## usage: b = QIRvalidOp(OpStr)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
+## Checks if OpStr is a valid operation descriptor string for QIR and returns
 ## true if it is.
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function b = QIRvalidOp(OpStr)
 
   if( !ischar(OpStr) )
     b = false;
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    if( QIASMvalidOp(OpStr) )
+      b = true;
+    else
+      switch (OpStr)
+	case { "Toffoli","Fredkin","Swap","CU" }
+	  b = true; 
+	otherwise
+	  b = false; 
+      endswitch
+    endif
   endif
 
 end
 
-
+%!test
+%! assert(false)

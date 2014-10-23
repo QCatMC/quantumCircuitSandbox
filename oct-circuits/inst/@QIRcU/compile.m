@@ -13,30 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: q = compile(this)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## returns equivalent @QIASMcNot when @QIRcU is cNot, otherwise
+## returns an equivalent @QIASMseq 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
+ 
 
-function b = QASMvalidOp(OpStr)
+function q = compile(this)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if( length(this.op) == 1 && strcmp(this.op{1},"X"))
+    q = @QASMcNot(this.tar,this.ctrl);
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    ## Todo
+    q = @QIASMseq({});
   endif
 
-end
+endfunction
 
 

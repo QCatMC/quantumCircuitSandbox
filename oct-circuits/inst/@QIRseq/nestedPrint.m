@@ -13,30 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: nestedPrint(snode,dep)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Display seqNode with indentation
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function nestedPrint(snode,dep)
+  pad = blanks(dep*3);
+  fprintf ("%s{\n",pad);
+  for k = [1:length(snode.seq)];
+    nestedPrint(snode.seq{k},dep+1);
+  endfor
+  fprintf ("%s}\n",pad);
 
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
-  endif
-
-end
-
-
+endfunction

@@ -13,30 +13,26 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: q = compile(this)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## returns equivalent @QIASMsingle to @QIRsingle this when the operator
+## targets a single qubit. Otherwise a sequence of @QIASMsingles is returned
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
+ 
 
-function b = QASMvalidOp(OpStr)
+function q = compile(this)
 
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+  if(length(this.tars) == 1)
+    q = @QIASMsingle(this.name,this.tars(1),this.params);
+  else #if( length(this.tars) > 1 )
+    qseq = cell(1,length(this.tars));
+    for k = 1:length(qseq)
+      qseq{k} = @QIASMsingle(this.name,this.tars(k),this.params);
+    endfor
+    q = @QIASMseq(qseq);
   endif
 
-end
-
-
+endfunction

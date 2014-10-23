@@ -13,30 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: b = eq(this,other)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## returns true if @QIRmeasure this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
+ 
 
-function b = QASMvalidOp(OpStr)
+function b = eq(this,other)
 
-  if( !ischar(OpStr) )
-    b = false;
+  b=false;
+  if( !isa(other,"QIRmeasure") )
+    b=false;
+  elseif( isequal(this.tar,get(other,"tar")) )
+    b=true; 
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    b=false;
   endif
 
-end
+endfunction
 
 
+%!test
+%! a = @QIRmeasure();
+%! b = @QIRmeasure(0:3);
+%! c = @QIRmeasure(0:3);
+%! d = @QIRmeasure(1:3);
+%! assert(eq(b,b));
+%! assert(eq(b,c));
+%! assert(!eq(b,d));
+%! assert(eq(a,a));
+%! assert(!eq(a,b));
+%! assert(eq(a,@QIRmeasure()));

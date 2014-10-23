@@ -13,30 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = @QIRcU(tar,ctrl,U)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Constructor for a QIR c-U gate object. Gate targets qubit number tar
+## with control qubit ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function g = QIRcU(tar,ctrl,op)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if( nargin == 0 )
+    ## default to a bad gate (ctrl == tar)
+    g.tar = 0
+    g.ctrl = 0;
+    g.op = {"X"}
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    g.ctrl = ctrl;
+    g.tar = tar;
+    g.op = op  # {"name"} | {"name",params}
   endif
-
-end
-
-
+  g = class(g,"QIRcU");
+endfunction

@@ -13,30 +13,27 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: nestedPrint(sGate,dep)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Display with indentation
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
-
-  if( !ischar(OpStr) )
-    b = false;
+function nestedPrint(sGate,dep)
+  pad = blanks(dep*3);
+  fprintf("%s{",pad);
+  op=sGate.name;
+  if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
+    fprintf("\"%s(",op);
+    fprintf("%.3f,",sGate.params(1:(length(sGate.params)-1)));
+    fprintf("%.3f)\"",sGate.params( end ));
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    fprintf ("\"%s\"",op);
   endif
-
-end
-
-
+  ## print targets
+  fprintf(",[");
+  fprintf("%d,",sGate.tars(1:(length(sGate.tars)-1)));
+  fprintf("%d]}\n",sGate.tars(end));
+endfunction

@@ -13,30 +13,27 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: t = collectTars(this)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## get the set of qubit indices used by gates in the sequence. the set
+## is returned sorted, not in order affected.
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function t = collectTars(this)
 
-  if( !ischar(OpStr) )
-    b = false;
-  else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
-  endif
+  t = [];
+  for idx = 1:length(this.seq)
+      t = union(t, collectTars(this.seq{idx}));
+  endfor
 
-end
+endfunction
 
-
+ %!test
+ %! C = @QIRseq({@QIRsingle("H",2),@QIRmeasure([1,4]),...
+ %!               @QIRcNot(3,1),@QIRsingle("X",4)});
+ %! assert(1:4,collectTars(C));
+ %! D = @QIRseq({C,@QIRsingle("Y",7)});
+%! assert([1,2,3,4,7],collectTars(D));

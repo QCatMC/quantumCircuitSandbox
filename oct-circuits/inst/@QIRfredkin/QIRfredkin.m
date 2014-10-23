@@ -13,30 +13,24 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = @QIRfredkin(tars,ctrl)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Construct a gate object for a Fredkin gate controlled from ctrl
+## targetting tars
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function g = QIRtoffoli(tars,ctrl)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if( nargin == 0 )
+    ## default to bad gate
+    g.ctrl = 0;
+    g.tars = zeros(1,2);
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    g.tars = tars;
+    g.ctrl = ctrl;
   endif
+  g = class(g,"QIRfredkin");
 
-end
-
-
+endfunction

@@ -13,30 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = QASMvalidOp(OpStr)
+## Usage: g = @QIRswap(tar1,tar2)
 ##
-## Checks if OpStr is a valid operation descriptor string for QASM and returns
-## true if it is.
-## 
+## Construct a swap gate object 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Simulation
+## Keywords: QIR
 
-function b = QASMvalidOp(OpStr)
+function g = QIRswap(tar1,tar2)
 
-  if( !ischar(OpStr) )
-    b = false;
+  if( nargin == 0 )
+    ## default to Identity on qubit 0
+    g.tar1 = 0;
+    g.tar2 = 0;
   else
-    switch (OpStr)
-      case {"I","X","Z","Y","H","T","S", ...
-	    "I'","X'","Z'","Y'","H'","T'","S'",...
-	    "CNot","Measure"}
-	b = true; 
-      otherwise
-	b = false; 
-    endswitch
+    g.tar1 = tar1;
+    g.tar2 = tar2;
   endif
+  g = class(g,"QIRswap");
 
-end
-
-
+endfunction
