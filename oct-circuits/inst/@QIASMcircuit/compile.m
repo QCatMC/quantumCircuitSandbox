@@ -29,7 +29,7 @@ function q = compile(this,eta)
   ## non-elementary operators in the circuit.
 
   if( this.numtoapprox == 0 )
-    q = @QASMcircuit(compile(this.seq,eta),this.bits);
+    q = @QASMcircuit(compile(this.seq,eta), this.bits);
   else
     ## load in global var UZERO
     ## This is a 2D cell array that contains precomputed 

@@ -22,7 +22,7 @@
 ## Keywords: Circuits
 
 
-function C = parseQIASMDesc(desc)
+function C = parse(desc)
 
   if( iscell(desc) )
     ## all descriptors are sequences
@@ -41,7 +41,7 @@ function C = parseCNode(cndesc)
       C = parseGate(cndesc);
     ## frist is cell. should be another seq.
     elseif( iscell(cndesc{1}) )
-      C = parseQIASMDesc(cndesc);
+      C = parse(cndesc);
     ## first is neither a cell nor string... that's no good.
     else
       error("parse error: expecting gate or seqence descriptor, got \

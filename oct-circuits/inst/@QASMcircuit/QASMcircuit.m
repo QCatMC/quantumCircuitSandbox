@@ -43,12 +43,15 @@ function c = QASMcircuit(cNode,n)
     for d = 1:c.maxDepth
       c.stepsAt(d) = stepsAt(c.seq,d);
     endfor
+
     if( nargin == 2 )
       c.bits = n;
     else
       c.bits = 1+max(c.tars);
     endif
+
   endif
+
   c = class(c,"QASMcircuit");
 
 endfunction
