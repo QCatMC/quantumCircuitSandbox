@@ -28,9 +28,9 @@ function tab = computeuzero(len)
 
   ## Gate sets
   ## elementary gate set
-  elemset = {"H","T","T'","X","Y","Z","S","S'"};
+  elemset = {"H","S","S'","X","Y","Z","T","T'",};
   ## SK-algo gate set... variable?
-  gates = elemset;
+  gates = {"H","S","S'","X","Y","Z"};
 
   ## File names
   ## result file names
@@ -88,43 +88,31 @@ endfunction
 
 function uz = computedirect(len,gates,elemset,logname)
   
-  fn = sprintf("uzero%02d.mat",len);
-
-  if( exists(fn,"file") )
-
-    load(fn);
-    uz = UZERO;
-    clear -g UZERO;
-
-    logmsg("Using previously generated data",logname);
-
-  else
-    ## allocate 2D cell array
-    uz = cell(length(gates)^len,2); ## the cell array
-    uz(:,1) = zeros(1,len); ## column one. vectors
-    uz(:,2) = zeros(2,2); ## column two, 2x2 matrix
-    
-    logmsg("initial space allocated",logname);
-    
-    ## for each.. 
-    for k = 1:length(uz)
+  ## allocate 2D cell array
+  uz = cell(length(gates)^len,2); ## the cell array
+  uz(:,1) = zeros(1,len); ## column one. vectors
+  uz(:,2) = zeros(2,2); ## column two, 2x2 matrix
+  
+  logmsg("initial space allocated",logname);
+  
+  ## for each.. 
+  for k = 1:length(uz)
       ## encode sequence as base |gates| number
-      uz{k,1} = base10toradk(k-1,length(gates),len);
-      
-      ## algebraic simplification
-      uz{k,1} = simpseq(uz{k,1},elemset);
-      
-      ## compute matrix & reduce to SU(2)
-      uz{k,2} = ldig2mat(uz{k,1},elemset);
+    uz{k,1} = base10toradk(k-1,length(gates),len);
+    
+    ## algebraic simplification
+    uz{k,1} = simpseq(uz{k,1},elemset);
+    
+    ## compute matrix & reduce to SU(2)
+    uz{k,2} = ldig2mat(uz{k,1},elemset);
 
-    endfor
-
-    logmsg("Complete space of %d sequences generated. Removing \
-			    %duplicates",...
-	   logname);
-
-    uz = removedupes(uz,logname);
-  endif
+  endfor
+  
+  logmsg("Complete space of %d sequences generated. Removing \
+	 %duplicates",...
+	 logname);
+  
+  uz = removedupes(uz,logname);
 
 endfunction
 
@@ -273,11 +261,11 @@ function snew = substpair(seq,elemset)
   if(strcmp(elemset{seq(1)},elemset{seq(2)}))
     switch (elemset{seq(1)})
       case "T"
-	snew = [7]; #S
+	snew = [find(ismember(elemset,"S"))]; #S
       case "T'"
-	snew = [8]; #S'
+	snew = [find(ismember(elemset,"S'"))]; #S'
       case {"S","S'"} 
-	snew = [6]; #Z
+	snew = [find(ismember(elemset,"Z"))]; #Z
       otherwise
 	snew=seq;
     endswitch
@@ -295,9 +283,9 @@ function snew = subshxz(seq,elemset)
         ## convert to strings
 
     if(strcmp(elemset{seq(2)},"Z") )
-      snew = [4]; #X
+      snew = [find(ismember(elemset,"X"))]; #X
     elseif(strcmp(elemset{seq(2)},"X"))
-      snew = [8]; #Z 
+      snew = [find(ismember(elemset,"Z"))]; #Z 
     else
       snew = seq; # no change
     endif

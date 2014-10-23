@@ -22,15 +22,15 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc
 
-function b = isTargetVector(ts,n=max(ts)+1)
-  b = (min(ts) >= 0 ) && (max(ts) < n) && isequal(sort(ts),unique(ts));
+function b = isTargetVector(ts)
+  b = isNat(ts) && length(ts) == length(unique(ts));
 endfunction
 
 %!test
-%! assert(isTargetVector([0:3],4))
-%! assert(!isTargetVector([0:3],2))
-%! assert(isTargetVector([1:3],4))
-%! assert(isTargetVector([0:2],4))
-%! assert(isTargetVector([3:-1:0],4))
-%! assert(isTargetVector([2,0],4))
-
+%! assert(isTargetVector([0:3]))
+%! assert(isTargetVector([1:3]))
+%! assert(isTargetVector([0:2]))
+%! assert(isTargetVector([3:-1:0]))
+%! assert(isTargetVector([2,0]))
+%! assert(!isTargetVector([0,3,2,56,-2]));
+%! assert(!isTargetVector([4:-2:-8]));

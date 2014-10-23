@@ -23,5 +23,23 @@
 
 
 function b = isNat(n)
-  b = isscalar(n) && floor(n)==ceil(n) && n>=0;
+
+  for k = 1:length(n)
+    if(!isscalar(n(k)) || floor(n(k))!=ceil(n(k)) || n(k)<0)
+      b = false;
+      return;
+    endif
+  endfor
+  
+  b=true;
 endfunction
+
+%!test
+%! assert(isNat(0));
+%! assert(isNat(3));
+%! assert(!isNat(-1));
+%! assert(!isNat(1/2));
+%! assert(isNat(1:4));
+%! assert(isNat([0,5,1,3,15,8]))
+%! assert(!isNat(0:1/2:5))
+%! assert(!isNat(5:-1:-5))
