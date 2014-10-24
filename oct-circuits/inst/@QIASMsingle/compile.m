@@ -85,21 +85,32 @@ function [SU,ph] = QIASMop(name,params)
 
   switch (name)	 
     case "PhAmp"
-      SU = U2phaseamp(params(1:3));
+	 
+      SU = zeros(2);
+      SU(1,1) = e^(i*(-params(2)-params(3))/2)*cos(params(1));
+      SU(2,2) = SU(1,1)';
+      SU(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
+      SU(1,2) = -SU(2,1)';
+
       if(length(params) == 3)
 	ph = 0;
       else
 	ph = params(4);
       endif
+
     case "Rn"
-      SU = U2Rn(params(1:4));
+      X = [0,1;1,0]; Y = [0,-i;i,0]; Z=[1,0;0,-1];
+      A = params(2)*X + params(3)*Y + params(4)*Z;
+      SU = e^(-i*params(1)/2*A);
+
       if(length(params) == 4)
 	ph = 0;
       else
 	ph = params(5);
       endif
     case "ZYZ"
-      SU = U2zyz(params(1:3));
+      Y = [0,-i;i,0]; Z=[1,0;0,-1];      
+      SU = e^(-i/2*((params(1)+params(3))*Z + params(2)*Y))
       if(length(params) == 3)
 	ph = 0;
       else
