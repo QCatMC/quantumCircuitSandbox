@@ -33,19 +33,18 @@ Given something else.");
     error("Paramters are not real valued. They should be.");
   endif
 
+  ## SU(2) component
+  U = zeros(2);
+  U(1,1) = e^(i*(p(2)-p(3))/2)*cos(p(1));
+  U(2,2) = e^(i*(p(2)+p(3))/2)*cos(p(1));
+  U(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
+  U(1,2) = -e^(i*(p(3)+p(2))/2)*sin(p(1));
 
-  ## get global phase;
-  if( length(p) == 3)
-    g = 0;
-  else
-    g = p(4);
+  ## global phase shift if needed
+  if( length(p) == 4 && abs(p(4)) > 2^(-60) )
+    U = e^(i*p(4))*U;
   endif
 
-  U = zeros(2);
-  U(1,1) = e^(i*(g-p(2)-p(3))/2)*cos(p(1));
-  U(2,2) = e^(i*(g+p(2)+p(3))/2)*cos(p(1));
-  U(2,1) = e^(i*(g+p(3)-p(2))/2)*sin(p(1));
-  U(1,2) = -e^(i*(g-p(3)+p(2))/2)*sin(p(1));
 	 
 endfunction
 

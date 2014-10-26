@@ -33,14 +33,14 @@ Given something else.");
     error("Paramters are not real valued. They should be.");
   endif
   
-  ## get global phase;
-  if( length(p) == 3)
-    g = 0;
-  else
-    g = p(4);
-  endif
+  ## SU(2) component
+  U = (Rz(p(1))*Ry(p(2))*Rz(p(3)));
 
-  U = e^(i*g/2)*(Rz(p(1))*Ry(p(2))*Rz(p(3)));
+  ## global phase if needed
+  if( length(p) == 4 && abs(p(4)) > 2^(-60) )
+    U = e^(i*p(4))*U;
+  endif
+  
 	 
 endfunction
 
