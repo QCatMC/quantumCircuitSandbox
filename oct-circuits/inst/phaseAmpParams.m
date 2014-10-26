@@ -30,10 +30,10 @@ function p = phaseAmpParams(U,ep=0.00001)
   p = zeros(1,4);
   
   ## get global phase
-  gp = det(U);
+  gp = sqrt(det(U));
   p(4) = arg(gp);
   ## factor global phase out of U to get SU(2) component
-  U = sqrt(gp)'*U;
+  U = gp'*U;
 
 
   minval = 2^(-50); #magnitude threshold for Zero
@@ -60,7 +60,7 @@ endfunction
 %!test
 %! close = 2^(-50);
 %! assert(isequal(phaseAmpParams(eye(2)),zeros(1,4)));
-%! assert(isequal(phaseAmpParams(Z),[0,0,pi,pi]));
-%! assert(isequal(phaseAmpParams(X),[pi/2,0,-pi,pi]));
-%! assert(isequal(phaseAmpParams(Y),[pi/2,0,0,pi]));
-%! assert(isequal(phaseAmpParams(H),[pi/4,pi,0,pi]));
+%! assert(isequal(phaseAmpParams(Z),[0,0,pi,pi/2]));
+%! assert(isequal(phaseAmpParams(X),[pi/2,0,-pi,pi/2]));
+%! assert(isequal(phaseAmpParams(Y),[pi/2,0,0,pi/2]));
+%! assert(isequal(phaseAmpParams(H),[pi/4,pi,0,pi/2]));

@@ -40,8 +40,8 @@ endfunction
 %!test
 %! fail('zyzParams(eye(3))');
 %! assert(isequal(zyzParams(eye(2)),[0,0,0,0]));
-%! assert(isequal(zyzParams(X),[-pi,pi,0,pi]));
-%! assert(isequal(zyzParams(Y),[0,pi,0,pi]));
-%! assert(isequal(zyzParams(Z),[pi,0,0,pi]));
-%! assert(isequal(zyzParams(H),[0,pi/2,pi,pi]));
+%! assert(isequal(zyzParams(X),[-pi,pi,0,pi/2]));
+%! assert(isequal(zyzParams(Y),[0,pi,0,pi/2]));
+%! assert(isequal(zyzParams(Z),[pi,0,0,pi/2]));
+%! assert(isequal(zyzParams(H),[0,pi/2,pi,pi/2]));
 
