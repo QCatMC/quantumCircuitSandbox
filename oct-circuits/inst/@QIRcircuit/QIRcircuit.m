@@ -13,23 +13,31 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QASMcNot(tar,ctrl)
+## Usage: c = @QIRcircuit(seq,n)
 ##
-## Constructor for a QASM cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## Users should use the buildCircuit function to construct
+## oct-circuits rather than expicitly constuct the object themselves.
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIR
 
-function g = QASMcNot(tar,ctrl)
+function c = QIRcircuit(cNode,n)
 
-  if( nargin == 0 )
-    ## default to a bad gate (ctrl == tar)
-    g.tar = 0;
-    g.ctrl = 0;
-  else
-    g.ctrl = ctrl;
-    g.tar = tar;
+  if(nargin == 0 )
+    c.bits = 0;
+    c.seq = @QIRseq({});
+  elseif(nargin == 1 || nargin == 2)
+    c.bits = 0;
+    c.seq = cNode;
+    if( nargin == 2 )
+      c.bits = n;
+    else
+      c.bits = 1+max(collectTars(c.seq));
+    endif
   endif
-  g = class(g,"QASMcNot");
+  c = class(c,"QIRcircuit");
+
 endfunction
+
+

@@ -13,23 +13,34 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QASMcNot(tar,ctrl)
+## Usage: b = eq(this,other)
 ##
-## Constructor for a QASM cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## returns true if @QIRcircuit this is equivalent to other.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIR
+ 
 
-function g = QASMcNot(tar,ctrl)
+function b = eq(this,other)
 
-  if( nargin == 0 )
-    ## default to a bad gate (ctrl == tar)
-    g.tar = 0;
-    g.ctrl = 0;
+  b=false;
+  if( !isa(other,"QIRcircuit") )
+    b=false;
   else
-    g.ctrl = ctrl;
-    g.tar = tar;
+    b = this.bits == get(other,"bits") && ...
+       	eq(this.seq,get(other,"seq"));
   endif
-  g = class(g,"QASMcNot");
+
 endfunction
+
+
+%!test
+%! A = @QIRcircuit(@QIRseq({@QIRsingle("H",2)}));
+%! B = @QIRcircuit(@QIRseq({@QIRsingle("X",2)}));
+%! C = @QIRcircuit(@QIRseq({@QIRsingle("H",1)}));
+%! assert(!eq(A,B)); #same tars different ops
+%! assert(!eq(A,C)); #
+
+
+

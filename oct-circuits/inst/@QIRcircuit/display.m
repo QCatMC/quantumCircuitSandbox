@@ -13,23 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QASMcNot(tar,ctrl)
+## Usage: display(cir)
 ##
-## Constructor for a QASM cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
-
+## Display function for circuit objects. 
+##
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIR
 
-function g = QASMcNot(tar,ctrl)
+function display(cir)
 
-  if( nargin == 0 )
-    ## default to a bad gate (ctrl == tar)
-    g.tar = 0;
-    g.ctrl = 0;
-  else
-    g.ctrl = ctrl;
-    g.tar = tar;
+  if(!strcmp(inputname(1),"") )
+    fprintf ("%s = \n", inputname (1)); 
   endif
-  g = class(g,"QASMcNot");
+
+  pad = blanks(3);
+  fprintf("%sseq = \n",pad);
+  nestedPrint(cir.seq,2);
+  fprintf("%snum bits = %d\n",pad,cir.bits);
+
 endfunction
+

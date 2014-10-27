@@ -13,23 +13,34 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QASMcNot(tar,ctrl)
+## Usage: s = get(cir, f)
 ##
-## Constructor for a QASM cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## circuit field selector 
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIR
 
-function g = QASMcNot(tar,ctrl)
+function s = get(cir,f)
 
-  if( nargin == 0 )
-    ## default to a bad gate (ctrl == tar)
-    g.tar = 0;
-    g.ctrl = 0;
+  if (nargin == 1)
+    s.bits = cir.bits;
+    s.seq = cir.seq;
+  elseif (nargin == 2)
+    if ( ischar(f) )
+      switch(f)
+	case "seq"
+	  s = cir.seq;
+	case "bits"
+	  s = cir.bits;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
   else
-    g.ctrl = ctrl;
-    g.tar = tar;
+    print_usage();
   endif
-  g = class(g,"QASMcNot");
+
 endfunction

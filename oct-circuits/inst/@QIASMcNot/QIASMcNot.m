@@ -25,7 +25,7 @@ function g = QIASMcNot(tar,ctrl)
 
   if( nargin == 0 )
     ## default to a bad gate (ctrl == tar)
-    g.tar = 0
+    g.tar = 0;
     g.ctrl = 0;
   else
     g.ctrl = ctrl;

@@ -25,13 +25,13 @@ function g = QIRcU(tar,ctrl,op)
 
   if( nargin == 0 )
     ## default to a bad gate (ctrl == tar)
-    g.tar = 0
+    g.tar = 0;
     g.ctrl = 0;
     g.op = {"X"}
   else
     g.ctrl = ctrl;
     g.tar = tar;
-    g.op = op  # {"name"} | {"name",params}
+    g.op = op;  # {"name"} | {"name",params}
   endif
   g = class(g,"QIRcU");
 endfunction

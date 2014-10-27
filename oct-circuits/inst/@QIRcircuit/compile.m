@@ -13,23 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QASMcNot(tar,ctrl)
+## Usage: q = compile(this)
 ##
-## Constructor for a QASM cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## returns exact @QIASMcircuit to @QIRcircuit this. 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIR
+ 
 
-function g = QASMcNot(tar,ctrl)
+function q = compile(this)
 
-  if( nargin == 0 )
-    ## default to a bad gate (ctrl == tar)
-    g.tar = 0;
-    g.ctrl = 0;
-  else
-    g.ctrl = ctrl;
-    g.tar = tar;
-  endif
-  g = class(g,"QASMcNot");
+  q = @QIASMcircuit(compile(this.seq),this.bits);
+
 endfunction
+
+
+

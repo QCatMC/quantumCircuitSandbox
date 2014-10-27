@@ -32,26 +32,25 @@ function q = compile(this)
     qseq = cell(); # the QIASM sequence    
 
     ## get phase and SU2 zyz params w/out computing matrix
-    [zyzps,gp] = params(op);
+    [zyzps,gp] = params(this.op);
 
     ## c-Ph(gp) for non SU(2) Us
     if( gp != 0 )
-      qseq{end+1} = @QIASMsingle("Rn",this.ctrl,[-gp,0,0,1,0]);
+      qseq{end+1} = @QIASMsingle("Rn",this.ctrl,[gp,0,0,1,0]);
       qseq{end+1} = @QIASMsingle("PhAmp",this.ctrl,[0,0,0,gp/2]);
     endif
     
-    ## All cases do : A[t],Cnot(c,t),B
+    ## currently not checking for special cases (lemma 5.4 and 5.5)
+
+    ## all U need A,CNot,B
     qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[zyzps(1),zyzps(2)/2,0,0]);
     qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
     qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[0,-zyzps(2)/2,-(zyzps(3)+zyzps(2))/2,0]);
+    ## some will need a second CNot... not checking this case
+    qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
 
-    ## all other gates but Z,Y (and some others?.... Lemma 5.5) need another cNot
-    if(!strcmp("Y",oname) && !strcmp("Z",oname) )
-      qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
-    endif
-    
-    ## in general we need "C" but not if the two z rotations are the same
-    if( abs(zyzps(3)-zyzps(1)) > 2^(-60) )
+    ## some will also need C
+    if( !iszero(zyzps(1)-zyzps(3)) )
       qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[(zyzps(3)-zyzps(1))/2,0,0,0]);
     endif
 
@@ -70,26 +69,26 @@ function [z,g] = params(op)
   switch(oname)
     case "H"
       z = [0,pi/2,pi]; ## is this a special case?
-      g = pi;
+      g = pi/2;
     ## setup remainding QASM ops for special cases
     case "Z"
       z = [pi/2,0,pi/2];
-      g = pi;
+      g = pi/2;
     case "Y"
       z = [0,pi,0];
-      g = pi;
+      g = pi/2;
     case "T"
       z = [pi/8,0,pi/8];
-      g = pi/4;
+      g = pi/8;
     case "T'"
       z = [-pi/4,0,-pi/8];
-      g =-pi/4;
+      g =-pi/8;
     case "S"
       z = [pi/4,0,pi/4];
-      g = pi/2;
+      g = pi/4;
     case "S'"
       z = [-pi/4,0,-pi/4];
-      g = -pi/2;
+      g = -pi/4;
 
     case "PhAmp"
       ## convert phamp -> zyz
@@ -138,12 +137,23 @@ function [z,g] = params(op)
 	     2*acos(abs(U(1,1))),...
 	     arg(U(2,2)*U(2,1)')];
       endif
-   
+
+      ## ensure special case trigger when no Y rotation occurs      
+      if( abs(z(2)) < 2^(-60) && abs(z(1)-z(3)) > 2^(-60) ) ##no Y, z's not equal
+	zrot = z(1) + z(3);
+	## evenly divide z-rotation between the two operators 
+	z(1) = zrot/2;
+	z(2) = zrot/2;
+      endif 
    
   endswitch
 
 
 endfunction
+
+function b = iszero(dub)
+  b = abs(dub) < 2^(-60);
+endfunction 
 
 %!test
 %! assert(false);
