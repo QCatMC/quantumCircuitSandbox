@@ -38,4 +38,8 @@ endfunction
 
 
 %!test
-%! assert(false);
+%! assert(eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[1,2])));
+%! assert(!eq(@QIRtoffoli(3,[1,2]),@QIRtoffoli(0,[1,2])));
+%! assert(!eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[1,3])));
+%! assert(!eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[3,4])));
+

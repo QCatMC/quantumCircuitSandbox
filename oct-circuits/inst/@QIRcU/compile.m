@@ -27,7 +27,7 @@ function q = compile(this)
 
   oname = this.op{1};
   if( length(this.op) == 1 && strcmp(oname,"X"))
-    q = @QASMcNot(this.tar,this.ctrl);
+    q = @QIASMcNot(this.tar,this.ctrl);
   else
     qseq = cell(); # the QIASM sequence    
 
@@ -45,12 +45,12 @@ function q = compile(this)
     ## all U need A,CNot,B
     qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[zyzps(1),zyzps(2)/2,0,0]);
     qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
-    qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[0,-zyzps(2)/2,-(zyzps(3)+zyzps(2))/2,0]);
+    qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[0,-zyzps(2)/2,-(zyzps(1)+zyzps(2))/2,0]);
     ## some will need a second CNot... not checking this case
     qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
 
     ## some will also need C
-    if( !iszero(zyzps(1)-zyzps(3)) )
+    if( !iszero(zyzps(3)-zyzps(1)) )
       qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[(zyzps(3)-zyzps(1))/2,0,0,0]);
     endif
 

@@ -26,7 +26,8 @@ function q = compile(this)
   t = this.tar1;
   c = this.tar2;
 
-  q  = @QIASMseq({@QIASMcNot(t,c),@QIASMcNot(c,t),...
+  q  = @QIASMseq({@QIASMcNot(t,c),...
+		  @QIASMcNot(c,t),...
 		  @QIASMcNot(t,c)});
 
 endfunction

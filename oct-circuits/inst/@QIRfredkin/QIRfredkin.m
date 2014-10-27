@@ -21,7 +21,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function g = QIRtoffoli(tars,ctrl)
+function g = QIRfredkin(tars,ctrl)
 
   if( nargin == 0 )
     ## default to bad gate
