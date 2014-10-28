@@ -108,10 +108,10 @@ function C = parseSingle(gDesc)
     if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
       error("parse error: expecting 2 arguments for %s given 1",op);
     ## verify targets
-    elseif( !isvector(gDesc{2}) ||  !isNat(gDesc{2}) )
-      error("parse error: %s targets must be natural numbers.");
+    elseif( !isvector(gDesc{2}) ||  !isTargetVector(gDesc{2}) )
+      error("parse error: %s targets must be a set of natural numbers.");      
     else
-      C = @QIRsingle(op,gDesc{2});
+      C = @QIRsingle(op,sort(gDesc{2},"descend"));
     endif
 
   else ## it's length 3
@@ -119,8 +119,8 @@ function C = parseSingle(gDesc)
     if( !strcmp(op,"PhAmp") && !strcmp(op,"Rn") && !strcmp(op,"ZYZ") )
       error("parse error: expecting 1 arguments for %s given 2",op);
     ## verify targets
-    elseif(  !isvector(gDesc{3}) || !isNat(gDesc{3}) )
-      error("parse error: %s target must be a natural number.");
+    elseif(  !isvector(gDesc{3}) || !isTargetVector(gDesc{3}) )
+      error("parse error: %s target must be a set of natural number.");
     else
       ## Error check params gDesc{2}
       switch(op)
@@ -138,7 +138,7 @@ function C = parseSingle(gDesc)
 	  endif
       endswitch
       
-      C = @QIRsingle(op,gDesc{3},gDesc{2});
+      C = @QIRsingle(op,sort(gDesc{3},"descend"),gDesc{2});
     endif
   endif
   
@@ -254,7 +254,7 @@ numbers");
     elseif( length(unique(gDesc{2})) != length(gDesc{2}) )
       error("parse error: Measurement target vector contains duplicates");
     else
-      C = @QIASMmeasure(gDesc{2});
+      C = @QIRmeasure(sort(gDesc{2},"descend"));
     endif
   endif
 
@@ -280,7 +280,7 @@ function C = parseTernary(gDesc)
 	error("parse error: Toffoli given bad target");
       endif
       
-      C = @QIRtoffoli(gDesc{2},gDesc{3});
+      C = @QIRtoffoli(gDesc{2},sort(gDesc{3},"descend"));
 
     case "Fredkin"
       ## desc length check
@@ -296,7 +296,7 @@ function C = parseTernary(gDesc)
 	error("parse error: Fredkin given bad control");
       endif     
 
-      C = @QIRfredkin(gDesc{2},gDesc{3});
+      C = @QIRfredkin(sort(gDesc{2},"descend"),gDesc{3});
 
     otherwise
       error("parse error: Bad ternary operator specification");
