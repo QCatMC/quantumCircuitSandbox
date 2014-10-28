@@ -26,7 +26,8 @@
 function C = buildCircuit(desc,varargin )
 
   ## validate desc
-  if( !iscell(desc) && !isa(desc,"QIASMcircuit") && !isa(desc,"QASMcircuit") )
+  if( !iscell(desc) && !isa(desc,"QIRcircuit") && ...
+      !isa(desc,"QIASMcircuit") && !isa(desc,"QASMcircuit") )
     error("Given bad circuit");
   endif
 
@@ -39,28 +40,41 @@ function C = buildCircuit(desc,varargin )
   ##  eta is from (0,1)
   ##  tar is either QASM or QIASM			
 
-  ## check bad combos
-  if( isa(desc,"QASMcircuit") && strcmp(tar,"QIASM") )
-    error("Cannot decopile QASM to QIASM");
+  ## check bad combos.. decompile request
+  if( isa(desc,"QASMcircuit") && ...
+      ( strcmp(tar,"QIASM")  || strcmp(tar,"QIR") ))
+    error("Cannot decopile QASM");
+  elseif( isa(desc,"QIASMcircuit") && strcmp(tar,"QIR") )
+    error("Cannot decopile QIASM");
   endif
 
   ## workable combo
-  if( isa(desc,"QASMcircuit") ) ## does nothing
+
+  ## check for do nothing request
+  if( isa(desc,"QASMcircuit") || ...
+      ( isa(desc,"QIASMcircuit") && strcmp(tar,"QIASM") ) ||
+      ( isa(desc,"QIRcircuit") && strcmp(tar,"QIR") ) )
 
     C = desc;
 
-  else # desc or QIASM with tar either QIASM or QASM
+  else ## desc is either cell-desc,QIR, or QIASM
 
-    ## Descriptors at least get converted to QIASM
+    ## Descriptors at least get converted to QIR
     if( iscell(desc) )
       ## build QIASM circuit with size derived from targets
-      C = @QIASMcircuit(parse(desc));     
-    else #QIASM
+      C = @QIRcircuit(parse(desc));     
+    else # QIR || QIASM
       C = desc;
     endif
+    ## post: C is QIR | QIASM
+    
 
-    ## C is now a QIASM  
-    ## if target is QASM then compile
+    ## bump to QIASM if needed
+    if( isa("QIRcircuit",C) && !strcmp(tar,"QIR") )
+      C = compile(C);
+    endif
+
+    ## if target is QASM then compile one last time
     if( strcmp(tar,"QASM") )  
       ## compile to QASM
       C = compile(C,eta);
@@ -68,6 +82,13 @@ function C = buildCircuit(desc,varargin )
     
   endif
   
+endfunction
+
+## true if obj lhs is of target type rhs
+function b = tareq(lhs,rhs)
+  b = (isa(lhs,"QIRcircuit") && strcmp(rhs,"QIR")) || ...
+      (isa(lhs,"QIASMcircuit") && strcmp(rhs,"QIASM")) || ...
+      (isa(lhs,"QASMcircuit") && strcmp(rhs,"QASM"));
 endfunction
 
 function [eta,t] = parseargs(args)
@@ -78,30 +99,37 @@ function [eta,t] = parseargs(args)
     case 0 ## defaults
       eta = 2^(-7);
       t = "QASM";
+
     case 1 ## either or
       arg = args{1};
 
       ## should be target
-      if(ischar(arg) && ( strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
+      if(ischar(arg) && ... 
+	 ( strcmp("QIR",arg) || strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
 	eta = 2^(-7);
 	t = arg;	
       ## should be eta
-      elseif(!ischar(arg) && isscalar(arg) && isreal(arg) && arg > 0 && arg < 1)
+      elseif(!ischar(arg) && isscalar(arg) ...
+	     && isreal(arg) && arg > 0 && arg < 1)
 	eta = arg;
 	t = "QASM";
       else
 	error("Bad third argument. Expecting circuit approximation error or build target string");
       endif
+
     case 2 ## size,target
 
       t = args{2};
-      if( !ischar(t) || (!strcmp("QIASM",t) && !strcmp("QASM",t)) )
+      ## check target string
+      if( !ischar(t) || ...
+	  ( !strcmp("QIR",t) && !strcmp("QIASM",t) && !strcmp("QASM",t)) )
 	error("Given bad build target string");
       endif
 
       eta = args{1};
       ## validate approximation threshold eta
-      if( !isreal(eta) || !isscalar(eta) || eta <= 0 || eta >= 1) 
+      if( ischar(eta) || !isreal(eta) || !isscalar(eta) || ... 
+	  eta <= 0 || eta >= 1) 
 	error("Given bad approximation error threshold eta");
       endif
 
