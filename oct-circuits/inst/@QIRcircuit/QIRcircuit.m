@@ -36,6 +36,7 @@ function c = QIRcircuit(cNode,n)
       c.bits = 1+max(collectTars(c.seq));
     endif
   endif
+  
   c = class(c,"QIRcircuit");
 
 endfunction

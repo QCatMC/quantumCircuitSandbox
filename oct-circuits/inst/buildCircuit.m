@@ -32,7 +32,7 @@ function C = buildCircuit(desc,varargin )
   endif
 
   ## parse optional arguments
-  [eta,tar] = parseargs(varargin);
+  [eta,tar] = parseargs(varargin)
 
   ##At this point all inputs are valid and initialized
   ##  desc is either a cell array (descriptor),  a QIASM
@@ -67,13 +67,12 @@ function C = buildCircuit(desc,varargin )
       C = desc;
     endif
     ## post: C is QIR | QIASM
-    
-
+    isa("QIRcircuit",C) && !strcmp(tar,"QIR")
     ## bump to QIASM if needed
     if( isa("QIRcircuit",C) && !strcmp(tar,"QIR") )
-      C = compile(C);
+      C = compile(C);      
     endif
-
+    
     ## if target is QASM then compile one last time
     if( strcmp(tar,"QASM") )  
       ## compile to QASM
