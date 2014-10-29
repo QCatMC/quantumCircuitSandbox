@@ -23,8 +23,13 @@
 ## Keywords: QASM
 
 function d = maxDepth(g)
-  childMax = cellfun(@maxDepth,g.seq);  
+  
+  childMax = zeros(length(g.seq),1);
+  for k = 1:length(g.seq)
+    childMax(k) = maxDepth(g.seq{k});
+  endfor
   d = 1 + max(childMax);
+
 endfunction
 
 %!test

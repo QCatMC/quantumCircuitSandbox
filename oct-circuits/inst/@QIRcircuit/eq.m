@@ -40,7 +40,7 @@ endfunction
 %! B = @QIRcircuit(@QIRseq({@QIRsingle("X",2)}));
 %! C = @QIRcircuit(@QIRseq({@QIRsingle("H",1)}));
 %! assert(!eq(A,B)); #same tars different ops
-%! assert(!eq(A,C)); #
+%! assert(!eq(A,C)); 
 
 
 

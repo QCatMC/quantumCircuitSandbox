@@ -57,8 +57,8 @@ function q = compile(this,eta)
 
       ## test for eta precision requirement
       ##  *** Remove when not testing or keep for runtime errors
-      assert(norm(SU-SUapprox) < eta, ...
-	     "QIASM compile: unable to approximate a gate");
+      ##assert(norm(SU-SUapprox) < eta, ...
+      ##     "QIASM compile: unable to approximate a gate");
 
       ## simplify/reduce approximating sequence if possible.
       qstrseq = simpseq(qstrseq);
@@ -89,7 +89,7 @@ function [SU,ph] = QIASMop(name,params)
       SU = zeros(2);
       SU(1,1) = e^(i*(-params(2)-params(3))/2)*cos(params(1));
       SU(2,2) = SU(1,1)';
-      SU(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
+      SU(2,1) = e^(i*(params(3)-params(2))/2)*sin(params(1));
       SU(1,2) = -SU(2,1)';
 
       if(length(params) == 3)
@@ -110,7 +110,7 @@ function [SU,ph] = QIASMop(name,params)
       endif
     case "ZYZ"
       Y = [0,-i;i,0]; Z=[1,0;0,-1];      
-      SU = e^(-i/2*((params(1)+params(3))*Z + params(2)*Y))
+      SU = e^(-i/2*((params(1)+params(3))*Z + params(2)*Y));
       if(length(params) == 3)
 	ph = 0;
       else

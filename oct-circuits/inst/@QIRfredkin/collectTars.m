@@ -21,6 +21,6 @@
 ## Keywords: QIR
 
 function t = collectTars(this,n)
-  bits = [this.tar,this.ctrls];
+  bits = [this.tars,this.ctrl];
   t = sort(bits);
 endfunction

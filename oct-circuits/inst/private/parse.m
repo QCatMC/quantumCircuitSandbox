@@ -177,7 +177,7 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
       elseif( gDesc{3} == gDesc{4} )
 	error("parse error: CU target and control cannot be the same.");
       ## U desc check
-      elseif( !iscell(gDesc{2}) || length(gDesc{2}) < 2 || length(gDesc{2}) > 3 )
+      elseif( !iscell(gDesc{2}) || length(gDesc{2}) < 1 || length(gDesc{2}) > 2 )
 	error("parse error: CU operator descriptor is bad");
       ## U name check
       elseif( !isSingle(gDesc{2}{1}) )
@@ -188,26 +188,27 @@ operator form. Given %s",gDesc{2}{1});
 	      strcmp("Rn",gDesc{2}{1} ) )
 	## QIASM
 	## check descriptor length
-	if( length(gDesc{4}) != 2 )
+	if( length(gDesc{2}) != 2 )
 	  error("parse error: Expecting parameter set for %s",gDesc{4}{1});
 	endif
 
 	## verify parameters
-	params = gDesc{4}{2};
-	switch(gDesc{4}{1})
+	params = gDesc{2}{2};
+
+	switch(gDesc{2}{1})
 	  case {"ZYZ","PhAmp"}
 	    if( !isreal(params) || (!isequal(size(params),[1,3]) && !isequal(size(params),[1,4])))
-	      error("parse error: bad parameters for %s",gDesc{4}{1});
+	      error("parse error: bad parameters for %s",gDesc{2}{1});
 	    endif
 	  case {"Rn"}
 	    if( !isreal(params) || (!isequal(size(params),[1,5]) && !isequal(size(params),[1,4])))
-	      error("parse error: bad parameters for %s",gDesc{4}{1});
+	      error("parse error: bad parameters for %s",gDesc{2}{1});
 	    endif	    
 	endswitch
 	
-	C = @QIRcU(gDesc{2},gDesc{3},gDesc{4});
+	C = @QIRcU(gDesc{4},gDesc{3},gDesc{2});
       else #QASM
-	C = @QIRcU(gDesc{2},gDesc{3},gDesc{4}(1));
+	C = @QIRcU(gDesc{4},gDesc{3},gDesc{2});
       endif
 
     case "Swap"

@@ -21,7 +21,7 @@
 ## Keywords: QIR
 
 function t = collectTars(this,n)
-
-  t = [min(this.tars1,this.tars2),max(this.tar1,this.tar2)];
+	 
+  t = [min(this.tar1,this.tar2),max(this.tar1,this.tar2)];
 
 endfunction
