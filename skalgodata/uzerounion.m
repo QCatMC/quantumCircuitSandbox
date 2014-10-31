@@ -32,25 +32,14 @@ function uz = uzerounion(high,low=1)
     error("high and low must be positive integers");
   endif
 
-  ## load in low data
-  if( low == 1 )
-    newlow = high-1;
-    found = false;
-    while(!exist(sprintf("uzero01to%02d.mat",newlow),"file"))
-      newlow--;
-    endwhile
-    fname = sprintf("uzero01to%02d.mat",newlow);
-  else
-    fname = sprintf("uzero%02d.mat",low);
-  endif
-  
+  fname = sprintf("tables/uzero%02d.mat",low);
   load(fname);
   uz = UZERO;
   clear -g UZERO;
 
   for k = low+1:high
     ## load UZEROk
-    fname = sprintf("uzero%02d.mat",k);
+    fname = sprintf("tables/uzero%02d.mat",k);
     load(fname);
     curr = UZERO;
     clear -g UZERO;
@@ -63,7 +52,7 @@ function uz = uzerounion(high,low=1)
     endfor
 
     ## save current uz
-    rfname = sprintf("uzero%02dto%02d.mat",low,k);
+    rfname = sprintf("tables/uzero%02dto%02d.mat",low,k);
     global UZERO = uz;
     save(rfname,"UZERO");
     clear -g UZERO;
