@@ -28,9 +28,9 @@ function tab = computeuzero(len)
 
   ## Gate sets
   ## elementary gate set
-  elemset = {"H","S","S'","X","Y","Z","T","T'",};
+  elemset = {"X","Y","Z","S","S'","H","T","T'",};
   ## SK-algo gate set... variable?
-  gates = {"H","S","S'","X","Y","Z"};
+  gates = {"H","T","T'"};
 
   ## File names
   ## result file names
@@ -97,9 +97,13 @@ function uz = computedirect(len,gates,elemset,logname)
   
   ## for each.. 
   for k = 1:length(uz)
-      ## encode sequence as base |gates| number
+    ## encode sequence as base |gates| number
     uz{k,1} = base10toradk(k-1,length(gates),len);
     
+    ## convert [1,|gates|] to [1,|elemset|] to avoid 
+    ## gates/elemset order dependence
+    uz{k,1} = adjustForgates(uz{k,1},gates,elemset);
+
     ## algebraic simplification
     uz{k,1} = simpseq(uz{k,1},elemset);
     
@@ -117,6 +121,16 @@ function uz = computedirect(len,gates,elemset,logname)
 endfunction
 
 ##### Helper FUNCTIONS
+
+function v = adjustForgates(n,gates,elemset)
+
+  v = zeros(1,length(n));
+  for k = 1:length(v)
+    v(k) = find(ismember(elemset,gates{n(k)}));
+  endfor
+
+endfunction
+
 
 ## for logging script progress
 function logmsg(msg,logname)

@@ -38,7 +38,10 @@ function eta0 = montecarloetazero(fname,n)
   addpath("../oct-circuits/inst");
 
   ## filename for results
-  logname = sprintf("./data/%samps%d.mat",fname(1:end-4),n);
+  [d,nam] = fileparts(fname);
+
+  logname = sprintf("./data/eta0-%samps%d.mat",nam,n);
+
 
   params = zeros(n,3);
 
@@ -74,5 +77,6 @@ function eta0 = montecarloetazero(fname,n)
   save("-append",logname,"eta0");
 
   clear -g all;
+  rmpath("../oct-circuits/inst");
 
 endfunction

@@ -23,7 +23,7 @@
 
 
 function b = isNat(n)
-
+	 
   for k = 1:length(n)
     if(!isscalar(n(k)) || floor(n(k))!=ceil(n(k)) || n(k)<0)
       b = false;

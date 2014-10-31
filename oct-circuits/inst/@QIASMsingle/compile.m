@@ -34,7 +34,7 @@ function q = compile(this,eta)
     ##use SK to approximiate to within eta with a QASMseq 
     ## SK params -- estimated from uzero16.mat
     eta0 = 0.16;
-    capprox = 2.6; 
+    capprox = 5.65; 
     
     ## get the SU(2) variant of this
     [SU,ph] = QIASMop(this.name,this.params);
