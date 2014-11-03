@@ -32,9 +32,9 @@ function q = compile(this,eta)
     ignore_function_time_stamp("all");  
       
     ##use SK to approximiate to within eta with a QASMseq 
-    ## SK params -- estimated from uzero16.mat
+    ## SK params 
     eta0 = 0.16;
-    capprox = 5.65; 
+    capprox = 2.4254; #sqrt(0.17^-1)... to satisfy eta0 < capprox^-2
     
     ## get the SU(2) variant of this
     [SU,ph] = QIASMop(this.name,this.params);
