@@ -1,3 +1,8 @@
+v0.5.3
+ - buildCircuit now allows user specified targets and precision, but no longer
+   supports user specified sizes.  
+ - some preliminary testing on QIR. Bugs probable. 
+
 v0.5.2
  - compile no longer loads Solovay-Kitaev data when the algorithm is not going
    to be run.
