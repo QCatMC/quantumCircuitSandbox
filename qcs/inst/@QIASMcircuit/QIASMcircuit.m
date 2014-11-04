@@ -32,10 +32,20 @@ function c = QIASMcircuit(cNode,n)
     c.bits = 0;
     c.seq = @QIASMseq({});
     c.numtoapprox = 0;
+    c.maxDepth = 0;
+    c.stepsAt = [];
+    c.tars = [];
   elseif(nargin == 1 || nargin == 2)
     c.bits = 0;
     c.seq = cNode;
     c.numtoapprox = numapprox(cNode);
+    c.maxDepth = maxDepth(c.seq);
+    c.tars = collectTars(c.seq);
+    c.stepsAt = zeros(c.maxDepth,1);
+    for d = 1:c.maxDepth
+      c.stepsAt(d) = stepsAt(c.seq,d);
+    endfor
+
     if( nargin == 2 )
       c.bits = n;
     else

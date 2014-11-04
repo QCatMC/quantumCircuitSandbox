@@ -25,7 +25,7 @@
 ## 
 
 ## Author: Logan Mayfield
-## Keyword: QASM
+## Keyword: QIASM
 
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
