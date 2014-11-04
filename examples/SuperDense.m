@@ -1,6 +1,6 @@
 1;
 
-pkg load oct-circuits;
+pkg load qcs;
 
 ## Like many quantum circuits, Super Dense Coding circuits really vary by just a few 
 ## key operators.  The four Super-Dense coding circuits all take |00> as the input, then

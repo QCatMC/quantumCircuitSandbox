@@ -1,3 +1,6 @@
+v0.5.4
+ - project rename to qcs, Quantum Circuit Sandbox
+
 v0.5.3
  - buildCircuit now allows user specified targets and precision, but no longer
    supports user specified sizes.  

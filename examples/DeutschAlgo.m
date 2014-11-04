@@ -1,7 +1,7 @@
 1;
 
 ## load the oct-circuits package
-pkg load oct-circuits;
+pkg load qcs;
 
 ## First some circuit descriptors. Logical sub-circuits are grouped such that
 ##  each circuit follows the prep,oracle,measure pattern

@@ -1,6 +1,6 @@
 1;
 
-pkg load oct-circuits;
+pkg load qcs;
 
 ## Quantum Teleportation 
 
