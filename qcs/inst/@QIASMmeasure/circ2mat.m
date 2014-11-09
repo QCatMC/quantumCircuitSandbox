@@ -22,8 +22,7 @@
 ## Keywords: QIASM
 
 function U = circ2mat(g,n)
-  ## todo... not representable as an operator!
-  U = speye(n);
+  U = circ2mat(g.meas,n);
 endfunction
 
 %!test

@@ -21,7 +21,5 @@
 ## Keywords: QIASM
 
 function t = collectTars(this)
-
-  t = this.tar;  
-
+  t = collectTars(this.meas);
 endfunction

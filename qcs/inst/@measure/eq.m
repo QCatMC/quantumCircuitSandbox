@@ -13,14 +13,37 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(mGate,dep)
+## Usage: b = eq(this,other)
 ##
-## Display with indentation
+## returns true if @measure this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
+ 
 
-function nestedPrint(mGate,dep)
-  nestedPrint(mGate.meas,dep);
+function b = eq(this,other)
+
+  b=false;
+  if( !isa(other,"measure") )
+    b=false;
+  elseif( isequal(this.tar,get(other,"tar")) )
+    b=true; 
+  else
+    b=false;
+  endif
+
 endfunction
+
+
+%!test
+%! a = @QIASMmeasure();
+%! b = @QIASMmeasure(0:3);
+%! c = @QIASMmeasure(0:3);
+%! d = @QIASMmeasure(1:3);
+%! assert(eq(b,b));
+%! assert(eq(b,c));
+%! assert(!eq(b,d));
+%! assert(eq(a,a));
+%! assert(!eq(a,b));
+%! assert(eq(a,@QIASMmeasure()));

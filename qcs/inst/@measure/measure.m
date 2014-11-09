@@ -13,14 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(mGate,dep)
+## Usage: g = @QIASMmeasure(tars)
 ##
-## Display with indentation
+## Construct a gate object for measuring the qubits with indexs given
+## by the set of natural numbers tars
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function nestedPrint(mGate,dep)
-  nestedPrint(mGate.meas,dep);
+
+function g = measure(tars)
+
+  if( nargin == 0)
+    g.tar = [];
+  else
+    g.tar = tars;
+  endif
+  g = class(g,"measure");
+
 endfunction

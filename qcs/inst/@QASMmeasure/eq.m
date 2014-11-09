@@ -28,7 +28,7 @@ function b = eq(this,other)
   if( !isa(other,"QASMmeasure") )
     b=false;
   else
-    b = isequal(this.tar,get(other,"tar"));
+    b = isequal(get(this,"tar"),get(other,"tar"));
   endif
 
 endfunction

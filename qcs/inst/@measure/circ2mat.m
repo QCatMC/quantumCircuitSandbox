@@ -13,14 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(mGate,dep)
+## Usage: U = circ2mat(g,n)
 ##
-## Display with indentation
-##
+##  used to compute the n qubit operator corresponding to the
+##  measurement operator g
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function nestedPrint(mGate,dep)
-  nestedPrint(mGate.meas,dep);
+function U = circ2mat(g,n)
+  ## not representable as an operator
+  U = speye(2^n);
 endfunction
+
+%!test
+%! assert(false);

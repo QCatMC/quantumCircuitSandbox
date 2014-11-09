@@ -13,14 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(mGate,dep)
+## Usage: t = collectTars(this)
 ##
-## Display with indentation
-##
+## returns the target set
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function nestedPrint(mGate,dep)
-  nestedPrint(mGate.meas,dep);
+function t = collectTars(this)
+
+  t = this.tar;  
+
 endfunction

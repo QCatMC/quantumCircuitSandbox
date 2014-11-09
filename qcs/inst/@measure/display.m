@@ -13,14 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(mGate,dep)
+## Usage: display(mGate)
 ##
-## Display with indentation
+## Display measure gate 
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function nestedPrint(mGate,dep)
-  nestedPrint(mGate.meas,dep);
+function display(mGate)
+
+  if(!strcmp(inputname(1),"") )
+    fprintf ("%s = \n", inputname (1)); 
+  endif
+
+  nestedPrint(mGate,1);
+
 endfunction

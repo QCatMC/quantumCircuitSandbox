@@ -21,7 +21,5 @@
 ## Keywords: QASM
 
 function t = collectTars(this)
-
-  t = this.tar;  
-
+  t = collectTars(this.meas);
 endfunction

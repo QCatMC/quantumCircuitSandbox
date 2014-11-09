@@ -26,10 +26,70 @@
 ## 
 
 ## Author: Logan Mayfield
-## Keyword: QASM
+## Keyword: QIASM
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-  [y,t] = sim(gate.meas,in,bits,currd,dlim,currt,tlim);
+
+  y = stdMeasure(in,gate.tar);
+  if(currt > tlim)
+    t = currt;
+  else
+    t = currt+1;
+  endif
+
+endfunction
+
+function s = stdMeasure(q,t=[])
+  ## number of qubits
+  n = log2(length(q));
+  
+  ##complete measurement
+  if( isequal(t,[]) || isequal(sort(t),[0:n-1]) )
+    ## compute pmf
+    pmf = q .* conj(q);
+    
+    ## get result
+    i = discrete_rnd([0:length(q)-1],pmf,1);
+    ## compute basis of result
+    s = stdBasis(i,n);
+  ## partial measurement of |t|<n qubits
+  else
+    ## initial state is current
+    P0 = sparse([1,0;0,0]);
+    P1 = sparse([0,0;0,1]);
+
+    curr = q;
+    ## measure each bit
+    for k = t
+      high = n-k-1;
+      low = k;
+      heye = speye(2^high);
+      leye = speye(2^low);
+      
+      zProj = kron(heye,kron(P0,leye));
+      oProj = kron(heye,kron(P1,leye));
+      ## collect 0,1 subspaces
+      zSpc = zProj*curr;
+      onSpc = oProj*curr;
+      
+      ## get subspace norms
+      zLen = sqrt(zSpc'*zSpc);
+      oLen = sqrt(onSpc'*onSpc);
+      
+      ## measure
+      res = discrete_rnd([0,1],[zLen^2,oLen^2],1);
+      ## set curr and normalize
+      if ( res == 1 )
+	curr = onSpc/oLen;
+      else
+	curr = zSpc/zLen;
+      endif
+      
+    endfor
+    ## set result(s)
+    s = curr;
+  endif
+  
 endfunction
 
 %!test

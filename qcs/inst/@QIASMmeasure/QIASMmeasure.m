@@ -26,9 +26,9 @@
 function g = QIASMmeasure(tars)
 
   if( nargin == 0)
-    g.tar = [];
+    g.meas = @measure([]);
   else
-    g.tar = tars;
+    g.meas = @measure(tars);
   endif
   g = class(g,"QIASMmeasure");
 

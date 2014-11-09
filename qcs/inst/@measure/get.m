@@ -13,14 +13,38 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(mGate,dep)
+## Usage: g = get(mg, f)
 ##
-## Display with indentation
-##
+## QASMmeasure field selector
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function nestedPrint(mGate,dep)
-  nestedPrint(mGate.meas,dep);
+function s = get(mg,f)
+
+  if (nargin == 1)
+    s.tar = mg.tar;
+  elseif (nargin == 2 )
+    if ( ischar(f) )
+      switch(f)
+	case "tar"
+	s = mg.tar;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
+  else
+      print_usage();
+  endif
+
 endfunction
+
+%!test
+%! a = @QASMmeasure();
+%! b = @QASMmeasure(1:3);
+%! assert([],get(a,"tar"));
+%! assert([1,2,3],get(b,"tar"));
+%! bs.tar = [1,2,3];
+%! assert(bs,get(b));

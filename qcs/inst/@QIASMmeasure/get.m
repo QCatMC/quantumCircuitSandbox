@@ -23,12 +23,12 @@
 function s = get(mg,f)
 
   if (nargin == 1)
-    s.tar = mg.tar;
+    s.tar = get(mg,"tar");
   elseif (nargin == 2 )
     if ( ischar(f) )
       switch(f)
 	case "tar"
-	s = mg.tar;
+	s = get(mg,"tar");
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch
