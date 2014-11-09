@@ -28,8 +28,8 @@ function b = eq(this,other)
   if( !isa(other,"QASMsingle") )
     b=false;
   else
-    b = eq(this.name,get(other,"name")) && ...
-	eq(this.tar,get(other,"tar"));
+    b = strcmp(get(this,"name"),get(other,"name")) && ...
+	(get(this,"tar") == get(other,"tar"));
   endif
 
 endfunction

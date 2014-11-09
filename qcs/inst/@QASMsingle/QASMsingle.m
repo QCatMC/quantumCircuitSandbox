@@ -24,12 +24,9 @@
 function g = QASMsingle(name,tar)
 
   if( nargin == 0 )
-    ## default to Identity on qubit 0
-    g.name = "I";
-    g.tar = 0;
+    g.sing = @single("I",0,[]);
   else
-    g.name = name;
-    g.tar = tar;
+    g.sing = @single(name,tar,[]);
   endif
   g = class(g,"QASMsingle");
 

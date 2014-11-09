@@ -22,6 +22,5 @@
 ## Keywords: QASM
 
 function nestedPrint(sGate,dep)
-  pad = blanks(dep*3);
-  fprintf ("%s{\"%s\",%d}\n",pad,sGate.name,sGate.tar );
+  nestedPrint(sGate.sing,dep);	 
 endfunction

@@ -24,18 +24,18 @@
 function s = get(sg,f)
 
   if (nargin == 1)
-    s.name = sg.name;
-    s.tar = sg.tar;
-    s.params = sg.params;
+    s.name = get(sg.sing,"name");
+    s.tar = get(sg.sing,"tar");
+    s.params = get(sg.sing,"params");
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
 	case "name"
-	  s = sg.name;
+	  s = get(sg.sing,"name");
 	case "tar"
-	  s = sg.tar;
+	  s = get(sg.sing,"tar");
 	case "params"
-	  s= sg.params;
+	  s= get(sg.sing,"params");
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch

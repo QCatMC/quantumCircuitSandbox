@@ -28,20 +28,8 @@
 ## Keyword: QASM
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-	 
-  op = circ2mat(gate,bits);
-  
-  ## compute output state
-  y = op*in;
-
-  ## time steps update, or not
-  if( currd <= dlim )
-    t = currt+1;
-  elseif( currd > dlim )
-    t = currt;
-  endif    
-
-endfunction
+  [y,t] = sim(gate.sing,in,bits,currd,dlim,currt,tlim);
+endfunction	 
 
 %!test
 %! lH = sqrt(1/2)*[1,1;1,-1];

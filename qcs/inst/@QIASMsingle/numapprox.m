@@ -24,7 +24,7 @@
 
 function n = numapprox(this)
 
-  switch (this.name)
+  switch (get(this,"name"))
     case {"PhAmp","Rn","ZYZ"}
       n=1;
     otherwise

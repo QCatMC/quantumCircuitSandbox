@@ -21,7 +21,5 @@
 ## Keywords: QIASM
 
 function t = collectTars(this,n)
-
-  t = [this.tar];
-
+  t = collectTars(this.sing,n);
 endfunction

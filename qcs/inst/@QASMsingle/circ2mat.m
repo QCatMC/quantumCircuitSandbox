@@ -22,41 +22,7 @@
 ## Keywords: QASM
 
 function U = circ2mat(g,n)
-  op = g.name;
-  tar = g.tar;
-
-  lowbits = tar;
-  highbits = (n-1)-tar;
-
-  low = speye(2^lowbits);
-  high = speye(2^highbits);
-  
-  opU = zeros(2);
-  switch(op)
-    case {"I","I'"}
-      opU = speye(2);
-    case {"X","X'"}
-      opU = sparse([0,1;1,0]);
-    case {"Z","Z'"}
-      opU = sparse([1,0;0,-1]);
-    case {"Y","Y'"}
-      opU = i*sparse([0,-1;1,0]);
-    case {"H","H'"}
-      opU = sqrt(1/2)*[1,1;1,-1];
-    case "T"
-      opU = sparse([1,0;0,e^(i*pi/4)]);
-    case "T'"
-      opU = sparse([1,0;0,e^(-i*pi/4)]);
-    case "S"
-      opU = sparse([1,0;0,i]);
-    case "S'"
-      opU = sparse([1,0;0,-i]);
-    otherwise
-      error("circ2mat: bad operator");
-  endswitch
-
-  U = kron(high,kron(opU,low));
-	 
+  U = circ2mat(g.sing,n);
 endfunction
 
 %!test

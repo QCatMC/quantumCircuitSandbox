@@ -25,9 +25,9 @@
  
 
 function q = compile(this,eta)
-
-  if(QASMsingleOp(this.name))
-    q = @QASMsingle(this.name,this.tar);
+	 
+  if(QASMsingleOp(get(this,"name")))
+    q = @QASMsingle(get(this,"name"),get(this,"tar"));
   else
     ignore_function_time_stamp("all");  
       
@@ -37,7 +37,7 @@ function q = compile(this,eta)
     capprox = 2.4254; #sqrt(0.17^-1)... to satisfy eta0 < capprox^-2
     
     ## get the SU(2) variant of this
-    [SU,ph] = QIASMop(this.name,this.params);
+    [SU,ph] = QIASMop(get(this,"name"),get(this,"params"));
     ## get eta_0 approximation
     [seq,mat] = findclosest(SU);
         
@@ -69,7 +69,7 @@ function q = compile(this,eta)
     qseq = cell(length(qstrseq),1);
     len = length(qseq);
     for k = 1:len
-	qseq{k} = @QASMsingle(qstrseq{len+1-k},this.tar);
+	qseq{k} = @QASMsingle(qstrseq{len+1-k},get(this,"tar"));
     endfor
 
     ## package approximating sequence as @QASMseq

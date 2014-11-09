@@ -13,47 +13,26 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(sg, f)
+## Usage: g = @single(name,tar,params)
 ##
-## singleGate field selector 
-
+## Construct a gate object 'name' gate to target qubit number
+## tar with parameters params
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: circuits
 
-function s = get(sg,f)
+function g = single(name,tar,params=[])
 
-  if (nargin == 1)
-    s.name = get(sg.sing,"name");
-    s.tar = get(sg.sing,"tar");
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "name"
-	  s = get(sg.sing,"name");
-	case "tar"
-	s = get(sg.sing,"tar");
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+  if( nargin == 0 )
+    ## default to Identity on qubit 0
+    g.name = "I";
+    g.tar = 0;
+    g.params = [];
   else
-      print_usage();
+    g.name = name;
+    g.tar = tar;
+    g.params = params;
   endif
+  g = class(g,"single");
 
 endfunction
-
-%!test
-%! a = @singleGate("X",0);
-%! b = @singleGate("H",1);
-%! c = @singleGate("Z",2);
-%! assert(get(a,"tar"),0);
-%! assert(get(b,"tar"),1);
-%! assert(get(c,"tar"),2);
-%! assert(get(c,"name"),"Z");
-%! assert(get(a,"name"),"X");
-%! as.name = "X";
-%! as.tar = 0;
-%! assert(get(a),as);

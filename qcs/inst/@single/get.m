@@ -15,24 +15,27 @@
 
 ## Usage: g = get(sg, f)
 ##
-## singleGate field selector 
+## single field selector 
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: circuits
 
 function s = get(sg,f)
 
   if (nargin == 1)
-    s.name = get(sg.sing,"name");
-    s.tar = get(sg.sing,"tar");
+    s.name = sg.name;
+    s.tar = sg.tar;
+    s.params = sg.params;
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
 	case "name"
-	  s = get(sg.sing,"name");
+	  s = sg.name;
 	case "tar"
-	s = get(sg.sing,"tar");
+	  s = sg.tar;
+	case "params"
+	  s= sg.params;
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch
@@ -46,9 +49,9 @@ function s = get(sg,f)
 endfunction
 
 %!test
-%! a = @singleGate("X",0);
-%! b = @singleGate("H",1);
-%! c = @singleGate("Z",2);
+%! a = @QIASMsingle("X",0);
+%! b = @QIASMsingle("H",1);
+%! c = @QIASMsingle("Z",2);
 %! assert(get(a,"tar"),0);
 %! assert(get(b,"tar"),1);
 %! assert(get(c,"tar"),2);

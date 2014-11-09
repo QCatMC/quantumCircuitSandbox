@@ -13,14 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(sGate,dep)
+## Usage: s = stepsAt(g,d)
 ##
-## Display with indentation
-##
+##  used to compute number of steps at depth d of a circuit. Gates are
+##  always 1 step regardless of the depth
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function nestedPrint(sGate,dep)
-  nestedPring(sGate.sing,dep);
+function s = stepsAt(g,d)
+  s = 1;
 endfunction
+

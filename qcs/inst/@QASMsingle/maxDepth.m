@@ -23,6 +23,6 @@
 ## Keywords: QASM
 
 function d = maxDepth(g)
-  d=0;
+  d = maxDepth(g.sing);
 endfunction
 

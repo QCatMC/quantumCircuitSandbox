@@ -25,13 +25,9 @@ function g = QIASMsingle(name,tar,params=[])
 
   if( nargin == 0 )
     ## default to Identity on qubit 0
-    g.name = "I";
-    g.tar = 0;
-    g.params = [];
+    g.sing = @single("I",0,[]);
   else
-    g.name = name;
-    g.tar = tar;
-    g.params = params;
+    g.sing = @single(name,tar,params);
   endif
   g = class(g,"QIASMsingle");
 

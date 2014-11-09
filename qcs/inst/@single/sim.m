@@ -25,10 +25,22 @@
 ##
 
 ## Author: Logan Mayfield
-## Keyword: QIASM
+## Keyword: simulation
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-  [y,t] = sim(gate.sing,in,bits,currd,dlim,currt,tlim);
+	 
+  op = circ2mat(gate,bits);
+  
+  ## compute output state
+  y = op*in;
+
+  ## time steps update, or not
+  if( currd <= dlim )
+    t = currt+1;
+  elseif( currd > dlim )
+    t = currt;
+  endif    
+
 endfunction
 
 %!test

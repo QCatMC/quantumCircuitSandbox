@@ -23,6 +23,6 @@
 ## Keywords: QASM
 
 function s = stepsAt(g,d)
-  s = 1;
+  s = stepsAt(g.sing,d);
 endfunction
 
