@@ -13,18 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: s = stepsAt(g,d)
 ##
-## Display CNot sGate 
-##
+##  used to compute number of steps at depth d of a circuit. Gates are
+##  always 1 step
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
-  endif
-
-  nestedPrint(cNGate,1);
+function s = stepsAt(g,d)
+  s = 1;
 endfunction

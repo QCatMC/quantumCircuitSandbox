@@ -25,11 +25,9 @@ function g = QASMcNot(tar,ctrl)
 
   if( nargin == 0 )
     ## default to a bad gate (ctrl == tar)
-    g.tar = 0;
-    g.ctrl = 0;
+    g.cn @cNot(0,0);
   else
-    g.ctrl = ctrl;
-    g.tar = tar;
+    g.cn = @cNot(tar,ctrl);
   endif
   g = class(g,"QASMcNot");
 endfunction

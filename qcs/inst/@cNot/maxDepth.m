@@ -13,18 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: d = maxDepth(g)
 ##
-## Display CNot sGate 
-##
+##  used to compute maxDepth of a circuit. The max depth of a gate
+##  node is always 0.
+## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
-  endif
-
-  nestedPrint(cNGate,1);
+function d = maxDepth(g)
+  d=0;
 endfunction

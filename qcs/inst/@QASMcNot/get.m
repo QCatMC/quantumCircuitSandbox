@@ -24,15 +24,15 @@
 function s = get(cng,f)
 
   if (nargin == 1)
-    s.tar = cng.tar;
-    s.ctrl = cng.ctrl;
+    s.tar = get(cng.cn,"tar");
+    s.ctrl = get(cng.cn,ctrl);
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
 	case "tar"
-	  s = cng.tar;
+	  s = get(cng.cn,"tar");
 	case "ctrl"
-	  s = cng.ctrl;
+	  s = get(cng.cn,ctrl);
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch

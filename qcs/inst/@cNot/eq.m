@@ -13,18 +13,36 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: b = eq(this,other)
 ##
-## Display CNot sGate 
+## returns true if @QASMcNot this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
+ 
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
+function b = eq(this,other)
+
+  b=false;
+  if( !isa(other,"cNot") )
+    b=false;
+  elseif( eq(this.ctrl,get(other,"ctrl")) && ...
+	  eq(this.tar,get(other,"tar")) )
+    b=true; 
+  else
+    b=false;
   endif
 
-  nestedPrint(cNGate,1);
 endfunction
+
+
+%!test
+%! a = @QIASMcNot(1,2);
+%! b = @QIASMcNot(2,1);
+%! c = @QIASMcNot(1,2);
+%! d = @QIASMcNot(3,4);
+%! assert(eq(a,a));
+%! assert(eq(a,c));
+%! assert(!eq(a,b));
+%! assert(!eq(a,d));

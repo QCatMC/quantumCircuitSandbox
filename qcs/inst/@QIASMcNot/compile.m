@@ -23,8 +23,8 @@
  
 
 function q = compile(this,eta)
-
-  q = @QASMcNot(this.tar,this.ctrl);
+	 
+  q = @QASMcNot(get(this,"tar"),get(this,"ctrl"));
 
 endfunction
 

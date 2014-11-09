@@ -19,12 +19,13 @@
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
 function display(cNGate)
   if( !strcmp(inputname(1),"") )
     fprintf ("%s = ", inputname (1));
   endif
 
+  #fprintf ("{\"CNot\",%d,%d}\n",cNGate.tar,cNGate.ctrl );
   nestedPrint(cNGate,1);
 endfunction

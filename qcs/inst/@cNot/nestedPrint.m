@@ -13,18 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: nestedPrint(cNGate,dep)
 ##
-## Display CNot sGate 
+## Display with indentation 
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
-  endif
+function nestedPrint(cNGate,dep)
+  pad = blanks(dep*3);
+  fprintf ("%s{\"CNot\",%d,%d}\n",pad,cNGate.tar,cNGate.ctrl );
 
-  nestedPrint(cNGate,1);
 endfunction

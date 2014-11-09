@@ -13,18 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: g = @QIASMcNot(tar,ctrl)
 ##
-## Display CNot sGate 
-##
+## Constructor for a QIASM cNot gate object. Gate targets qubit number tar
+## with control qubit ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
+function g = QIASMcNot(tar,ctrl)
+
+  if( nargin == 0 )
+    ## default to a bad gate (ctrl == tar)
+    g.tar = 0;
+    g.ctrl = 0;
+  else
+    g.ctrl = ctrl;
+    g.tar = tar;
   endif
-
-  nestedPrint(cNGate,1);
+  g = class(g,"cNot");
 endfunction

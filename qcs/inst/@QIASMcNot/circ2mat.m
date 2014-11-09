@@ -22,31 +22,7 @@
 ## Keywords: QIASM
 
 function U = circ2mat(g,n)
-  tar = g.tar;
-  ctrl = g.ctrl;
-  
-  lowbits = min(tar,ctrl);
-  highbits = (n-1) - max(tar,ctrl);
-  midbits = max(tar,ctrl) - min(tar,ctrl)-1;
-
-
-  low = speye(2^lowbits);
-  high = speye(2^highbits);
-  mid = speye(2^midbits);
-
-  P0 = sparse([1,0;0,0]);
-  P1 = sparse([0,0;0,1]);
-  if( tar < ctrl )
-    op = kron(P0,kron(mid,speye(2))) + ...
-	 kron(P1,kron(mid,sparse([0,1;1,0])));
-  else
-    op = kron(speye(2),kron(mid,P0)) + ...
-	 kron(sparse([0,1;1,0]),kron(mid,P1));
-  endif
-  
-  U = kron(high,kron(op,low));
-
-	 
+  U = circ2mat(g.cn,n);	 
 endfunction
 
 %!test

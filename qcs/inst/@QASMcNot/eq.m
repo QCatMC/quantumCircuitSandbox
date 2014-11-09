@@ -28,8 +28,8 @@ function b = eq(this,other)
   if( !isa(other,"QASMcNot") )
     b=false;
   else
-    b = eq(this.ctrl,get(other,"ctrl")) && ...
-	eq(this.tar,get(other,"tar"));
+    b = get(this,"ctrl")  == get(other,"ctrl") && ...
+	get(this,"tar") == get(other,"tar");
   endif
 
 endfunction

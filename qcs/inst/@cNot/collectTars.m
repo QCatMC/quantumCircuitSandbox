@@ -13,18 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: t = collectTars(this,n)
 ##
-## Display CNot sGate 
-##
+## returns the target set
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
-  endif
+function t = collectTars(this,n)
 
-  nestedPrint(cNGate,1);
+  t = [min(this.tar,this.ctrl),max(this.tar,this.ctrl)];
+
 endfunction

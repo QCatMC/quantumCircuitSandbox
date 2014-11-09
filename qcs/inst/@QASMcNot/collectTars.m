@@ -21,7 +21,5 @@
 ## Keywords: QASM
 
 function t = collectTars(this,n)
-
-  t = [min(this.tar,this.ctrl),max(this.tar,this.ctrl)];
-
+  t = collectTars(this.cn,n);
 endfunction

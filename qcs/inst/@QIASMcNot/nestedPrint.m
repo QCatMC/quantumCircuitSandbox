@@ -22,7 +22,5 @@
 ## Keywords: QIASM
 
 function nestedPrint(cNGate,dep)
-  pad = blanks(dep*3);
-  fprintf ("%s{\"CNot\",%d,%d}\n",pad,cNGate.tar,cNGate.ctrl );
-
+  nestedPrint(cNGate.cn);
 endfunction

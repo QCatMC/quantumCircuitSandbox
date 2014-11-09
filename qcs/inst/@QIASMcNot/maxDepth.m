@@ -23,5 +23,5 @@
 ## Keywords: QIASM
 
 function d = maxDepth(g)
-  d=0;
+  d=maxDepth(g.cn);
 endfunction

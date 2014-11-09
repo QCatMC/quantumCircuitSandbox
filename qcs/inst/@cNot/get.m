@@ -13,18 +13,41 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cNGate)
+## Usage: g = get(sg, f)
 ##
-## Display CNot sGate 
-##
+## QIASMcNot field selector
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function display(cNGate)
-  if( !strcmp(inputname(1),"") )
-    fprintf ("%s = ", inputname (1));
+function s = get(cng,f)
+
+  if (nargin == 1)
+    s.tar = cng.tar;
+    s.ctrl = cng.ctrl;
+  elseif (nargin == 2)
+    if ( ischar(f) )
+      switch(f)
+	case "tar"
+	  s = cng.tar;
+	case "ctrl"
+	  s = cng.ctrl;
+	otherwise
+	  error("get: invalid property %s",f);
+      endswitch
+    else
+      error("get: expecting the property to be a string");
+    endif
+  else
+      print_usage();
   endif
 
-  nestedPrint(cNGate,1);
 endfunction
+
+%!test
+%! a = @QIASMcNot(0,1);
+%! as.tar = 0; as.ctrl =1;
+%! assert(get(a),as);
+%! assert(get(a,"tar"),0);
+%! assert(get(a,"ctrl"),1);
