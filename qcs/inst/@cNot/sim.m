@@ -49,7 +49,7 @@ endfunction
 %!        out = binaryRep(k,2); 
 %!        out(2-t) = mod(out(2-c)+out(2-t),2);
 %!        out = stdBasis(out,2);
-%!        [y,ti] = sim(@QASMcNot(t,c),in,2,0,1,0,1);
+%!        [y,ti] = sim(@cNot(t,c),in,2,0,1,0,1);
 %!        assert(isequal(y,out),
 %!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...
 %!                find(in)-1, c, t, find(y)-1, find(out)-1);         
@@ -65,7 +65,7 @@ endfunction
 %!        out = binaryRep(k,4); 
 %!        out(4-t) = mod(out(4-c)+out(4-t),2);
 %!        out = stdBasis(out,4);
-%!        [y,ti] = sim(@QASMcNot(t,c),in,4,0,1,0,1);
+%!        [y,ti] = sim(@cNot(t,c),in,4,0,1,0,1);
 %!        assert(ti==1);
 %!        assert(isequal(y,out), ...
 %!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...
@@ -83,7 +83,7 @@ endfunction
 %!        out = binaryRep(k,5); 
 %!        out(5-t) = mod(out(5-c)+out(5-t),2);
 %!        out = stdBasis(out,5);
-%!        [y,ti] = sim(@QASMcNot(t,c),in,5,2,1,0,1);
+%!        [y,ti] = sim(@cNot(t,c),in,5,2,1,0,1);
 %!        assert(ti==0);
 %!        assert(isequal(y,out), ...
 %!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...

@@ -13,24 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## Usage: g = @seq(cirList)
 ##
-##  used to compute number of steps at depth d of a circuit. 
-##  
-## 
+## Construct a seq node from cell array of gates and seq
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function s = stepsAt(g,d)
-  s = stepsAt(g.seq,d);
+function s = seq(cirList)
+
+  if( nargin == 0 )
+    s.seq = {};	 
+  else
+    s.seq = cirList;
+  endif  
+  s = class(s,"seq");
+
 endfunction
-
-%!test
-%! A = @QASMseq({@QASMsingle("H",1),@QASMcNot(2,1),...
-%!               @QASMmeasure([1,2,5])});
-%! assert(stepsAt(A,1),3);
-%! assert(stepsAt(A,2),3); 
-%! B = @QASMseq({@QASMsingle("Z",2),A});
-%! assert(stepsAt(B,1),2);
-%! assert(stepsAt(B,2),4);

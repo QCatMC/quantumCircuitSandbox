@@ -15,27 +15,39 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @QASMmeasure this is equivalent to other.
+## returns true if @QIASMseq this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
- 
+## Keywords: circuits
 
 function b = eq(this,other)
-  b = isa(other,"QIASMmeasure") && ...
-      eq(this.meas,other.meas);
+  b = false;
+  if( isa(other,"seq") )
+    othseq = other.seq;
+    if( length(this.seq) == length(othseq) )
+      for k = 1:length(this.seq)
+	if( !eq(this.seq{k},other.seq{k}) )
+	  b = false; 
+	  return;
+	endif
+      endfor
+      b=true;
+    endif
+  endif
 endfunction
 
 
+
 %!test
-%! a = @QIASMmeasure();
-%! b = @QIASMmeasure(0:3);
-%! c = @QIASMmeasure(0:3);
-%! d = @QIASMmeasure(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
+%! a = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1)});
+%! b = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1)});
+%! c = @QIASMseq({@QIASMsingle("H",1)});
+%! d = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1),@QIASMseq({@QIASMmeasure()})});
+%! e = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1),@QIASMseq({@QIASMmeasure()})});
 %! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@QIASMmeasure()));
+%! assert(eq(a,b));
+%! assert(eq(d,e));
+%! assert(!eq(a,c));
+%! assert(!eq(a,d));
+

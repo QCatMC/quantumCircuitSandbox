@@ -23,27 +23,18 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"measure") )
-    b=false;
-  elseif( isequal(this.tar,get(other,"tar")) )
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"measure") && isequal(this.tar,other.tar) ;
 endfunction
 
 
 %!test
-%! a = @QIASMmeasure();
-%! b = @QIASMmeasure(0:3);
-%! c = @QIASMmeasure(0:3);
-%! d = @QIASMmeasure(1:3);
+%! a = @measure();
+%! b = @measure(0:3);
+%! c = @measure(0:3);
+%! d = @measure(1:3);
 %! assert(eq(b,b));
 %! assert(eq(b,c));
 %! assert(!eq(b,d));
 %! assert(eq(a,a));
 %! assert(!eq(a,b));
-%! assert(eq(a,@QIASMmeasure()));
+%! assert(eq(a,@measure()));

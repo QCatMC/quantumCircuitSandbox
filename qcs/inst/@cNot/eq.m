@@ -27,8 +27,8 @@ function b = eq(this,other)
   b=false;
   if( !isa(other,"cNot") )
     b=false;
-  elseif( eq(this.ctrl,get(other,"ctrl")) && ...
-	  eq(this.tar,get(other,"tar")) )
+  elseif( this.ctrl == other.ctrl && 
+	  this.tar == other.tar )
     b=true; 
   else
     b=false;
@@ -38,10 +38,10 @@ endfunction
 
 
 %!test
-%! a = @QIASMcNot(1,2);
-%! b = @QIASMcNot(2,1);
-%! c = @QIASMcNot(1,2);
-%! d = @QIASMcNot(3,4);
+%! a = @cNot(1,2);
+%! b = @cNot(2,1);
+%! c = @cNot(1,2);
+%! d = @cNot(3,4);
 %! assert(eq(a,a));
 %! assert(eq(a,c));
 %! assert(!eq(a,b));

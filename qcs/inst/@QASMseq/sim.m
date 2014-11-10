@@ -29,38 +29,7 @@
 ## Keyword: QASM
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-
-  y = in; 
-  t = currt;
-  
-  if( currt < tlim )
-
-    if( currd == dlim )
-      ## steps simulated from this sequence
-      local_steps = min(length(gate.seq),(tlim-currt));
-      ## steps at depth limit are treated atomically (single step)
-      for k = 1:local_steps
-	g = gate.seq{k};
-	[y,t] = sim(g,y,bits,currd+1,dlim,currt+(k-1),tlim);
-      endfor
-      t = currt+local_steps;
-    elseif( currd < dlim )
-      ## simulate each local step until step limit is reached
-      k = 1;
-      while( t < tlim )
-	[y,t] = sim(gate.seq{k},y,bits,currd+1,dlim,t,tlim);
-	k=k+1;
-      endwhile
-    elseif(currd > dlim)
-      ## above the depth limit don't count towards time steps
-      for k = 1:length(gate.seq)
-	g = gate.seq{k};
-	y = sim(g,y,bits,currd+1,dlim,currt,tlim);
-      endfor  
-      t = currt;
-    endif  
-  endif
-
+  [y,t] = sim(gate.seq,in,bits,currd,dlim,currt,tlim);
 endfunction
 
 

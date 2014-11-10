@@ -22,20 +22,7 @@
 ## Keywords: QASM
 
 function b = eq(this,other)
-
-  b = false;
-  if( isa(other,"QASMseq") )
-    othseq = get(other,"seq");
-    if( length(this.seq) == length(othseq) )
-      for k = 1:length(this.seq)
-	  if( !eq(this.seq{k},get(other,"seq"){k}) )
-	    b = false; 
-	    return;
-	  endif
-      endfor
-      b=true;
-    endif
-  endif
+  b = isa(other,"QASMseq") && eq(this.seq,other.seq);
 endfunction
 
 

@@ -23,20 +23,12 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QASMsingle") )
-    b=false;
-  else
-    b = strcmp(get(this,"name"),get(other,"name")) && ...
-	(get(this,"tar") == get(other,"tar"));
-  endif
-
+  b = isa(other,"QASMsingle") && ...
+      eq(this.sing,other.sing);
 endfunction
 
 
 %!test
-%! assert(false);
 %! a = @QASMsingle("H",2);
 %! b = @QASMsingle("H",1);
 %! c = @QASMsingle("H",2);

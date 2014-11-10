@@ -57,7 +57,7 @@ endfunction
 %! ## all ops, currd < dlim
 %! for o = 1:length(ops)
 %!   for tar = 0:2
-%!      [y,t] = sim(@QASMsingle(ops{o},tar),in,3,1,2,0,5);
+%!      [y,t] = sim(@single(ops{o},tar),in,3,1,2,0,5);
 %!      assert(t==1);
 %!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
 %!      assert(isequal(y,curOp*in));
@@ -67,7 +67,7 @@ endfunction
 %! ## all ops currd = dlim
 %! for o = 1:length(ops)
 %!   for tar = 0:2
-%!      [y,t] = sim(@QASMsingle(ops{o},tar),in,3,1,1,0,5);
+%!      [y,t] = sim(@single(ops{o},tar),in,3,1,1,0,5);
 %!      assert(t==1);
 %!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
 %!      assert(isequal(y,curOp*in));                           
@@ -77,7 +77,7 @@ endfunction
 %! ## all ops, currd > dlim
 %! for o = 1:length(ops)
 %!   for tar = 0:2
-%!      [y,t] = sim(@QASMsingle(ops{o},tar),in,3,3,2,0,5);
+%!      [y,t] = sim(@single(ops{o},tar),in,3,3,2,0,5);
 %!      assert(t==0);
 %!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
 %!      assert(isequal(y,curOp*in));                            

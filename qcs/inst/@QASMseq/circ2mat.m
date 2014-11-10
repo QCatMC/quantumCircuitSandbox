@@ -22,12 +22,7 @@
 ## Keywords: QASM
 
 function U = circ2mat(g,n)
-
-  U = speye(n);
-  for k = 1:length(g.seq)
-    U = U*circ2mat(g.seq{k},n);
-  endfor
-	 
+  U = circ2mat(g.seq,n);
 endfunction
 
 %!test

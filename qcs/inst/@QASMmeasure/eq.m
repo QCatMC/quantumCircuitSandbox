@@ -23,13 +23,8 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QASMmeasure") )
-    b=false;
-  else
-    b = isequal(get(this,"tar"),get(other,"tar"));
-  endif
+  b = isa(other,"QASMmeasure") && ...
+      eq(this.meas,other.meas);
 
 endfunction
 

@@ -24,12 +24,12 @@
 function s = get(sn,f)
 
   if (nargin == 1)
-    s.seq = sn.seq;
+    s.seq = get(sn.seq,"seq");
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
 	case "seq"
-	  s = sn.seq;
+	  s = get(sn.seq,"seq");
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch

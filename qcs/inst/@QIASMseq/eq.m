@@ -22,19 +22,8 @@
 ## Keywords: QIASM
 
 function b = eq(this,other)
-  b = false;
-  if( isa(other,"QIASMseq") )
-    othseq = get(other,"seq");
-    if( length(this.seq) == length(othseq) )
-      for k = 1:length(this.seq)
-	if( !eq(this.seq{k},get(other,"seq"){k}) )
-	  b = false; 
-	  return;
-	endif
-      endfor
-      b=true;
-    endif
-  endif
+  b = isa(other,"QIASMseq") && ...
+      eq(this.seq,other.seq);
 endfunction
 
 

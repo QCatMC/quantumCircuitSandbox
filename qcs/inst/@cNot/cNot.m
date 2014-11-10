@@ -13,15 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIASMcNot(tar,ctrl)
+## Usage: g = @cNot(tar,ctrl)
 ##
-## Constructor for a QIASM cNot gate object. Gate targets qubit number tar
+## Constructor for a cNot gate object. Gate targets qubit number tar
 ## with control qubit ctrl
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function g = QIASMcNot(tar,ctrl)
+function g = cNot(tar,ctrl)
 
   if( nargin == 0 )
     ## default to a bad gate (ctrl == tar)

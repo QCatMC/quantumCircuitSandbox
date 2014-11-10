@@ -23,18 +23,8 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIASMsingle") )
-    b=false;
-  elseif( strcmp(get(this,"name"),get(other,"name")) && ...
-	  get(this,"tar") == get(other,"tar") && ...
-	  isequal(get(this,"params"),get(other,"params")))
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIASMsingle") && ...
+      eq(this.sing,other.sing);
 endfunction
 
 

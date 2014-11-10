@@ -13,24 +13,27 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## Usage: t = collectTars(this)
 ##
-##  used to compute number of steps at depth d of a circuit. 
-##  
-## 
+## get the set of qubit indices used by gates in the sequence. the set
+## is returned sorted, not in order affected.
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
-function s = stepsAt(g,d)
-  s = stepsAt(g.seq,d);
+function t = collectTars(this)
+
+  t = [];
+  for idx = 1:length(this.seq)
+      t = union(t, collectTars(this.seq{idx}));
+  endfor
+
 endfunction
 
-%!test
-%! A = @QASMseq({@QASMsingle("H",1),@QASMcNot(2,1),...
-%!               @QASMmeasure([1,2,5])});
-%! assert(stepsAt(A,1),3);
-%! assert(stepsAt(A,2),3); 
-%! B = @QASMseq({@QASMsingle("Z",2),A});
-%! assert(stepsAt(B,1),2);
-%! assert(stepsAt(B,2),4);
+ %!test
+ %! C = @QIASMseq({@QIASMsingle("H",2),@QIASMmeasure([1,4]),...
+ %!               @QIASMcNot(3,1),@QIASMsingle("X",4)});
+ %! assert(1:4,collectTars(C));
+ %! D = @QIASMseq({C,@QIASMsingle("Y",7)});
+%! assert([1,2,3,4,7],collectTars(D));

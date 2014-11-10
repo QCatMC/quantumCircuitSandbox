@@ -20,10 +20,18 @@
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
 function s = stepsAt(g,d)
-  s = stepsAt(g.seq,d);
+  if( d == 1 )
+    s = length(g.seq);
+  else
+    sarr = zeros(length(g.seq),1);
+    for idx = 1:length(g.seq)
+      sarr(idx) = stepsAt(g.seq{idx},d-1);
+    endfor
+    s = sum(sarr);
+  endif
 endfunction
 
 %!test

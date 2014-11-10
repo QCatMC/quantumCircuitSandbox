@@ -23,17 +23,8 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIASMcNot") )
-    b=false;
-  elseif( get(this,"ctrl" == get(other,"ctrl") && ...
-	  get(this,"tar") == get(other,"tar")
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIASMcNot") && ...
+      eq(this.cn,other.cn);
 endfunction
 
 

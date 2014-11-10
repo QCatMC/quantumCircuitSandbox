@@ -23,9 +23,10 @@
 ## Keywords: QIASM
 
 function n = numapprox(this)
+  s = get(this,"seq");
   n = 0;
-  for k = 1:length(this.seq)
-    n = n + numapprox(this.seq{k});
+  for k = 1:length(s)
+    n = n + numapprox(s{k});
   endfor
 endfunction
 

@@ -27,9 +27,9 @@ function b = eq(this,other)
   b=false;
   if( !isa(other,"single") )
     b=false;
-  elseif( strcmp(this.name,get(other,"name")) && ...
-	  this.tar == get(other,"tar") && ...
-	  isequal(this.params,get(other,"params")))
+  elseif( strcmp(this.name,other.name) && ...
+	  this.tar == other.tar && ...
+	  isequal(this.params,other.params) )
     b=true; 
   else
     b=false;
@@ -39,12 +39,12 @@ endfunction
 
 
 %!test
-%! a = @QIASMsingle("H",2);
-%! b = @QIASMsingle("H",1);
-%! c = @QIASMsingle("H",2);
+%! a = @single("H",2);
+%! b = @single("H",1);
+%! c = @single("H",2);
 %! assert(eq(a,a));
 %! assert(eq(a,c));
 %! assert(!eq(a,b));
-%! assert(eq(@QIASMsingle("PhAmp",0,[pi,pi,pi]),...
-%!           @QIASMsingle("PhAmp",0,[pi,pi,pi])));
+%! assert(eq(@single("PhAmp",0,[pi,pi,pi]),...
+%!           @single("PhAmp",0,[pi,pi,pi])));
           

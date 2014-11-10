@@ -23,12 +23,7 @@
 ## Keywords: QIASM
 
 function t = collectTars(this)
-
-  t = [];
-  for idx = 1:length(this.seq)
-      t = union(t, collectTars(this.seq{idx}));
-  endfor
-
+  t = collectTars(this.seq);
 endfunction
 
  %!test

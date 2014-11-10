@@ -23,13 +23,7 @@
 ## Keywords: QASM
 
 function t = collectTars(this)
-
-  ## set union of the target sets for all sub-circuits
-  t = [];
-  for idx = 1:length(this.seq)
-      t = union(t, collectTars(this.seq{idx}));
-  endfor
-
+  t = collectTars(this.seq);
 endfunction
 
 %!test

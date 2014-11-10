@@ -24,9 +24,9 @@
 function s = QASMseq(cirList)
 
   if( nargin == 0 )
-    s.seq = {};	 
+    s.seq = @seq({});	 
   else
-    s.seq = cirList;
+    s.seq = @seq(cirList);
   endif  
   s = class(s,"QASMseq");
 

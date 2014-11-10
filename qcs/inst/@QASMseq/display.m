@@ -27,11 +27,5 @@ function display(snode)
   endif
   
   nestedPrint(snode,1);
-  #fprintf ("\n{\n");
-  #for k = [1:length(snode.seq)];
-  #  #fprintf("\t");
-  #  display(snode.seq{k});
-  #endfor
-  #fprintf ("}\n" );
 
 endfunction
