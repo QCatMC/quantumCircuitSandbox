@@ -29,26 +29,25 @@
 function c = QASMcircuit(cNode,n)
 
   if(nargin == 0 )
-    c.bits = 0;
-    c.seq = @QASMseq({});
-    c.maxDepth = 0;
-    c.stepsAt = [];
-    c.tars = [];
+    c.cir = @circuit(@QASMseq({}),0,0,[],[]);
   elseif(nargin == 1 || nargin == 2)
-    c.bits = 0;
-    c.seq = cNode;
-    c.maxDepth = maxDepth(c.seq);
-    c.tars = collectTars(c.seq);
-    c.stepsAt = zeros(c.maxDepth,1);
-    for d = 1:c.maxDepth
-      c.stepsAt(d) = stepsAt(c.seq,d);
+    bits = 0;
+    seq = cNode;
+    maxDepth = maxDepth(seq);
+    tars = collectTars(seq);
+    stps = zeros(maxDepth,1);
+
+    for d = 1:maxDepth
+      stps(d) = stepsAt(seq,d);
     endfor
 
     if( nargin == 2 )
-      c.bits = n;
+      bits = n;
     else
-      c.bits = 1+max(c.tars);
+      bits = 1+max(tars);
     endif
+
+    c.cir = @circuit(seq,bits,maxDepth,stps,tars);
 
   endif
 

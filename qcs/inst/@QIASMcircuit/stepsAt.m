@@ -21,18 +21,7 @@
 ## Keywords: QIASM
 
 function t = stepsAt(cir,d)
-
-  if( floor(d) != ceil(d) || !(d > 0) )
-    error("Depth must be positive, non-zero integer.");
-  endif
-  
-  if(d >= cir.maxDepth)
-    t = cir.stepsAt(cir.maxDepth);
-  else
-    t = cir.stepsAt(d);
-  endif
-  
-
+  t = stepsAt(cir.cir,d);
 endfunction
 
 

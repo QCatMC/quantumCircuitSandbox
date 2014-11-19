@@ -21,27 +21,27 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
 
-function s = get(cir,f)
+function s = get(circ,f)
 
   if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
-    s.maxDepth = cir.maxDepth;
-    s.stepsAt = cir.stepsAt;
-    s.tars = cir.tars;
+    s.bits = get(circ.cir,"bits");
+    s.seq = get(circ.cir, "seq");
+    s.maxDepth = get(circ.cir,"maxDepth");
+    s.stepsAt = get(circ.cir,"stepsAt");
+    s.tars = get(circ.cir,"tars");
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
 	case "seq"
-	  s = cir.seq;
+	  s = get(circ.cir,"seq");
 	case "bits"
-	  s = cir.bits;
+	  s = get(circ.cir,"bits");
 	case "maxDepth"
-	  s = cir.maxDepth;
+	  s = get(circ.cir,"maxDepth");
 	case "stepsAt"
-	  s = cir.stepsAt;
+	  s = get(circ.cir,"stepsAt");
 	case "tars"
-	  s = cir.tars;
+	  s = get(circ.cir,"tars");
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch

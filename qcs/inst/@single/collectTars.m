@@ -20,7 +20,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function t = collectTars(this,n)
+function t = collectTars(this)
 
   t = [this.tar];
 

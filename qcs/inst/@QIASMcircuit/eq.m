@@ -23,16 +23,9 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIASMcircuit") )
-    b=false;
-  else
-    b = this.bits == get(other,"bits") && ...
-        this.numtoapprox == get(other,"numtoapprox") && ...
-	eq(this.seq,get(other,"seq"));
-  endif
-
+  b = isa(other,"QIASMcircuit") && ...
+      this.numtoapprox == other.numtoapprox && ...
+      eq(this.cir,other.cir);
 endfunction
 
 

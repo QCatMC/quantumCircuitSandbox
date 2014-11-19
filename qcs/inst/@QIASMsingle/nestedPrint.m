@@ -22,5 +22,5 @@
 ## Keywords: QIASM
 
 function nestedPrint(sGate,dep)
-  nestedPring(sGate.sing,dep);
+  nestedPrint(sGate.sing,dep);
 endfunction

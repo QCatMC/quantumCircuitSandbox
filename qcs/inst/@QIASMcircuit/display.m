@@ -26,10 +26,8 @@ function display(cir)
     fprintf ("%s = \n", inputname (1)); 
   endif
 
+  display(cir.cir);
   pad = blanks(3);
-  fprintf("%sseq = \n",pad);
-  nestedPrint(cir.seq,2);
-  fprintf("%snum bits = %d\n",pad,cir.bits);
   fprintf("%snum of non-elementary ops = %d\n",pad,cir.numtoapprox);
 
 endfunction

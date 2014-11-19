@@ -24,16 +24,13 @@
 function s = get(cir,f)
 
   if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
+    s = get(cir.cir);
     s.numtoapprox = cir.numtoapprox;
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
-	case "seq"
-	  s = cir.seq;
-	case "bits"
-	  s = cir.bits;
+	case {"seq","bits","stepsAt","maxDepth","tars"}
+	  s = get(cir.cir,f);
 	case "numtoapprox"
 	  s = cir.numtoapprox;
 	otherwise

@@ -20,7 +20,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function t = collectTars(this,n)
+function t = collectTars(this)
 
   t = [min(this.tar,this.ctrl),max(this.tar,this.ctrl)];
 

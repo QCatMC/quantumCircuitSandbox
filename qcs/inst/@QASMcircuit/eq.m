@@ -23,18 +23,7 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QASMcircuit") )
-    b=false;
-  else
-    b = this.bits == get(other,"bits") && ...
-	this.maxDepth == get(other,"maxDepth") && ...
-	isequal(this.stepsAt,get(other,"stepsAt")) && ...
-	isequal(this.tars,get(other,"tars")) && ... 
-	eq(this.seq,get(other,"seq"));
-  endif
-
+  b = isa(other,"QASMcircuit") && eq(this.cir,other.cir);
 endfunction
 
 

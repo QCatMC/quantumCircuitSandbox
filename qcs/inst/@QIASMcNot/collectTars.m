@@ -20,6 +20,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function t = collectTars(this,n)
-  t = collectTas(this.cn,n);
+function t = collectTars(this)
+  t = collectTas(this.cn);
 endfunction

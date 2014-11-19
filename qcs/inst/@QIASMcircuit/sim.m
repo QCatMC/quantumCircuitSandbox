@@ -24,15 +24,8 @@
 
 function s = sim(cir,in,d,t)
 
-  if( d > cir.maxDepth )
-    error("simulate: given depth exceeds circuit max depth.");
-  elseif( t > cir.stepsAt(d) )
-    error("simulate: given number of simulation steps exceepds max \
-for given depth.");
-  endif
+  s = sim(cir.cir,in,d,t);
 
-  s = sim(cir.seq,in,cir.bits,1,d,0,t);
-  
 endfunction
 
 %!test

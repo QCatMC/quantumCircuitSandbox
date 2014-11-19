@@ -29,28 +29,25 @@
 function c = QIASMcircuit(cNode,n)
 
   if(nargin == 0 )
-    c.bits = 0;
-    c.seq = @QIASMseq({});
+    c.cir = @circuit(@QIASMseq({}),0,0,[],[]);
     c.numtoapprox = 0;
-    c.maxDepth = 0;
-    c.stepsAt = [];
-    c.tars = [];
   elseif(nargin == 1 || nargin == 2)
-    c.bits = 0;
-    c.seq = cNode;
-    c.numtoapprox = numapprox(cNode);
-    c.maxDepth = maxDepth(c.seq);
-    c.tars = collectTars(c.seq);
-    c.stepsAt = zeros(c.maxDepth,1);
-    for d = 1:c.maxDepth
-      c.stepsAt(d) = stepsAt(c.seq,d);
+    seq = cNode;
+    maxDepth = maxDepth(seq);
+    tars = collectTars(seq);
+    stps = zeros(maxDepth,1);
+    for d = 1:maxDepth
+      stps(d) = stepsAt(seq,d);
     endfor
-
     if( nargin == 2 )
-      c.bits = n;
+      bits = n;
     else
-      c.bits = 1+max(collectTars(c.seq));
+      bits = 1+max(collectTars(seq));
     endif
+
+    ## set class fields
+    c.numtoapprox = numapprox(cNode);
+    c.cir = @circuit(seq,bits,maxDepth,stps,tars);
   endif
   c = class(c,"QIASMcircuit");
 

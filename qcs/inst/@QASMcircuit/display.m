@@ -20,32 +20,13 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
 
-function display(cir)
+function display(circ)
 
   if(!strcmp(inputname(1),"") )
     fprintf ("%s = \n", inputname (1)); 
   endif
 
-  pad = blanks(3);
-  fprintf("%sseq = \n",pad);
-  nestedPrint(cir.seq,2);
-  fprintf("%snum bits = %d\n",pad,cir.bits);
-  fprintf("%stargets = [",pad);
-  fprintf("%d,",cir.tars(1:length(cir.tars)-1));
-  fprintf("%d]\n",cir.tars(length(cir.tars)));
-  fprintf("%smax depth = %d\n",pad,cir.maxDepth);
-
-  for d = 1:cir.maxDepth
-
-    s=cir.stepsAt(d);
-    if( s == 1)
-      sstr = "step";
-    else
-      sstr = "steps";
-    endif
-
-    fprintf("%s%d %s at Depth %d\n",blanks(3),s,sstr,d)
-  endfor
+  display(circ.cir);
 
 endfunction
 

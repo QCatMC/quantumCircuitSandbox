@@ -20,6 +20,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
 
-function t = collectTars(this,n)
-  t = collectTars(this.sing,n);
+function t = collectTars(this)
+  t = collectTars(this.sing);
 endfunction
