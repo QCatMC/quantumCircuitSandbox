@@ -29,18 +29,11 @@ function s = get(cir,f)
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
-	case {"seq","bits","stepsAt","maxDepth","tars"}
-	  s = get(cir.cir,f);
 	case "numtoapprox"
 	  s = cir.numtoapprox;
 	otherwise
-	  error("get: invalid property %s",f);
+	  s = get(cir.cir,f);
       endswitch
-    else
-      error("get: expecting the property to be a string");
     endif
-  else
-    print_usage();
   endif
-
 endfunction

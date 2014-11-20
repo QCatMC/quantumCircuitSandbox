@@ -19,14 +19,16 @@
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
 function s = get(cir,f)
 
   if (nargin == 1)
     s.bits = cir.bits;
     s.seq = cir.seq;
-    s.numtoapprox = cir.numtoapprox;
+    s.maxDepth = cir.maxDepth;
+    s.stepsAt = cir.stepsAt;
+    s.tars = cir.tars;
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
@@ -34,8 +36,12 @@ function s = get(cir,f)
 	  s = cir.seq;
 	case "bits"
 	  s = cir.bits;
-	case "numtoapprox"
-	  s = cir.numtoapprox;
+	case "maxDepth"
+	  s = cir.maxDepth;
+	case "stepsAt"
+	  s = cir.stepsAt;
+	case "tars"
+	  s = cir.tars;
 	otherwise
 	  error("get: invalid property %s",f);
       endswitch
@@ -47,3 +53,6 @@ function s = get(cir,f)
   endif
 
 endfunction
+
+%!test
+%! assert(false);

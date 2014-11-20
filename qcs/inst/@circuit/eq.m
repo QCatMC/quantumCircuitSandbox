@@ -35,13 +35,7 @@ endfunction
 
 
 %!test
-%! A = @QIASMcircuit(@QIASMseq({@QIASMsingle("H",2)}));
-%! B = @QIASMcircuit(@QIASMseq({@QIASMsingle("X",2)}));
-%! C = @QIASMcircuit(@QIASMseq({@QIASMsingle("H",1)}));
-%! D = @QIASMcircuit(@QIASMseq({@QIASMsingle("H",2)}),4);
-%! assert(!eq(A,B)); #same tars different ops
-%! assert(!eq(A,C)); #
-%! assert(!eq(A,D));
+%! assert(false);
 
 
 

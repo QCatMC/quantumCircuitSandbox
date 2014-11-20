@@ -22,34 +22,5 @@
 ## Keywords: QASM
 
 function s = get(circ,f)
-
-  if (nargin == 1)
-    s.bits = get(circ.cir,"bits");
-    s.seq = get(circ.cir, "seq");
-    s.maxDepth = get(circ.cir,"maxDepth");
-    s.stepsAt = get(circ.cir,"stepsAt");
-    s.tars = get(circ.cir,"tars");
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = get(circ.cir,"seq");
-	case "bits"
-	  s = get(circ.cir,"bits");
-	case "maxDepth"
-	  s = get(circ.cir,"maxDepth");
-	case "stepsAt"
-	  s = get(circ.cir,"stepsAt");
-	case "tars"
-	  s = get(circ.cir,"tars");
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-    print_usage();
-  endif
-
+  s = get(circ.cir,f);
 endfunction

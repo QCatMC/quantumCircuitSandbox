@@ -29,7 +29,5 @@ function s = sim(cir,in,d,t)
 endfunction
 
 %!test
-%! S = @QASMcircuit(@QASMseq({@QASMsingle("H",1)}));
-%!error sim(S,(0:3==1)',4,2);
-%!error sim(S,(0:3==1)',1,2);
+%! assert(false);
 

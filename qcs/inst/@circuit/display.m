@@ -45,6 +45,7 @@ function display(cir)
     endif
 
     fprintf("%s%d %s at Depth %d\n",blanks(3),s,sstr,d)
+
   endfor
 
   

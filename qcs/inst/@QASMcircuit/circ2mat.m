@@ -22,7 +22,7 @@
 ## Keywords: QASM
 
 function U = circ2mat(g)
-  U = circ2mat(get(g,"seq"),get(g,"bits")); 
+  U = circ2mat(g.cir);
 endfunction
 
 %!test
