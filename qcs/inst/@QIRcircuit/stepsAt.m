@@ -13,40 +13,26 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = @QIRcircuit(seq,n)
+## usage: t = stepsAt(cir,d)
 ##
-## Users should use the buildCircuit function to construct
-## oct-circuits rather than expicitly constuct the object themselves.
-## 
+## Returns the number of steps at depth d for the circuit object cir
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIR
+## Keywords: QIASM
 
-function c = QIRcircuit(cNode,n)
-
-  if(nargin == 0 )
-    c.cir = @circuit(@QIASMseq({}),0,0,[],[]);
-  elseif(nargin == 1 || nargin == 2)
-    seq = cNode;
-    maxDepth = maxDepth(seq);
-    tars = collectTars(seq);
-    stps = zeros(maxDepth,1);
-    for d = 1:maxDepth
-      stps(d) = stepsAt(seq,d);
-    endfor
-    if( nargin == 2 )
-      bits = n;
-    else
-      bits = 1+max(collectTars(seq));
-    endif
-
-    ## set class fields
-    c.cir = @circuit(seq,bits,maxDepth,stps,tars);
-
-  endif
-  
-  c = class(c,"QIRcircuit");
-
+function t = stepsAt(cir,d)
+  t = stepsAt(cir.cir,d);
 endfunction
 
+
+%!test
+%! ## 2 at 1, 3 at 2+
+%! A = @QIASMcircuit(@QIASMseq({@QIASMsingle("X",2), ...
+%!                            @QIASMseq({@QIASMsingle("H",2),...
+%!                                      @QIASMmeasure([])}) }));
+%! assert(stepsAt(A,2)==3,"depth 2 failed got %d", stepsAt(A,2));
+%! assert(stepsAt(A,1)==2,"depth 1 failed");
+%! assert(stepsAt(A,3)==3,"depth 3 failed");
+%!error stepsAt(A,0)
+%!error stepsAt(A,3.3)
 

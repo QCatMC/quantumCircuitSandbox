@@ -26,10 +26,7 @@ function display(cir)
     fprintf ("%s = \n", inputname (1)); 
   endif
 
-  pad = blanks(3);
-  fprintf("%sseq = \n",pad);
-  nestedPrint(cir.seq,2);
-  fprintf("%snum bits = %d\n",pad,cir.bits);
+  display(cir.cir);
 
 endfunction
 

@@ -22,25 +22,5 @@
 ## Keywords: QIR
 
 function s = get(cir,f)
-
-  if (nargin == 1)
-    s.bits = cir.bits;
-    s.seq = cir.seq;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = cir.seq;
-	case "bits"
-	  s = cir.bits;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-    print_usage();
-  endif
-
+  s = get(cir.cir,f);
 endfunction

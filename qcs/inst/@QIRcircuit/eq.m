@@ -23,15 +23,7 @@
  
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIRcircuit") )
-    b=false;
-  else
-    b = this.bits == get(other,"bits") && ...
-       	eq(this.seq,get(other,"seq"));
-  endif
-
+  b = isa(other,"QIRcircuit") && eq(this.cir,other.cir);
 endfunction
 
 
