@@ -34,4 +34,8 @@ function Q = tensor(varargin)
 endfunction
 
 %!test
-%! assert(false);
+%! assert(isequal(tensor,[1]));
+%! assert(isequal(tensor(H),H));
+%! assert(isequal(tensor(H,H),kron(H,H)));
+%! assert(isequal(tensor(H,H,H,H,H), ...
+%!                kron(H,kron(H,kron(H,kron(H,H))))));

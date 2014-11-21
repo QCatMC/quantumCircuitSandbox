@@ -30,25 +30,37 @@ function U = circ2mat(g,n)
   highbits = (n-1) - max(tar,ctrl);
   midbits = max(tar,ctrl) - min(tar,ctrl)-1;
 
-
   low = speye(2^lowbits);
   high = speye(2^highbits);
   mid = speye(2^midbits);
 
   P0 = sparse([1,0;0,0]);
   P1 = sparse([0,0;0,1]);
+
   if( tar < ctrl )
-    op = kron(P0,kron(mid,speye(2))) + ...
-	 kron(P1,kron(mid,sparse([0,1;1,0])));
+    U = tensor(high,P0,mid,speye(2),low)+...
+	tensor(high,P1,mid,sparse([0,1;1,0]),low);
   else
-    op = kron(speye(2),kron(mid,P0)) + ...
-	 kron(sparse([0,1;1,0]),kron(mid,P1));
+    U = tensor(high,speye(2),mid,P0,low)+...
+	tensor(high,sparse([0,1;1,0]),mid,P1,low);
   endif
   
-  U = kron(high,kron(op,low));
 
 	 
 endfunction
 
 %!test
-%! assert(false);
+%! P0 = [1,0;0,0]; P1 = [0,0;0,1];
+%! assert(isequal(circ2mat(@cNot(0,1),2), ...
+%!                kron(P0,Iop)+kron(P1,X)));
+%! assert(isequal(circ2mat(@cNot(1,0),2), ...
+%!                kron(Iop,P0)+kron(X,P1)));
+
+%!test
+%! P0 = [1,0;0,0]; P1 = [0,0;0,1];
+%! assert(isequal(circ2mat(@cNot(1,3),5), ...
+%!                tensor(eye(2),P0,eye(2^3))+...
+%!                tensor(eye(2),P1,eye(2),X,eye(2))));
+%! assert(isequal(circ2mat(@cNot(3,1),5), ...
+%!                tensor(eye(2^3),P0,eye(2))+...
+%!                tensor(eye(2),X,eye(2),P1,eye(2))));

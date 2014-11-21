@@ -132,7 +132,7 @@ endfunction
 ## multiple partial measurements
 %!test
 %! x = (1/2)*[1,1,1,1,0,0,0,0]';
-%! r = zeros(8e,1);
+%! r = zeros(8,1);
 %! for k = [1:500]
 %!  r = r + sim(@measure([0,1]),x,3,0,1,0,1);
 %! endfor
