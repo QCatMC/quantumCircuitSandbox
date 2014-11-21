@@ -22,12 +22,5 @@
 ## Keywords: QIR
 
 function nestedPrint(mGate,dep)
-
-  pad = blanks(dep*3);
-
-  fprintf ("%s{\"Measure\",[",pad);
-  arrayfun(@(t) fprintf ("%d,",t), mGate.tar(1:length(mGate.tar)-1));
-  fprintf ("%d]}\n",mGate.tar(length(mGate.tar)));
-  
-
+  nestedPrint(mgate.meas,dep);
 endfunction

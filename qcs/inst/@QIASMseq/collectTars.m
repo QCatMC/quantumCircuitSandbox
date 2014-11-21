@@ -26,9 +26,9 @@ function t = collectTars(this)
   t = collectTars(this.seq);
 endfunction
 
- %!test
- %! C = @QIASMseq({@QIASMsingle("H",2),@QIASMmeasure([1,4]),...
- %!               @QIASMcNot(3,1),@QIASMsingle("X",4)});
- %! assert(1:4,collectTars(C));
- %! D = @QIASMseq({C,@QIASMsingle("Y",7)});
+%!test
+%! C = @QIASMseq({@QIASMsingle("H",2),@QIASMmeasure([1,4]),...
+%!               @QIASMcNot(3,1),@QIASMsingle("X",4)});
+%! assert(1:4,collectTars(C));
+%! D = @QIASMseq({C,@QIASMsingle("Y",7)});
 %! assert([1,2,3,4,7],collectTars(D));

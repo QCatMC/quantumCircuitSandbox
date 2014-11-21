@@ -21,24 +21,7 @@
 ## Keywords: QIR
 
 function s = get(mg,f)
-
-  if (nargin == 1)
-    s.tar = mg.tar;
-  elseif (nargin == 2 )
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	s = mg.tar;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-      print_usage();
-  endif
-
+  s = get(mg.meas,f);
 endfunction
 
 %!test

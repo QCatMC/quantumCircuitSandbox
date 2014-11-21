@@ -23,10 +23,11 @@
  
 
 function q = compile(this)
-	 
-  s = cell(length(this.seq),1);
+  
+  seq = get(this,"seq");
+  s = cell(length(seq,1));
   for k = 1:length(s)
-    s{k} = compile(this.seq{k});
+    s{k} = compile(seq{k});
   endfor
 
   q = @QIASMseq(s);		       

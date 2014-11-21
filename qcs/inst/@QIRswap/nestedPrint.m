@@ -22,6 +22,8 @@
 ## Keywords: QIR
 
 function nestedPrint(sGate,dep)
+  tar1 = get(sGate,"tar1");
+  tar2 = get(sGate,"tar2");
   pad = blanks(dep*3);
   fprintf("%s{\"Swap\",%d,%d}\n",pad,tar1,tar2);
 endfunction

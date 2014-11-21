@@ -1,3 +1,4 @@
+
 ## Copyright (C) 2014  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
@@ -13,28 +14,22 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: U = circ2mat(g,n)
 ##
-## returns true if @QIRmeasure this is equivalent to other.
-##
+##  used to compute the n qubit unitary corresponding to the
+##  controlled-not operator g
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
 
-function b = eq(this,other)
-  b = isa(other,"QIRmeasure") && eq(this.meas,other.meas);
+function U = circ2mat(g,n)
+  tar1 = get(g,"tar1");
+  tar2 = get(g,"tar2");
+
+  U = circ2mat(compile(g),n);
+	 
 endfunction
 
 
 %!test
-%! a = @QIRmeasure();
-%! b = @QIRmeasure(0:3);
-%! c = @QIRmeasure(0:3);
-%! d = @QIRmeasure(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
-%! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@QIRmeasure()));
+%! assert(false);

@@ -13,28 +13,25 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
-##
-## returns true if @QIRmeasure this is equivalent to other.
-##
+## Usage: Q = tensor(A, ...)
+## 
+##  Compute the tensor of all the arguments
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIR
- 
+## Keywords: Misc
 
-function b = eq(this,other)
-  b = isa(other,"QIRmeasure") && eq(this.meas,other.meas);
+function Q = tensor(varargin)
+  if(nargin == 0 )
+    Q = [1];
+  elseif(nargin == 1)
+    Q = varargin{1};
+  else
+    Q = varargin{1};
+    for k = 2:length(varargin)
+      Q = kron(Q,varargin{k})
+    endfor
+  endif
 endfunction
 
-
 %!test
-%! a = @QIRmeasure();
-%! b = @QIRmeasure(0:3);
-%! c = @QIRmeasure(0:3);
-%! d = @QIRmeasure(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
-%! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@QIRmeasure()));
+%! assert(false);

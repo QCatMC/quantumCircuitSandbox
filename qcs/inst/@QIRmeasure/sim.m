@@ -13,28 +13,21 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
-##
-## returns true if @QIRmeasure this is equivalent to other.
-##
+## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
+## 
+##  simulate the action of a @QASMmeasure 'gate' on pure state
+##  'in' in a system of size 'bits'.  The current simulation depth is
+##  currd and dlim is the user specified simulation depth limit.
+##  Similarly, currt is the current simulation time step (w.r.t to
+##  dlim) and tlim is the user specified number of steps to simulate.
+##  The simulation returns two results, the pure state y that results
+##  from the operator and the current time step t. 
+## 
+## 
 
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIR
- 
+## Author: Logan Mayfield
+## Keyword: QIR
 
-function b = eq(this,other)
-  b = isa(other,"QIRmeasure") && eq(this.meas,other.meas);
+function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
+  [y,t] = sim(gate.meas,in,bits,currd,dlim,currt,tlim);
 endfunction
-
-
-%!test
-%! a = @QIRmeasure();
-%! b = @QIRmeasure(0:3);
-%! c = @QIRmeasure(0:3);
-%! d = @QIRmeasure(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
-%! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@QIRmeasure()));

@@ -23,17 +23,12 @@
 ## Keywords: QIR
 
 function t = collectTars(this)
-
-  t = [];
-  for idx = 1:length(this.seq)
-      t = union(t, collectTars(this.seq{idx}));
-  endfor
-
+  t = collectTars(this.seq);
 endfunction
 
- %!test
- %! C = @QIRseq({@QIRsingle("H",2),@QIRmeasure([1,4]),...
- %!               @QIRcNot(3,1),@QIRsingle("X",4)});
- %! assert(1:4,collectTars(C));
- %! D = @QIRseq({C,@QIRsingle("Y",7)});
+%!test
+%! C = @QIRseq({@QIRsingle("H",2),@QIRmeasure([1,4]),...
+%!               @QIRcNot(3,1),@QIRsingle("X",4)});
+%! assert(1:4,collectTars(C));
+%! D = @QIRseq({C,@QIRsingle("Y",7)});
 %! assert([1,2,3,4,7],collectTars(D));

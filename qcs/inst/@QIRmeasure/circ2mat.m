@@ -13,28 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: U = circ2mat(g,n)
 ##
-## returns true if @QIRmeasure this is equivalent to other.
-##
+##  used to compute the n qubit operator corresponding to the
+##  measurement operator g
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIR
- 
+## Keywords: QIASM
 
-function b = eq(this,other)
-  b = isa(other,"QIRmeasure") && eq(this.meas,other.meas);
+function U = circ2mat(g,n)
+  U = circ2mat(g.meas,n);
 endfunction
 
-
 %!test
-%! a = @QIRmeasure();
-%! b = @QIRmeasure(0:3);
-%! c = @QIRmeasure(0:3);
-%! d = @QIRmeasure(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
-%! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@QIRmeasure()));
+%! assert(false);
