@@ -27,10 +27,10 @@ function U = circ2mat(g,n)
   tar2 = min(get(g,"tars"));
   ctrl = get(g,"ctrl");
 
-  P0c = tensor(speye(2^(n-ctrl-1),sparse([1,0;0,0]),speye(2^ctrl)));
-  P1c = tensor(speye(2^(n-ctrl-1),sparse([0,0;0,1]),speye(2^ctrl)));
+  P0c = tensor(speye(2^(n-ctrl-1)),sparse([1,0;0,0]),speye(2^ctrl));
+  P1c = tensor(speye(2^(n-ctrl-1)),sparse([0,0;0,1]),speye(2^ctrl));
   
-  U = P0c*speye(2^n) + P1c*circ2mat(@QIRswap(tar1,tar2));
+  U = P0c*speye(2^n) + P1c*circ2mat(@QIRswap(tar1,tar2),n);
 	 
 endfunction
 

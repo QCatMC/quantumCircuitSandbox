@@ -14,16 +14,16 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Usages: 
-##   C = buildCircuit(cir)
-##   C = buildCircuit(cir,tar)
-##   C = buildCircuit(cir,eta)
-##   C = buildCircuit(cir,eta,tar)
+##   C = qcc(cir)
+##   C = qcc(cir,tar)
+##   C = qcc(cir,eta)
+##   C = qcc(cir,eta,tar)
 ## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
-function C = buildCircuit(desc,varargin )
+function C = qcc(desc,varargin )
 
   ## validate desc
   if( !iscell(desc) && !isa(desc,"QIRcircuit") && ...
@@ -141,29 +141,29 @@ endfunction
 ##  in those functions. 
 
 %!test
-%! fail('buildCircuit(5)');
-%! fail('buildCircuit({{"H",0}},5)');
-%! fail('buildCircuit({{"H",0}},0)');
-%! fail('buildCircuit({{"H",0}},-2)');
-%! fail('buildCircuit({{"H",0}},1)');
-%! fail('buildCircuit({{"H",0}},"Q")');
-%! fail('buildCircuit({{"H",0}},2^(-4),"Q")');
-%! fail('buildCircuit({{"H",0}},2^(-4),"badarg")');
-%! fail('buildCircuit(@QASMcircuit(),"QIASM")');
+%! fail('qcc(5)');
+%! fail('qcc({{"H",0}},5)');
+%! fail('qcc({{"H",0}},0)');
+%! fail('qcc({{"H",0}},-2)');
+%! fail('qcc({{"H",0}},1)');
+%! fail('qcc({{"H",0}},"Q")');
+%! fail('qcc({{"H",0}},2^(-4),"Q")');
+%! fail('qcc({{"H",0}},2^(-4),"badarg")');
+%! fail('qcc(@QASMcircuit(),"QIASM")');
 
 %!test
-%! assert(isa(buildCircuit({{"H",0}}),"QASMcircuit"));
-%! assert(isa(buildCircuit({{"H",0}},2^-4),"QASMcircuit"));
-%! assert(isa(buildCircuit({{"H",0}},2^-4,"QASM"),"QASMcircuit"));
-%! assert(isa(buildCircuit({{"H",0}},"QASM"),"QASMcircuit"));
-%! assert(isa(buildCircuit({{"H",0}},"QIASM"),"QIASMcircuit"));
-%! assert(isa(buildCircuit({{"H",0}},2^-4,"QIASM"),"QIASMcircuit"));
-%! c = buildCircuit({{"H",0}},"QIASM");
-%! d = buildCircuit(c);
-%! assert(eq(buildCircuit(c,"QASM"),d));
-%! assert(eq(buildCircuit(c),d));
-%! assert(eq(c,buildCircuit(c,"QIASM")));
-%! assert(eq(d,buildCircuit(d)));
+%! assert(isa(qcc({{"H",0}}),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},2^-4),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},2^-4,"QASM"),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"QASM"),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"QIASM"),"QIASMcircuit"));
+%! assert(isa(qcc({{"H",0}},2^-4,"QIASM"),"QIASMcircuit"));
+%! c = qcc({{"H",0}},"QIASM");
+%! d = qcc(c);
+%! assert(eq(qcc(c,"QASM"),d));
+%! assert(eq(qcc(c),d));
+%! assert(eq(c,qcc(c,"QIASM")));
+%! assert(eq(d,qcc(d)));
 
 
 

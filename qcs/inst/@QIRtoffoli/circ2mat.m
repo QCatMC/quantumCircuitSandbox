@@ -25,7 +25,7 @@
 function U = circ2mat(g,n)
   P0 = sparse([1,0;0,0]);
   P1 = sparse([0,0;0,1]);
-  X = sparse([[0,1;1,0]);
+  X = sparse([0,1;1,0]);
   ctrl1 = max(get(g,"ctrls"))
   ctrl2 = min(get(g,"ctrls"));
   tar = get(g,"tar");
@@ -48,7 +48,7 @@ function U = circ2mat(g,n)
 
     
   ## c1,t,c2
-  elseif( ctrl > tar )
+  elseif( ctrl1 > tar )
     midhigh = ctrl1 - tar - 1;
     midlow = tar - ctrl2 - 1;
 
@@ -63,9 +63,9 @@ function U = circ2mat(g,n)
     midhigh = tar - ctrl1 - 1;
     midlow = ctrl1 - ctrl2 - 1;
     
-    U = speye(2^n) -
+    U = speye(2^n) - ...
 	tensor(speye(2^(high+1+midhigh)),...
-	       P1,speye(2^midlow),P1,speye(2^low)) + ...
+	   P1,speye(2^midlow),P1,speye(2^low)) + ...
 	tensor(speye(2^high),X,speye(2^midhigh),...
 	       P1,speye(2^midlow),P1,speye(2^low));
 

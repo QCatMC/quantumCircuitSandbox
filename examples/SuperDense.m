@@ -25,16 +25,16 @@ function C = makeSDCirc(alice)
 endfunction
 
 ## Encode 00
-ZrZr = buildCircuit(makeSDCirc([]));
+ZrZr = qcc(makeSDCirc([]));
 
 ## Encode 01
-ZrOn = buildCircuit(makeSDCirc(["X"]));
+ZrOn = qcc(makeSDCirc(["X"]));
 
 ## Encode 10
-OnZr = buildCircuit(makeSDCirc(["Z"]));
+OnZr = qcc(makeSDCirc(["Z"]));
 
 ## Encode 11
-OnOn = buildCircuit(makeSDCirc(["X","Z"]));
+OnOn = qcc(makeSDCirc(["X","Z"]));
 
 ## Now let's try all 4... 100 times
 tot = zeros(4,4);

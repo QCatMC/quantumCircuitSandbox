@@ -28,7 +28,7 @@ function Q = tensor(varargin)
   else
     Q = varargin{1};
     for k = 2:length(varargin)
-      Q = kron(Q,varargin{k})
+      Q = kron(Q,varargin{k});
     endfor
   endif
 endfunction
