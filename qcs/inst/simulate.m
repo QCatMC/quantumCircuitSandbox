@@ -31,10 +31,6 @@
 
 function s = simulate(cir,in,d=1,t=-1)
   
-  if( !isa(cir,"QASMcircuit") ) 
-    error("simulate: First argument must be a QASM circuit.");
-  endif
-  
   if( d < 1 || floor(d)!=ceil(d) )
     error("simulate: Depth must be a Zero or a positive integer.");
   endif
@@ -55,6 +51,7 @@ positive integer.");
   else
     s = sim(cir,s0,d,t);
   endif
+  s = full(s);
 
 endfunction
 

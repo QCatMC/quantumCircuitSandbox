@@ -35,6 +35,7 @@ function U = circ2mat(g,n)
   else
     p = oparr{2};
   endif
+
   opU = getOpU(op,p);
 
   lowbits = min(tar,ctrl);
@@ -47,16 +48,15 @@ function U = circ2mat(g,n)
 
   P0 = sparse([1,0;0,0]);
   P1 = sparse([0,0;0,1]);
+
   if( tar < ctrl )
-    op = kron(P0,kron(mid,speye(2))) + ...
-	 kron(P1,kron(mid,opU)));
+    U = tensor(high,P0,mid,speye(2),low) + ...
+	tensor(high,P1,mid,opU,low);
   else
-    op = kron(speye(2),kron(mid,P0)) + ...
-	 kron(opU,kron(mid,P1));
+    U = tensor(high,speye(2),mid,P0,low) + ...
+	tensor(high,opU,mid,P1,low);
   endif
   
-  U = kron(high,kron(op,low));
-	 
 endfunction
 
 

@@ -30,7 +30,7 @@ function U = circ2mat(g,n)
 
   prev = n;
   U = [1];
-  for k = fliplr(tars)
+  for k = tars #tars should be high to low order
     ## kron in the preceeding I space
     U = kron(U,speye(2^(prev-k-1)));
     prev = k;

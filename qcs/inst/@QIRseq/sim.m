@@ -15,7 +15,7 @@
 
 ## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 ## 
-##  simulate the action of a @singleGate 'gate' on pure state
+##  simulate the action of a @seqNode 'gate' on pure state
 ##  'in' in a system of size 'bits'.  The current simulation depth is
 ##  currd and dlim is the user specified simulation depth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
@@ -24,24 +24,15 @@
 ##  from the operator and the current time step t. 
 ##
 
+
 ## Author: Logan Mayfield
 ## Keyword: QIR
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-
-  op = circ2mat(gate,bits);
-  
-  ## compute output state
-  y = op*in;
-
-  ## time steps update, or not
-  if( currd <= dlim )
-    t = currt+1;
-  elseif( currd > dlim )
-    t = currt;
-  endif    
-
+  [y,t] = sim(gate.seq,in,bits,currd,dlim,currt,tlim);
 endfunction
 
+
+## should probably do more tests here.
 %!test
 %! assert(false);
