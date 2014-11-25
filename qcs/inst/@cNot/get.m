@@ -46,7 +46,7 @@ function s = get(cng,f)
 endfunction
 
 %!test
-%! a = @QIASMcNot(0,1);
+%! a = @cNot(0,1);
 %! as.tar = 0; as.ctrl =1;
 %! assert(get(a),as);
 %! assert(get(a,"tar"),0);

@@ -21,7 +21,7 @@
 ## Keywords: circuits
 
 function t = collectTars(this)
-
+  ## ensure the result is least to greatest sorted
   t = [min(this.tar,this.ctrl),max(this.tar,this.ctrl)];
 
 endfunction

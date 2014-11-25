@@ -20,20 +20,12 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
- 
+
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"cNot") )
-    b=false;
-  elseif( this.ctrl == other.ctrl && 
-	  this.tar == other.tar )
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"cNot") && ...
+      this.ctrl == other.ctrl && ...
+      this.tar == other.tar;
 endfunction
 
 

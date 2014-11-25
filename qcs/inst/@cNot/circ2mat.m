@@ -1,4 +1,3 @@
-
 ## Copyright (C) 2014  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
@@ -23,30 +22,34 @@
 ## Keywords: circuits
 
 function U = circ2mat(g,n)
+  ## CNot parameters: target and control qubit
   tar = g.tar;
   ctrl = g.ctrl;
-  
+
+  ## size of space not in {ctrl,tar}
   lowbits = min(tar,ctrl);
   highbits = (n-1) - max(tar,ctrl);
   midbits = max(tar,ctrl) - min(tar,ctrl)-1;
 
+  ## Operators for unaffected spaces
   low = speye(2^lowbits);
   high = speye(2^highbits);
   mid = speye(2^midbits);
 
+  ##  Projectors
   P0 = sparse([1,0;0,0]);
   P1 = sparse([0,0;0,1]);
+  ## sparse X
+  spX = sparse([0,1;1,0]);
 
+  ## Compute the Operator
   if( tar < ctrl )
     U = tensor(high,P0,mid,speye(2),low)+...
-	tensor(high,P1,mid,sparse([0,1;1,0]),low);
+        tensor(high,P1,mid,spX,low);
   else
     U = tensor(high,speye(2),mid,P0,low)+...
-	tensor(high,sparse([0,1;1,0]),mid,P1,low);
+        tensor(high,spX,mid,P1,low);
   endif
-  
-
-	 
 endfunction
 
 %!test

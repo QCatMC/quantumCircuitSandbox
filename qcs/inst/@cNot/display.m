@@ -15,7 +15,7 @@
 
 ## Usage: display(cNGate)
 ##
-## Display CNot sGate 
+## Display CNot sGate
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -26,6 +26,5 @@ function display(cNGate)
     fprintf ("%s = ", inputname (1));
   endif
 
-  #fprintf ("{\"CNot\",%d,%d}\n",cNGate.tar,cNGate.ctrl );
   nestedPrint(cNGate,1);
 endfunction
