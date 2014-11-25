@@ -17,13 +17,13 @@
 ##
 ##  used to compute maxDepth of a circuit. The max depth of seq node
 ##  is one more than the max of the sequence
-## 
+##
 
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu> 
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
 function d = maxDepth(g)
-  
+
   childMax = zeros(length(g.seq),1);
   for k = 1:length(g.seq)
     childMax(k) = maxDepth(g.seq{k});
@@ -33,10 +33,10 @@ function d = maxDepth(g)
 endfunction
 
 %!test
-%! a = @QASMseq({@QASMsingle("X",1)});
-%! b = @QASMseq({@QASMcNot(3,5),a});
-%! c = @QASMseq({b,a,b,@QASMmeasure()});
+%! a = @seq({@single("X",1)});
+%! b = @seq({@cNot(3,5),a});
+%! c = @seq({b,a,b,@measure()});
 %! assert(maxDepth(a),1);
 %! assert(maxDepth(b),2);
 %! assert(maxDepth(c),3);
-%! assert(maxDepth(@QASMseq({}),1));
+%! assert(maxDepth(@seq({}),1));

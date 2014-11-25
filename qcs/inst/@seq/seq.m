@@ -23,10 +23,10 @@
 function s = seq(cirList)
 
   if( nargin == 0 )
-    s.seq = {};	 
+    s.seq = {};
   else
     s.seq = cirList;
-  endif  
+  endif
   s = class(s,"seq");
 
 endfunction

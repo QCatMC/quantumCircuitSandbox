@@ -15,7 +15,7 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @QIASMseq this is equivalent to other.
+## returns true if @seq this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -27,27 +27,24 @@ function b = eq(this,other)
     othseq = other.seq;
     if( length(this.seq) == length(othseq) )
       for k = 1:length(this.seq)
-	if( !eq(this.seq{k},other.seq{k}) )
-	  b = false; 
-	  return;
-	endif
+        if( !eq(this.seq{k},other.seq{k}) )
+          b = false;
+          return;
+        endif
       endfor
       b=true;
     endif
   endif
 endfunction
 
-
-
 %!test
-%! a = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1)});
-%! b = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1)});
-%! c = @QIASMseq({@QIASMsingle("H",1)});
-%! d = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1),@QIASMseq({@QIASMmeasure()})});
-%! e = @QIASMseq({@QIASMsingle("H",1),@QIASMcNot(0,1),@QIASMseq({@QIASMmeasure()})});
+%! a = @seq({@single("H",1),@cNot(0,1)});
+%! b = @seq({@single("H",1),@cNot(0,1)});
+%! c = @seq({@single("H",1)});
+%! d = @seq({@single("H",1),@cNot(0,1),@seq({@measure()})});
+%! e = @seq({@single("H",1),@cNot(0,1),@seq({@measure()})});
 %! assert(eq(a,a));
 %! assert(eq(a,b));
 %! assert(eq(d,e));
 %! assert(!eq(a,c));
 %! assert(!eq(a,d));
-

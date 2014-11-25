@@ -15,7 +15,7 @@
 
 ## Usage: nestedPrint(snode,dep)
 ##
-## Display seqNode with indentation
+## Display seq with indentation
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

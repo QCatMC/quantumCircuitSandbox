@@ -27,8 +27,13 @@ function U = circ2mat(g,n)
   for k = 1:length(g.seq)
     U = U*circ2mat(g.seq{k},n);
   endfor
-	 
+
 endfunction
 
 %!test
-%! assert(false);
+%! a = @seq({@single("H",0),@single("H",0)});
+%! b = @seq({@single("H",0),@single("H",1)});
+%! c = @seq({@single("H",0),@seq({@single("H",1)})});
+%! assert(isequal(H*H,circ2mat(a,1)));
+%! assert(isequal(tensor(H,H),circ2mat(b,2)));
+%! assert(isequal(tensor(H,H),circ2mat(c,2)));

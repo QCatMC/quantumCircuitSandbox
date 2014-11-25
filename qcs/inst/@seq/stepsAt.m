@@ -16,8 +16,7 @@
 ## Usage: s = stepsAt(g,d)
 ##
 ##  used to compute number of steps at depth d of a circuit. 
-##  
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -35,10 +34,10 @@ function s = stepsAt(g,d)
 endfunction
 
 %!test
-%! A = @QASMseq({@QASMsingle("H",1),@QASMcNot(2,1),...
-%!               @QASMmeasure([1,2,5])});
+%! A = @seq({@single("H",1),@cNot(2,1),...
+%!               @measure([1,2,5])});
 %! assert(stepsAt(A,1),3);
-%! assert(stepsAt(A,2),3); 
-%! B = @QASMseq({@QASMsingle("Z",2),A});
+%! assert(stepsAt(A,2),3);
+%! B = @seq({@single("Z",2),A});
 %! assert(stepsAt(B,1),2);
 %! assert(stepsAt(B,2),4);

@@ -15,7 +15,7 @@
 
 ## Usage: s = get(sn, f)
 ##
-## QASMseq field selector
+## seq field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
