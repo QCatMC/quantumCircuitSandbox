@@ -13,7 +13,7 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIASMmeasure(tars)
+## Usage: g = @measure(tars)
 ##
 ## Construct a gate object for measuring the qubits with indexs given
 ## by the set of natural numbers tars

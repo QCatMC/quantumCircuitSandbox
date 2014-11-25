@@ -15,7 +15,7 @@
 
 ## Usage: g = get(mg, f)
 ##
-## QASMmeasure field selector
+## @measure field selector
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -42,8 +42,8 @@ function s = get(mg,f)
 endfunction
 
 %!test
-%! a = @QASMmeasure();
-%! b = @QASMmeasure(1:3);
+%! a = @measure();
+%! b = @measure(1:3);
 %! assert([],get(a,"tar"));
 %! assert([1,2,3],get(b,"tar"));
 %! bs.tar = [1,2,3];

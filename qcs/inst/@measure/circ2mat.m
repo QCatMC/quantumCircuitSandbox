@@ -16,13 +16,13 @@
 ## Usage: U = circ2mat(g,n)
 ##
 ##  used to compute the n qubit operator corresponding to the
-##  measurement operator g
+##  measurement operator g. CURRENTLY DOES NOT FUNCTION.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
 function U = circ2mat(g,n)
-  ## not representable as an operator
+  ## not representable as a unitary operator
   U = speye(2^n);
 endfunction
 
