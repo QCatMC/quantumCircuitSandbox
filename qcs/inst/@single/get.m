@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## single field selector 
+## single field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -49,14 +49,17 @@ function s = get(sg,f)
 endfunction
 
 %!test
-%! a = @QIASMsingle("X",0);
-%! b = @QIASMsingle("H",1);
-%! c = @QIASMsingle("Z",2);
+%! a = @single("X",0);
+%! b = @single("H",1);
+%! c = @single("Z",2);
+%! d = @single("PhAmp",0,pi/3*ones(1,4));
 %! assert(get(a,"tar"),0);
 %! assert(get(b,"tar"),1);
 %! assert(get(c,"tar"),2);
 %! assert(get(c,"name"),"Z");
 %! assert(get(a,"name"),"X");
+%! assert(isequal(get(d,"params"),[pi/3,pi/3,pi/3,pi/3]))
 %! as.name = "X";
 %! as.tar = 0;
+%! as.params = [];
 %! assert(get(a),as);

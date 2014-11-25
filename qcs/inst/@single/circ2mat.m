@@ -31,7 +31,7 @@ function U = circ2mat(g,n)
 
   low = speye(2^lowbits);
   high = speye(2^highbits);
-  
+
   opU = zeros(2);
   switch(op)
     case {"I","I'"}
@@ -59,7 +59,7 @@ function U = circ2mat(g,n)
       opU(2,2) = e^(i*(p(2)+p(3))/2)*cos(p(1));
       opU(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
       opU(1,2) = -e^(i*(-p(3)+p(2))/2)*sin(p(1));
-      
+
       ## global phase shift if needed
       if( length(p) == 4 && abs(p(4)) > 2^(-60) )
 	opU = e^(i*p(4))*opU;
@@ -68,21 +68,21 @@ function U = circ2mat(g,n)
     case "ZYZ"
       Z = sparse([1,0;0,-1]);
       Y = i*sparse([0,-1;1,0]);
-      
+
       opU = e^(-i*p(1)/2*Z)*e^(-i*p(2)/2*Y)*e^(-i*p(3)/2*Z);
 
       if( length(p) == 4 && abs(p(4)) > 2^(-60) )
 	opU = e^(i*p(4))*opU;
-      endif  
-      
+      endif
+
     case "Rn"
       X = sparse([0,1;1,0]);
       Z = sparse([1,0;0,-1]);
       Y = i*sparse([0,-1;1,0]);
-      
+
       nop = p(2)*X + p(3)*Y + p(4)*Z;
       opU = e^(-i*p(1)/2*nop);
-      
+
       if( length(p) == 5 && abs(p(5)) > 2^(-60) )
 	opU = e^(i*p(5))*opU;
       endif
@@ -93,7 +93,7 @@ function U = circ2mat(g,n)
 
 
   U = kron(high,kron(opU,low));
-	 
+
 endfunction
 
 %!test
@@ -121,7 +121,7 @@ endfunction
 %! assert(isequal(circ2mat(@single("Rn",0, ...
 %!                                 [pi/3,sqrt(1/3),sqrt(1/3),sqrt(1/3)]),1), ...
 %!                U2Rn([pi/3,sqrt(1/3),sqrt(1/3),sqrt(1/3)])));
- 
+
 
 %!test
 %! assert(isequal(circ2mat(@single("H",0,[]),2),tensor(Iop,H)))

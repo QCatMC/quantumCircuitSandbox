@@ -14,23 +14,24 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-## 
-##  simulate the action of a @singleGate 'gate' on pure state
+##
+##  simulate the action of a @single 'gate' on pure state
 ##  'in' in a system of size 'bits'.  The current simulation depth is
 ##  currd and dlim is the user specified simulation depth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
 ##  dlim) and tlim is the user specified number of steps to simulate.
 ##  The simulation returns two results, the pure state y that results
-##  from the operator and the current time step t. 
+##  from the operator and the current time step t.
 ##
 
 ## Author: Logan Mayfield
 ## Keyword: simulation
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-	 
+
+	## compute unitary for operator
   op = circ2mat(gate,bits);
-  
+
   ## compute output state
   y = op*in;
 
@@ -39,7 +40,7 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
     t = currt+1;
   elseif( currd > dlim )
     t = currt;
-  endif    
+  endif
 
 endfunction
 
@@ -70,7 +71,7 @@ endfunction
 %!      [y,t] = sim(@single(ops{o},tar),in,3,1,1,0,5);
 %!      assert(t==1);
 %!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
-%!      assert(isequal(y,curOp*in));                           
+%!      assert(isequal(y,curOp*in));
 %!   endfor
 %! endfor
 %!
@@ -80,7 +81,7 @@ endfunction
 %!      [y,t] = sim(@single(ops{o},tar),in,3,3,2,0,5);
 %!      assert(t==0);
 %!      curOp = kron(speye(2^(3-tar-1)),kron(mats{o},speye(2^tar)));
-%!      assert(isequal(y,curOp*in));                            
+%!      assert(isequal(y,curOp*in));
 %!   endfor
 %! endfor
 %!
