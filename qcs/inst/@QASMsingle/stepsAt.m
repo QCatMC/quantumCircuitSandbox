@@ -17,7 +17,7 @@
 ##
 ##  used to compute number of steps at depth d of a circuit. Gates are
 ##  always 1 step regardless of the depth
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
@@ -25,4 +25,3 @@
 function s = stepsAt(g,d)
   s = stepsAt(g.sing,d);
 endfunction
-
