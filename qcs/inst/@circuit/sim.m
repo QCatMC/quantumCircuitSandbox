@@ -16,7 +16,7 @@
 ## Usage: s = simulate(cir,in,d,t)
 ##
 ## simulate t steps, with respect to nesting depth d, of the Circuit
-## cir on input in. Input in must be a valid pure state 
+## cir on input in. Input in must be a valid pure state
 ## representation of a standard basis state for the qubit space of cir.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -32,9 +32,9 @@ for given depth.");
   endif
 
   s = sim(cir.seq,in,cir.bits,1,d,0,t);
-  
+
 endfunction
 
-%!test
-%! assert(false)
-
+%! c = @circuit(@seq({@single("H",0)}),1,1,[1],[0]);
+%!error(sim(c,[0;1],3,1));
+%!error(sim(c,[0;1],1,2));

@@ -15,7 +15,7 @@
 
 ## Usage: s = get(cir, f)
 ##
-## circuit field selector 
+## circuit field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -55,4 +55,15 @@ function s = get(cir,f)
 endfunction
 
 %!test
-%! assert(false);
+%! c = @circuit(@seq({@single("H",0)}),1,1,[1],[0]);
+%! assert(eq(get(c,"seq"),@seq({@single("H",0)})));
+%! assert(get(c,"bits"),1);
+%! assert(get(c,"maxDepth"),1);
+%! assert(isequal(get(c,"stepsAt"),[1]));
+%! assert(isequal(get(c,"tars"),[0]));
+%! s.seq = @seq({@single("H",0)});
+%! s.bits=1;
+%! s.tars = [0];
+%! s.stepsAt = [1];
+%! s.maxDepth = 1;
+%! assert(isequal(get(c),s));

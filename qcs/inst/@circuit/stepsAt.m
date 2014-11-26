@@ -25,17 +25,19 @@ function t = stepsAt(cir,d)
   if( floor(d) != ceil(d) || !(d > 0) )
     error("Depth must be positive, non-zero integer.");
   endif
-  
+
   if(d >= cir.maxDepth)
     t = cir.stepsAt(cir.maxDepth);
   else
     t = cir.stepsAt(d);
   endif
-  
+
 
 endfunction
 
-
 %!test
-%! assert(false);
-
+%! c = @circuit(@seq({@single("H",0)}),1,1,[1],[0]);
+%! assert(stepsAt(c,1),1);
+%! assert(stepsAt(c,2),1);
+%!error(stepsAt(c,1.2));
+%!error(stepsAt(c,-2));

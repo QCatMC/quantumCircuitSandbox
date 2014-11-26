@@ -15,12 +15,12 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @QIASMcircuit this is equivalent to other.
+## returns true if @circuit this is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
- 
+## Keywords: circuits
+
 
 function b = eq(this,other)
 
@@ -35,7 +35,11 @@ endfunction
 
 
 %!test
-%! assert(false);
-
-
-
+%! A = @circuit(@seq({@single("H",2)}),3,1,[1],[2]);
+%! B = @circuit(@seq({@single("X",2)}),3,1,[1],[2]);
+%! C = @circuit(@seq({@single("H",1)}),3,1,[1],[1]);
+%! D = @circuit(@seq({@single("H",2)}),4,1,[1],[2]);
+%! assert(!eq(A,B));
+%! assert(!eq(A,C));
+%! assert(!eq(A,D));
+%!

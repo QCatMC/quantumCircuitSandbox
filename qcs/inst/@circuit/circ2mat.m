@@ -22,8 +22,5 @@
 ## Keywords: circuits
 
 function U = circ2mat(g)
-  U = circ2mat(g.seq,g.bits); 
+  U = circ2mat(g.seq,g.bits);
 endfunction
-
-%!test
-%! assert(false);
