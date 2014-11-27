@@ -4,11 +4,11 @@
 function [seq,mat] = findclosest(U)
 
   ## UZERO is the 'table' of precomputed sequences
-  ## it's loaded by @QIASMcircuit compile 
+  ## it's loaded by @QIASMcircuit compile
   ## it's computed by @QIASMcircuit/private/computeuzero.m script
   ## it's stored in @QIASMcircuit/private/uzero.mat
   global UZERO; # format (seq,U(2))
-  
+
   ## compute error of each and collect min as you go
   ## start with first
   minVal = norm( U - UZERO{1,2} );
@@ -25,11 +25,11 @@ function [seq,mat] = findclosest(U)
 
   mat = UZERO{minIdx,2}; ## select matrix
   seq = UZERO{minIdx,1}; ## select sequence
-  
-  
+
+
 endfunction
 
-## small test cases using some Pauli matricies, and  
+## small test cases using some Pauli matricies, and
 ## no seq here, just place holders
 %!test
 %! X = [0,1;0,1];
@@ -44,4 +44,3 @@ endfunction
 %!   assert(s,k);
 %!   assert(isequal(m,UZERO{k,2}));
 %! endfor
-

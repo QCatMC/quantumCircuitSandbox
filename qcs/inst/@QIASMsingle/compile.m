@@ -22,36 +22,36 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
- 
+
 
 function q = compile(this,eta)
-	 
+
   if(QASMsingleOp(get(this,"name")))
     q = @QASMsingle(get(this,"name"),get(this,"tar"));
   else
-    ignore_function_time_stamp("all");  
-      
-    ##use SK to approximiate to within eta with a QASMseq 
-    ## SK params 
+    ignore_function_time_stamp("all");
+
+    ##use SK to approximiate to within eta with a QASMseq
+    ## SK params
     eta0 = 0.16;
     capprox = 2.4254; #sqrt(0.17^-1)... to satisfy eta0 < capprox^-2
-    
+
     ## get the SU(2) variant of this
     [SU,ph] = QIASMop(get(this,"name"),get(this,"params"));
     ## get eta_0 approximation
     [seq,mat] = findclosest(SU);
-        
+
     ## distance from SU to eta_0 approximation mat
-    dist = norm(SU-mat);    
+    dist = norm(SU-mat);
     if( dist <= eta ) # good enough. why work more!
       qstrseq = seq;
     else # need a better approximation. more work!
-      	 
+
       ## initial depth of SK algo
       skdep = uint32(ceil(log( (log(1/(eta*capprox^2))) / ...
 			       (log(1/(eta0*capprox^2))) ) / ...
 			  log(3/2)));
-  
+
       ## compile with Solovay-Kiteav
       [qstrseq,SUapprox] = skalgo(SU,skdep);
 
@@ -63,7 +63,7 @@ function q = compile(this,eta)
       ## simplify/reduce approximating sequence if possible.
       qstrseq = simpseq(qstrseq);
     endif
-      
+
     ## convert strings to QASMsingle with correct target
     ## pack into a QASMseq. reverse for circuit order vs. Maths order
     qseq = cell(length(qstrseq),1);
@@ -74,18 +74,18 @@ function q = compile(this,eta)
 
     ## package approximating sequence as @QASMseq
     q = @QASMseq(qseq);
-    
-    ignore_function_time_stamp("none");  
+
+    ignore_function_time_stamp("none");
   endif
 
 endfunction
 
-
+## computes the 2x2 unitary given operator name and parameters
 function [SU,ph] = QIASMop(name,params)
 
-  switch (name)	 
+  switch (name)
     case "PhAmp"
-	 
+
       SU = zeros(2);
       SU(1,1) = e^(i*(-params(2)-params(3))/2)*cos(params(1));
       SU(2,2) = SU(1,1)';
@@ -109,7 +109,7 @@ function [SU,ph] = QIASMop(name,params)
 	ph = params(5);
       endif
     case "ZYZ"
-      Y = [0,-i;i,0]; Z=[1,0;0,-1];      
+      Y = [0,-i;i,0]; Z=[1,0;0,-1];
       SU = e^(-i/2*((params(1)+params(3))*Z + params(2)*Y));
       if(length(params) == 3)
 	ph = 0;
@@ -121,13 +121,13 @@ function [SU,ph] = QIASMop(name,params)
 endfunction
 
 function b = QASMsingleOp(OpStr)
-	 
+
   switch (OpStr)
     case {"I","X","Z","Y","H","T","S","I'",...
 	  "X'","Z'","Y'","H'","T'","S'" }
-      b = true; 
+      b = true;
     otherwise
-      b = false; 
+      b = false;
   endswitch
 
 endfunction
@@ -151,13 +151,13 @@ endfunction
 %!test
 %! load("./@QIASMcircuit/private/uzero.mat");
 %! eta = 2^(-3);
-%! ## Phase Amp 
+%! ## Phase Amp
 %! params = [0,0,pi/2,pi/2]; #S
 %! assert(eq(compile(@QIASMsingle("PhAmp",0,params),eta), ...
 %!           @QASMseq({@QASMsingle("S",0)})));
 %! ## Rotation about n
 %! params = [pi/2,0,0,1,pi/4]; #S
-%! assert(eq(compile(@QIASMsingle("Rn",0,params),eta), ... 
+%! assert(eq(compile(@QIASMsingle("Rn",0,params),eta), ...
 %!           @QASMseq({@QASMsingle("S",0)})));
 %! ## Z-Y-Z Rotation
 %! params = [pi/2,0,0,pi/2]; #S
@@ -166,18 +166,18 @@ endfunction
 %!
 %! clear -g UZERO
 
-## now we just choose a random U and see if the it passes 
-## the internal check. 
+## now we just choose a random U and see if the it passes
+## the internal check.
 %!test
 %! load("./@QIASMcircuit/private/uzero.mat");
 %! eta = 2^(-3);
-%! ## Phase Amp 
-%! params = [pi/3,pi/3,pi/2,pi/2]; 
+%! ## Phase Amp
+%! params = [pi/3,pi/3,pi/2,pi/2];
 %! compile(@QIASMsingle("PhAmp",0,params),eta);
 %! ## Rotation about n
-%! params = [pi/2,sqrt(1/3),sqrt(1/3),sqrt(1/3),pi/4]; 
+%! params = [pi/2,sqrt(1/3),sqrt(1/3),sqrt(1/3),pi/4];
 %! compile(@QIASMsingle("Rn",0,params),eta);
 %! ## Z-Y-Z Rotation
-%! params = [pi/3,pi/5,2*pi/3,pi/2]; 
-%! compile(@QIASMsingle("ZYZ",0,params),eta); 
+%! params = [pi/3,pi/5,2*pi/3,pi/2];
+%! compile(@QIASMsingle("ZYZ",0,params),eta);
 %! clear -g all

@@ -17,15 +17,15 @@
 ##
 ## Compute an eta(n) approximation to the unitary U using
 ## the Solovay-Kitaev Algorithm. newU is the approximation and Us is
-## the sequence of elementary operators,as strings, which computes 
-## that operator. Algorithm based off paper by Dawson&Nielsen 
-## 
+## the sequence of elementary operators,as strings, which computes
+## that operator. Algorithm based off paper by Dawson&Nielsen
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: Operators 
+## Keywords: QIASM
 
 function [Us,newU] = skalgo(U,n)
-  
+
   if( n == 0 )
     ## UZERO is a table of (strseq,U(2)) pairs
     ## findclosest picks the pair that minimizes
@@ -59,11 +59,11 @@ function [Us,newU] = skalgo(U,n)
     Us = {Vnm1seq{:},Wnm1seq{:}, VseqAdj{:}, WseqAdj{:}, Unm1seq{:}};
 
   endif
-  
+
 endfunction
 
 ## Adjoint by name/string
-## this is a bit hacky... but should work... 
+## this is a bit hacky... but should work...
 function s = adj(opstr)
 
   if(length(opstr) == 2) #only U'->U
@@ -79,10 +79,10 @@ function s = adj(opstr)
 
 endfunction
 
-## compute 0:dep approximations of a large number of SU(2) 
+## compute 0:dep approximations of a large number of SU(2)
 ##  operators and verify that they get increasingly better
 ##   - only executable from @QIASMsingle/private
-##   - will take a fair bit of time 
+##   - will take a fair bit of time
 
 %!test
 %! ## get the currently utilized U0 table
@@ -118,7 +118,3 @@ endfunction
 %! assert(length(resS)==0,"Failed on %d operators",length(resS));
 %! rmpath("../../");
 %! clear -g all;
-
-    
-
-    
