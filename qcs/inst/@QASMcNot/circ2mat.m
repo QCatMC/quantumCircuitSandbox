@@ -22,8 +22,5 @@
 ## Keywords: QASM
 
 function U = circ2mat(g,n)
-  U = circ2mat(g.cn,n);	 
+  U = circ2mat(g.cn,n);
 endfunction
-
-%!test
-%! assert(false);

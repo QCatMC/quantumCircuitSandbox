@@ -22,27 +22,11 @@
 ## Keywords: QASM
 
 function s = get(cng,f)
-
-  if (nargin == 1)
-    s.tar = get(cng.cn,"tar");
-    s.ctrl = get(cng.cn,ctrl);
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	  s = get(cng.cn,"tar");
-	case "ctrl"
-	  s = get(cng.cn,ctrl);
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+  if(nargin == 1)
+    s = get(cng.cn);
   else
-      print_usage();
-  endif
-
+    s = get(cng.cn,f);
+  endif    
 endfunction
 
 %!test
