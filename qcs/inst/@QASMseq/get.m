@@ -23,21 +23,10 @@
 
 function s = get(sn,f)
 
-  if (nargin == 1)
-    s.seq = get(sn.seq,"seq");
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = get(sn.seq,"seq");
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+  if( nargin == 1)
+    s = get(sn.seq);
   else
-    print_usage();
+    s = get(sn.seq,f);
   endif
 
 endfunction

@@ -25,10 +25,3 @@
 function t = collectTars(this)
   t = collectTars(this.seq);
 endfunction
-
-%!test
-%! C = @QASMseq({@QASMsingle("H",2),@QASMmeasure([1,4]),...
-%!               @QASMcNot(3,1),@QASMsingle("X",4)});
-%! assert(1:4,collectTars(C));
-%! D = @QASMseq({C,@QASMsingle("Y",7)});
-%! assert([1,2,3,4,7],collectTars(D));
