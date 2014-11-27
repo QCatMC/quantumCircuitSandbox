@@ -15,12 +15,16 @@
 
 ## Usage: s = get(cir, f)
 ##
-## circuit field selector 
+## circuit field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
 
 function s = get(circ,f)
-  s = get(circ.cir,f);
+  if(nargin == 1)
+    s = get(circ.cir);
+  else
+    s = get(circ.cir,f);
+  endif
 endfunction

@@ -16,7 +16,7 @@
 ## Usage: s = simulate(cir,in,d,t)
 ##
 ## simulate t steps, with respect to nesting depth d, of the Circuit
-## cir on input in. Input in must be a valid pure state 
+## cir on input in. Input in must be a valid pure state
 ## representation of a standard basis state for the qubit space of cir.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -25,11 +25,5 @@
 function s = sim(circ,in,d,t)
 
   s = sim(circ.cir,in,d,t);
-  
+
 endfunction
-
-%!test
-%! S = @QASMcircuit(@QASMseq({@QASMsingle("H",1)}));
-%!error sim(S,(0:3==1)',4,2);
-%!error sim(S,(0:3==1)',1,2);
-
