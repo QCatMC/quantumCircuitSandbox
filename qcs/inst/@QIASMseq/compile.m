@@ -16,25 +16,25 @@
 ## Usage: q = compile(this)
 ##
 ## returns approximate @QASMseq to @QIASMseq this. Non-QASM operators
-## are approximated.  
+## are approximated.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
- 
+
 
 function q = compile(this,eta)
-	 
+
   s = cell(length(get(this,"seq")),1);
   for k = 1:length(s)
     s{k} = compile(this.seq{k},eta);
   endfor
 
-  q = @QASMseq(s);		       
+  q = @QASMseq(s);
 
 endfunction
 
-## testing on all "H" gates as they're not likely to 
+## testing on all "H" gates as they're not likely to
 ##  change and we just need to test for proper traversal
 ##  and construction. testing for Approximation-based compilation
 ##  is done in @QIASMsingle/compile.m and @QIASMsingle/private/skalgo.m
@@ -45,6 +45,3 @@ endfunction
 %! r = {@QASMsingle("H",0),@QASMsingle("H",1)};
 %! R = @QASMseq(r,@QASMseq(r));
 %! assert(eq(compile(C,1/32),R));
-
-
-

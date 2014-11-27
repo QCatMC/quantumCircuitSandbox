@@ -15,8 +15,8 @@
 
 ## Usage: n = numapprox(this)
 ##
-## Returns the number of non-elementary operators in this, i.e. 
-## the number that must be approximated. 
+## Returns the number of non-elementary operators in this, i.e.
+## the number that must be approximated.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -36,4 +36,3 @@ endfunction
 %! d = {@QIASMsingle("PhAmp",[pi,pi,pi],0), @QIASMsingle("ZYZ",[pi,pi,pi],0)};
 %! assert(2,numapprox(@QIASMseq(d)));
 %! assert(2,numapprox(@QIASMseq({@QIASMsingle("X",0),@QIASMseq(d)})));
- 

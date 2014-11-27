@@ -15,17 +15,17 @@
 
 ## Usage: display(snode)
 ##
-## Display QIASMseq node. Contained operators are indented. 
+## Display QIASMseq node. Contained operators are indented.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
 function display(snode)
-  if( !strcmp(inputname(1),"") ) 
-    fprintf ("%s = \n", inputname (1)); 
+  if( !strcmp(inputname(1),"") )
+    fprintf ("%s = \n", inputname (1));
   endif
-  
+
   nestedPrint(snode,1);
 
 endfunction

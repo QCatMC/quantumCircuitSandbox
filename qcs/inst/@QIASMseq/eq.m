@@ -39,4 +39,3 @@ endfunction
 %! assert(eq(d,e));
 %! assert(!eq(a,c));
 %! assert(!eq(a,d));
-
