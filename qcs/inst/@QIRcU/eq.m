@@ -20,21 +20,13 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIRcU") )
-    b=false;
-  elseif( eq(this.ctrl,get(other,"ctrl")) && ...
-	  eq(this.tar,get(other,"tar")) && ...
-	  isequal(this,tar.op,get(other,"op")) )
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIRcU") && ...
+      this.ctrl == other.ctrl && ...
+      this.tar == other.tar && ...
+      isequal(this.op,other.op);
 endfunction
 
 
@@ -47,7 +39,3 @@ endfunction
 %! assert(eq(a,c));
 %! assert(!eq(a,b));
 %! assert(!eq(a,d));
-
-## test for C-QIASMsingle 
-%!test
-%! assert(false);

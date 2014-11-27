@@ -17,14 +17,11 @@
 ##
 ##  used to compute maxDepth of a circuit. The max depth of seq node
 ##  is one more than the max of the sequence
-## 
+##
 
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu> 
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
 function d = maxDepth(g)
   d = maxDepth(g.seq);
 endfunction
-
-%!test
-%! assert(false);

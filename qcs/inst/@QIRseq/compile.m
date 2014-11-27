@@ -20,17 +20,17 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function q = compile(this)
-  
+
   seq = get(this,"seq");
-  s = cell(length(seq,1));
+  s = cell(length(seq),1);
   for k = 1:length(s)
     s{k} = compile(seq{k});
   endfor
 
-  q = @QIASMseq(s);		       
+  q = @QIASMseq(s);
 
 endfunction
 
@@ -40,6 +40,3 @@ endfunction
 %! r = {@QIASMsingle("H",0),@QIASMsingle("H",1)};
 %! R = @QIASMseq(r,@QIASMseq(r));
 %! assert(eq(compile(C),R));
-
-
-

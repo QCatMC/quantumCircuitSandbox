@@ -22,22 +22,9 @@
 ## Keywords: QIR
 
 function s = get(sn,f)
-
   if (nargin == 1)
-    s.seq = sn.seq;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-	case "seq"
-	  s = sn.seq;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+    s = get(sn.seq);
   else
-    print_usage();
+    s = get(sn.seq,f);
   endif
-
 endfunction

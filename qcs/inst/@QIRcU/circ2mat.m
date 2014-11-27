@@ -26,8 +26,8 @@ function U = circ2mat(g,n)
   ## get target and control
   tar = get(g,"tar");
   ctrl = get(g,"ctrl");
-  
-  ## get the op 
+
+  ## get the op
   oparr = get(g,"op");
   op = oparr{1};
   if( length(oparr) == 1 )
@@ -56,11 +56,11 @@ function U = circ2mat(g,n)
     U = tensor(high,speye(2),mid,P0,low) + ...
 	tensor(high,opU,mid,P1,low);
   endif
-  
+
 endfunction
 
 
-function opU = getOpU(op,p)  
+function opU = getOpU(op,p)
   opU = zeros(2);
   switch(op)
     case {"I","I'"}
@@ -88,7 +88,7 @@ function opU = getOpU(op,p)
       opU(2,2) = e^(i*(p(2)+p(3))/2)*cos(p(1));
       opU(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
       opU(1,2) = -e^(i*(-p(3)+p(2))/2)*sin(p(1));
-      
+
       ## global phase shift if needed
       if( length(p) == 4 && abs(p(4)) > 2^(-60) )
 	opU = e^(i*p(4))*opU;
@@ -97,21 +97,21 @@ function opU = getOpU(op,p)
     case "ZYZ"
       Z = sparse([1,0;0,-1]);
       Y = i*sparse([0,-1;1,0]);
-      
+
       opU = e^(-i*p(1)/2*Z)*e^(-i*p(2)/2*Y)*e^(-i*p(3)/2*Z);
 
       if( length(p) == 4 && abs(p(4)) > 2^(-60) )
 	opU = e^(i*p(4))*opU;
-      endif  
-      
+      endif
+
     case "Rn"
       X = sparse([0,1;1,0]);
       Z = sparse([1,0;0,-1]);
       Y = i*sparse([0,-1;1,0]);
-      
+
       nop = p(2)*X + p(3)*Y + p(4)*Z;
       opU = e^(-i*p(1)/2*nop);
-      
+
       if( length(p) == 5 && abs(p(5)) > 2^(-60) )
 	opU = e^(i*p(5))*opU;
       endif

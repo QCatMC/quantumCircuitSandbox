@@ -16,12 +16,12 @@
 ## Usage: q = compile(this)
 ##
 ## returns equivalent @QIASMcNot when @QIRcU is cNot, otherwise
-## returns an equivalent @QIASMseq 
+## returns an equivalent @QIASMseq
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function q = compile(this)
 
@@ -29,7 +29,7 @@ function q = compile(this)
   if( length(this.op) == 1 && strcmp(oname,"X"))
     q = @QIASMcNot(this.tar,this.ctrl);
   else
-    qseq = cell(); # the QIASM sequence    
+    qseq = cell(); # the QIASM sequence
 
     ## get phase and SU2 zyz params w/out computing matrix
     [zyzps,gp] = params(this.op);
@@ -39,7 +39,7 @@ function q = compile(this)
       qseq{end+1} = @QIASMsingle("Rn",this.ctrl,[gp,0,0,1,0]);
       qseq{end+1} = @QIASMsingle("PhAmp",this.ctrl,[0,0,0,gp/2]);
     endif
-    
+
     ## currently not checking for special cases (lemma 5.4 and 5.5)
 
     ## all U need A,CNot,B
@@ -60,7 +60,7 @@ function q = compile(this)
 
 endfunction
 
-## z is zyz params 
+## z is zyz params
 ## g is global phase
 function [z,g] = params(op)
 
@@ -119,17 +119,17 @@ function [z,g] = params(op)
 
       n = op{2}(2:4);
       a = op{2}(1);
- 
+
       if( norm([0,0,1]-n) <= 2^(-50) )#Rz/Diagonal matrix
 	z = [a/2,0,a/2]; ## special case
       elseif( norm([0,1,0]-n) <= 2^(-50) ) #Ry
 	z = [0,a,0]; ## special case
       elseif( norm([1,0,0]-n) <= 2^(-50) )#Rx
-	z = [-pi/2,a,pi/2]; 
+	z = [-pi/2,a,pi/2];
       elseif( abs(pi-a) < 2^(-60) && abs(n(3)) < 2^(-60)) #off-diagonal
 	z = [-2*acos(n(2)),pi,0];
       else #everything else
-	## compute matrix and solve from there   
+	## compute matrix and solve from there
 	X = [0,1;1,0]; Y=[0,-i;i,0];Z=[1,0;0,-1];
 	A = n(1)*X + n(2)*Y + n(3)*Z;
 	U = e^(-i*a/2*A);
@@ -138,14 +138,14 @@ function [z,g] = params(op)
 	     arg(U(2,2)*U(2,1)')];
       endif
 
-      ## ensure special case trigger when no Y rotation occurs      
+      ## ensure special case trigger when no Y rotation occurs
       if( abs(z(2)) < 2^(-60) && abs(z(1)-z(3)) > 2^(-60) ) ##no Y, z's not equal
 	zrot = z(1) + z(3);
-	## evenly divide z-rotation between the two operators 
+	## evenly divide z-rotation between the two operators
 	z(1) = zrot/2;
 	z(2) = zrot/2;
-      endif 
-   
+      endif
+
   endswitch
 
 
@@ -153,7 +153,7 @@ endfunction
 
 function b = iszero(dub)
   b = abs(dub) < 2^(-60);
-endfunction 
+endfunction
 
 %!test
 %! assert(false);

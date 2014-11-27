@@ -15,9 +15,9 @@
 
 ## Usage: s = stepsAt(g,d)
 ##
-##  used to compute number of steps at depth d of a circuit. 
-##  
-## 
+##  used to compute number of steps at depth d of a circuit.
+##
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
@@ -25,6 +25,3 @@
 function s = stepsAt(g,d)
   s = stepsAt(g.seq,d);
 endfunction
-
-%!test
-%! assert(false);

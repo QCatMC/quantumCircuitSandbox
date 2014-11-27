@@ -22,21 +22,10 @@
 ## Keywords: QIR
 
 function b = eq(this,other)
-  b = false;
-  if( isa(other,"QIRseq") )
-    othseq = get(other,"seq");
-    if( length(this.seq) == length(othseq) )
-      for k = 1:length(this.seq)
-	if( !eq(this.seq{k},get(other,"seq"){k}) )
-	  b = false; 
-	  return;
-	endif
-      endfor
-      b=true;
-    endif
-  endif
-endfunction
+  b = isa(other,"QIRseq") && ...
+  eq(this.seq,other.seq);
 
+endfunction
 
 
 %!test
@@ -50,4 +39,3 @@ endfunction
 %! assert(eq(d,e));
 %! assert(!eq(a,c));
 %! assert(!eq(a,d));
-
