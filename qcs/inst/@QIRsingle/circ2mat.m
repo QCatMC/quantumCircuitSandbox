@@ -21,6 +21,12 @@
 ## Keywords: QIR
 
 function U = circ2mat(g,n)
+  ## N.B. this can generalize to n qubit, parallel application of
+  ## single qubit operators. For this reason the @single operator
+  ## is not used.  On the other hand, one could make use of
+  ## repeated calls to @single/circ2mat and mat-mult the results
+  ## together
+
   op = get(g,"name");
   tars = get(g,"tars");
   p = get(g,"params");
@@ -28,20 +34,23 @@ function U = circ2mat(g,n)
   ## get 2x2 unitary for op
   opU = getOpU(op,p);
 
-  prev = n;
-  U = [1];
-  for k = tars #tars should be high to low order
+  prev = n; # most recently reference qubit
+  U = [1]; # Unitary for [prev,n-1] space
+  for k = tars #tars should be high to low order!
     ## kron in the preceeding I space
     U = kron(U,speye(2^(prev-k-1)));
     prev = k;
     ## kron in the op
     U = kron(U,opU);
   endfor
+
+  ## kron in remaining 'low' space
   U = kron(U,speye(2^(prev)));
 
 endfunction
-  
-function opU = getOpU(op,p)  
+
+## computes the 2x2 unitary using name and parameters
+function opU = getOpU(op,p)
   opU = zeros(2);
   switch(op)
     case {"I","I'"}
@@ -69,7 +78,7 @@ function opU = getOpU(op,p)
       opU(2,2) = e^(i*(p(2)+p(3))/2)*cos(p(1));
       opU(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
       opU(1,2) = -e^(i*(-p(3)+p(2))/2)*sin(p(1));
-      
+
       ## global phase shift if needed
       if( length(p) == 4 && abs(p(4)) > 2^(-60) )
 	opU = e^(i*p(4))*opU;
@@ -78,21 +87,21 @@ function opU = getOpU(op,p)
     case "ZYZ"
       Z = sparse([1,0;0,-1]);
       Y = i*sparse([0,-1;1,0]);
-      
+
       opU = e^(-i*p(1)/2*Z)*e^(-i*p(2)/2*Y)*e^(-i*p(3)/2*Z);
 
       if( length(p) == 4 && abs(p(4)) > 2^(-60) )
 	opU = e^(i*p(4))*opU;
-      endif  
-      
+      endif
+
     case "Rn"
       X = sparse([0,1;1,0]);
       Z = sparse([1,0;0,-1]);
       Y = i*sparse([0,-1;1,0]);
-      
+
       nop = p(2)*X + p(3)*Y + p(4)*Z;
       opU = e^(-i*p(1)/2*nop);
-      
+
       if( length(p) == 5 && abs(p(5)) > 2^(-60) )
 	opU = e^(i*p(5))*opU;
       endif
@@ -103,4 +112,34 @@ function opU = getOpU(op,p)
 endfunction
 
 %!test
-%! assert(false);
+%! assert(isequal(Iop,circ2mat(@QIRsingle("I",0),1)));
+%! assert(isequal(H,circ2mat(@QIRsingle("H",0),1)));
+%! assert(isequal(Z,circ2mat(@QIRsingle("Z",0),1)));
+%! assert(isequal(X,circ2mat(@QIRsingle("X",0),1)));
+%! assert(isequal(Y,circ2mat(@QIRsingle("Y",0),1)));
+%! assert(isequal(T,circ2mat(@QIRsingle("T",0),1)));
+%! assert(isequal(S,circ2mat(@QIRsingle("S",0),1)));
+%! assert(isequal(circ2mat(@QIRsingle("PhAmp",0, ...
+%!                                 [pi/3,pi/3,pi/3,pi/3]),1), ...
+%!                U2phaseamp([pi/3,pi/3,pi/3,pi/3])));
+%! assert(isequal(circ2mat(@QIRsingle("ZYZ",0, ...
+%!                                 [pi/3,pi/3,pi/3,pi/3]),1), ...
+%!                U2zyz([pi/3,pi/3,pi/3,pi/3])));
+%! assert(isequal(circ2mat(@QIRsingle("Rn",0, ...
+%!                                 [pi/3,sqrt(1/3),sqrt(1/3),sqrt(1/3),pi/3]),1), ...
+%!                U2Rn([pi/3,sqrt(1/3),sqrt(1/3),sqrt(1/3),pi/3])));
+%! assert(isequal(circ2mat(@QIRsingle("PhAmp",0, ...
+%!                                 [pi/3,pi/3,pi/3]),1), ...
+%!                U2phaseamp([pi/3,pi/3,pi/3])));
+%! assert(isequal(circ2mat(@QIRsingle("ZYZ",0, ...
+%!                                 [pi/3,pi/3,pi/3]),1), ...
+%!                U2zyz([pi/3,pi/3,pi/3])));
+%! assert(isequal(circ2mat(@QIRsingle("Rn",0, ...
+%!                                 [pi/3,sqrt(1/3),sqrt(1/3),sqrt(1/3)]),1), ...
+%!                U2Rn([pi/3,sqrt(1/3),sqrt(1/3),sqrt(1/3)])));
+
+%!test
+%! assert(isequal(circ2mat(@QIRsingle("H",[1,0],[]),2),tensor(H,H)))
+%! assert(isequal(circ2mat(@QIRsingle("H",[2,1],[]),3),tensor(H,H,Iop)))
+%! assert(isequal(circ2mat(@QIRsingle("H",[3,1],[]),5),tensor(Iop,H,Iop,H,Iop)))
+%! assert(isequal(circ2mat(@QIRsingle("H",[5,2],[]),8),tensor(Iop(2),H,Iop(2),H,Iop(2))))

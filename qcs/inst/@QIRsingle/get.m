@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## QIRsingle field selector 
+## QIRsingle field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -52,11 +52,12 @@ endfunction
 %! a = @QIRsingle("X",0);
 %! b = @QIRsingle("H",1);
 %! c = @QIRsingle("Z",2);
-%! assert(get(a,"tar"),0);
-%! assert(get(b,"tar"),1);
-%! assert(get(c,"tar"),2);
+%! assert(get(a,"tars"),0);
+%! assert(get(b,"tars"),1);
+%! assert(get(c,"tars"),2);
 %! assert(get(c,"name"),"Z");
 %! assert(get(a,"name"),"X");
 %! as.name = "X";
-%! as.tar = 0;
+%! as.tars = 0;
+%! as.params = [];
 %! assert(get(a),as);

@@ -20,31 +20,21 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIRsingle") )
-    b=false;
-  elseif( strcmp(this.name,get(other,"name")) && ...
-	  isequal(this.tars,get(other,"tars")) && ...
-	  isequal(this.params,get(other,"params")))
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIRsingle") && ...
+      strcmp(this.name,other.name) && ...
+      isequal(this.tars,other.tars) && ...
+      isequal(this.params,other.params);
 endfunction
 
-
 %!test
-%! a = @QIIRsingle("H",2);
-%! b = @QIIRsingle("H",1);
-%! c = @QIIRsingle("H",2);
+%! a = @QIRsingle("H",2);
+%! b = @QIRsingle("H",1);
+%! c = @QIRsingle("H",2);
 %! assert(eq(a,a));
 %! assert(eq(a,c));
 %! assert(!eq(a,b));
-%! assert(eq(@QIIRsingle("PhAmp",0,[pi,pi,pi]),...
-%!           @QIIRsingle("PhAmp",0,[pi,pi,pi])));
-          
+%! assert(eq(@QIRsingle("PhAmp",0,[pi,pi,pi]),...
+%!           @QIRsingle("PhAmp",0,[pi,pi,pi])));

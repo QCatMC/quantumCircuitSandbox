@@ -21,7 +21,7 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function q = compile(this)
 
@@ -36,3 +36,9 @@ function q = compile(this)
   endif
 
 endfunction
+
+%!test
+%! assert(isequal(@QIASMsingle("H",1),compile(@QIRsingle("H",[1]))));
+%! a = @QIRsingle("H",2:-1:0);
+%! b = @QIASMseq({@QIASMsingle("H",2),@QIASMsingle("H",1),@QIASMsingle("H",0)});
+%! assert(isequal(b,compile(a)));
