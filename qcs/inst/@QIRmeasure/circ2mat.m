@@ -19,11 +19,8 @@
 ##  measurement operator g
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: QIR
 
 function U = circ2mat(g,n)
   U = circ2mat(g.meas,n);
 endfunction
-
-%!test
-%! assert(false);

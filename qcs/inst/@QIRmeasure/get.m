@@ -21,13 +21,11 @@
 ## Keywords: QIR
 
 function s = get(mg,f)
-  s = get(mg.meas,f);
-endfunction
 
-%!test
-%! a = @QIRmeasure();
-%! b = @QIRmeasure(1:3);
-%! assert([],get(a,"tar"));
-%! assert([1,2,3],get(b,"tar"));
-%! bs.tar = [1,2,3];
-%! assert(bs,get(b));
+  if( nargin == 1)
+    s = get(mg.meas);
+  else
+    s = get(mg.meas,f);
+  endif
+
+endfunction
