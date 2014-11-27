@@ -22,29 +22,19 @@
 
 function s = get(mg,f)
 
-  if (nargin == 1)
-    s.tar = get(mg.meas,"tar");
-  elseif (nargin == 2 )
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	s = get(mg.meas,"tar")
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
+  if(nargin == 1)
+    s = get(mg.meas);
   else
-      print_usage();
+    s = get(mg.meas,f);
   endif
+
 
 endfunction
 
 %!test
 %! a = @QASMmeasure();
 %! b = @QASMmeasure(1:3);
-%! assert([],get(a,"tar"));
-%! assert([1,2,3],get(b,"tar"));
+%! assert(isequal([],get(a,"tar")));
+%! assert(isequal([1,2,3],get(b,"tar")));
 %! bs.tar = [1,2,3];
-%! assert(bs,get(b));
+%! assert(isequal(bs,get(b)));

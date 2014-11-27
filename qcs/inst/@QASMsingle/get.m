@@ -21,7 +21,13 @@
 ## Keywords: QASM
 
 function s = get(sg,f)
-  s = get(sg.sing,f);
+
+  if(nargin==1)
+    s = get(sg.sing);
+  else
+    s = get(sg.sing,f);
+  endif
+
 endfunction
 
 
