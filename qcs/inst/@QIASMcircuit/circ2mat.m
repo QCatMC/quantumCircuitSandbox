@@ -13,10 +13,9 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## Usage: U = circ2mat(g)
 ##
-##  used to compute the n qubit unitary corresponding to the single
-##  qubit gate g.
+##  used to compute the unitary corresponding to the circuit g.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -24,6 +23,3 @@
 function U = circ2mat(g)
   U = circ2mat(g.cir);
 endfunction
-
-%!test
-%! assert(false);

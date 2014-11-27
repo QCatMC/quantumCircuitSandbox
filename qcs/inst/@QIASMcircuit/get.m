@@ -15,7 +15,7 @@
 
 ## Usage: s = get(cir, f)
 ##
-## circuit field selector 
+## QIASMcircuit field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -29,10 +29,10 @@ function s = get(cir,f)
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
-	case "numtoapprox"
-	  s = cir.numtoapprox;
-	otherwise
-	  s = get(cir.cir,f);
+        case "numtoapprox"
+        s = cir.numtoapprox;
+        otherwise
+        s = get(cir.cir,f);
       endswitch
     endif
   endif

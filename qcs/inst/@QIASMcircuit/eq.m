@@ -20,7 +20,7 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
- 
+
 
 function b = eq(this,other)
   b = isa(other,"QIASMcircuit") && ...
@@ -37,6 +37,4 @@ endfunction
 %! assert(!eq(A,B)); #same tars different ops
 %! assert(!eq(A,C)); #
 %! assert(!eq(A,D));
-%! 
-
-
+%!

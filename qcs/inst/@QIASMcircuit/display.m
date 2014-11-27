@@ -15,7 +15,7 @@
 
 ## Usage: display(cir)
 ##
-## Display function for circuit objects. 
+## Display function for circuit objects.
 ##
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -23,12 +23,12 @@
 function display(cir)
 
   if(!strcmp(inputname(1),"") )
-    fprintf ("%s = \n", inputname (1)); 
+    fprintf ("%s = \n", inputname (1));
   endif
-
+  ## display standard circuit properties
   display(cir.cir);
+  ## then the QIASM specific attributes
   pad = blanks(3);
   fprintf("%snum of non-elementary ops = %d\n",pad,cir.numtoapprox);
 
 endfunction
-

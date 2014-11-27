@@ -23,16 +23,3 @@
 function t = stepsAt(cir,d)
   t = stepsAt(cir.cir,d);
 endfunction
-
-
-%!test
-%! ## 2 at 1, 3 at 2+
-%! A = @QIASMcircuit(@QIASMseq({@QIASMsingle("X",2), ...
-%!                            @QIASMseq({@QIASMsingle("H",2),...
-%!                                      @QIASMmeasure([])}) }));
-%! assert(stepsAt(A,2)==3,"depth 2 failed got %d", stepsAt(A,2));
-%! assert(stepsAt(A,1)==2,"depth 1 failed");
-%! assert(stepsAt(A,3)==3,"depth 3 failed");
-%!error stepsAt(A,0)
-%!error stepsAt(A,3.3)
-

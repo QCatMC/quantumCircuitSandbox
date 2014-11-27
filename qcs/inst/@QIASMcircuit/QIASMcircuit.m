@@ -17,11 +17,11 @@
 ##
 ## Users should use the buildQIASMCircuit function to construct
 ## oct-circuits rather than expicitly constuct the object themselves.
-## 
+##
 ## Constructs an n qubit circuit object from a @QIASMseq object.
 ## Statistics about nesting depth and stepts at each allowable depth
-## are computed at the time of construction  
-## 
+## are computed at the time of construction
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -52,5 +52,3 @@ function c = QIASMcircuit(cNode,n)
   c = class(c,"QIASMcircuit");
 
 endfunction
-
-

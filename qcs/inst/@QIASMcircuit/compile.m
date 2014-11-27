@@ -16,15 +16,15 @@
 ## Usage: q = compile(this)
 ##
 ## returns approximate @QASMcircuit to @QIASMcircuit this. Non-QASM operators
-## are approximated.  
+## are approximated.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
- 
+
 
 function q = compile(this,eta)
-  ## to achieve eta precision we must approximate each non-elementary 
+  ## to achieve eta precision we must approximate each non-elementary
   ## operator to precision eta/m, where m is the number of
   ## non-elementary operators in the circuit.
 
@@ -32,17 +32,17 @@ function q = compile(this,eta)
     q = @QASMcircuit(compile(get(this"seq"),eta),get(this,"bits"));
   else
     ## load in global var UZERO
-    ## This is a 2D cell array that contains precomputed 
+    ## This is a 2D cell array that contains precomputed
     ## sequences used as initial approximations
-      
-    ## build path off full path to this file	 
+
+    ## build path off full path to this file
     uzpath = sprintf("%s/private/uzero.mat",fileparts (mfilename ("fullpath")));
-    
-    load(uzpath); # load 
+
+    load(uzpath); # load
 
     opEta = eta/this.numtoapprox;
     q = @QASMcircuit(compile(get(this"seq"),opEta),get(this,"bits"));
-    
+
     ## clear global data table
     clear -g UZERO;
   endif
@@ -56,4 +56,3 @@ endfunction
 %!        compile(@QIASMcircuit(@QIASMseq({@QIASMsingle("H",0)})),1/16)));
 %! assert(isa(compile(@QIASMcircuit(@QIASMseq({@QIASMsingle("PhAmp",0,[pi,pi/2,pi/3,pi/4])})),1/8), ...
 %!        "QASMcircuit"));
-
