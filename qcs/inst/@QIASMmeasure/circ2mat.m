@@ -24,6 +24,3 @@
 function U = circ2mat(g,n)
   U = circ2mat(g.meas,n);
 endfunction
-
-%!test
-%! assert(false);

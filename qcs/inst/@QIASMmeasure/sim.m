@@ -14,16 +14,16 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
-## 
-##  simulate the action of a @QASMmeasure 'gate' on pure state
+##
+##  simulate the action of a @QIASMmeasure 'gate' on pure state
 ##  'in' in a system of size 'bits'.  The current simulation depth is
 ##  currd and dlim is the user specified simulation depth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
 ##  dlim) and tlim is the user specified number of steps to simulate.
 ##  The simulation returns two results, the pure state y that results
-##  from the operator and the current time step t. 
-## 
-## 
+##  from the operator and the current time step t.
+##
+##
 
 ## Author: Logan Mayfield
 ## Keyword: QIASM
