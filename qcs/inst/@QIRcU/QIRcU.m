@@ -27,7 +27,7 @@ function g = QIRcU(tar,ctrl,op)
     ## default to a bad gate (ctrl == tar)
     g.tar = 0;
     g.ctrl = 0;
-    g.op = {"X"}
+    g.op = {"I"}
   else
     g.ctrl = ctrl;
     g.tar = tar;

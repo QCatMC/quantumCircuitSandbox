@@ -17,7 +17,7 @@
 ## Usage: U = circ2mat(g,n)
 ##
 ##  used to compute the n qubit unitary corresponding to the
-##  controlled-not operator g
+##  controlled-U operator g
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -27,7 +27,7 @@ function U = circ2mat(g,n)
   tar = get(g,"tar");
   ctrl = get(g,"ctrl");
 
-  ## get the op
+  ## get the op and parameters
   oparr = get(g,"op");
   op = oparr{1};
   if( length(oparr) == 1 )
@@ -36,8 +36,10 @@ function U = circ2mat(g,n)
     p = oparr{2};
   endif
 
-  opU = getOpU(op,p);
+  ## compute the unitary.. hacky code reuse to get 2x2 unitary 
+  opU = circ2mat(@single(op,0,p),1);
 
+  ## compute size of non-ctrl/tar spaces then compute Identity for them
   lowbits = min(tar,ctrl);
   highbits = (n-1) - max(tar,ctrl);
   midbits = max(tar,ctrl) - min(tar,ctrl)-1;
@@ -46,81 +48,26 @@ function U = circ2mat(g,n)
   high = speye(2^highbits);
   mid = speye(2^midbits);
 
+  ## sparse projectors
   P0 = sparse([1,0;0,0]);
   P1 = sparse([0,0;0,1]);
 
+  ## no compute the unitary
   if( tar < ctrl )
     U = tensor(high,P0,mid,speye(2),low) + ...
-	tensor(high,P1,mid,opU,low);
+      	tensor(high,P1,mid,opU,low);
   else
     U = tensor(high,speye(2),mid,P0,low) + ...
-	tensor(high,opU,mid,P1,low);
+	      tensor(high,opU,mid,P1,low);
   endif
 
 endfunction
 
-
-function opU = getOpU(op,p)
-  opU = zeros(2);
-  switch(op)
-    case {"I","I'"}
-      opU = speye(2);
-    case {"X","X'"}
-      opU = sparse([0,1;1,0]);
-    case {"Z","Z'"}
-      opU = sparse([1,0;0,-1]);
-    case {"Y","Y'"}
-      opU = i*sparse([0,-1;1,0]);
-    case {"H","H'"}
-      opU = sqrt(1/2)*[1,1;1,-1];
-    case "T"
-      opU = sparse([1,0;0,e^(i*pi/4)]);
-    case "T'"
-      opU = sparse([1,0;0,e^(-i*pi/4)]);
-    case "S"
-      opU = sparse([1,0;0,i]);
-    case "S'"
-      opU = sparse([1,0;0,-i]);
-    case "PhAmp"
-      ## SU(2) component
-      opU = zeros(2);
-      opU(1,1) = e^(i*(-p(2)-p(3))/2)*cos(p(1));
-      opU(2,2) = e^(i*(p(2)+p(3))/2)*cos(p(1));
-      opU(2,1) = e^(i*(p(3)-p(2))/2)*sin(p(1));
-      opU(1,2) = -e^(i*(-p(3)+p(2))/2)*sin(p(1));
-
-      ## global phase shift if needed
-      if( length(p) == 4 && abs(p(4)) > 2^(-60) )
-	opU = e^(i*p(4))*opU;
-      endif
-
-    case "ZYZ"
-      Z = sparse([1,0;0,-1]);
-      Y = i*sparse([0,-1;1,0]);
-
-      opU = e^(-i*p(1)/2*Z)*e^(-i*p(2)/2*Y)*e^(-i*p(3)/2*Z);
-
-      if( length(p) == 4 && abs(p(4)) > 2^(-60) )
-	opU = e^(i*p(4))*opU;
-      endif
-
-    case "Rn"
-      X = sparse([0,1;1,0]);
-      Z = sparse([1,0;0,-1]);
-      Y = i*sparse([0,-1;1,0]);
-
-      nop = p(2)*X + p(3)*Y + p(4)*Z;
-      opU = e^(-i*p(1)/2*nop);
-
-      if( length(p) == 5 && abs(p(5)) > 2^(-60) )
-	opU = e^(i*p(5))*opU;
-      endif
-
-    otherwise
-      error("circ2mat: bad operator");
-  endswitch
-endfunction
-
-
 %!test
-%! assert(false);
+%! p0 = [1,0;0,0]; p1 = [0,0;0,1];
+%! assert(isequal(circ2mat(@QIRcU(0,1,{"X"}),2), kron(p0,Iop)+kron(p1,X)));
+%! assert(isequal(circ2mat(@QIRcU(1,0,{"X"}),2), kron(Iop,p0)+kron(X,p1)));
+%! assert(isequal(circ2mat(@QIRcU(0,2,{"X"}),4), tensor(Iop,p0,Iop,Iop)+...
+%!                                               tensor(Iop,p1,Iop,X)))
+%! assert(isequal(circ2mat(@QIRcU(3,1,{"X"}),6), tensor(Iop(4),p0,Iop)+...
+%!                                               tensor(Iop(2),X,Iop,p1,Iop)))

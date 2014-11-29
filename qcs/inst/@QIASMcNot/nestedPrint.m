@@ -15,12 +15,12 @@
 
 ## Usage: nestedPrint(cNGate,dep)
 ##
-## Display with indentation 
+## Display with indentation
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
 function nestedPrint(cNGate,dep)
-  nestedPrint(cNGate.cn);
+  nestedPrint(cNGate.cn,dep);
 endfunction

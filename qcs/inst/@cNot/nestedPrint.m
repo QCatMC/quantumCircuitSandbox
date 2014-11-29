@@ -15,7 +15,7 @@
 
 ## Usage: nestedPrint(cNGate,dep)
 ##
-## Display with indentation 
+## Display with indentation
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

@@ -51,7 +51,7 @@ endfunction
 %!test
 %! a = @QIRcU(0,1,{"PhAmp",[pi,pi,pi]});
 %! as.tar = 0; as.ctrl =1; as.op = {"PhAmp",[pi,pi,pi]};
-%! assert(eq(get(a),as));
+%! assert(isequal(get(a),as));
 %! assert(get(a,"tar"),0);
 %! assert(get(a,"ctrl"),1);
 %! assert(isequal(get(a,"op"),as.op));

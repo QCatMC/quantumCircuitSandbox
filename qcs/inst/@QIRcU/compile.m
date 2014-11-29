@@ -44,10 +44,10 @@ function q = compile(this)
 
     ## all U need A,CNot,B
     qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[zyzps(1),zyzps(2)/2,0,0]);
-    qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
-    qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[0,-zyzps(2)/2,-(zyzps(1)+zyzps(2))/2,0]);
+    qseq{end+1} = @QIASMcNot(this.tar,this.ctrl);
+    qseq{end+1} = @QIASMsingle("ZYZ",this.tar,[0,-(zyzps(2))/2,-(zyzps(1)+zyzps(3))/2,0]);
     ## some will need a second CNot... not checking this case
-    qseq{end+1} = @QIASMcNot(this.ctrl,this.tar);
+    qseq{end+1} = @QIASMcNot(this.tar,this.ctrl);
 
     ## some will also need C
     if( !iszero(zyzps(3)-zyzps(1)) )
@@ -60,6 +60,8 @@ function q = compile(this)
 
 endfunction
 
+## Compute the parameters given the op spec array...
+## {name} or {name,params}
 ## z is zyz params
 ## g is global phase
 function [z,g] = params(op)
@@ -67,6 +69,7 @@ function [z,g] = params(op)
   oname = op{1};
   z = zeros(1,3);
   switch(oname)
+    ## No param ops
     case "H"
       z = [0,pi/2,pi]; ## is this a special case?
       g = pi/2;
@@ -81,7 +84,7 @@ function [z,g] = params(op)
       z = [pi/8,0,pi/8];
       g = pi/8;
     case "T'"
-      z = [-pi/4,0,-pi/8];
+      z = [-pi/8,0,-pi/8];
       g =-pi/8;
     case "S"
       z = [pi/4,0,pi/4];
@@ -90,6 +93,7 @@ function [z,g] = params(op)
       z = [-pi/4,0,-pi/4];
       g = -pi/4;
 
+    ##  parameterized ops
     case "PhAmp"
       ## convert phamp -> zyz
       z = [op{2}(3),2*op{2}(1),op{2}(2)];
@@ -155,5 +159,20 @@ function b = iszero(dub)
   b = abs(dub) < 2^(-60);
 endfunction
 
+
+## here we test by comparing the matrix form of the compiled operation
+## to that of the QIR operation.  The result should be 'equivalent'
 %!test
-%! assert(false);
+%! err = 2^(-40);
+%! assert(eq(compile(@QIRcU(2,5,{"X"})),@QIASMcNot(2,5)));
+%! ops = {"H","Y","Z","S","T","T'","S'"};
+%! for op = ops
+%!    a = @QIRcU(0,1,op);
+%!    assert(operr(circ2mat(compile(a),2),circ2mat(a,2)) < err, op{1});
+%! endfor
+%! a = @QIRcU(0,1,{"PhAmp",[pi/3,pi/3,pi/3,pi/3]});
+%! assert(operr(circ2mat(compile(a),2),circ2mat(a,2)) < err, op{1});
+%! a = @QIRcU(0,1,{"Rn",[pi/3,sqrt(1/3),sqrt(1/6),sqrt(1/2),pi/5]});
+%! assert(operr(circ2mat(compile(a),2),circ2mat(a,2)) < err, op{1});
+%! a = @QIRcU(0,1,{"ZYZ",[pi/3,pi/3,pi/5,pi/7]});
+%! assert(operr(circ2mat(compile(a),2),circ2mat(a,2)) < err, op{1});
