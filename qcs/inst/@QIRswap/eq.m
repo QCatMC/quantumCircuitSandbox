@@ -15,28 +15,27 @@
 
 ## Usage: b = eq(this,other)
 ##
-## returns true if @QIRsingle this is equivalent to other.
+## returns true if @QIRswap is equivalent to other.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIRswap") )
-    b=false;
-  elseif( this.tar1 == get(other,"tar1") &&
-	  this.tar2 == get(other,"tar2") )
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIRswap") && ...
+       this.tar1 == other.tar1 && ...
+       this.tar2 == other.tar2;
 endfunction
 
-
 %!test
-%! assert(false);
-          
+%! a = @QIRswap(0,1);
+%! b = @QIRswap(0,1);
+%! c = @QIRswap(0,2);
+%! d = @QIRswap(2,1);
+%! e = @QIRsingle("H",0);
+%! assert(eq(a,a));
+%! assert(eq(a,b));
+%! assert(!eq(a,c));
+%! assert(!eq(a,d));
+%! assert(!eq(a,e));

@@ -15,19 +15,24 @@
 
 ## Usage: q = compile(this)
 ##
-## returns equivalent @QIASMseq to @QIRswap this when the operator
+## returns behaviorially equivalent @QIASMseq to @QIRswap this
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function q = compile(this)
-  t = this.tar1;
-  c = this.tar2;
+  t = get(this,"tar1");
+  c = get(this,"tar2");
 
   q  = @QIASMseq({@QIASMcNot(t,c),...
-		  @QIASMcNot(c,t),...
-		  @QIASMcNot(t,c)});
+                  @QIASMcNot(c,t),...
+		              @QIASMcNot(t,c)});
 
 endfunction
+
+%!test
+%! a = @QIRswap(0,1);
+%! assert(isequal(circ2mat(compile(a),2),circ2mat(a,2)));
+%! assert(isequal(circ2mat(compile(a),3),circ2mat(a,3)));

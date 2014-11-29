@@ -29,14 +29,14 @@ function s = get(sg,f)
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
-	case "tar1"
-	  s = sg.tar1;
-	case "tar2"
-	  s = sg.tar2;
-	case "tars"
-	  s= [min(tar1,tar2),max(tar1,tar2)];
-	otherwise
-	  error("get: invalid property %s",f);
+        case "tar1"
+          s = sg.tar1;
+        case "tar2"
+          s = sg.tar2;
+        case "tars"
+          s= [min(sg.tar1,sg.tar2),max(sg.tar1,sg.tar2)];
+        otherwise
+          error("get: invalid property %s",f);
       endswitch
     else
       error("get: expecting the property to be a string");
@@ -46,6 +46,3 @@ function s = get(sg,f)
   endif
 
 endfunction
-
-%!test
-%! assert(false);

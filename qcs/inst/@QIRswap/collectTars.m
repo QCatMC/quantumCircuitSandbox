@@ -20,8 +20,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function t = collectTars(this,n)
-	 
-  t = [min(this.tar1,this.tar2),max(this.tar1,this.tar2)];
-
+function t = collectTars(this)
+	t = get(this,"tars");
 endfunction

@@ -15,7 +15,7 @@
 
 ## Usage: g = @QIRswap(tar1,tar2)
 ##
-## Construct a swap gate object 
+## Construct a swap gate object
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

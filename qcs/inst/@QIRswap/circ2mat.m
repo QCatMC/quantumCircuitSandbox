@@ -26,10 +26,29 @@ function U = circ2mat(g,n)
   tar1 = get(g,"tar1");
   tar2 = get(g,"tar2");
 
-  U = circ2mat(compile(g),n);
-	 
+  ##  Unitary to swap two adjacent qubits
+  swapadj = sparse([1,0,0,0; 0,0,1,0; 0,1,0,0; 0,0,0,1]);
+
+  if( abs(tar1-tar2) == 1) # adjacent
+    U = tensor(speye(2^(n-max(tar1,tar2)-1)), ...
+               swapadj, speye(2^(min(tar1,tar2))));
+  else # not adjacent
+    ## is there an efficient way to do this without compiling?
+    U = circ2mat(compile(g),n);
+  endif
+
 endfunction
 
-
+## test adjacent swaps.
 %!test
-%! assert(false);
+%! swapadj = sparse([1,0,0,0; 0,0,1,0; 0,1,0,0; 0,0,0,1]);
+%! assert(isequal(swapadj,circ2mat(@QIRswap(0,1),2)));
+%! assert(isequal(swapadj,circ2mat(@QIRswap(1,0),2)));
+%! assert(isequal(tensor(Iop,swapadj),circ2mat(@QIRswap(0,1),3)));
+%! assert(isequal(tensor(swapadj,Iop),circ2mat(@QIRswap(2,1),3)));
+
+## non-adjacent swaps... should test more
+%!test
+%! r = eye(8)(:,[1,5,3,7,2,6,4,8]);
+%! assert(isequal(r,circ2mat(@QIRswap(2,0),3)));
+%! assert(isequal(r,circ2mat(@QIRswap(0,2),3)));
