@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## QIRtoffoli field selector 
+## QIRtoffoli field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -29,12 +29,12 @@ function s = get(sg,f)
   elseif (nargin == 2)
     if ( ischar(f) )
       switch(f)
-	case "tar"
-	  s = sg.tar;
-	case "ctrls"
-	  s = sg.ctrls;
-	otherwise
-	  error("get: invalid property %s",f);
+        case "tar"
+          s = sg.tar;
+        case "ctrls"
+          s = sg.ctrls;
+        otherwise
+          error("get: invalid property %s",f);
       endswitch
     else
       error("get: expecting the property to be a string");
@@ -44,6 +44,3 @@ function s = get(sg,f)
   endif
 
 endfunction
-
-%!test
-%! assert(false);

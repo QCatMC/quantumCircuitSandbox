@@ -17,7 +17,7 @@
 ##
 ##  used to compute maxDepth of a circuit. The max depth of a gate
 ##  node is always 0.
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

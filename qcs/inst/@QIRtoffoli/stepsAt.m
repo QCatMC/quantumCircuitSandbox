@@ -17,7 +17,7 @@
 ##
 ##  used to compute number of steps at depth d of a circuit. Gates are
 ##  always 1 step
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

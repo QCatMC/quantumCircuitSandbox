@@ -20,21 +20,14 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIRtoffoli") )
-    b=false;
-  elseif( this.tar == get(other,"tar") &&
-	  isequal(this.ctrls,get(other,"ctrls")) )
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIRtoffoli") && ...
+      this.tar == other.tar && ...
+      isequal(this.ctrls,other.ctrls);
 endfunction
+
 
 
 %!test
@@ -42,4 +35,3 @@ endfunction
 %! assert(!eq(@QIRtoffoli(3,[1,2]),@QIRtoffoli(0,[1,2])));
 %! assert(!eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[1,3])));
 %! assert(!eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[3,4])));
-
