@@ -107,7 +107,7 @@ function [eta,t] = parseargs(args)
   switch(nargs)
     case 0 ## defaults
       eta = 2^(-7);
-      t = "QASM";
+      t = "QIR";
 
     case 1 ## either or
       arg = args{1};
@@ -121,7 +121,7 @@ function [eta,t] = parseargs(args)
       elseif(!ischar(arg) && isscalar(arg) ...
         && isreal(arg) && arg > 0 && arg < 1)
         eta = arg;
-        t = "QASM";
+        t = "QIR";
       else
         error("Bad third argument. Expecting circuit approximation error or build target string");
       endif

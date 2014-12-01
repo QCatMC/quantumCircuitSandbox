@@ -22,5 +22,5 @@
 ## Keywords: QIR
 
 function nestedPrint(mGate,dep)
-  nestedPrint(mgate.meas,dep);
+  nestedPrint(mGate.meas,dep);
 endfunction
