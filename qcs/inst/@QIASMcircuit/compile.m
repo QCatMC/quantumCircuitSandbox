@@ -29,7 +29,7 @@ function q = compile(this,eta)
   ## non-elementary operators in the circuit.
 
   if( this.numtoapprox == 0 )
-    q = @QASMcircuit(compile(get(this"seq"),eta),get(this,"bits"));
+    q = @QASMcircuit(compile(get(this,"seq"),eta),get(this,"bits"));
   else
     ## load in global var UZERO
     ## This is a 2D cell array that contains precomputed
@@ -41,7 +41,7 @@ function q = compile(this,eta)
     load(uzpath); # load
 
     opEta = eta/this.numtoapprox;
-    q = @QASMcircuit(compile(get(this"seq"),opEta),get(this,"bits"));
+    q = @QASMcircuit(compile(get(this,"seq"),opEta),get(this,"bits"));
 
     ## clear global data table
     clear -g UZERO;

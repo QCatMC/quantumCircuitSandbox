@@ -21,5 +21,5 @@
 ## Keywords: QIASM
 
 function t = collectTars(this)
-  t = collectTas(this.cn);
+  t = collectTars(this.cn);
 endfunction

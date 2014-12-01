@@ -25,11 +25,11 @@
 
 function q = compile(this,eta)
 
-  s = cell(length(get(this,"seq")),1);
+  ts = get(this,"seq");
+  s = cell(length(ts),1);
   for k = 1:length(s)
-    s{k} = compile(this.seq{k},eta);
+    s{k} = compile(ts{k},eta);
   endfor
-
   q = @QASMseq(s);
 
 endfunction
