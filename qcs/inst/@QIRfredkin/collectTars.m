@@ -20,7 +20,15 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function t = collectTars(this,n)
+function t = collectTars(this)
   bits = [this.tars,this.ctrl];
   t = sort(bits);
 endfunction
+
+%!test
+%! assert(isequal([0,1,2],collectTars(@QIRfredkin([2,1],0))));
+%! assert(isequal([0,1,2],collectTars(@QIRfredkin([1,2],0))));
+%! assert(isequal([0,1,2],collectTars(@QIRfredkin([0,2],1))));
+%! assert(isequal([0,1,2],collectTars(@QIRfredkin([2,0],1))));
+%! assert(isequal([0,1,2],collectTars(@QIRfredkin([0,1],2))));
+%! assert(isequal([0,1,2],collectTars(@QIRfredkin([1,0],2))));

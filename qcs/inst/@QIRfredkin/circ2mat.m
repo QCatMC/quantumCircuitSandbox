@@ -27,13 +27,23 @@ function U = circ2mat(g,n)
   tar2 = min(get(g,"tars"));
   ctrl = get(g,"ctrl");
 
+  ## projectors
   P0c = tensor(speye(2^(n-ctrl-1)),sparse([1,0;0,0]),speye(2^ctrl));
   P1c = tensor(speye(2^(n-ctrl-1)),sparse([0,0;0,1]),speye(2^ctrl));
-  
+
+  ## project and add two subspace operations
   U = P0c*speye(2^n) + P1c*circ2mat(@QIRswap(tar1,tar2),n);
-	 
+
 endfunction
 
 
 %!test
-%! assert(false);
+%! r = eye(8)(:,[1,2,3,4,5,7,6,8]);
+%! assert(isequal(r,circ2mat(@QIRfredkin([1,0],2),3)));
+%! assert(isequal(r,circ2mat(@QIRfredkin([0,1],2),3)));
+%! r = eye(8)(:,[1,2,3,7,5,6,4,8]);
+%! assert(isequal(r,circ2mat(@QIRfredkin([0,2],1),3)));
+%! assert(isequal(r,circ2mat(@QIRfredkin([2,0],1),3)));
+%! r = eye(8)(:,[1,2,3,6,5,4,7,8]);
+%! assert(isequal(r,circ2mat(@QIRfredkin([1,2],0),3)));
+%! assert(isequal(r,circ2mat(@QIRfredkin([2,1],0),3)));

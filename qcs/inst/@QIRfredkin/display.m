@@ -15,7 +15,7 @@
 
 ## Usage: display(sGate)
 ##
-## Display Toffoli gate
+## Display Fredkin gate
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -24,7 +24,7 @@
 function display(sGate)
 
   if(!strcmp(inputname(1),"") )
-    fprintf ("%s = \n", inputname (1)); 
+    fprintf ("%s = \n", inputname (1));
   endif
 
   nestedPrint(sGate,1);

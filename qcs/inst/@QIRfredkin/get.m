@@ -15,7 +15,7 @@
 
 ## Usage: g = get(sg, f)
 ##
-## QIRfredkin field selector 
+## QIRfredkin field selector
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -44,6 +44,3 @@ function s = get(sg,f)
   endif
 
 endfunction
-
-%!test
-%! assert(false);

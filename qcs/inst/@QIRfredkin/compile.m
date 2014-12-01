@@ -20,7 +20,7 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function q = compile(this)
   c = this.ctrl;
@@ -28,8 +28,8 @@ function q = compile(this)
   t2 = this.tars(2);
 
   q = compile(@QIRseq({@QIRcU(t1,t2,{"X"}),...
-		       @QIRtoffoli(t2,[c,t1]),...
-		       @QIRcU(t1,t2,{"X"})}));
+		                   @QIRtoffoli(t2,[c,t1]),...
+		                   @QIRcU(t1,t2,{"X"})}));
 
 
 endfunction

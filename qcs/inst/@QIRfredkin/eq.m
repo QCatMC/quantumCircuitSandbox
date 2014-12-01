@@ -20,22 +20,16 @@
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
-
-  b=false;
-  if( !isa(other,"QIRfredkin") )
-    b=false;
-  elseif( this.ctrl == get(other,"ctrl") &&
-	  isequal(this.tars,get(other,"tars")) )
-    b=true; 
-  else
-    b=false;
-  endif
-
+  b = isa(other,"QIRfredkin") && ...
+      this.ctrl == other.ctrl && ...
+      isequal(this.tars,other.tars);
 endfunction
 
-
 %!test
-%! assert(false);
+%! assert(eq(@QIRfredkin([1,2],0),@QIRfredkin([1,2],0)));
+%! assert(!eq(@QIRfredkin([1,2],3),@QIRfredkin([1,2],0)));
+%! assert(!eq(@QIRfredkin([1,2],0),@QIRfredkin([1,3],0)));
+%! assert(!eq(@QIRfredkin([1,2],0),@QIRfredkin([3,4],0)));
