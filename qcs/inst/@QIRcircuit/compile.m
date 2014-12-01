@@ -15,19 +15,15 @@
 
 ## Usage: q = compile(this)
 ##
-## returns exact @QIASMcircuit to @QIRcircuit this. 
+## returns exact @QIASMcircuit to @QIRcircuit this.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function q = compile(this)
 
   q = @QIASMcircuit(compile(this.seq),this.bits);
 
 endfunction
-
-
-
-
