@@ -14,8 +14,9 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Usage: Q = tensor(A, ...)
+##
+##  Compute the tensor of the arguments in the order in which they were given
 ## 
-##  Compute the tensor of all the arguments
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc

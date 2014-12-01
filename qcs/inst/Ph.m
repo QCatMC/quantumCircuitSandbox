@@ -15,8 +15,8 @@
 
 ## usage: U = Ph(t)
 ##
-## Compute a 2x2 Unitary for a global phase shift of e^(it)
-## 
+## Compute a 2x2 Unitary for a global phase shift by e^(it)
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
@@ -26,9 +26,9 @@ function U = Ph(t)
   if( !isscalar(t) )
     error("Angle theta and should be real. Given something else.")
   endif
-  
-  U = e^(i*t)*Iop;
-	 
+
+  U = e^(i*t)*eye(2);
+
 endfunction
 
 %!test

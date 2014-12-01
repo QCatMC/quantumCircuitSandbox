@@ -15,26 +15,48 @@
 
 ## Usage: [SU,gp] = SUafy(U)
 ##
-##  Given a Unitary U, compute the Special Unitary and
+##  Given a Unitary matrix U, compute the Special Unitary and
 ##  and phase components s.t. U = e^(i*gp)*SU
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc
 
 function [SU,gp] = SUafy(U)
+
   if( rows(U) != columns(U) )
     error("Expected square matrix");
   endif
 
   dU = det(U);
+
   if( abs(1.0 - dU) < 2^(-40) )
-    SU = U; gp = 1.0;
+    SU = U; gp = 0 ;
   else
     n = rows(U);
     gp = arg(dU)/n;
     SU = e^(-i*gp)*U;
   endif
+
 endfunction
 
 %!test
-%! assert(false)
+%! in = H;
+%! [U,p] = SUafy(in);
+%! assert(abs(det(U) - 1.0) <= 2^(-40));
+%! r = e^(i*p)*U;
+%! assert(operr(r,in) <= 2^(-40));
+%! in = H(2);
+%! [U,p] = SUafy(in);
+%! assert(abs(det(U) - 1.0) <= 2^(-40));
+%! r = e^(i*p)*U;
+%! assert(operr(r,in) <= 2^(-40));
+%! in = H(3);
+%! [U,p] = SUafy(in);
+%! assert(abs(det(U) - 1.0) <= 2^(-40));
+%! r = e^(i*p)*U;
+%! assert(operr(r,in) <= 2^(-40));
+%! in = H(5);
+%! [U,p] = SUafy(in);
+%! assert(abs(det(U) - 1.0) <= 2^(-40));
+%! r = e^(i*p)*U;
+%! assert(operr(r,in) <= 2^(-40));

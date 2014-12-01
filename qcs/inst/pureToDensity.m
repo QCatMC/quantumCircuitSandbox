@@ -16,12 +16,11 @@
 ## usage D = pureToDensity(p)
 ##
 ## Compute the density matrix for pure state p
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
 
 function D = pureToDensity(p)
-  D = p*p';
+  D = p * (p');
 endfunction
-

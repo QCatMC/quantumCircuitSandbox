@@ -13,34 +13,41 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usages: 
+## Usages:
 ##   C = qcc(cir)
+##     For non QASM circuits cir, this compiles cir to a QASM circuit
+##     that approximates cir with precision <= 2^-7
 ##   C = qcc(cir,tar)
+##     Compile cir to target language tar. If tar is QASM, then approximation
+##     precision is <= 2^-7
 ##   C = qcc(cir,eta)
+##     Copile cir to QASM circuit with approximation precision <= eta
 ##   C = qcc(cir,eta,tar)
-## 
+##     Compile cir to target langauge tar with approximation precision <= eta
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
 function C = qcc(desc,varargin )
 
-  ## validate desc
+  ## validate desc. SHould be a cell array descriptor, or an object
+  ## of type @QIRcircuit, @QIASMcircuit, or @QASMcircuit
   if( !iscell(desc) && !isa(desc,"QIRcircuit") && ...
       !isa(desc,"QIASMcircuit") && !isa(desc,"QASMcircuit") )
     error("Given bad circuit");
   endif
 
-  ## parse optional arguments
+  ## parse optional arguments. get precision eta and target language tar
   [eta,tar] = parseargs(varargin);
 
-  ##At this point all inputs are valid and initialized
-  ##  desc is either a cell array (descriptor),  a QIASM
+  ##At this point all inputs (desc, eta, tar) are valid and initialized
+  ##  desc is either a cell array (descriptor),  a QIR circuit, a QIASM
   ##  circuit, or a QASM circuit
   ##  eta is from (0,1)
-  ##  tar is either QASM or QIASM			
+  ##  tar is either QIR, QASM, or QIASM
 
-  ## check bad combos.. decompile request
+  ## check bad combos.. i.e. decompile requests
   if( isa(desc,"QASMcircuit") && ...
       ( strcmp(tar,"QIASM")  || strcmp(tar,"QIR") ))
     error("Cannot decopile QASM");
@@ -62,7 +69,7 @@ function C = qcc(desc,varargin )
     ## Descriptors at least get converted to QIR
     if( iscell(desc) )
       ## build QIASM circuit with size derived from targets
-      C = @QIRcircuit(parse(desc));     
+      C = @QIRcircuit(parse(desc));
     else # QIR || QIASM
       C = desc;
     endif
@@ -70,17 +77,17 @@ function C = qcc(desc,varargin )
 
     ## bump to QIASM if needed
     if( isa(C,"QIRcircuit") && !strcmp(tar,"QIR") )
-      C = compile(C);      
+      C = compile(C);
     endif
-    
+
     ## if target is QASM then compile one last time
-    if( strcmp(tar,"QASM") )  
+    if( strcmp(tar,"QASM") )
       ## compile to QASM
       C = compile(C,eta);
     endif
-    
+
   endif
-  
+
 endfunction
 
 ## true if obj lhs is of target type rhs
@@ -90,6 +97,9 @@ function b = tareq(lhs,rhs)
       (isa(lhs,"QASMcircuit") && strcmp(rhs,"QASM"));
 endfunction
 
+## args is the cell array possibly containing the target and precision for
+## the compiler. Parseargs processes this array and produces the appropriate
+##  precision eta and target language t
 function [eta,t] = parseargs(args)
 
   nargs = length( args );
@@ -103,17 +113,17 @@ function [eta,t] = parseargs(args)
       arg = args{1};
 
       ## should be target
-      if(ischar(arg) && ... 
-	 ( strcmp("QIR",arg) || strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
-	eta = 2^(-7);
-	t = arg;	
-      ## should be eta
+      if(ischar(arg) && ...
+        ( strcmp("QIR",arg) || strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
+        eta = 2^(-7);
+        t = arg;
+        ## should be eta
       elseif(!ischar(arg) && isscalar(arg) ...
-	     && isreal(arg) && arg > 0 && arg < 1)
-	eta = arg;
-	t = "QASM";
+        && isreal(arg) && arg > 0 && arg < 1)
+        eta = arg;
+        t = "QASM";
       else
-	error("Bad third argument. Expecting circuit approximation error or build target string");
+        error("Bad third argument. Expecting circuit approximation error or build target string");
       endif
 
     case 2 ## size,target
@@ -127,18 +137,18 @@ function [eta,t] = parseargs(args)
 
       eta = args{1};
       ## validate approximation threshold eta
-      if( ischar(eta) || !isreal(eta) || !isscalar(eta) || ... 
-	  eta <= 0 || eta >= 1) 
+      if( ischar(eta) || !isreal(eta) || !isscalar(eta) || ...
+	  eta <= 0 || eta >= 1)
 	error("Given bad approximation error threshold eta");
       endif
 
     otherwise
       error("Problem with optional arguments");
-  endswitch  
+  endswitch
 endfunction
 
 ## accuracy and correctness of parse and compile functions are tested
-##  in those functions. 
+##  in those functions.
 
 %!test
 %! fail('qcc(5)');
@@ -164,8 +174,3 @@ endfunction
 %! assert(eq(qcc(c),d));
 %! assert(eq(c,qcc(c,"QIASM")));
 %! assert(eq(d,qcc(d)));
-
-
-
-
-

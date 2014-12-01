@@ -13,19 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: b = stdBasis(i,n)
+## usage: b = stdBasis(i,n,t)
 ##
-## Compute the n qubit standard basis corresponding to
-## the natural number i OR binary representation of i as a vector
-## and return it as a 2^n column vector of type values
+## Given a natural number i OR binary representation of i as a vector
+## of length less than or equal to n, return the 2^n column vector of type t
+## values corresponding to the standard basis for i in n qubit space.
 ##
-## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
 
 function b = stdBasis(i,n,t="double")
-  validTypes = ["double";"complex";"single";"int";"logical"];	 
+  validTypes = ["double";"complex";"single";"int";"logical"];
   tVal = strmatch(t,validTypes,"exact");
 
   ## convert to i to integer
@@ -35,18 +34,18 @@ function b = stdBasis(i,n,t="double")
     endif
     ## convert to integer
     pows = (2*ones(1,length(i))) .^ [length(i)-1:-1:0];
-    i = sum(pows .* i);    
+    i = sum(pows .* i);
   endif # i is now a postiver integer
 
   if( i < 0 || i > (2^n-1) )
-    error("i must be in [0,%d). Given i=%d",2^n,i);    
+    error("i must be in [0,%d). Given i=%d",2^n,i);
   elseif( size(tVal) != [1,1] )
     error("type not supported");
   endif
-  
+
   tVal = tVal(1);
   b = [0:(2^n -1 )]' == i;
-  
+
   if( tVal  == 1 )
     b = double(b);
   elseif( tVal == 2 )

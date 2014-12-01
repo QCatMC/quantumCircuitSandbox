@@ -19,20 +19,19 @@
 ## both n qubit operators. a.k.a d(U,V) or E(U,V). This is the
 ## operator norm of the difference, || U-V ||.
 ##
-## 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function eta = operr(U,V)
-	 
+
   if( !isequal(size(U),size(V)) )
     error("Operators must be the same size.");
   endif
-  
+
   ## 2-norm of the difference
   eta = norm(U-V);
-  
+
 endfunction
 
 

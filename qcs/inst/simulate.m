@@ -15,37 +15,37 @@
 
 ## Usage: s = simulate(cir,in,d,t)
 ##
-## Simulate t steps, w.r.t. nesting depth d, of the @QASMcircuit object cir on
-## input in. 
+## Simulate t steps, w.r.t. nesting depth d, of the circuit object cir on
+## input in.
 ##
 ## The input argument in can be a standard basis vector, a binary row
-## vector, or a natural number. 
+## vector, or a natural number.
 ##
 ## When the desired number of time steps t is not given, then the
 ## entire circuit will be simulated and the depth value d is optional.
 ## Thus, simulate(cir,in) will carry out a simulation of the entire
-## oct-circuit. 
+## circuit.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation
 
 function s = simulate(cir,in,d=1,t=-1)
-  
+
   if( d < 1 || floor(d)!=ceil(d) )
     error("simulate: Depth must be a Zero or a positive integer.");
   endif
-  
+
   if( t == -1 )
     ## default initialization
-    t=get(cir,"stepsAt")(d);  
-  elseif(!isNat(t)) 
+    t=get(cir,"stepsAt")(d);
+  elseif(!isNat(t))
     error("simulate: Number of time steps must be zero or a \
-positive integer.");
+    positive integer.");
   endif
-  
+
   ## check and convert input
   s0 = processIn(in,get(cir,"bits"));
-  
+
   if( t == 0 )
     s = s0;
   else
@@ -58,8 +58,8 @@ endfunction
 ## check and converting circuit input
 function s = processIn(in,n)
 
-  s = stdBasis(0,n);	 
-  
+  s = stdBasis(0,n);
+
   if( !isvector(in) )
     error("simulate: Second argument must be a natural number, pure state \
 vector, or a bit vector.");
@@ -94,4 +94,3 @@ endfunction
 %! assert(simulate(C,(0:1)'==0),simulate(C,0));
 %! assert(simulate(C,(0:1)'==1),simulate(C,[1]));
 %! assert(simulate(C,(0:1)'==1),simulate(C,1));
-
