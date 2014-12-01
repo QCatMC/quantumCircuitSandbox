@@ -17,7 +17,7 @@
 ##
 ## Users should use the buildCircuit function to construct
 ## oct-circuits rather than expicitly constuct the object themselves.
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
@@ -44,9 +44,7 @@ function c = QIRcircuit(cNode,n)
     c.cir = @circuit(seq,bits,maxDepth,stps,tars);
 
   endif
-  
+
   c = class(c,"QIRcircuit");
 
 endfunction
-
-

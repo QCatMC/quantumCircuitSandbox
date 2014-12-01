@@ -24,6 +24,6 @@
 
 function q = compile(this)
 
-  q = @QIASMcircuit(compile(this.seq),this.bits);
+  q = @QIASMcircuit(compile(get(this,"seq"),this.bits);
 
 endfunction
