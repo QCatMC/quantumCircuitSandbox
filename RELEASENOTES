@@ -1,10 +1,20 @@
+v0.9.0
+ - entire package cleaned up for qcs alpha release (v0.9.0)
+ - Initial QIR circuits implemented. Includes Fredkin, Toffoli, Swap,
+  and C-U operators
+ - All types of circuits, except cell array descriptors, can now be simulated!
+ - qcc now defaults to QIR rather than QASM
+ - abstract (non QASM,QIASM,QIR) classes used for better code reuse across
+  across the circuit type hierarchy
+ - bug fixes and additional unit tests
+
 v0.5.4
  - project rename to qcs, Quantum Circuit Sandbox
 
 v0.5.3
  - buildCircuit now allows user specified targets and precision, but no longer
-   supports user specified sizes.  
- - some preliminary testing on QIR. Bugs probable. 
+   supports user specified sizes.
+ - some preliminary testing on QIR. Bugs probable.
 
 v0.5.2
  - compile no longer loads Solovay-Kitaev data when the algorithm is not going
@@ -17,34 +27,34 @@ v0.5.1
 
 v0.5.0
  - Added Solovay-Kitave compiler for QIASM->QASM.  You may not specify
-    arbitrary unitaries in PhaseAmp,Rn,or ZYZ parameterization. These 
-    are then compiled to a QASM circuits which approximates the QIASM 
-    circuit up to a global phase.  
+    arbitrary unitaries in PhaseAmp,Rn,or ZYZ parameterization. These
+    are then compiled to a QASM circuits which approximates the QIASM
+    circuit up to a global phase.
 
 v0.4.5
  - QIASM layer added to QASM. Users now utilize the abstract 'buildCircuit'
-   to construct circuits and need not worry about QIASM vs QASM.  However, 
-   non-QASM operators are not currently supported. 
- - Some housekeeping of files was done.  
+   to construct circuits and need not worry about QIASM vs QASM.  However,
+   non-QASM operators are not currently supported.
+ - Some housekeeping of files was done.
 
 v0.4.0
  - Renamed in order to rename circuit objects as QASM* (Quantum
     Assembly). This is prepartion for more abstract, high-order
     circuits with compilation down to QASM.
- - Added functions for computing unitary parameters and unitaries from 
+ - Added functions for computing unitary parameters and unitaries from
    parameters.  Supported parameterizations are: Phase-Amplitude, Rotation,
-   Z-Y-Z.  
- - Added operr which computes the difference, as induced by the operator norm, 
+   Z-Y-Z.
+ - Added operr which computes the difference, as induced by the operator norm,
    between two operators.
 
 v0.3.0
  - Complete rewrite with EDSL focus:
- -- Circuit descriptors are compiled to circuit objects via buildCircuit 
+ -- Circuit descriptors are compiled to circuit objects via buildCircuit
     function
  -- Simulation of circuit objects can be carried out via simulate function
  -- Simulation can be done w.r.t. nested depth and time steps thus allowing
     fine or coarse grained step by step simulation
- - See examples folder for example usage and discussion of various features. 
+ - See examples folder for example usage and discussion of various features.
 
 v0.2.0
  - Circuit evaluation now allows pure-state vector inputs
@@ -59,12 +69,11 @@ v0.1.2
  - Complete and partial measurements in the stantard basis
  - Input to n qubit circuit can be n bit binary number as row vector
     or integer from [0,2^n).
- - Circuits can be partial evaluated from step 1 to t<|circuit|. 
+ - Circuits can be partial evaluated from step 1 to t<|circuit|.
  - Circuits described by simple cell array which is interpreted by evalCircuit
  - Can compute density operator form of pure-states
  - Can compute partial trace of density operators
  - Checked version of key operations evaluated pre-conditions of inputs where
-   unchecked versions do not. 
- - Easy computation of standard basis vectors and matrix representations of 
-   elementary operators. 
-
+   unchecked versions do not.
+ - Easy computation of standard basis vectors and matrix representations of
+   elementary operators.

@@ -1,13 +1,9 @@
-See Issues Tracker on GitHub site: 
+See Issues Tracker on GitHub site:
   https://github.com/jlmayfield/octaveCircuits/issues
 
 Other Ideas
 
-- Built-in Support For (as opposed to native functions)
---- Variably described circuits via target/control variables
---- Variably described circuits via operator variables
---- Variably described circuits via spec (cell) variables
-- Mixed State Computation
+- Mixed State Computation/Density Matrix based simulation
 - partial transpose
 - Boolean Oracle Synthesis
-- Arbitrary Unitary Synthesis/Approximation 
+- Arbitrary Unitary (U(n) for n>2) Synthesis/Approximation
