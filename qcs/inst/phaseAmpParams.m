@@ -16,35 +16,35 @@
 ## usage: p = phaseAmpParams(U)
 ##
 ## Compute the phase & amplitude parameters for arbitrary operator
-## from U(2). Assumes that U is Unitary. 
+## from U(2). Assumes that U is Unitary.
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function p = phaseAmpParams(U,ep=0.00001)
-  
+
   if(!isequal(size(U),[2,2]) )
     error("Operator size mismatch. Must be 2x2 Unitary.");
   endif
-  
+
   p = zeros(1,4);
-  
+
   ## get global phase
-  gp = sqrt(det(U));
-  p(4) = arg(gp);
+  gp = arg(det(U))/2;
+  p(4) = gp;
   ## factor global phase out of U to get SU(2) component
-  U = gp'*U;
+  U = e^(-i*gp)*U;
 
 
   minval = 2^(-50); #magnitude threshold for Zero
-  ##off-diagonal 
+  ##off-diagonal
   if( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
     p(1) = pi/2; # snap to theta = pi/2
-    p(2) = 0; # let C be zero 
+    p(2) = 0; # let C be zero
     p(3) = 2*( arg(U(2,1)) );
   ##diagonal
   elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval )
-    p(1) = 0; # snap to theta = 0 
+    p(1) = 0; # snap to theta = 0
     p(2) = 0;
     p(3) = 2*( arg(U(2,2)) );
   else
@@ -53,8 +53,8 @@ function p = phaseAmpParams(U,ep=0.00001)
     p(2) = arg( U(2,2)*U(2,1)' );
     ## col phase
     p(3) = arg( U(2,1)*U(1,1)' );
-  endif  
-	 
+  endif
+
 endfunction
 
 %!test

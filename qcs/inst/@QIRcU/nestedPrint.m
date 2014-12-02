@@ -15,7 +15,7 @@
 
 ## Usage: nestedPrint(cNGate,dep)
 ##
-## Display with indentation 
+## Display with indentation
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -23,19 +23,19 @@
 
 function nestedPrint(cNGate,dep)
   pad = blanks(dep*3);
-  
+
   if( length(cNGate.op) == 1)
     switch(cNGate.op{1})
       case "X"
-	fprintf ("%s{\"CNot",pad);
+      fprintf ("%s{\"CNot",pad);
       otherwise
-	fprintf ("%s{\"C-%s",pad,cNGate.op{1});
+      fprintf ("%s{\"C-%s",pad,cNGate.op{1});
     endswitch
   else
     fprintf ("%s{\"C-%s(",pad,cNGate.op{1});
     fprintf("%.3f,",cNGate.op{2}(1:end-1));
-    fprintf("%.3f)\"",cNGate.op{2}( end ));
-  endif 
+    fprintf("%.3f)",cNGate.op{2}( end ));
+  endif
   fprintf("\",%d,%d}\n",cNGate.tar,cNGate.ctrl );
 
 endfunction

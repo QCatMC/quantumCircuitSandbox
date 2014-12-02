@@ -16,7 +16,7 @@
 ## Usage: C = parseQIASMDesc(desc)
 ##
 ## construct a quantum circuit by parsing a descriptor cell array.
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
@@ -39,7 +39,7 @@ endfunction
 
 function C = parseCNode(cndesc)
 
-  ## seq nodes and gate nodes are both cell arrays	 
+  ## seq nodes and gate nodes are both cell arrays
   if( iscell(cndesc) )
     ## first is string. should be a Gate
     if(ischar(cndesc{1}) )
@@ -62,10 +62,10 @@ endfunction
 ## parses gate descriptors
 function C = parseGate(gDesc)
   ## Check if gate name is one of the known, able to be simulated, set
-  if( QIRvalidOp(gDesc{1}) ) 
-    op = gDesc{1}; 
+  if( QIRvalidOp(gDesc{1}) )
+    op = gDesc{1};
     ## single qubit op?
-    if( isSingle(op) ) 
+    if( isSingle(op) )
       C = parseSingle(gDesc);
     ## Binary Op?
     elseif( strcmp(op,"CNot") || strcmp(op,"CU") || strcmp(op,"Swap") )
@@ -109,13 +109,13 @@ function C = parseSingle(gDesc)
       error("parse error: expecting 2 arguments for %s given 1",op);
     ## verify targets
     elseif( !isvector(gDesc{2}) ||  !isTargetVector(gDesc{2}) )
-      error("parse error: %s targets must be a set of natural numbers.");      
+      error("parse error: %s targets must be a set of natural numbers.");
     else
       C = @QIRsingle(op,sort(gDesc{2},"descend"));
     endif
 
   else ## it's length 3
-    ## verify name 
+    ## verify name
     if( !strcmp(op,"PhAmp") && !strcmp(op,"Rn") && !strcmp(op,"ZYZ") )
       error("parse error: expecting 1 arguments for %s given 2",op);
     ## verify targets
@@ -131,23 +131,23 @@ function C = parseSingle(gDesc)
 	    error("parse error: parameter mismatch for %s",op);
 	  endif
 	case "Rn"
-	  if(!isReal(gDesc{2}) || (!isequal(size(gDesc{2}),[1,4]) &&
+	  if(!isreal(gDesc{2}) || (!isequal(size(gDesc{2}),[1,4]) &&
 				   ...
 				   !isequal(size(gDesc{2}),[1,5])))
 	    error("parse error: parameter mismatch for %s",op);
 	  endif
       endswitch
-      
+
       C = @QIRsingle(op,sort(gDesc{3},"descend"),gDesc{2});
     endif
   endif
-  
+
 endfunction
 
 ## parse the descriptor of a Binary  operation
 function C = parseBinary(gDesc)
   name = gDesc{1};
-  
+
   switch(name)
     case "CNot"
       ## check descriptor length
@@ -166,7 +166,7 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
       endif
 
     case "CU"
-      ## descriptor length 
+      ## descriptor length
       if( length(gDesc) != 4 )
 	error("parse error: CU expects 3 arguments. Given %d",length(gDesc)-1);
       ## target and control check
@@ -203,12 +203,12 @@ operator form. Given %s",gDesc{2}{1});
 	  case {"Rn"}
 	    if( !isreal(params) || (!isequal(size(params),[1,5]) && !isequal(size(params),[1,4])))
 	      error("parse error: bad parameters for %s",gDesc{2}{1});
-	    endif	    
+	    endif
 	endswitch
-	
-	C = @QIRcU(gDesc{4},gDesc{3},gDesc{2});
+
+	C = @QIRcU(gDesc{3},gDesc{4},gDesc{2});
       else #QASM
-	C = @QIRcU(gDesc{4},gDesc{3},gDesc{2});
+	C = @QIRcU(gDesc{3},gDesc{4},gDesc{2});
       endif
 
     case "Swap"
@@ -224,17 +224,17 @@ numbers. Given tar1=%f and tar2=%f.",gDesc{2},gDesc{3});
       elseif( gDesc{2} == gDesc{3} )
 	error("parse error: Swap targets cannot be the same.");
       endif
-	
+
       C = @QIRswap(gDesc{2},gDesc{3});
     otherwise
-      error("parse error: Bad binary operaror specification"); 
+      error("parse error: Bad binary operaror specification");
   endswitch
 
 endfunction
 
 ## parse the descriptor of a measurement operation
 function C = parseMeasure(gDesc)
-	
+
   ## length check
   if( length(gDesc) != 2 )
     error("parse error: Measure gate takes 1 argument. \
@@ -264,7 +264,7 @@ endfunction
 ## parse the descriptor of a ternary operation
 function C = parseTernary(gDesc)
   name = gDesc{1};
-  
+
   ## name check
   switch(name)
     case "Toffoli"
@@ -280,7 +280,7 @@ function C = parseTernary(gDesc)
 	      !isequal([0,0],gDesc{3}==gDesc{2}) )
 	error("parse error: Toffoli given bad target");
       endif
-      
+
       C = @QIRtoffoli(gDesc{2},sort(gDesc{3},"descend"));
 
     case "Fredkin"
@@ -295,7 +295,7 @@ function C = parseTernary(gDesc)
       elseif( !isscalar(gDesc{3}) || !isNat(gDesc{3}) || ...
 	      !isequal([0,0],gDesc{2}==gDesc{3}) )
 	error("parse error: Fredkin given bad control");
-      endif     
+      endif
 
       C = @QIRfredkin(sort(gDesc{2},"descend"),gDesc{3});
 

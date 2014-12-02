@@ -17,32 +17,37 @@
 ##
 ## Compute the Rn parameters for an arbitrary operator
 ## from U(2).
-##  
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function p = RnParams(U)
-  
+  minval = 2^(-50); #close enough to zero
+
   if(!isequal(size(U),[2,2]) )
     error("Operator size mismatch. Must be 2x2 Unitary.");
   endif
 
   ## factor out global phase to get SU(2) component
-  gp = arg(sqrt(det(U)));
-  U = sqrt(det(U))'*U; #factor out global phase
-  
+  gp = arg(det(U))/2;
+
+  U = e^(-i*gp)*U; #factor out global phase
 
   theta = 2*acos( (U(1,1)+ U(2,2)) / 2);
+  ## disregard rounding in imaginary... should be ~0
+
+  assert(abs(imag(theta)) < minval );
+
+  theta = real(theta);
+
   n = zeros(1,3);
-  
-  minval = 2^(-50); #close enough to zero
 
   if( abs(theta) < minval )#Identity
     theta=0;
     n(3)=1;
   ## Diagonal Matrix
-  elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval ) 
+  elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval )
     n(3) = 1;
   ## Off-Diagonal Matrix
   elseif( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
@@ -52,11 +57,14 @@ function p = RnParams(U)
   else
     n(3) = -(U(1,1)-U(2,2))/(2*i*sin(theta/2));
     n(2) = -(U(1,2)-U(2,1))/(2*sin(theta/2));
-    n(1) = -(U(1,2)+U(2,1))/(2*i*sin(theta/2)); 
+    n(1) = -(U(1,2)+U(2,1))/(2*i*sin(theta/2));
   endif
 
+  assert(abs(imag(n)) < minval );
+  n = real(n);
+
   p = [theta,n,gp];
-	 
+
 endfunction
 
 %!test
@@ -66,4 +74,3 @@ endfunction
 %! assert(isequal(RnParams(Z),[pi,0,0,1,pi/2]));
 %! assert(isequal(RnParams(H),[pi,sqrt(1/2),0,sqrt(1/2),pi/2]));
 %! fail('RnParams(eye(3))');
-
