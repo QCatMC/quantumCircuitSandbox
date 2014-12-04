@@ -69,7 +69,7 @@ function q = compile(this,eta)
     qseq = cell(length(qstrseq),1);
     len = length(qseq);
     for k = 1:len
-	qseq{k} = @QASMsingle(qstrseq{len+1-k},get(this,"tar"));
+      qseq{k} = @QASMsingle(qstrseq{len+1-k},get(this,"tar"));
     endfor
 
     ## package approximating sequence as @QASMseq

@@ -38,8 +38,14 @@ function C = qcc(desc,varargin )
     error("Given bad circuit");
   endif
 
+  inType = typeinfo(desc);
+  if( strcmp("class",inType) )
+    inType = class(desc);
+  endif
+
+
   ## parse optional arguments. get precision eta and target language tar
-  [eta,tar] = parseargs(varargin);
+  [eta,tar] = parseargs(varargin,inType);
 
   ##At this point all inputs (desc, eta, tar) are valid and initialized
   ##  desc is either a cell array (descriptor),  a QIR circuit, a QIASM
@@ -100,14 +106,25 @@ endfunction
 ## args is the cell array possibly containing the target and precision for
 ## the compiler. Parseargs processes this array and produces the appropriate
 ##  precision eta and target language t
-function [eta,t] = parseargs(args)
+function [eta,t] = parseargs(args,inType)
 
   nargs = length( args );
 
   switch(nargs)
-    case 0 ## defaults
+    case 0 ## default
+
       eta = 2^(-7);
-      t = "QIR";
+
+      switch(inType)
+        case "cell"
+          t = "QIR";
+        case "QIRcircuit"
+          t = "QIASM";
+        case "QIASMcircuit"
+          t = "QASM";
+        case "QASMcircuit"
+          t = "QASM"
+      endswitch
 
     case 1 ## either or
       arg = args{1};
@@ -115,27 +132,31 @@ function [eta,t] = parseargs(args)
       ## should be target
       if(ischar(arg) && ...
         ( strcmp("QIR",arg) || strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
+
         eta = 2^(-7);
         t = arg;
+
         ## should be eta
       elseif(!ischar(arg) && isscalar(arg) ...
         && isreal(arg) && arg > 0 && arg < 1)
+
         eta = arg;
-        t = "QIR";
+        t = "QASM";
       else
         error("Bad third argument. Expecting circuit approximation error or build target string");
       endif
 
     case 2 ## size,target
 
-      t = args{2};
+      t = args{1};
       ## check target string
       if( !ischar(t) || ...
 	  ( !strcmp("QIR",t) && !strcmp("QIASM",t) && !strcmp("QASM",t)) )
 	error("Given bad build target string");
       endif
 
-      eta = args{1};
+      eta = args{2};
+
       ## validate approximation threshold eta
       if( ischar(eta) || !isreal(eta) || !isscalar(eta) || ...
 	  eta <= 0 || eta >= 1)
@@ -157,17 +178,17 @@ endfunction
 %! fail('qcc({{"H",0}},-2)');
 %! fail('qcc({{"H",0}},1)');
 %! fail('qcc({{"H",0}},"Q")');
-%! fail('qcc({{"H",0}},2^(-4),"Q")');
-%! fail('qcc({{"H",0}},2^(-4),"badarg")');
+%! fail('qcc({{"H",0}},"Q",2^(-4))');
+%! fail('qcc({{"H",0}},"badarg",2^(-4))');
 %! fail('qcc(@QASMcircuit(),"QIASM")');
 
 %!test
-%! assert(isa(qcc({{"H",0}}),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}}),"QIRcircuit"));
 %! assert(isa(qcc({{"H",0}},2^-4),"QASMcircuit"));
-%! assert(isa(qcc({{"H",0}},2^-4,"QASM"),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"QASM",2^-4),"QASMcircuit"));
 %! assert(isa(qcc({{"H",0}},"QASM"),"QASMcircuit"));
 %! assert(isa(qcc({{"H",0}},"QIASM"),"QIASMcircuit"));
-%! assert(isa(qcc({{"H",0}},2^-4,"QIASM"),"QIASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"QIASM",2^(-4)),"QIASMcircuit"));
 %! c = qcc({{"H",0}},"QIASM");
 %! d = qcc(c);
 %! assert(eq(qcc(c,"QASM"),d));

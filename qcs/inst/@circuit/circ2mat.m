@@ -24,3 +24,8 @@
 function U = circ2mat(g)
   U = circ2mat(g.seq,g.bits);
 endfunction
+
+%!test
+%! c = @circuit(@seq({@single("H",0,[]),@single("H",1,[])}), ...
+%!              2,1,[2],[0,1]);
+%! assert(isequal(kron(H,H),circ2mat(c)));

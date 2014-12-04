@@ -1,3 +1,11 @@
+v.0.9.2
+ - qcc's behavior changed.  No arguments will compile to one step down the
+   hierarchy.  Supplying just a precision compiles to QASM with that precision
+   When supplying two arguments, the target language should come first.
+ - modified UZERO in uzero.mat so that the identity matrix corresponds
+   to the sequence {"I"}. This means approximations of global phase shifts
+   will introduce I to circuits.
+
 v0.9.1
  - bug fixes
 
