@@ -13,38 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = @QIRcircuit(seq,n)
+## Usage: g = ctranspose(g)
 ##
-## Users should use the buildCircuit function to construct
-## oct-circuits rather than expicitly constuct the object themselves.
+## invert a gate via g'
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIR
+## Keywords: QASM
 
-function c = QIRcircuit(cNode,n)
-
-  if(nargin == 0 )
-    c.cir = @circuit(@QIRseq({}),0,0,[],[]);
-  elseif(nargin == 1 || nargin == 2)
-    seq = cNode;
-    maxDepth = maxDepth(seq);
-    tars = collectTars(seq);
-    stps = zeros(maxDepth,1);
-    for d = 1:maxDepth
-      stps(d) = stepsAt(seq,d);
-    endfor
-    if( nargin == 2 )
-      bits = n;
-    else
-      bits = 1+max(collectTars(seq));
-    endif
-
-    ## set class fields
-    c.cir = @circuit(seq,bits,maxDepth,stps,tars);
-
-  endif
-
-  c = class(c,"QIRcircuit");
-
+function s = ctranspose(g)
+  s = @QASMcNot();
+  s.cn = ctranspose(g.cn);
 endfunction
+
+%!test
+%! assert(false);

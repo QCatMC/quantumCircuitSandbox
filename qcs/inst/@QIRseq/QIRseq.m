@@ -24,7 +24,7 @@
 function s = QIRseq(cirList)
 
   if( nargin == 0 )
-    s.seq = @seq({});	 
+    s.seq = @seq({});
   else
     s.seq = @seq(cirList);
   endif  

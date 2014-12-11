@@ -25,7 +25,7 @@ function nestedPrint(snode,dep)
   pad = blanks(dep*3);
   fprintf ("%s{\n",pad);
   for k = [1:length(snode.seq)];
-    nestedPrint(snode.seq{k},dep+1);
+    nestedPrint(get(snode,"seq"){k},dep+1);
   endfor
   fprintf ("%s}\n",pad);
 
