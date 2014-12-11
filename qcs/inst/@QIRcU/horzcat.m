@@ -31,12 +31,16 @@ function C = horzcat(this,varargin)
       "QIRmeasure" }
          seq{end+1} = other;
       case "QIRcircuit"
-         seq{end+1} = get(other,"seq");
+          s = get(get(other,"seq"),"seq");
+          ## combine sequences 
+          if( length(s) > 0 )
+             seq = {seq{:},s{:}};
+          endif
       otherwise
          error("Invalid gate type %s encountered",class(other));
     endswitch
   endfor
-
+  seq
   C = @QIRcircuit(@QIRseq(seq));
 endfunction
 

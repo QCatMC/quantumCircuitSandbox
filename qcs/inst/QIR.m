@@ -23,6 +23,10 @@
 ## Keywords: QIR
 
 function C = QIR(name,varargin)
+  if( nargin == 0 )
+    C = @QIRcircuit();
+    return;
+  endif
 
   switch(name)
     case "Toffoli"

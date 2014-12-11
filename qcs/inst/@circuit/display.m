@@ -15,7 +15,7 @@
 
 ## Usage: display(cir)
 ##
-## Display function for circuit objects. 
+## Display function for circuit objects.
 ##
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuit
@@ -23,7 +23,7 @@
 function display(cir)
 
   if(!strcmp(inputname(1),"") )
-    fprintf ("%s = \n", inputname (1)); 
+    fprintf ("%s = \n", inputname (1));
   endif
 
   pad = blanks(3);
@@ -31,8 +31,13 @@ function display(cir)
   nestedPrint(cir.seq,2);
   fprintf("%snum bits = %d\n",pad,cir.bits);
   fprintf("%stargets = [",pad);
-  fprintf("%d,",cir.tars(1:length(cir.tars)-1));
-  fprintf("%d]\n",cir.tars(length(cir.tars)));
+  if(length(cir.tars) > 0)
+    fprintf("%d,",cir.tars(1:length(cir.tars)-1));
+    fprintf("%d]\n",cir.tars(length(cir.tars)));
+  else
+    fprintf("]\n");
+  endif
+
   fprintf("%smax depth = %d\n",pad,cir.maxDepth);
 
   for d = 1:cir.maxDepth
@@ -48,6 +53,5 @@ function display(cir)
 
   endfor
 
-  
-endfunction
 
+endfunction

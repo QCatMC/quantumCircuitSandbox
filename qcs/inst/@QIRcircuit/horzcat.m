@@ -22,7 +22,11 @@
 ## Keywords: QIR
 
 function C = horzcat(this,varargin)
-  seq = {get(this,"seq")};
+  if( length(get(get(this,"seq"),"seq")) == 0 )
+    seq = cell();
+  else
+    seq = get(get(this,"seq"),"seq");
+  endif
 
   for g = varargin
     other = g{1};
@@ -31,7 +35,11 @@ function C = horzcat(this,varargin)
       "QIRmeasure" }
          seq{end+1} = other;
       case "QIRcircuit"
-         seq{end+1} = get(other,"seq");
+      s = get(get(other,"seq"),"seq");
+      if( length(s) > 0 )
+        ## circuit,circuit concat creates nested sequences
+        seq = {@QIRseq(seq),get(other,"seq")};
+      endif
       otherwise
          error("Invalid gate type %s encountered",class(other));
     endswitch
