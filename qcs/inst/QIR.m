@@ -49,7 +49,7 @@ function C = QIR(name,varargin)
     case {"I","X","Y","Z","S","T", "H"...
           "I'","X'","Y'","Z'","S'","T'","H'"}
        t = parseQASM(name,varargin);
-       C =  @QIRsingle(name,t);
+       C = @QIRsingle(name,t,[]);
     otherwise
        error('QIR: Unknown operator %s',name);
   endswitch
