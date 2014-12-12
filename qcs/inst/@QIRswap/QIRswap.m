@@ -30,6 +30,6 @@ function g = QIRswap(tar1,tar2)
     g.tar1 = tar1;
     g.tar2 = tar2;
   endif
-  g = class(g,"QIRswap");
+  g = class(g,"QIRswap",@QIRgate());
 
 endfunction

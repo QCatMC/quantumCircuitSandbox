@@ -22,31 +22,61 @@
 ## Keywords: QIR
 
 function C = horzcat(this,varargin)
+  ## empty circuits start with empty cell array
+  ## non-empty circuits start with their seq cell array
   if( length(get(get(this,"seq"),"seq")) == 0 )
     seq = cell();
   else
     seq = get(get(this,"seq"),"seq");
   endif
 
+  ## for each gate
   for g = varargin
+    ##  unpack the singleton array selected by for
     other = g{1};
+    ## check other's type
     switch(class(other))
       case {"QIRsingle","QIRswap","QIRtoffoli","QIRfredkin","QIRcU", ...
       "QIRmeasure" }
+         ## append gates
          seq{end+1} = other;
       case "QIRcircuit"
-      s = get(get(other,"seq"),"seq");
-      if( length(s) > 0 )
-        ## circuit,circuit concat creates nested sequences
-        seq = {@QIRseq(seq),get(other,"seq")};
-      endif
+         ## get the sequence cell array of the circuit
+         s = get(get(other,"seq"),"seq");
+         ## ignore empty circuits
+         ## for non-empty circuits, we'll create a new nesting depth
+         ## by appending other's seq
+         ## when this is empty, nest other's seq.
+         if( length(s) > 0 && length(seq) > 0 )
+            seq{end+1} =  get(other,"seq");
+          elseif( length(seq) == 0 )
+            seq = {@QIRseq(s)};
+         endif
+
       otherwise
          error("Invalid gate type %s encountered",class(other));
     endswitch
   endfor
 
-  C = @QIRcircuit(@QIRseq(seq));
+  ## catch empty-empty concatenations
+  if( length(seq) == 0 )
+    ## somebody concatenated empty circuits.. so give them empty.
+    C = @QIRcircuit();
+  else
+    C = @QIRcircuit(@QIRseq(seq));
+  endif
 endfunction
 
 %!test
-%! assert(false);
+%! a = @QIRseq({@QIRsingle("H",0), @QIRcU(0,1,{"X"}), @QIRswap(2,1), ...
+%!              @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
+%!              @QIRtoffoli(2,[0,1])  });
+%! A = @QIRcircuit(a);
+%! assert(eq(A,[A,QIR]));
+%! C = @QIRcircuit(@QIRseq({a}));
+%! assert(eq(C,[QIR,A]));
+%! b = @QIRseq({@QIRsingle("H",0), @QIRcU(0,1,{"X"}), @QIRswap(2,1), ...
+%!              @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
+%!              @QIRtoffoli(2,[0,1]),a});
+%! B = @QIRcircuit(b);
+%! assert(eq(B,[A,A]));

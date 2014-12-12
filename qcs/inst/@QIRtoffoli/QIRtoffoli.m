@@ -31,6 +31,6 @@ function g = QIRtoffoli(tar,ctrls)
     g.tar = tar;
     g.ctrls = ctrls;
   endif
-  g = class(g,"QIRtoffoli");
+  g = class(g,"QIRtoffoli",@QIRgate());
 
 endfunction

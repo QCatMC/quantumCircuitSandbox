@@ -31,6 +31,6 @@ function g = QIRfredkin(tars,ctrl)
     g.tars = tars;
     g.ctrl = ctrl;
   endif
-  g = class(g,"QIRfredkin");
+  g = class(g,"QIRfredkin",@QIRgate());
 
 endfunction

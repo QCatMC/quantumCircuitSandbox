@@ -33,5 +33,5 @@ function g = QIRcU(tar,ctrl,op)
     g.tar = tar;
     g.op = op;  # {"name"} | {"name",params}
   endif
-  g = class(g,"QIRcU");
+  g = class(g,"QIRcU",@QIRgate());
 endfunction

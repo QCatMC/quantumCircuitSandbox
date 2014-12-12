@@ -34,6 +34,6 @@ function g = QIRsingle(name,tars,params=[])
     g.tars = tars;
     g.params = params;
   endif
-  g = class(g,"QIRsingle");
+  g = class(g,"QIRsingle",@QIRgate());
 
 endfunction

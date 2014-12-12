@@ -24,13 +24,13 @@
 
 
 function g = QIRmeasure(tars)
-	 
-	 
+
+
   if( nargin == 0)
     g.meas = @measure([]);
   else
     g.meas = @measure(tars);
   endif
-  g = class(g,"QIRmeasure");
+  g = class(g,"QIRmeasure",@QIRgate());
 
 endfunction

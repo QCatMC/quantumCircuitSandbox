@@ -13,35 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = horzcat(this,other)
+## Usage: g = @QIRsingle(name,tars)
+##        g = @QIRsingle(name,tars,params)
 ##
-## returns @QIRcircuit C = [a,b]
-##
+## Construct a gate object for apply 'name' gate to target qubits given in
+## tars. Tars is assumed to be in sorted, ascending order
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function C = horzcat(this,varargin)
-  seq = {this};
+function g = QIRgate()
 
-  for g = varargin
-    other = g{1};
-    switch(class(other))
-      case {"QIRsingle","QIRswap","QIRtoffoli","QIRfredkin","QIRcU", ...
-      "QIRmeasure" }
-         seq{end+1} = other;
-      case "QIRcircuit"
-          s = get(get(other,"seq"),"seq");
-          ## combine sequences
-          if( length(s) > 0 )
-             seq = {seq{:},s{:}};
-          endif
-      otherwise
-         error("Invalid gate type %s encountered",class(other));
-    endswitch
-  endfor
-    C = @QIRcircuit(@QIRseq(seq));
+  g = class(struct(),"QIRgate");
+
 endfunction
-
-%!test
-%! assert(false);
