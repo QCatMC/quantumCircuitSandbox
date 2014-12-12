@@ -49,11 +49,11 @@ function C = QIR(name,varargin)
        C = @QIRcU(t,c,{"X"});
     case {"PhAmp","Rn","ZYZ"}
        [t,p] = parseQIASM(name,varargin);
-       C = @QIRsingle(name,t,p);
+       C = @QIRsingle(name,sort(t,"descend"),p);
     case {"I","X","Y","Z","S","T", "H"...
           "I'","X'","Y'","Z'","S'","T'","H'"}
        t = parseQASM(name,varargin);
-       C = @QIRsingle(name,t,[]);
+       C = @QIRsingle(name,sort(t,"descend"),[]);
     otherwise
        error('QIR: Unknown operator %s',name);
   endswitch
