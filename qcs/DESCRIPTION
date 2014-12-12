@@ -1,10 +1,10 @@
 Name: qcs
-Version: 0.9.2
-Date: 2014-2-12
+Version: 0.9.4
+Date: 2014-12-12
 Author: James Logan Mayfield
 Maintainer: James Logan Mayfield
 Title: Quantum Circuit Sandbox
-Description: Functions for describing, compiling, and simulating
- quantum circuits.
+Description: Functions for constructing, compiling, analyzing, and simulating
+ quantum computational circuits.
 Categories: Simulation, Circuits, Operators, States, Misc, QASM, QIASM, QIR
-Url: https://github.com/jlmayfield/octaveCircuits
+Url: https://github.com/jlmayfield/quantumCircuitSandbox

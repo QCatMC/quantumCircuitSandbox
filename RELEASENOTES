@@ -1,3 +1,14 @@
+v0.9.4
+ - QIR circuits can now be constructed in an Octave native way by using
+   the QIR factory function along with horzcat, i.e. [a,b,...].  Thus,
+   top level circuits can be constructed like vectors without the need to
+   compile from circuit descriptors. Descriptor parsing will still be
+   available, but is no longer the preferred method for circuit construction.
+ - Circuits and gates are now reversible via ctranspose. So A' is the
+   reverse of gate or circuit A. This should work for all circuit languages.
+ - Version number was incremented twice as this resolves two key features
+   needed for the 1.0 release: horzcat and ctranspose. 
+
 v.0.9.2
  - qcc's behavior changed.  No arguments will compile to one step down the
    hierarchy.  Supplying just a precision compiles to QASM with that precision

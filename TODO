@@ -1,9 +1,2 @@
-See Issues Tracker on GitHub site:
-  https://github.com/jlmayfield/octaveCircuits/issues
-
-Other Ideas
-
-- Mixed State Computation/Density Matrix based simulation
-- partial transpose
-- Boolean Oracle Synthesis
-- Arbitrary Unitary (U(n) for n>2) Synthesis/Approximation
+See enhancements on the GitHub issues tracker:
+  https://github.com/jlmayfield/quantumCircuitSandbox/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement
