@@ -25,6 +25,3 @@ function s = ctranspose(g)
   s = @QASMcNot();
   s.cn = ctranspose(g.cn);
 endfunction
-
-%!test
-%! assert(false);

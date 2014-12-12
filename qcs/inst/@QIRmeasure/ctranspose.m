@@ -22,10 +22,6 @@
 ## Keywords: QIR
 
 function s = ctranspose(g)
-   m = ctranspose(g.meas);
    s = QIRmeasure();
-   s.meas = m;   
+   s.meas = ctranspose(g.meas);
 endfunction
-
-%!test
-%! assert(false);

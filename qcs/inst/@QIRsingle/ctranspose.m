@@ -29,4 +29,13 @@ function s = ctranspose(g)
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! a = @QIRsingle("T",0);
+%! n = 1;
+%! assert( operr( circ2mat(a,n)',circ2mat(a',n) ) < err );
+%! a = @QIRsingle("T",[0,3]);
+%! n = 4;
+%! assert( operr( circ2mat(a,n)',circ2mat(a',n) ) < err );
+%! a = @QIRsingle("T",[1,3,5]);
+%! n = 8;
+%! assert( operr( circ2mat(a,n)',circ2mat(a',n) ) < err );

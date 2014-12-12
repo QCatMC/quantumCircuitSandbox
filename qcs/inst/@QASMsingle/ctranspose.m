@@ -25,8 +25,5 @@ function s = ctranspose(g)
 
   s = @QASMsingle();
   s.sing = ctranspose(g.sing);
-  
-endfunction
 
-%!test
-%! assert(false);
+endfunction

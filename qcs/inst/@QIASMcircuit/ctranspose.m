@@ -28,6 +28,3 @@ function s = ctranspose(g)
    s.cir = ctranspose(g.cir);
 
 endfunction
-
-%!test
-%! assert(false);

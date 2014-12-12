@@ -25,6 +25,3 @@ function s = ctranspose(g)
   s = @QASMmeasure();
   s.meas = ctranspose(g.meas);
 endfunction
-
-%!test
-%! assert(false);

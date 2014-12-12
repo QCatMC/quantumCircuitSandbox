@@ -22,10 +22,6 @@
 ## Keywords: QIASM
 
 function s = ctranspose(g)
-   sing = ctranspose(g.sing);
-   s = @QIASMsingle();
-   s.sing = sing;
+  s = @QIASMsingle();
+  s.sing = ctranspose(g.sing);
 endfunction
-
-%!test
-%! assert(false);

@@ -25,6 +25,3 @@ function s = ctranspose(g)
   s = @QIASMmeasure();
   s.meas = ctranspose(g.meas);
 endfunction
-
-%!test
-%! assert(false);

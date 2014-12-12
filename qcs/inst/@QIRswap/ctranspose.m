@@ -28,4 +28,16 @@ function s = ctranspose(g)
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! a = @QIRswap(0,1);
+%! n = 2;
+%! assert( operr( circ2mat(a,n)' , circ2mat(a',n) )  < err );
+%! a = @QIRswap(1,0);
+%! n = 2;
+%! assert( operr( circ2mat(a,n)' , circ2mat(a',n) )  < err );
+%! a = @QIRswap(0,3);
+%! n = 5;
+%! assert( operr( circ2mat(a,n)' , circ2mat(a',n) )  < err );
+%! a = @QIRswap(3,1);
+%! n = 6;
+%! assert( operr( circ2mat(a,n)' , circ2mat(a',n) )  < err );

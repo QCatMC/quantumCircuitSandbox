@@ -27,8 +27,12 @@ function display(cir)
   endif
 
   pad = blanks(3);
-  fprintf("%sseq = \n",pad);
-  nestedPrint(cir.seq,2);
+  if( length(cir.tars) > 0 )
+    fprintf("%sseq = \n",pad);
+    nestedPrint(cir.seq,2);
+  else
+    fprintf("%sseq = {}\n",pad);
+  endif
   fprintf("%snum bits = %d\n",pad,cir.bits);
   fprintf("%stargets = [",pad);
   if(length(cir.tars) > 0)

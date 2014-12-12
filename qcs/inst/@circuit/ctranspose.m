@@ -26,6 +26,3 @@ function s = ctranspose(g)
   s = @circuit(ctranspose(g.seq),g.bits,g.maxDepth,g.stepsAt,g.tars);
 
 endfunction
-
-%!test
-%! assert(false);

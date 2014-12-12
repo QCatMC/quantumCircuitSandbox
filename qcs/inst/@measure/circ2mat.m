@@ -22,27 +22,10 @@
 ## Keywords: circuits
 
 function U = circ2mat(g,n)
-  ## not a unitary operator, but we can compute the projector.
-  ## using this leaves the system in an un-normalized state!
-  tars = get(g,"tar");
-
-  U = zeros(2^n);
-  s = (0:(2^n-1))';
-  for t = tars
-    v = s == t;
-    U(:,t+1) = v;
-  endfor
-
+  U = speye(2^n);
 endfunction
 
 %!test
-%! m = @measure([1]);
-%! assert(isequal(circ2mat(m,1),[0,0;0,1]));
-%! m = @measure([0]);
-%! assert(isequal(circ2mat(m,1),[1,0;0,0]));
-%! m = @measure([0,1]);
-%! assert(isequal(circ2mat(m,1),eye(2)));
-%! m = @measure([1,3,5]);
-%! D = diag(0:2^4-1);
-%! r = (D==1)+(D==3)+(D==5);
-%! assert(isequal(circ2mat(m,4),r));
+%! assert( isequal(circ2mat(@measure(2:3),4),speye(2^4)))
+%! assert( isequal(circ2mat(@measure(0),1),speye(2)))
+%! assert( isequal(circ2mat(@measure(0),2),speye(2^2)))

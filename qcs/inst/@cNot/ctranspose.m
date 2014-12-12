@@ -28,4 +28,12 @@ function s = ctranspose(g)
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! assert( operr(circ2mat(@cNot(0,1),2)', ...
+%!               circ2mat(@cNot(0,1)',2)) < err )
+%! assert( operr(circ2mat(@cNot(1,0),2)', ...
+%!               circ2mat(@cNot(1,0)',2)) < err )
+%! assert( operr(circ2mat(@cNot(2,1),4)', ...
+%!               circ2mat(@cNot(2,1)',4)) < err )
+%! assert( operr(circ2mat(@cNot(3,5),7)', ...
+%!               circ2mat(@cNot(3,5)',7)) < err )

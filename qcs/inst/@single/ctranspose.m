@@ -31,20 +31,52 @@ function s = ctranspose(g)
     case {"S'","T'"}
       s = @single(g.name(1),g.tar,[]);
     case "PhAmp"
-      U = circ2mat(g,1);
-      p = phaseAmpParams(U');
+      p = g.params;
+      p(1) = 2*pi - p(1);
+      p(2) = -p(2);
+      p(3) = -p(3);
+      if(length(p) == 4)
+        p(4) = -p(4);
+      endif
       s = @single(g.name,g.tar,p);
     case "Rn"
-      U = circ2mat(g,1);
-      p = RnParams(U');
+      p = g.params;
+      if(length(p) == 4)
+        p = [1,-1,-1,-1] .* p;
+      else
+        p = [1,-1,-1,-1,-1] .* p;
+      endif
       s = @single(g.name,g.tar,p);
     case "ZYZ"
-      U = circ2mat(g,1);
-      p = zyzParams(U');
+      p = g.params;
+      t = p(1);
+      p(1) = -p(3);
+      p(3) = -t;
+      p(2) = -p(2);
+      if(length(p) == 4)
+        p(4) = -p(4);
+      endif
       s = @single(g.name,g.tar,p);
   endswitch
 
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-(40);
+%! g = {"X","Y","Z","H","S","T","S'","T'"};
+%! for k = 1:length(g)
+%!  assert(operr( circ2mat(@single(g{k},0),1)' , ...
+%!                circ2mat(@single(g{k},0)',1) ) < err);
+%! endfor
+
+%!test
+%! err = 2^-(40);
+%! p = pi/3*(ones(1,4));
+%!  assert(operr( circ2mat(@single("PhAmp",0,p),1)' , ...
+%!                circ2mat(@single("PhAmp",0,p)',1) ) < err);
+%! p = pi/3*(ones(1,4));
+%!  assert(operr( circ2mat(@single("ZYZ",0,p),1)' , ...
+%!                circ2mat(@single("ZYZ",0,p)',1) ) < err);
+%! p = [pi/3,sqrt(1/3),sqrt(1/6),sqrt(1/2),pi/5];
+%!  assert(operr( circ2mat(@single("Rn",0,p),1)' , ...
+%!                circ2mat(@single("Rn",0,p)',1) ) < err);

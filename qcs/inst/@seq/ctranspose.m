@@ -30,8 +30,13 @@ function s = ctranspose(g)
   endfor
 
   s = @seq(s);
-  
+
 endfunction
 
+## inverting individual gates is tested within the gate classes
+## here we're just do a test to check the reversal process.
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! a = @seq({@single("H",0),@single("T",1),@single("Z",2)});
+%! n = 3;
+%! assert( operr( circ2mat(a,n)' , circ2mat(a',n) ) < err );

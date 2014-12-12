@@ -22,10 +22,6 @@
 ## Keywords: QIASM
 
 function s = ctranspose(g)
-   cn = ctranspose(g.cn);
-   s = @QIASMcNot();
-   s.cn = cn;
+  s = @QIASMcNot();
+  s.cn = ctranspose(g.cn);
 endfunction
-
-%!test
-%! assert(false);

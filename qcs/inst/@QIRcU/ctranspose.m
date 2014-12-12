@@ -42,4 +42,16 @@ function s = ctranspose(g)
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! a = @QIRcU(0,1,{"Z"});
+%! n = 2;
+%! assert( operr(circ2mat(a,n)',circ2mat(a',n)) < err);
+%! a = @QIRcU(2,0,{"Z"});
+%! n = 3;
+%! assert( operr(circ2mat(a,n)',circ2mat(a',n)) < err);
+%! a = @QIRcU(1,0,{"T"});
+%! n = 2;
+%! assert( operr(circ2mat(a,n)',circ2mat(a',n)) < err);
+%! a = @QIRcU(1,2,{"PhAmp",pi/3*ones(1,4)});
+%! n = 4;
+%! assert( operr(circ2mat(a,n)',circ2mat(a',n)) < err);

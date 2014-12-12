@@ -15,7 +15,9 @@
 
 ## Usage: g = ctranspose(g)
 ##
-## invert a gate via g'
+##   Technically, measurement has no inverse/revesre/complex conjugate.
+##   it's a destructive, non-reversible operation. That being said,
+##   Projector's are self-inverse, so that's what we'll return.
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -28,4 +30,6 @@ function s = ctranspose(g)
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! assert( operr(circ2mat(@measure(0:3),4)', ...
+%!               circ2mat(@measure(0:3)',4) ) < err );

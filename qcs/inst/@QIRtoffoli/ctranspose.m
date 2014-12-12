@@ -26,4 +26,13 @@ function s = ctranspose(g)
 endfunction
 
 %!test
-%! assert(false);
+%! err = 2^-40;
+%! a = @QIRtoffoli(0,[1,2]);
+%! n = 3;
+%! assert( operr( circ2mat(a,n)', circ2mat(a',n) ) < err );
+%! a = @QIRtoffoli(5,[2,4]);
+%! n = 6;
+%! assert( operr( circ2mat(a,n)', circ2mat(a',n) ) < err );
+%! a = @QIRtoffoli(4,[1,6]);
+%! n = 8;
+%! assert( operr( circ2mat(a,n)', circ2mat(a',n) ) < err );
