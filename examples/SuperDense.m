@@ -2,39 +2,44 @@
 
 pkg load qcs;
 
-## Like many quantum circuits, Super Dense Coding circuits really vary by just a few 
+## Like many quantum circuits, Super Dense Coding circuits really vary by just a few
 ## key operators.  The four Super-Dense coding circuits all take |00> as the input, then
 ##  transfor to the bell basis 00. Alice then performs her operations on
 ##  bit 1.  Bob can then measure in the bell basis by way of transforming
-##  back to the std basis and doing a standard measurement. So, we can write a basic octave 
+##  back to the std basis and doing a standard measurement. So, we can write a basic octave
 ## function to construct circuit arrays given the names of the operators applied by Alice.
 
 ## Constructor for SuperDense Coding circuit descriptor
 function C = makeSDCirc(alice)
   ## the Std to Bell basis transform
-  trans = {{"H",1},{"CNot",0,1}};
+  trans = [QIR("H",1),QIR("CNot",0,1)];
 
-  ## the SDC starts with a basis change
-  C = trans;
+  ## Now we'll build a circuit for Alice's
+  ## operators
+  A = QIR;
   ## then apply each of Alice's operators
   for k = 1:length(alice)
-    C = {C{:},{alice(k),1}};
-  endfor	 
-  ## then change the basis back and Measure
-  C = {C{:},fliplr(trans){:},{"Measure",0:1}};
+    A = [A,QIR(alice{k},1)];
+  endfor
+
+  ## the complete circuit
+  ##  std->bell, Encode, bell->std, measure
+  ## the QIR in front forces trans to be a nested
+  ## subcircuit
+  C = [QIR,trans,A,trans',QIR("Measure",0:1)];
 endfunction
 
 ## Encode 00
-ZrZr = qcc(makeSDCirc([]));
+ZrZr = makeSDCirc({})
 
 ## Encode 01
-ZrOn = qcc(makeSDCirc(["X"]));
+ZrOn = makeSDCirc({"X"})
 
 ## Encode 10
-OnZr = qcc(makeSDCirc(["Z"]));
+OnZr = makeSDCirc({"Z"})
 
 ## Encode 11
-OnOn = qcc(makeSDCirc(["X","Z"]));
+OnOn = makeSDCirc({"X","Z"})
 
 ## Now let's try all 4... 100 times
 tot = zeros(4,4);
@@ -49,5 +54,3 @@ endfor
 
 ## and the sample mean...
 tot = tot/100
-
-

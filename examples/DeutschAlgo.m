@@ -6,20 +6,19 @@ pkg load qcs;
 ## First some circuit descriptors. Logical sub-circuits are grouped such that
 ##  each circuit follows the prep,oracle,measure pattern
 
-## Balanced Functions
-bal_id = {{"H",[0,1]},{"CNot",0,1},{"H",1},{"Measure",1}};
-bal_not = {{"H",[0,1]},{{"X",1},{"CNot",0,1},{"X",1}}, ...
-	   {"H",1},{"Measure",1}};
+## build circuits for each of the 4 functions
 
-## Constant Functions
-const_one = {{"H",[0,1]},{"X",0},{"H",1},{"Measure",1}};
-const_zero = {{"H",[0,1]},{"H",1},{"Measure",1}};
+## basic circuits with no nesting
+id_cir =  [QIR("H",0:1),QIR("CNot",0,1),QIR("H",1),QIR("Measure",1)];
+one_cir = [QIR("H",0:1),QIR("X",1),QIR("H",1),QIR("Measure",1)];
+zero_cir = [QIR("H",0:1),QIR("H",1),QIR("Measure",1)];
 
-## Use qcc to construct proper circuit data
-id_cir = qcc(bal_id);
-not_cir = qcc(bal_not);
-one_cir = qcc(const_one);
-zero_cir = qcc(const_zero);
+## putting the empty circuit QIR in front causes the subcircuit to
+## properly nest
+not_cir = [QIR,QIR("H",0:1), ...
+           [QIR("X",1),QIR("CNot",0,1), QIR("X",1)], ...
+					 QIR("H",1),QIR("Measure",1)];
+
 
 ## Let's start with id_cir and some basic simulation.
 ##  Notice that circuits carry a lot of data about their structure

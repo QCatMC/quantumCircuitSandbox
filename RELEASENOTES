@@ -1,3 +1,8 @@
+v0.9.5
+ - Bug fix in QIR. QIRsingle would cause crash the simulator
+   if the user didn't pass targets in descending order.
+ - examples updated to reflect v0.9.4 circuit construction patterns.
+
 v0.9.4
  - QIR circuits can now be constructed in an Octave native way by using
    the QIR factory function along with horzcat, i.e. [a,b,...].  Thus,
@@ -7,7 +12,7 @@ v0.9.4
  - Circuits and gates are now reversible via ctranspose. So A' is the
    reverse of gate or circuit A. This should work for all circuit languages.
  - Version number was incremented twice as this resolves two key features
-   needed for the 1.0 release: horzcat and ctranspose. 
+   needed for the 1.0 release: horzcat and ctranspose.
 
 v.0.9.2
  - qcc's behavior changed.  No arguments will compile to one step down the
