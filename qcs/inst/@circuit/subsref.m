@@ -13,32 +13,22 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## Usage: C = subsref(this,idx)
 ##
-##  used to compute number of steps at depth d of a circuit.
-##
+## circuit subcircuit selector
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function s = stepsAt(g,d)
-  
-  if( d == 1 )
-    s = length(g.seq);
-  else
-    sarr = zeros(length(g.seq),1);
-    for idx = 1:length(g.seq)
-      sarr(idx) = stepsAt(g.seq{idx},d-1);
-    endfor
-    s = sum(sarr);
-  endif
+function C = subsref(this,idx)
+  switch(idx(1).type)
+    ## select as a circuit
+    case "()"
+
+    otherwise
+      error("invalid subscript type")
 endfunction
 
 %!test
-%! A = @seq({@single("H",1),@cNot(2,1),...
-%!               @measure([1,2,5])});
-%! assert(stepsAt(A,1),3);
-%! assert(stepsAt(A,2),3);
-%! B = @seq({@single("Z",2),A});
-%! assert(stepsAt(B,1),2);
-%! assert(stepsAt(B,2),4);
+%! assert(false);
