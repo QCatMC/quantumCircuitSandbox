@@ -17,13 +17,13 @@
 ##
 ## Return true if ts is a subset of [0,n).
 ##
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc
 
 function b = isTargetVector(ts)
-  b = isNat(ts) && length(ts) == length(unique(ts));
+  b = isNat(ts) && numel(ts) == numel(unique(ts));
 endfunction
 
 %!test

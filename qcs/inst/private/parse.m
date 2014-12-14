@@ -252,7 +252,7 @@ scalar.");
 numbers");
 
     ## no-dup check
-    elseif( length(unique(gDesc{2})) != length(gDesc{2}) )
+  elseif( numel(unique(gDesc{2})) != numel(gDesc{2}) )
       error("parse error: Measurement target vector contains duplicates");
     else
       C = @QIRmeasure(sort(gDesc{2},"descend"));

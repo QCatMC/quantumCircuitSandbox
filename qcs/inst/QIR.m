@@ -87,6 +87,8 @@ function t = parseQASM(name,args)
 
   if(!isNat(t))
     error("%s: Bad Target");
+  elseif( numel(t) != numel(unique(t)) )
+    error("%s: Contains duplicate targets");
   endif
 
 endfunction
@@ -99,6 +101,7 @@ function [t,p] = parseQIASM(name,args)
   t = args{2};
   p = args{1};
 
+  ## check params
   switch(name)
     case {"PhAmp","ZYZ"}
       if( !isreal(p) && !isequal(size(p),[1,3]) && !isequal(size(p),[1,4]) )
@@ -112,8 +115,11 @@ function [t,p] = parseQIASM(name,args)
       endif
   endswitch
 
-  if( !isscalar(t) && !isNat(t) )
+  ## check targets
+  if( !isNat(t) )
     error("%s: Bad target",name);
+  elseif( numel(t) != numel(unique(t)) )
+    error("%s: Contains duplicate targets");
   endif
 
 endfunction
@@ -131,11 +137,15 @@ function [t,c] = parseTof(args)
     ## control check
     if( !isequal(size(c),[1,2]) || !isNat(c) || c(1) == c(2) )
       error("Toffoli: Given bad controls");
+    endif
+
     ## target check
-    elseif( !isscalar(t) || !isNat(t) || !isequal([0,0],t==c ) )
+    if( !isscalar(t) || !isNat(t) || !isequal([0,0],t==c ) )
       error("Toffoli: Given bad target");
     endif
-    c = sort(c,"descend");
+
+    ## sort controls
+    c = [max(c),min(c)];
 
 endfunction
 
@@ -152,12 +162,15 @@ function [t,c] = parseFred(args)
   ## control check
   if( !isequal(size(t),[1,2]) || !isNat(t) || t(1) == t(2) )
     error("Fredkin: given bad targets");
-    ## target check
-  elseif( !isscalar(c) || !isNat(c) || !isequal([0,0],c==t) )
+  endif
+
+  ## target check
+  if( !isscalar(c) || !isNat(c) || !isequal([0,0],c==t) )
     error("Fredkin: given bad control");
   endif
 
-  t  = sort(t,"descend");
+  ## sort targets
+  t  = [max(t),min(t)];
 
 endfunction
 
@@ -172,8 +185,10 @@ function [t1,t2] = parseSwap(args)
  if( !isscalar(t1) || !isscalar(t2) || !isNat(t1) || !isNat(t2) )
   error("Swap: targets must be natural \
 numbers. Given tar1=%f and tar2=%f.",t1,t2);
-  ## don't self-swap
- elseif( t1 == t2 )
+ endif
+
+ ## don't self-swap
+ if( t1 == t2 )
    error("Swap: targets cannot be the same.");
  endif
 
@@ -197,7 +212,7 @@ function t = parseMeasure(args)
   elseif( !isNat(t) )
      error("Measure: targets must be natrual numbers");
   ## no-dup check
-  elseif( length(unique(t)) != length(t) )
+elseif( numel(unique(t)) != numel(t) )
     error("Measure: target vector contains duplicates");
   endif
 
@@ -241,12 +256,14 @@ function [o,t,c] = parseCU(args)
    parseQASM(o,{t});
  endif
 
- ## repack string spec as char spec
+ ## repack string spec in cell spec
  if( ischar(o) )
    o = {o};
  endif
 
- if( !isNat(c) || t==c )
+ if( !isNat(c) )
+  error("CU: bad control index");
+ elseif( t==c )
    error("CU: Target and Control cannot match");
  endif
 
