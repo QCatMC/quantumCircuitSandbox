@@ -37,7 +37,7 @@ function c = QIRcircuit(cNode,n)
     if( nargin == 2 )
       bits = n;
     else
-      bits = 1+max(collectTars(seq));
+      bits = 1+max(tars);
     endif
 
     ## set class fields

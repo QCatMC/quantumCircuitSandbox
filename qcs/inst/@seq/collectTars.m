@@ -25,9 +25,19 @@
 function t = collectTars(this)
 
   t = [];
+  ## collect 
   for idx = 1:length(this.seq)
-      t = union(t, collectTars(this.seq{idx}));
+
+    subtars = collectTars(this.seq{idx});
+
+    if( length(subtars) == 1 )
+      t(end+1) = subtars;
+    else
+      t = [t,subtars];
+    endif
+
   endfor
+  t = unique(t);
 
 endfunction
 
@@ -36,4 +46,4 @@ endfunction
 %!               @cNot(3,1),@single("X",4)});
 %! assert(1:4,collectTars(C));
 %! D = @seq({C,@single("Y",7)});
-%! assert([1,2,3,4,7],collectTars(D));
+%! assert(isequal([1,2,3,4,7],collectTars(D)));
