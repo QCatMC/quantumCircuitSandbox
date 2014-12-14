@@ -1,9 +1,14 @@
+v0.9.7
+ - Performance enhancements and bug fixes
+ - Users can now use QFT(n) to construct an n qubit
+   quantum fourier transform circuit. 
+
 v0.9.6
  - Circuits are now allow sub-circuit selection via indexing
    the step and depth.  Step indexes can be any list of positive
    natural numbers in any order assuming they're withing the bounds
    with respect to the given depth.  This behavior is analogous to
-   matrix/cell array selection in Octave.  
+   matrix/cell array selection in Octave.
 
 v0.9.5
  - Bug fix in QIR. QIRsingle would cause crash the simulator
