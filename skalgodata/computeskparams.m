@@ -13,44 +13,42 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## compute Solovay-Kitaev constants cgc and capprox 
+## compute Solovay-Kitaev parameters w.r.t sample of SU2 operators and
+##  table of initial approximationss
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
 
-function capprox = computeskparams(fname,n)
+function capprox = computeskparams(fname,tname)
 
-  if( !isscalar(n) || n < 1 || floor(n) != ceil(n) || !isreal(n))
-    error("number of samples per parameter should be positive natural number");
+  ## quick param check
+  if( !ischar(tname) )
+    error("tname should be a string");
   elseif( !ischar(fname) )
     error("fname should be string");
   endif
-  
+
   ## load file and check for UZERO
   load(fname);
   if( !exist("UZERO") )
     error("no UZERO loaded from %s",fname);
   endif
 
-  addpath("../oct-circuits/inst:../oct-circuits/inst/@QIASMsingle/private");
-  
+  load(tname);
+  if( !exist("su2s") )
+    error("no su2s loaded from %s",tname);
+  endif
+
+
+  addpath("../qcs/inst:../qcs/inst/@QIASMsingle/private");
+
   ## filename for results. 2*n = samples per pi
-  [d,nam] = fileparts(fname);
+  [fd,fnam] = fileparts(fname);
+  [td,tnam] = fileparts(tname);
 
-  logname = sprintf("./data/skparams-%sspp%d.mat",nam,2*n);
+  logname = sprintf("./data/skparams-%s-%s.mat",fnam,tnam);
 
-  step = pi/(2*n);
-  ## paramter ranges 
-  amp = (0:step:pi/2)'; #[0,pi/2]
-  pha = ((0:step:2*pi)')(1:end-1); #[0,2*pi)
-  ## phase/amp parameters for some SU(2) operators
-  params = [kron(amp,ones(length(pha)^2,1)),...
-            kron(ones(length(amp),1),kron(pha,ones(length(pha),1))),...
-            kron(ones(length(amp)*length(pha),1),pha)];
-
-  save(logname,"params");
-  
   ##d(I,V),d(I,W) for each operators Group Commutators
   gcdists = zeros(length(params),2);
   cgcs = zeros(length(params),2);
@@ -59,23 +57,23 @@ function capprox = computeskparams(fname,n)
   capproxs = zeros(length(params),1);
 
 
-  for j = 1:rows(params)
+  for j = 1:length(su2s)
     ## current SU(2) op
-    u = U2phaseamp(params(j,:));
-    
+    u = su2s{j};
+
     ## get U0 approx
     [seq,u0] = skalgo(u,0);
     eta0s(j) = norm(u-u0); #eta on zero approx
-    
+
     ## if U0 approx is not more or less the same as u.. i.e. it's not
     ## in the table
     if( eta0s(j) > 2^-30 )
       [V,W] = getGroupComm(u*(u0')); # get Group Commutators
-     
+
       ## get distances from I for each commutator
       gcdists(j,1) = norm(V-eye(2));
       gcdists(j,2) = norm(W-eye(2));
-      
+
       ## compute upper-bound on cgc from d(I,X) < cgc*sqrt(eta0)
       ## these are values specific to the operator j
       cgcs(j,:) = gcdists(j,:)/sqrt(eta0s(j));
@@ -87,7 +85,7 @@ function capprox = computeskparams(fname,n)
     endif
 
   endfor
-  
+
   ## table global values
   eta0 = max(eta0s);
   eta1 = max(eta1s);
@@ -99,17 +97,17 @@ function capprox = computeskparams(fname,n)
   save("-append",logname,"gcdists"); #d(V,I),d(W,I) for [V,W]
   save("-append",logname,"eta0s"); # d(U,U0)
   save("-append",logname,"eta1s"); # d(U,U1)
-  save("-append",logname,"cgcs"); # U not in Table, d(W,I)/sqrt(d(U,U0)) 
+  save("-append",logname,"cgcs"); # U not in Table, d(W,I)/sqrt(d(U,U0))
   save("-append",logname,"capproxs"); #
- 
+
   ## estimate from table
   save("-append",logname,"cgc");  #cgc infimum
   save("-append",logname,"capprox"); ##capprox infimum
-  save("-append",logname,"eta0"); 
-  save("-append",logname,"eta1"); 
+  save("-append",logname,"eta0");
+  save("-append",logname,"eta1");
 
   ## clean up
   clear -g all;
-  rmpath("../oct-circuits/inst:../oct-circuits/inst/@QIASMsingle/private");
+  rmpath("../qcs/inst:../qcs/inst/@QIASMsingle/private");
 
 endfunction
