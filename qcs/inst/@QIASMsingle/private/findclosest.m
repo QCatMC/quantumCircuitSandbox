@@ -9,23 +9,17 @@ function [seq,mat] = findclosest(U)
   ## it's stored in @QIASMcircuit/private/uzero.mat
   global UZERO; # format (seq,U(2))
 
-  ## compute error of each and collect min as you go
-  ## start with first
-  minVal = norm( U - UZERO{1,2} );
-  minIdx = 1;
-  ## now traverse the rest
-  for k = 2:length(UZERO)
-      V = UZERO{k,2};
-      err = norm(U-V);
-      if( minVal > err )
-	minVal = err;
-	minIdx = k;
-      endif
-  endfor
+  parfun = @(V) norm(U-V);
+  mats = UZERO(:,2);
+  nps = idivide(nproc("current"),2,"floor");
+
+  ## Need optimial number of chunks = f(nps);
+  errs = parcellfun(nps,parfun,mats,"VerboseLevel",0,"ChunksPerProc",5);
+
+  [v,minIdx] = min(errs);
 
   mat = UZERO{minIdx,2}; ## select matrix
   seq = UZERO{minIdx,1}; ## select sequence
-
 
 endfunction
 

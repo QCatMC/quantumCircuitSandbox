@@ -46,13 +46,13 @@ function [Us,newU] = skalgo(U,n)
     VseqAdj = cell(length(Vnm1seq),1);
     len = length(VseqAdj);
     for k = 1:len
-	VseqAdj{k} = adj(Vnm1seq{len+1-k});
+      VseqAdj{k} = adj(Vnm1seq{len+1-k});
     endfor
 
     WseqAdj = cell(length(Wnm1seq),1);
     len = length(WseqAdj);
     for k = 1:len
-	WseqAdj{k} = adj(Wnm1seq{len+1-k});
+      WseqAdj{k} = adj(Wnm1seq{len+1-k});
     endfor
 
     ## U = V*W*V'*W'*Un-1
@@ -71,7 +71,7 @@ function s = adj(opstr)
   else #length is 1. U->U', unless it's Hermitian
     switch(opstr)
       case {"H","X","Y","Z","I"}
-	s=opstr;
+	s= opstr;
       otherwise
 	s = [opstr,"'"];
     endswitch

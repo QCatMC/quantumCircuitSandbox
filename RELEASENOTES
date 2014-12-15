@@ -1,7 +1,11 @@
+v0.9.8
+ - skalgo now utilizes the octave-forge package parallel
+   to speedup the table search done by findclosest. 
+
 v0.9.7
  - Performance enhancements and bug fixes
  - Users can now use QFT(n) to construct an n qubit
-   quantum fourier transform circuit. 
+   quantum fourier transform circuit.
 
 v0.9.6
  - Circuits are now allow sub-circuit selection via indexing
