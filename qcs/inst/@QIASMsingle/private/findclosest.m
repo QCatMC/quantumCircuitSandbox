@@ -9,17 +9,38 @@ function [seq,mat] = findclosest(U)
   ## it's stored in @QIASMcircuit/private/uzero.mat
   global UZERO; # format (seq,U(2))
 
-  parfun = @(V) norm(U-V);
-  mats = UZERO(:,2);
   nps = idivide(nproc("current"),2,"floor");
 
-  ## Need optimial number of chunks = f(nps);
-  errs = parcellfun(nps,parfun,mats,"VerboseLevel",0,"ChunksPerProc",5);
+  if( nps > 1 && exist("parcellfun") ) ## parallel
 
-  [v,minIdx] = min(errs);
+    ## Compute the error
+    parfun = @(V) norm(U-V);
+
+    ## on all these mats
+    mats = UZERO(:,2);
+
+    errs = zeros(1,length(mats));
+    errs = parcellfun(nps,parfun,mats,...
+                      "VerboseLevel",0,"ChunksPerProc",1);
+
+    [v,minIdx] = min(errs);
+
+  else #nps == 1 and serial
+
+    minIdx = 1;
+    minVal = norm(U-UZERO{1,2});
+    for k = 2:length(UZERO)
+      er = norm(U-UZERO{k,2});
+      if( er < minVal )
+        minIdx = k;
+        minVal = er;
+      endif
+    endfor
+
+  endif
 
   mat = UZERO{minIdx,2}; ## select matrix
-  seq = UZERO{minIdx,1}; ## select sequence
+  seq = minIdx; ## select sequence
 
 endfunction
 

@@ -25,6 +25,7 @@
 
 
 function q = compile(this,eta)
+  global UZERO;
 
   if(QASMsingleOp(get(this,"name")))
     q = @QASMsingle(get(this,"name"),get(this,"tar"));
@@ -39,12 +40,12 @@ function q = compile(this,eta)
     ## get the SU(2) variant of this
     [SU,ph] = QIASMop(get(this,"name"),get(this,"params"));
     ## get eta_0 approximation
-    [seq,mat] = findclosest(SU);
+    [idx,mat] = findclosest(SU);
 
     ## distance from SU to eta_0 approximation mat
     dist = norm(SU-mat);
     if( dist <= eta ) # good enough. why work more!
-      qstrseq = seq;
+      qstrseq = idx2seq(idx);
     else # need a better approximation. more work!
 
       ## initial depth of SK algo
@@ -53,7 +54,7 @@ function q = compile(this,eta)
 			  log(3/2)));
 
       ## compile with Solovay-Kiteav
-      [qstrseq,SUapprox] = skalgo(SU,skdep);
+      [idxseq,SUapprox] = skalgo(SU,skdep);
 
       ## test for eta precision requirement
       ##  *** Remove when not testing or keep for runtime errors
@@ -61,7 +62,7 @@ function q = compile(this,eta)
       ##     "QIASM compile: unable to approximate a gate");
 
       ## simplify/reduce approximating sequence if possible.
-      qstrseq = simpseq(qstrseq);
+      qstrseq = simpseq(idx2seq(idxseq));
     endif
 
     ## convert strings to QASMsingle with correct target
@@ -78,6 +79,16 @@ function q = compile(this,eta)
     ignore_function_time_stamp("none");
   endif
 
+endfunction
+
+## turns vector of indexs to UZERO to the operator
+## sequence
+function strs = idx2seq(idxs)
+  global UZERO;
+  strs = cell();
+  for k = 1:length(idxs)
+    strs = {strs{:},UZERO{idxs(k),1}{:}};
+  endfor
 endfunction
 
 ## computes the 2x2 unitary given operator name and parameters
@@ -135,6 +146,7 @@ endfunction
 
 ## no sk-algo needed
 %!test
+%! load("./@QIASMcircuit/private/uzero.mat");
 %! assert(eq(compile(@QIASMsingle("H",0),1/32),@QASMsingle("H",0)));
 %! assert(eq(compile(@QIASMsingle("X",0),1/32),@QASMsingle("X",0)));
 %! assert(eq(compile(@QIASMsingle("Y",1),1/32),@QASMsingle("Y",1)));

@@ -20,7 +20,7 @@
 ## Keywords: QIASM
 
 
-function pData = profskalgo(fname,n,d)
+function [d1,d2] = profskalgo(fname,n,d,opt="both");
 
   ## load file and check for UZERO
   load(fname);
@@ -32,21 +32,41 @@ function pData = profskalgo(fname,n,d)
 
   profile clear;
   profile off;
+  times =  zeros(n,1);
+
   for j = 1:n
     ## current SU(2) op U
-    p = randparams = [unifrnd(0,pi/2,1,1),unifrnd(0,2*pi,1,2)];
+    p = [unifrnd(0,pi/2,1,1),unifrnd(0,2*pi,1,2)];
     U = U2phaseamp(p);
 
-    profile resume;
-    [s,m] = skalgo(U,d);
-    profile off;
+    if(strcmp(opt,"prof") || strcmp(opt,"both") )
+      profile resume;
+      [s,m] = skalgo(U,d);
+      profile off;
+    endif
+
+    if(strcmp(opt,"time") || strcmp(opt,"both") )
+      tic;
+      [s,m] = skalgo(U,d);
+      times(j) = toc;
+    endif
 
   endfor
 
+  switch (opt)
+    case "both"
+    d1 = profile("info");
+    d2 = mean(times);
+    case "prof"
+    d1 = profile("info");
+    d2 = 0;
+    case "time"
+    d1 = mean(times);
+    d2 = profile("info");
+  endswitch
 
-  ## clean up
   clear -g UZERO;
   rmpath("../qcs/inst:../qcs/inst/@QIASMsingle/private");
-  pData = profile("info");
+
 
 endfunction

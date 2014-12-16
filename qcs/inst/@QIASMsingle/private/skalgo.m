@@ -24,57 +24,28 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function [Us,newU] = skalgo(U,n)
+function [tidx,newU] = skalgo(U,n)
+  global UZERO;
 
   if( n == 0 )
-    ## UZERO is a table of (strseq,U(2)) pairs
-    ## findclosest picks the pair that minimizes
-    ## operr(U,U(2))
-    [Us,newU] = findclosest(U);
+    ## UZERO is a table of (strseq,U(2),nat) tripels
+    ## findclosest picks row with the matrix that minimizes
+    ## operr(U,U(2)). tidx is the row index
+    [tidx,newU] = findclosest(U);
   else
-    [Unm1seq,Unm1] = skalgo(U,n-1);
+    [Unm1idx,Unm1] = skalgo(U,n-1);
     [V,W] = getGroupComm(U*Unm1');
-    [Vnm1seq,Vnm1] = skalgo(V,n-1);
-    [Wnm1seq,Wnm1] = skalgo(W,n-1);
+    [Vnm1idx,Vnm1] = skalgo(V,n-1);
+    [Wnm1idx,Wnm1] = skalgo(W,n-1);
 
     ## compute new operator matrix
-    newU = Vnm1*Wnm1*Vnm1'*Wnm1'*Unm1;
+    newU = Vnm1*Wnm1*(Vnm1')*(Wnm1')*Unm1;
 
     ## construct sequence for that matrix
 
-    ##  adjoint sequences
-    VseqAdj = cell(length(Vnm1seq),1);
-    len = length(VseqAdj);
-    for k = 1:len
-      VseqAdj{k} = adj(Vnm1seq{len+1-k});
-    endfor
-
-    WseqAdj = cell(length(Wnm1seq),1);
-    len = length(WseqAdj);
-    for k = 1:len
-      WseqAdj{k} = adj(Wnm1seq{len+1-k});
-    endfor
-
     ## U = V*W*V'*W'*Un-1
-    Us = {Vnm1seq{:},Wnm1seq{:}, VseqAdj{:}, WseqAdj{:}, Unm1seq{:}};
+    tidx = [Vnm1idx,Wnm1idx,UZERO{Vnm1idx,3}, UZERO{Wnm1idx,3}, Unm1seq];
 
-  endif
-
-endfunction
-
-## Adjoint by name/string
-## this is a bit hacky... but should work...
-function s = adj(opstr)
-
-  if(length(opstr) == 2) #only U'->U
-    s = opstr(1);
-  else #length is 1. U->U', unless it's Hermitian
-    switch(opstr)
-      case {"H","X","Y","Z","I"}
-	s= opstr;
-      otherwise
-	s = [opstr,"'"];
-    endswitch
   endif
 
 endfunction

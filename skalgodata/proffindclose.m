@@ -19,8 +19,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-
-function pData = proffindclose(fname,n)
+function [d1,d2] = proffindclose(fname,n,opt="both")
 
   ## load file and check for UZERO
   load(fname);
@@ -30,27 +29,45 @@ function pData = proffindclose(fname,n)
 
   addpath("../qcs/inst:../qcs/inst/@QIASMsingle/private");
 
-  ## filename for results. 2*n = samples per pi
-  #[fd,fnam] = fileparts(fname);
 
-  #logname = sprintf("./data/skparams-%s-%s.mat",fnam,tnam);
   profile clear;
-  profile off;
-  for j = 1:n
-    ## current SU(2) op U
-    p = randparams = [unifrnd(0,pi/2,1,1),unifrnd(0,2*pi,1,2)];
-    U = U2phaseamp(p);
+  times = zeros(n,1);
 
-    profile resume;
-    [s,m] = findclosest(U);
-    profile off;
+  for j = 1:n
+    ## compute an SU(2) op U at random
+    U = U2phaseamp([unifrnd(0,pi/2,1,1),unifrnd(0,2*pi,1,2)]);
+
+    if( strcmp(opt,"prof") || strcmp(opt,"both") )
+      profile resume;
+      [s,m] = findclosest(U);
+      profile off;
+    endif
+
+    if( strcmp(opt,"time") || strcmp(opt,"both") )
+      tic;
+      [s,m] = findclosest(U);
+      times(j) = toc;
+    endif
 
   endfor
 
 
   ## clean up
+
+  switch (opt)
+    case "both"
+      d1 = profile("info");
+      d2 = mean(times);
+    case "prof"
+      d1 = profile("info");
+      d2 = 0;
+    case "time"
+      d1 = mean(times);
+      d2 = profile("info");
+  endswitch
+
   clear -g UZERO;
   rmpath("../qcs/inst:../qcs/inst/@QIASMsingle/private");
-  pData = profile("info");
+  
 
 endfunction
