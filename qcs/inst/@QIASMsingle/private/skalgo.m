@@ -44,7 +44,7 @@ function [tidx,newU] = skalgo(U,n)
     ## construct sequence for that matrix
 
     ## U = V*W*V'*W'*Un-1
-    tidx = [Vnm1idx,Wnm1idx,UZERO{Vnm1idx,3}, UZERO{Wnm1idx,3}, Unm1seq];
+    tidx = [Vnm1idx,Wnm1idx,UZERO{Vnm1idx,3}, UZERO{Wnm1idx,3}, Unm1idx];
 
   endif
 
