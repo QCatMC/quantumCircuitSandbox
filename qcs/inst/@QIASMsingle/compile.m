@@ -61,16 +61,17 @@ function q = compile(this,eta)
       ##assert(norm(SU-SUapprox) < eta, ...
       ##     "QIASM compile: unable to approximate a gate");
 
-      ## simplify/reduce approximating sequence if possible.
-      qstrseq = simpseq(idx2seq(idxseq));
+      qstrseq = idx2seq(idxseq);
+      ##qstrseq = simpseq(qstrseq);
     endif
 
     ## convert strings to QASMsingle with correct target
     ## pack into a QASMseq. reverse for circuit order vs. Maths order
     qseq = cell(length(qstrseq),1);
     len = length(qseq);
+    t = get(this,"tar");
     for k = 1:len
-      qseq{k} = @QASMsingle(qstrseq{len+1-k},get(this,"tar"));
+      qseq{k} = @QASMsingle(qstrseq{len+1-k},t);
     endfor
 
     ## package approximating sequence as @QASMseq
@@ -85,10 +86,27 @@ endfunction
 ## sequence
 function strs = idx2seq(idxs)
   global UZERO;
-  strs = cell();
-  for k = 1:length(idxs)
-    strs = {strs{:},UZERO{idxs(k),1}{:}};
+
+  nseqs = length(idxs);
+  ## length of each cell of strs in UZERO
+  lens = zeros(1,nseqs);
+  for k = 1:nseqs
+    lens(k) = length(UZERO{idxs(k),1});
   endfor
+
+  ## last indexs in flattened sequence
+  lsts = cumsum(lens);
+  ## first index in flattened sequence
+  fsts = lsts-lens+1;
+
+  ## flattened seq
+  strs = cell(1,lsts(nseqs));
+
+  ## copy copy
+  for k = 1:nseqs
+    strs(fsts(k):lsts(k)) = UZERO{idxs(k),1};
+  endfor
+
 endfunction
 
 ## computes the 2x2 unitary given operator name and parameters

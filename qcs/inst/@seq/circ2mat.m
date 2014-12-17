@@ -25,7 +25,7 @@ function U = circ2mat(g,n)
 
   U = speye(2^n);
   for k = 1:length(g.seq)
-    U = U*circ2mat(g.seq{k},n);
+    U = circ2mat(g.seq{k},n)*U;
   endfor
 
 endfunction
