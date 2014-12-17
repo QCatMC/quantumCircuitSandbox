@@ -1,6 +1,13 @@
+v0.9.9
+ - the use of the parallel package is now optional.  However,
+    noticeable speedups can be achieved when it's installed
+    and loaded.
+ - continued performance tweaks for the SK compiler.
+ - fixed a serious bug in @seq/circ2mat
+
 v0.9.8
  - skalgo now utilizes the octave-forge package parallel
-   to speedup the table search done by findclosest. 
+   to speedup the table search done by findclosest.
 
 v0.9.7
  - Performance enhancements and bug fixes
