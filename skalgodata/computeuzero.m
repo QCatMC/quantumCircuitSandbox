@@ -24,7 +24,7 @@ function tab = computeuzero(len)
   ignore_function_time_stamp("all");
 
   ## add package parent directory to the path
-  addpath ../oct-circuits/inst/;
+  addpath ../qcs/inst/;
 
   ## Gate sets
   ## elementary gate set
@@ -36,7 +36,7 @@ function tab = computeuzero(len)
   ## result file names
   resfilename = sprintf("uzero%02d.mat",len);
   ## logfile name
-  logname = sprintf("computeuzero%02d.log",len);  
+  logname = sprintf("computeuzero%02d.log",len);
 
   ## remove old log
   fid=fopen(logname,"w");
@@ -44,37 +44,37 @@ function tab = computeuzero(len)
 
   ## let's do this...
   logmsg("computeuzero script started",logname);
-  
+
   if( len <= 4)
     tab = computedirect(len,gates,elemset,logname);
   elseif(uint32(floor(log2(len))) == uint32(ceil(log2(len))))
 
     ## number of doublings needed
     iters = uint32(floor(log2(len)))-2;
-    
+
     tab = computedirect(4,gates,elemset,logname);
     for k = 1:iters
-	next = double(tab,elemset);
-	next = removedupes(next,logname);
-	tab = next;
+      next = double(tab,elemset);
+      next = removedupes(next,logname);
+      tab = next;
     endfor
- 
+
  else # len>4 but not power of 2
     lhsize = 2^uint32(floor(log2(len))); # nearst power of 2 to len
     rhsize = len-lhsize; # what's left
 
-    ## this scales poorly. when rhsize = lhsize-1, 
+    ## this scales poorly. when rhsize = lhsize-1,
     ## then a fair ammount of repeated computation can take place
-    tab = compose(computeuzero(lhsize),...  
+    tab = compose(computeuzero(lhsize),...
 		  computeuzero(rhsize),...
 		  elemset);
     tab = removedupes(tab,logname);
-    
-  endif  
-  
+
+  endif
+
   ## save to file for use by compiler
-  global UZERO = tab; 
-  ## numeric sequences to string sequences for compilation  
+  global UZERO = tab;
+  ## numeric sequences to string sequences for compilation
   for k = 1:length(UZERO)
     UZERO{k,1} = stringify(UZERO{k,1},elemset);
   endfor
@@ -82,40 +82,40 @@ function tab = computeuzero(len)
   save(resfilename,"UZERO");
   clear -g UZERO;
 
-  
-  ignore_function_time_stamp("none");  
+
+  ignore_function_time_stamp("none");
 endfunction
 
 function uz = computedirect(len,gates,elemset,logname)
-  
+
   ## allocate 2D cell array
   uz = cell(length(gates)^len,2); ## the cell array
   uz(:,1) = zeros(1,len); ## column one. vectors
   uz(:,2) = zeros(2,2); ## column two, 2x2 matrix
-  
+
   logmsg("initial space allocated",logname);
-  
-  ## for each.. 
+
+  ## for each..
   for k = 1:length(uz)
     ## encode sequence as base |gates| number
     uz{k,1} = base10toradk(k-1,length(gates),len);
-    
-    ## convert [1,|gates|] to [1,|elemset|] to avoid 
+
+    ## convert [1,|gates|] to [1,|elemset|] to avoid
     ## gates/elemset order dependence
     uz{k,1} = adjustForgates(uz{k,1},gates,elemset);
 
     ## algebraic simplification
     uz{k,1} = simpseq(uz{k,1},elemset);
-    
+
     ## compute matrix & reduce to SU(2)
     uz{k,2} = ldig2mat(uz{k,1},elemset);
 
   endfor
-  
+
   logmsg("Complete space of %d sequences generated. Removing \
 	 %duplicates",...
 	 logname);
-  
+
   uz = removedupes(uz,logname);
 
 endfunction
@@ -154,7 +154,7 @@ function nr = base10toradk(nat,rad,len)
 
   ##what's the high order bit?
   hob = uint32(floor(log(nat)/log(rad)))+1;
-  
+
   ## just in case
   assert(hob <= len);
 
@@ -171,7 +171,7 @@ endfunction
 function U = ldig2mat(ldig,elemset)
 
   U = eye(2);
-  
+
   for k = 1:length(ldig)
     U = U*eval(elemset{ldig(k)},'error("bad operator")');
   endfor
@@ -181,7 +181,7 @@ function U = ldig2mat(ldig,elemset)
 endfunction
 
 
-## takes a cellarray containing a sequence of 
+## takes a cellarray containing a sequence of
 ## G = {H,T,T'} and reduces the sequence to a shorter
 ## but equivalent sequence utilizing Union(G,{X,Z,S,S'})
 
@@ -193,7 +193,7 @@ function snew = simpseq(seq,elemset)
   snew = seq;
   len = length(snew);
   while(redux)
-    snew = reduceseq(snew,elemset); 
+    snew = reduceseq(snew,elemset);
     redux  = (len > length(snew));
     len = length(snew);
     snew = substseq(snew,elemset);
@@ -209,7 +209,7 @@ function sseq = reduceseq(seq,elemset)
 
   size = 1;
   while(size <= uint32(length(seq)/2) )
-    curr = 1; ## current index 
+    curr = 1; ## current index
     found = false; ## true if subsequence is removed
     ## step through and remove U*U'=I
     while(curr+2*size-1 <= length(seq) )
@@ -221,10 +221,10 @@ function sseq = reduceseq(seq,elemset)
 	idxs = [[1:curr-1],[curr+2*size:length(seq)]];
 	seq = seq(idxs);
 	## flag found
-	found = true; 
+	found = true;
       else
 	curr++;
-      endif	 
+      endif
 
     endwhile
 
@@ -244,7 +244,7 @@ endfunction
 ## {H,Z,T,S,T',S',X,Y}
 function b = isadjoint(aseq,bseq,elemset)
 
-  len = length(aseq);	 
+  len = length(aseq);
   for k = 1:len
     if( !adjop(elemset{aseq(k)},elemset{bseq(len+1-k)}) )
       b = false;
@@ -267,7 +267,7 @@ function b = adjop(astr,bstr)
 endfunction
 
 
-## for |seq|==2, replace with eqivalent sequence of 
+## for |seq|==2, replace with eqivalent sequence of
 ## length 2 or 1.. T^2 =S,S^2=Z
 ## changing global elementset breaks this function!!!
 function snew = substpair(seq,elemset)
@@ -278,7 +278,7 @@ function snew = substpair(seq,elemset)
 	snew = [find(ismember(elemset,"S"))]; #S
       case "T'"
 	snew = [find(ismember(elemset,"S'"))]; #S'
-      case {"S","S'"} 
+      case {"S","S'"}
 	snew = [find(ismember(elemset,"Z"))]; #Z
       otherwise
 	snew=seq;
@@ -299,11 +299,11 @@ function snew = subshxz(seq,elemset)
     if(strcmp(elemset{seq(2)},"Z") )
       snew = [find(ismember(elemset,"X"))]; #X
     elseif(strcmp(elemset{seq(2)},"X"))
-      snew = [find(ismember(elemset,"Z"))]; #Z 
+      snew = [find(ismember(elemset,"Z"))]; #Z
     else
       snew = seq; # no change
     endif
-    
+
   else
     snew = seq;
   endif
@@ -311,14 +311,14 @@ function snew = subshxz(seq,elemset)
 endfunction
 
 function snew = substseq(seq,elemset)
-  snew = seq;	 
+  snew = seq;
   found = true;
   ## repeat until no more subst is found
   while(found)
-  
+
     found = false;
     ## pairwise reductions (and len 2^k reductions)
-    k=1;  
+    k=1;
     while(k<length(snew))
       curr = substpair(snew(k:k+1),elemset);
       if(length(curr) == 1)
@@ -326,7 +326,7 @@ function snew = substseq(seq,elemset)
 		snew(k+2:end) ];
 	found=true;
       endif
-      k++;	     
+      k++;
     endwhile
 
     ## look for HXH=Z and HZH=X
@@ -350,7 +350,7 @@ function U = su2afy(mat)
 
   ph = det(mat);
   if( ph != 1 ) # must be U(2). factor out global phase
-    U = sqrt(ph)' * mat;       
+    U = sqrt(ph)' * mat;
   else # already SU(2)
     U = mat;
   endif
@@ -361,8 +361,8 @@ function newus = removedupes(uz,logname)
   ## remove duplicates
   iter = 1; ## num iterations --> 1+[unique-so-far]
 
-  urows = 1:length(uz); ## index of unique rows 
-  
+  urows = 1:length(uz); ## index of unique rows
+
   while ( iter<length(urows) )
 
 
@@ -379,19 +379,19 @@ function newus = removedupes(uz,logname)
     posUni = sum(uni);
     dupes = length(urows) - posUni;
     urows = urows([1:iter,(find(uni)+iter)]);
-  
+
     logmsg(sprintf("found %d duplicates on iteration %d. %d remain.", ...
 		   dupes,iter,posUni), logname);
-    
+
     ## indices of new elements
     iter++; ## next item
   endwhile
-  newus = uz(urows,:); ## select unique  
+  newus = uz(urows,:); ## select unique
 
   logmsg(sprintf("Finished removing duplicates %d unique items found.",...
 		 length(newus)),...
 	 logname);
-  
+
 endfunction
 
 function newus = double(us,elemset)
@@ -403,7 +403,7 @@ function newus = double(us,elemset)
     for j = 1:len
       idx = (k-1)*len+j;
       ## simplify again to handle the composition
-      newus{idx,1} = simpseq([us{k,1},us{j,1}],elemset); 
+      newus{idx,1} = simpseq([us{k,1},us{j,1}],elemset);
       ## compute from sequence for consistency
       newus{idx,2} = ldig2mat(newus{idx,1},elemset);
     endfor
@@ -423,7 +423,7 @@ function newus = compose(lhs,rhs,elemset)
     for j = 1:lenr
       idx = (k-1)*lenr+j;
       ## simplify again to handle the composition
-      newus{idx,1} = simpseq([lhs{k,1},rhs{j,1}],elemset); 
+      newus{idx,1} = simpseq([lhs{k,1},rhs{j,1}],elemset);
       ## compute from sequence for consistency
       newus{idx,2} = ldig2mat(newus{idx,1},elemset);
     endfor

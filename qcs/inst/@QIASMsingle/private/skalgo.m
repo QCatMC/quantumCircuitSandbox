@@ -32,21 +32,34 @@ function [tidx,newU] = skalgo(U,n)
     ## findclosest picks row with the matrix that minimizes
     ## operr(U,U(2)). tidx is the row index
     [tidx,newU] = findclosest(U);
+
   else
+
     [Unm1idx,Unm1] = skalgo(U,n-1);
-    [V,W] = getGroupComm(U*Unm1');
+    [V,W] = getGroupComm(U*(Unm1'));
     [Vnm1idx,Vnm1] = skalgo(V,n-1);
     [Wnm1idx,Wnm1] = skalgo(W,n-1);
 
     ## compute new operator matrix
     newU = Vnm1*Wnm1*(Vnm1')*(Wnm1')*Unm1;
 
-    ## construct sequence for that matrix
-
     ## U = V*W*V'*W'*Un-1
-    tidx = [Vnm1idx,Wnm1idx,UZERO{Vnm1idx,3}, UZERO{Wnm1idx,3}, Unm1idx];
+    tidx = [Vnm1idx,Wnm1idx,conjseq(Vnm1idx),conjseq(Wnm1idx),Unm1idx];
 
   endif
+
+endfunction
+
+function a = conjseq(idxseq)
+  global UZERO;
+
+
+  len = length(idxseq);
+  a = zeros(1,len); ## allocate space
+  ## reverse and conjugate
+  for k = 1:len
+    a(len+1-k) = UZERO{idxseq(k),3};
+  endfor
 
 endfunction
 

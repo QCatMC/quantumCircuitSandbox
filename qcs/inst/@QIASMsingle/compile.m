@@ -32,10 +32,14 @@ function q = compile(this,eta)
   else
     ignore_function_time_stamp("all");
 
-    ##use SK to approximiate to within eta with a QASMseq
-    ## SK params
+
+    ## these numbers werechoosen without any real attention to contents
+    ## of UZERO...
+    ## the larger |capp - sqrt(1/eta0)| the shallower the recrusion depth,
+    ## the faster this gets done.  eta0 comes form dawson et. al.
+    ## capprox was mostly choosen at random... these need attention
     eta0 = 0.16;
-    capprox = 2.4254; #sqrt(0.17^-1)... to satisfy eta0 < capprox^-2
+    capprox = 1.9;
 
     ## get the SU(2) variant of this
     [SU,ph] = QIASMop(get(this,"name"),get(this,"params"));
@@ -45,7 +49,9 @@ function q = compile(this,eta)
     ## distance from SU to eta_0 approximation mat
     dist = norm(SU-mat);
     if( dist <= eta ) # good enough. why work more!
+
       qstrseq = idx2seq(idx);
+
     else # need a better approximation. more work!
 
       ## initial depth of SK algo
@@ -56,23 +62,27 @@ function q = compile(this,eta)
       ## compile with Solovay-Kiteav
       [idxseq,SUapprox] = skalgo(SU,skdep);
 
-      ## test for eta precision requirement
-      ##  *** Remove when not testing or keep for runtime errors
-      ##assert(norm(SU-SUapprox) < eta, ...
-      ##     "QIASM compile: unable to approximate a gate");
-
       qstrseq = idx2seq(idxseq);
       ##qstrseq = simpseq(qstrseq);
     endif
 
     ## convert strings to QASMsingle with correct target
     ## pack into a QASMseq. reverse for circuit order vs. Maths order
+
     qseq = cell(length(qstrseq),1);
     len = length(qseq);
     t = get(this,"tar");
-    for k = 1:len
-      qseq{k} = @QASMsingle(qstrseq{len+1-k},t);
-    endfor
+    nps = idivide(nproc("current"),2,"floor");
+    if( nps <= 1 || !exist("parcellfun") )
+      for k = 1:len
+        qseq{k} = @QASMsingle(qstrseq{len+1-k},t);
+      endfor
+    else
+      build = @(op) @QASMsingle(op,t);
+      qseq = parcellfun(nps,build,fliplr(qstrseq), ...
+                        "VerboseLevel",0,"ChunksPerProc",15,...
+                        "UniformOutput", false);
+    endif
 
     ## package approximating sequence as @QASMseq
     q = @QASMseq(qseq);
