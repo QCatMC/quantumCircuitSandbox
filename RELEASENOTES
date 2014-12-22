@@ -1,3 +1,11 @@
+v1.0.0
+ - Beta 1.0 Release.
+ - Compiling to QASM should be considered non-deterministic at
+   this point.  Circuit errors < 0.009 are not well tested
+   nor supported.  The use of the parallel package for
+   speeding up the QASM compiler is highly recommended if
+   your running a multi-core machine.
+
 v0.9.9
  - the use of the parallel package is now optional.  However,
     noticeable speedups can be achieved when it's installed
