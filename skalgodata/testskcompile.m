@@ -41,12 +41,13 @@ function err = testskcompile(fname,et,m)
     ## should be near the same up to a global phase
     Umat = full(circ2mat(U,1)); #already SU(2)
     Vmat = SUafy(full(circ2mat(V,1)));
+    ## either we get gp*U or gp*-U
     errs(j) = min(norm(Umat-Vmat),norm(Umat+Vmat));
   endfor
 
   err = zeros(1,7);
   err(1) = sum(errs); # total error
-  err(2) = err(1) - et/m; # diff with desired error
+  err(2) = err(1) - et; # diff with desired error
   err(3) = mean(errs); # avg error/gate
   err(4) = max(errs);  # max error/gate
   err(5) = min(errs); # min error/gate

@@ -30,6 +30,7 @@ function eta0 = randPhaseAmp(n)
   logname = sprintf("./data/randPhaseAmp-%dsamps-%s.mat",n,datestr(now,30));
 
   params = zeros(n,3);
+  dists = zeros(n,4);
   su2s = cell(1,n);
 
   for j = 1:rows(params)
@@ -40,6 +41,13 @@ function eta0 = randPhaseAmp(n)
 
     ## current SU(2) op
     su2s{j} = U2phaseamp(randparams);
+    X = SUafy([0,1 ; 1,0] );
+    Y = SUafy([0,-i ; i,0]);
+    Z = SUafy([1,0 ; 0,-1]);
+    dists(j,:) = [norm(eye(2)-su2s{j}), ...
+                 norm(X- su2s{j}), ...
+                 norm(Y - su2s{j}), ...
+                 norm(Z - su2s{j})];
 
   endfor
 
@@ -47,6 +55,7 @@ function eta0 = randPhaseAmp(n)
   save(logname,"params");
   ## for each U in SU(2)
   save("-append",logname,"su2s");
+  save("-append",logname,"dists");
 
   ## clean up
   clear -g all;

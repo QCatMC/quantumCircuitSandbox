@@ -6,8 +6,10 @@
 ## maxd == depth for exactly m
 ## mind == depth for m=1
 ## meand == E[depth|m in [1,m-arg]]
+## et0 and capp are set to current values found in
+## @QIASMsingle/compile
 
-function [maxd,mind,meand] = skdep(et,m,et0,capp)
+function [maxd,mind,meand] = skdep(et,m,et0=.16,capp=1.9)
 
   ets = et*ones(1,m) ./ (1:m);
   deps = zeros(m,1);

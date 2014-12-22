@@ -78,6 +78,7 @@ function capprox = computeskparams(fname,tname)
       ## these are values specific to the operator j
       cgcs(j,:) = gcdists(j,:)/sqrt(eta0s(j));
 
+      ## get eta1 approx.
       [seq,u1] = skalgo(u,1);
       eta1s(j) = norm(u-u1);
       capproxs(j) = (eta1s(j))/(eta0s(j)^(3/2));
