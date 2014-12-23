@@ -15,7 +15,7 @@
 
 ## Usage: [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 ##
-##  simulate the action of a @measure 'gate' on pure state
+##  simulate the action of a @meas 'gate' on pure state
 ##  'in' in a system of size 'bits'.  The current simulation depth is
 ##  currd and dlim is the user specified simulation depth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
@@ -97,7 +97,7 @@ endfunction
 %!test
 %! x = stdBasis(5,3);
 %! for i = 1:30
-%!  s =  sim(@measure([]),x,3,0,1,0,1);
+%!  s =  sim(@meas([]),x,3,0,1,0,1);
 %!  assert(s,stdBasis(5,3))
 %! endfor
 
@@ -108,7 +108,7 @@ endfunction
 %! x = 1/2*[1,-1,1,-1]';
 %! res = zeros(4,1);
 %! for i = 1:250
-%!   s = sim(@measure([]),x,2,0,1,0,1);
+%!   s = sim(@meas([]),x,2,0,1,0,1);
 %!   res(find(s))++;
 %! endfor
 %! res = res ./ 250;
@@ -119,14 +119,14 @@ endfunction
 %! x = (1/2)*[1,-1,1,-1]';
 %! r = zeros(4,1);
 %! for k = [1:500]
-%!  r = r + sim(@measure([1]),x,2,0,1,0,1);
+%!  r = r + sim(@meas([1]),x,2,0,1,0,1);
 %! endfor
 %! expect = (1/(2*sqrt(2)))*[1,-1,1,-1]';
 %! assert(r/500,expect,0.1);
 %!
 %! r = zeros(4,1);
 %! for k = [1:500]
-%!  r = r + sim(@measure([0]),x,2,0,1,0,1);
+%!  r = r + sim(@meas([0]),x,2,0,1,0,1);
 %! endfor
 %! expect = (1/(2*sqrt(2)))*[1,-1,1,-1]';
 %! assert(r/500,expect,0.1);
@@ -136,7 +136,7 @@ endfunction
 %! x = (1/2)*[1,1,1,1,0,0,0,0]';
 %! r = zeros(8,1);
 %! for k = [1:500]
-%!  r = r + sim(@measure([0,1]),x,3,0,1,0,1);
+%!  r = r + sim(@meas([0,1]),x,3,0,1,0,1);
 %! endfor
 %! expect = (1/4)*[1,1,1,1,0,0,0,0]';
 %! assert(r/500,expect,0.1);

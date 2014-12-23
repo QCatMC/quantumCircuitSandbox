@@ -26,9 +26,9 @@
 function g = QASMmeasure(tars)
 
   if( nargin == 0)
-    g.meas = @measure([]);
+    g.meas = @meas([]);
   else
-    g.meas = @measure(tars);
+    g.meas = @meas(tars);
   endif
   g = class(g,"QASMmeasure");
 

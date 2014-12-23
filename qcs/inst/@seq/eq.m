@@ -41,8 +41,8 @@ endfunction
 %! a = @seq({@single("H",1),@cNot(0,1)});
 %! b = @seq({@single("H",1),@cNot(0,1)});
 %! c = @seq({@single("H",1)});
-%! d = @seq({@single("H",1),@cNot(0,1),@seq({@measure()})});
-%! e = @seq({@single("H",1),@cNot(0,1),@seq({@measure()})});
+%! d = @seq({@single("H",1),@cNot(0,1),@seq({@meas()})});
+%! e = @seq({@single("H",1),@cNot(0,1),@seq({@meas()})});
 %! assert(eq(a,a));
 %! assert(eq(a,b));
 %! assert(eq(d,e));

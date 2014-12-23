@@ -13,28 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## Usage: g = @meas(tars)
 ##
-## returns true if @measure this is equivalent to other.
+## Construct a gate object for measuring the qubits with indexs given
+## by the set of natural numbers tars
 ##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
- 
 
-function b = eq(this,other)
-  b = isa(other,"measure") && isequal(this.tar,other.tar) ;
+
+function g = meas(tars)
+
+  if( nargin == 0)
+    g.tar = [];
+  else
+    g.tar = tars;
+  endif
+  g = class(g,"meas");
+
 endfunction
-
-
-%!test
-%! a = @measure();
-%! b = @measure(0:3);
-%! c = @measure(0:3);
-%! d = @measure(1:3);
-%! assert(eq(b,b));
-%! assert(eq(b,c));
-%! assert(!eq(b,d));
-%! assert(eq(a,a));
-%! assert(!eq(a,b));
-%! assert(eq(a,@measure()));

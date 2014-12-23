@@ -42,7 +42,7 @@ function t = collectTars(this)
 endfunction
 
 %!test
-%! C = @seq({@single("H",2),@measure([1,4]),...
+%! C = @seq({@single("H",2),@meas([1,4]),...
 %!               @cNot(3,1),@single("X",4)});
 %! assert(1:4,collectTars(C));
 %! D = @seq({C,@single("Y",7)});

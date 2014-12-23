@@ -13,38 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(mg, f)
+## Usage: g = ctranspose(g)
 ##
-## @measure field selector
+##   Technically, measurement has no inverse/revesre/complex conjugate.
+##   it's a destructive, non-reversible operation. That being said,
+##   Projector's are self-inverse, so that's what we'll return.
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function s = get(mg,f)
+function s = ctranspose(g)
 
-  if (nargin == 1)
-    s.tar = mg.tar;
-  elseif (nargin == 2 )
-    if ( ischar(f) )
-      switch(f)
-	case "tar"
-	s = mg.tar;
-	otherwise
-	  error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-      print_usage();
-  endif
+   s = @meas(g.tar);
 
 endfunction
 
 %!test
-%! a = @measure();
-%! b = @measure(1:3);
-%! assert([],get(a,"tar"));
-%! assert([1,2,3],get(b,"tar"));
-%! bs.tar = [1,2,3];
-%! assert(bs,get(b));
+%! err = 2^-40;
+%! assert( operr(circ2mat(@meas(0:3),4)', ...
+%!               circ2mat(@meas(0:3)',4) ) < err );

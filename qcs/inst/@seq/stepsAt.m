@@ -36,7 +36,7 @@ endfunction
 
 %!test
 %! A = @seq({@single("H",1),@cNot(2,1),...
-%!               @measure([1,2,5])});
+%!               @meas([1,2,5])});
 %! assert(stepsAt(A,1),3);
 %! assert(stepsAt(A,2),3);
 %! B = @seq({@single("Z",2),A});

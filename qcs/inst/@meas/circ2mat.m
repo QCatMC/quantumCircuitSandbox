@@ -26,6 +26,6 @@ function U = circ2mat(g,n)
 endfunction
 
 %!test
-%! assert( isequal(circ2mat(@measure(2:3),4),speye(2^4)))
-%! assert( isequal(circ2mat(@measure(0),1),speye(2)))
-%! assert( isequal(circ2mat(@measure(0),2),speye(2^2)))
+%! assert( isequal(circ2mat(@meas(2:3),4),speye(2^4)))
+%! assert( isequal(circ2mat(@meas(0),1),speye(2)))
+%! assert( isequal(circ2mat(@meas(0),2),speye(2^2)))

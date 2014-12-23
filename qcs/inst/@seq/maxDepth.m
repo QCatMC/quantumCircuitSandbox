@@ -35,7 +35,7 @@ endfunction
 %!test
 %! a = @seq({@single("X",1)});
 %! b = @seq({@cNot(3,5),a});
-%! c = @seq({b,a,b,@measure()});
+%! c = @seq({b,a,b,@meas()});
 %! assert(maxDepth(a),1);
 %! assert(maxDepth(b),2);
 %! assert(maxDepth(c),3);
