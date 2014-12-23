@@ -2,12 +2,14 @@
 
 pkg load qcs;
 
-## Like many quantum circuits, Super Dense Coding circuits really vary by just a few
-## key operators.  The four Super-Dense coding circuits all take |00> as the input, then
-##  transfor to the bell basis 00. Alice then performs her operations on
-##  bit 1.  Bob can then measure in the bell basis by way of transforming
-##  back to the std basis and doing a standard measurement. So, we can write a basic octave
-## function to construct circuit arrays given the names of the operators applied by Alice.
+## Like many quantum circuits, Super Dense Coding circuits really
+## vary by just a few key operators.  The four Super-Dense coding
+## circuits all take |00> as the input, then transform to the bell
+## basis 00. Alice then performs her operations on bit 1.  Bob can
+## then measure in the bell basis by way of transforming back to
+## the std basis and doing a standard measurement. So, we can write
+## a basic octave function to construct circuits given the names
+## of the operators applied by Alice.
 
 ## Constructor for SuperDense Coding circuit descriptor
 function C = makeSDCirc(alice)
@@ -30,27 +32,30 @@ function C = makeSDCirc(alice)
 endfunction
 
 ## Encode 00
-ZrZr = makeSDCirc({})
+ZrZr = makeSDCirc({});
 
 ## Encode 01
-ZrOn = makeSDCirc({"X"})
+ZrOn = makeSDCirc({"X"});
 
 ## Encode 10
-OnZr = makeSDCirc({"Z"})
+OnZr = makeSDCirc({"Z"});
 
 ## Encode 11
-OnOn = makeSDCirc({"X","Z"})
+OnOn = makeSDCirc({"X","Z"});
 
-## Now let's try all 4... 100 times
-tot = zeros(4,4);
-for k = 1:100
-  res = zeros(4,4);
-  res(:,1) = simulate(ZrZr,0);
-  res(:,2) = simulate(ZrOn,0);
-  res(:,3) = simulate(OnZr,0);
-  res(:,4) = simulate(OnOn,0);
-  tot = tot + res;
+## Now let's try all 4
+res = zeros(4,4);
+res(:,1) = simulate(ZrZr,0);
+res(:,2) = simulate(ZrOn,0);
+res(:,3) = simulate(OnZr,0);
+res(:,4) = simulate(OnOn,0);
+
+## This is a deterministic algorithm, but why not 'repeat
+## and measure'. Let's get the results in binary.
+coded = zeros(4,2);
+for k = 1:4
+  coded(k,:) = measure(res(:,k),"samples",50,"binary",true);
 endfor
 
-## and the sample mean...
-tot = tot/100
+coded
+assert(isequal(coded,[0,0;0,1;1,0;1,1]));

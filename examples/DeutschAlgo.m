@@ -39,23 +39,27 @@ res = simulate(id_cir,1)
 ## first get the density operator of res
 resOp = pureToDensity(res);
 ## now trace out the space of bit 0. We should see |1><1|
-resOp = pTrace(0,resOp)
+resOp = pTrace(0,resOp);
+## If density matrices aren't your thing, then we can then do a complete
+## measurement of the density operator to get the integer value of the result.
+resInt = measure(resOp);
 ## let's just double check that they're more or less the same
 ## via the operator norm based operr
-assert(operr(resOp,[0,0; 0,1]) < 2^-30);
+assert(resInt,1);
 
 ## Let's look at const_one, a constant function.
 
 ## This time we'll pass a binary row-vector as the input.
-res = simulate(one_cir,[0,1])
+res = simulate(one_cir,[0,1]);
 ##  Because this is a constant function, we should get |0><0| as the result.
-resOp = pTrace(0,pureToDensity(res))
-assert(operr(resOp,[1,0; 0,0]) < 2^-30);
+resOp = pTrace(0,pureToDensity(res));
+resInt = measure(resOp);
+assert(resInt,0);
 
 ## You can also pass in basis vectors as initial inputs
 res = simulate(one_cir,stdBasis(1,2));
-resOp = pTrace(0,pureToDensity(res))
-assert(operr(resOp,[1,0; 0,0]) < 2^-30);
+resOp = pTrace(0,pureToDensity(res));
+assert(measure(resOp),0);
 
 ## simulate allows you to dictate depth and steps carried out by the
 ## simulation. This allows you trace through the circuit gate-by-gate
@@ -66,7 +70,7 @@ assert(operr(resOp,[1,0; 0,0]) < 2^-30);
 ## prep, oracle, final 'decode' and measurement.
 res = zeros(4,stepsAt(not_cir,1)+1);
 for k = 1:length(res)
-  res(:,k) = simulate(not_cir,1,1,k-1);
+  res(:,k) = simulate(not_cir,1,"depth",1,"steps",k-1);
 endfor
 res
 
@@ -83,7 +87,7 @@ resOp
 ## happening.
 res = zeros(4,stepsAt(not_cir,2)+1);
 for k = 1:length(res)
-  res(:,k) = simulate(not_cir,1,2,k-1);
+  res(:,k) = simulate(not_cir,1,"depth",2,"steps",k-1);
 endfor
 res
 
@@ -94,26 +98,21 @@ for k = 1:length(resOp)
 endfor
 resOp
 
+## Deutsch's Algorithm is deterministic, but if it weren't we might
+## want to repeat the computation some number of times, measure each
+## result and take the majority result as 'the' result of the algorithm.
+## In practice, we'd recompute.  In qcs, we can take multiple measurements
+## without re-simulating, or "repeating the experiment".
 
-## We might check this statistically. This is a deterministic
-##  algorithm, so we expect the right results 100% time.  Let's see what we see...
+## let's resimulate each circuit and save the resultant states
+notRes = pTrace(0,pureToDensity(simulate(not_cir,1)));
+idRes = pTrace(0,pureToDensity(simulate(id_cir,1)));
+oneRes = pTrace(0,pureToDensity(simulate(one_cir,1)));
+zeroRes = pTrace(0,pureToDensity(simulate(zero_cir,1)));
 
-## we'll sum the resultant density matricies
-bid = zeros(2,2);
-bnot = zeros(2,2);
-cone = zeros(2,2);
-czero = zeros(2,2);
-
-## over the course of 100 circuit executions
-for k = [1:100]
-  bid = bid + pTrace(0,pureToDensity(simulate(id_cir,1)));
-  bnot = bnot + pTrace(0,pureToDensity(simulate(not_cir,1)));
-  cone = cone + pTrace(0,pureToDensity(simulate(one_cir,1)));
-  czero = czero + pTrace(0,pureToDensity(simulate(zero_cir,1)));
-endfor
-
-## and report the sample mean.
-assert(operr(bid/100,[0,0 ; 0,1]) < 2^-30)
-assert(operr(bnot/100,[0,0 ; 0,1]) < 2^-30)
-assert(operr(cone/100,[1,0 ; 0,0]) < 2^-30)
-assert(operr(czero/100,[1,0 ; 0,0]) < 2^-30)
+## now we can measure that state and take multiple samples.
+## let's just do 50 samples.
+assert(measure(notRes,"samples",50),1);
+assert(measure(idRes,"samples",50),1);
+assert(measure(oneRes,"samples",50),0);
+assert(measure(zeroRes,"samples",50),0);
