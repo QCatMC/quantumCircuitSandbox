@@ -29,8 +29,12 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation
 
-function s = simulate(cir,in,d=1,t=-1)
+function s = simulate(cir,in,varargin)
 
+  ## get optionals/initialize
+  [r,d,t] = parseparams(varargin,"depth",1,"steps",-1);
+
+  ## error check optionals
   if( d < 1 || floor(d)!=ceil(d) )
     error("simulate: Depth must be a Zero or a positive integer.");
   endif
@@ -94,3 +98,5 @@ endfunction
 %! assert(simulate(C,(0:1)'==0),simulate(C,0));
 %! assert(simulate(C,(0:1)'==1),simulate(C,[1]));
 %! assert(simulate(C,(0:1)'==1),simulate(C,1));
+
+## need tests on optional arguments!!

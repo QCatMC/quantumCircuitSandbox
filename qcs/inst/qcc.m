@@ -43,9 +43,25 @@ function C = qcc(desc,varargin )
     inType = class(desc);
   endif
 
-
+  ## get optional arguments
   ## parse optional arguments. get precision eta and target language tar
-  [eta,tar] = parseargs(varargin,inType);
+  #[eta,tar] = parseargs(varargin,inType);
+  [r,tar,eta] = parseparams(varargin,"target",oneMore(inType),...
+                                     "accuracy",2^-7);
+
+
+  ## error check optional argument values
+  if( !isempty(r) )
+    error("qcc: problem with optional arguments.")
+  endif
+
+  if( !strcmp("QIR",tar) && !strcmp("QIASM",tar) && !strcmp("QASM",tar))
+    error("qcc: bad target language given. %s",tar);
+  endif
+
+  if( !isscalar(eta) && !isreal(eta) && (eta < 0 || eta > 1) )
+    error("qcc: bad accuracy given. %f",eta);
+  endif
 
   ##At this point all inputs (desc, eta, tar) are valid and initialized
   ##  desc is either a cell array (descriptor),  a QIR circuit, a QIASM
@@ -96,76 +112,18 @@ function C = qcc(desc,varargin )
 
 endfunction
 
-## true if obj lhs is of target type rhs
-function b = tareq(lhs,rhs)
-  b = (isa(lhs,"QIRcircuit") && strcmp(rhs,"QIR")) || ...
-      (isa(lhs,"QIASMcircuit") && strcmp(rhs,"QIASM")) || ...
-      (isa(lhs,"QASMcircuit") && strcmp(rhs,"QASM"));
-endfunction
-
-## args is the cell array possibly containing the target and precision for
-## the compiler. Parseargs processes this array and produces the appropriate
-##  precision eta and target language t
-function [eta,t] = parseargs(args,inType)
-
-  nargs = length( args );
-
-  switch(nargs)
-    case 0 ## default
-
-      eta = 2^(-7);
-
-      switch(inType)
-        case "cell"
-          t = "QIR";
-        case "QIRcircuit"
-          t = "QIASM";
-        case "QIASMcircuit"
-          t = "QASM";
-        case "QASMcircuit"
-          t = "QASM";
-      endswitch
-
-    case 1 ## either or
-      arg = args{1};
-
-      ## should be target
-      if(ischar(arg) && ...
-        ( strcmp("QIR",arg) || strcmp("QIASM",arg) || strcmp("QASM",arg) ) )
-
-        eta = 2^(-7);
-        t = arg;
-
-        ## should be eta
-      elseif(!ischar(arg) && isscalar(arg) ...
-        && isreal(arg) && arg > 0 && arg < 1)
-
-        eta = arg;
-        t = "QASM";
-      else
-        error("Bad third argument. Expecting circuit approximation error or build target string");
-      endif
-
-    case 2 ## size,target
-
-      t = args{1};
-      ## check target string
-      if( !ischar(t) || ...
-	  ( !strcmp("QIR",t) && !strcmp("QIASM",t) && !strcmp("QASM",t)) )
-	error("Given bad build target string");
-      endif
-
-      eta = args{2};
-
-      ## validate approximation threshold eta
-      if( ischar(eta) || !isreal(eta) || !isscalar(eta) || ...
-	  eta <= 0 || eta >= 1)
-	error("Given bad approximation error threshold eta");
-      endif
-
+function t = oneMore(inType)
+  switch(inType)
+    case "cell"
+     t = "QIR";
+    case "QIRcircuit"
+     t = "QIASM";
+    case {"QIASMcircuit","QASMcircuit"}
+     t = "QASM";
     otherwise
-      error("Problem with optional arguments");
+     error("qcc: bad circuit type.")
   endswitch
+
 endfunction
 
 ## accuracy and correctness of parse and compile functions are tested
@@ -184,14 +142,14 @@ endfunction
 
 %!test
 %! assert(isa(qcc({{"H",0}}),"QIRcircuit"));
-%! assert(isa(qcc({{"H",0}},2^-4),"QASMcircuit"));
-%! assert(isa(qcc({{"H",0}},"QASM",2^-4),"QASMcircuit"));
-%! assert(isa(qcc({{"H",0}},"QASM"),"QASMcircuit"));
-%! assert(isa(qcc({{"H",0}},"QIASM"),"QIASMcircuit"));
-%! assert(isa(qcc({{"H",0}},"QIASM",2^(-4)),"QIASMcircuit"));
-%! c = qcc({{"H",0}},"QIASM");
+%! assert(isa(qcc({{"H",0}},"accuracy",2^-4),"QIRcircuit"));
+%! assert(isa(qcc({{"H",0}},"target","QASM","accuracy",2^-4),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"target","QASM"),"QASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"target","QIASM"),"QIASMcircuit"));
+%! assert(isa(qcc({{"H",0}},"target","QIASM","accuracy",2^(-4)),"QIASMcircuit"));
+%! c = qcc({{"H",0}},"target","QIASM");
 %! d = qcc(c);
-%! assert(eq(qcc(c,"QASM"),d));
+%! assert(eq(qcc(c,"target","QASM"),d));
 %! assert(eq(qcc(c),d));
-%! assert(eq(c,qcc(c,"QIASM")));
+%! assert(eq(c,qcc(c,"target","QIASM")));
 %! assert(eq(d,qcc(d)));
