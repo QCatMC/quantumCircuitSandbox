@@ -31,8 +31,16 @@
 
 function s = simulate(cir,in,varargin)
 
-  ## get optionals/initialize
-  [r,d,t] = parseparams(varargin,"depth",1,"steps",-1);
+  ## check and convert input
+  s0 = processIn(in,get(cir,"bits"));
+
+
+  ## get/init optionals/initialize
+  [r,d,t,samps,worksize,workloc,clasOut] = ...
+     parseparams(varargin,"depth",1,"steps",-1, ...
+                          "samples",0,...
+                          "WorkLocation","Lower","WorkSize",0, ...
+                          "ClassicalOut","Int");
 
   ## error check optionals
   if( d < 1 || floor(d)!=ceil(d) )
@@ -47,15 +55,45 @@ function s = simulate(cir,in,varargin)
     positive integer.");
   endif
 
-  ## check and convert input
-  s0 = processIn(in,get(cir,"bits"));
+  if( !strcmp(workloc,"Lower") && !strcmp(workloc,"Upper") )
+    error("simulate: Bad workspace location. %s",workloc);
+  endif
 
+  if( !isNat(worksize) || worksize > get(cir,"bits") )
+    error("simulate: Bad work space size. %f",worksize);
+  endif
+
+  if( !strcmp(clasOut,"Int") && !strcmp(clasOut,"Bin") )
+    error("simulate: Bad classical output type. %s",clasOut);
+  endif
+
+  ## Ok. Optionals should be good. We're ready to roll...
+
+  ## simulate
   if( t == 0 )
     s = s0;
   else
     s = sim(cir,s0,d,t);
   endif
   s = full(s);
+
+  ## post-process based on optionals
+
+  ## Trace out work if needed
+  if( worksize > 0 )
+    if( strcmp(workloc,"Lower" )
+      spc = 0:(worksize-1);
+    else ## it's "Upper"
+      n = get(cir,"bits");
+      spc = (n-worksize):(n-1);
+    endif
+    s = pTrace(spc,pureToDensity(s));
+  endif
+
+  ## sample if needed
+  if( samps > 0 )
+    s = measure(s,"samples",samps,"Binary",strcmp("Bin",clasOut));
+  endif
 
 endfunction
 
