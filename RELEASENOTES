@@ -1,3 +1,15 @@
+v1.1.0
+ - qcc and simulate now work with optional arguments given
+   as name value pairs as discussed in Issue #21.  This means
+   non-default calls are more verbose, but flexible. It will
+   also be easier to add new options to these key functions as
+   parameter parsing is done via the built-in parseparams.
+ - the new top-level function measure lets the user get
+   integer or binary results from quantum states by carrying
+   out complete measurements in the standard basis.  The
+   measure function works on vector states and density matrices.
+   It also allows for repeated sampling of a state. 
+
 v1.0.0
  - Beta 1.0 Release.
  - Compiling to QASM should be considered non-deterministic at
