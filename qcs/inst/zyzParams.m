@@ -38,9 +38,10 @@ function p = zyzParams(U)
 endfunction
 
 %!test
+%! close = 2^-50;
 %! fail('zyzParams(eye(3))');
-%! assert(isequal(zyzParams(eye(2)),[0,0,0,0]));
-%! assert(isequal(zyzParams(X),[-pi,pi,0,pi/2]));
-%! assert(isequal(zyzParams(Y),[0,pi,0,pi/2]));
-%! assert(isequal(zyzParams(Z),[pi,0,0,pi/2]));
-%! assert(isequal(zyzParams(H),[0,pi/2,pi,pi/2]));
+%! assert(abs(zyzParams(eye(2))-[0,0,0,0]) < close);
+%! assert(abs(zyzParams(X)-[-pi,pi,0,pi/2]) < close);
+%! assert(abs(zyzParams(Y)-[0,pi,0,pi/2]) < close);
+%! assert(abs(zyzParams(Z)-[pi,0,0,pi/2]) < close);
+%! assert(abs(zyzParams(H)-[0,pi/2,pi,pi/2]) < close);

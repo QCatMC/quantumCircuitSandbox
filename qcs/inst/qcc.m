@@ -123,7 +123,7 @@ function [eta,t] = parseargs(args,inType)
         case "QIASMcircuit"
           t = "QASM";
         case "QASMcircuit"
-          t = "QASM"
+          t = "QASM";
       endswitch
 
     case 1 ## either or

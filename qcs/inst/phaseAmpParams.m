@@ -60,7 +60,7 @@ endfunction
 %!test
 %! close = 2^(-50);
 %! assert(isequal(phaseAmpParams(eye(2)),zeros(1,4)));
-%! assert(isequal(phaseAmpParams(Z),[0,0,pi,pi/2]));
-%! assert(isequal(phaseAmpParams(X),[pi/2,0,-pi,pi/2]));
-%! assert(isequal(phaseAmpParams(Y),[pi/2,0,0,pi/2]));
-%! assert(isequal(phaseAmpParams(H),[pi/4,pi,0,pi/2]));
+%! assert(abs(phaseAmpParams(Z)-[0,0,pi,pi/2]) < close);
+%! assert(abs(phaseAmpParams(X)-[pi/2,0,-pi,pi/2]) < close);
+%! assert(abs(phaseAmpParams(Y)-[pi/2,0,0,pi/2]) < close);
+%! assert(abs(phaseAmpParams(H)-[pi/4,pi,0,pi/2])< close);
