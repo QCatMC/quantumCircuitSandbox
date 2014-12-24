@@ -40,63 +40,81 @@ res = simulate(id_cir,1)
 resOp = pureToDensity(res);
 ## now trace out the space of bit 0. We should see |1><1|
 resOp = pTrace(0,resOp);
+## We can also just trace the vector directly and get the same
+## result. pTrace just does the vector->matrix conversion for us
+resOp = pTrace(0,res);
+## let's just double check that they're more or less the same
+## via the operator norm based operr
+assert(operr(resOp,[0,0;0,1]) < 2^-30);
+
 ## If density matrices aren't your thing, then we can then do a complete
 ## measurement of the density operator to get the integer value of the result.
 resInt = measure(resOp);
-## let's just double check that they're more or less the same
-## via the operator norm based operr
 assert(resInt,1);
 
-## Let's look at const_one, a constant function.
+
+## This post processing task is common enough that you can get the
+## simulator to do it for you.
+resInt = simulate(id_cir,1,"worksize",1,"samples",1);
+assert(resInt,1);
+## By default the work space is the lower order qubits. WorkSize
+## dictates the size and the simulator will trace out that space
+## for you. The samples option then directs the simulator to measure
+## the result and return the classical result.
+
+## Let's look at one_cir, the circuit for the constant function that
+## computes 1.
 
 ## This time we'll pass a binary row-vector as the input.
-res = simulate(one_cir,[0,1]);
-##  Because this is a constant function, we should get |0><0| as the result.
-resOp = pTrace(0,pureToDensity(res));
-resInt = measure(resOp);
-assert(resInt,0);
+res = simulate(one_cir,[0,1],"worksize",1,"samples",1);
+##  Because this is a constant function, we should get 0 as the result
+assert(res,0);
 
 ## You can also pass in basis vectors as initial inputs
-res = simulate(one_cir,stdBasis(1,2));
-resOp = pTrace(0,pureToDensity(res));
-assert(measure(resOp),0);
+res = simulate(one_cir,stdBasis(1,2),"worksize",1,"samples",1);
+assert(res,0);
 
-## simulate allows you to dictate depth and steps carried out by the
+## simulate also allows you to dictate depth and steps carried out by the
 ## simulation. This allows you trace through the circuit gate-by-gate
 ## or even logical step-by-step.
 
 ## let's step through bal_not at depth 1 and save each intermediate
 ## result. At this depth gates are grouped logically: inital state
-## prep, oracle, final 'decode' and measurement.
+## prep, oracle, final 'decode' and measurement. Let's look at the
+## quantum state result to get the complete picture.
 res = zeros(4,stepsAt(not_cir,1)+1);
 for k = 1:length(res)
   res(:,k) = simulate(not_cir,1,"depth",1,"steps",k-1);
 endfor
-res
+## now we can see the quantum state at each logical step
+display(res)
 
 ## Then perhaps we'd like to observe the change only on the key bit, bit 1,
 ## using density operators
 resOp = zeros(2,2,length(res));
 for k = 1:length(resOp)
-  resOp(:,:,k) = pTrace(0,pureToDensity(res(:,k)));
+  resOp(:,:,k) = pTrace(0,res(:,k));
 endfor
-resOp
+display(resOp)
 
 ## Now let's get a more fine grained picture by stepping through depth
-## 2.  In this case, this gives us a gate by gate picture of what's
-## happening.
-res = zeros(4,stepsAt(not_cir,2)+1);
+## 2.  For this circuit, this gives us a gate by gate picture of what's
+## happening.  Let's skip right to the density matrix for the work space
+res = zeros(2,2,stepsAt(not_cir,2)+1);
 for k = 1:length(res)
-  res(:,k) = simulate(not_cir,1,"depth",2,"steps",k-1);
+  res(:,:,k) = simulate(not_cir,1,"depth",2,"steps",k-1,"worksize",1);
 endfor
-res
+display(res)
 
-## And the density matrix for Qubit #1...
-resOp = zeros(2,2,length(res));
+## Maybe you'd like to see what's happening in the work space. We can
+## trick the simulator into thinking the data space is the work space
+## by setting worklocation to "Upper".
+reswork = zeros(2,2,stepsAt(not_cir,2)+1);
 for k = 1:length(resOp)
-  resOp(:,:,k) = pTrace(0,pureToDensity(res(:,k)));
+  resOp(:,:,k) = simulate(not_cir,1,"depth",2,"steps",k-1,...
+                          "worksize",1,"worklocation","Upper");
 endfor
-resOp
+display(resOp)
 
 ## Deutsch's Algorithm is deterministic, but if it weren't we might
 ## want to repeat the computation some number of times, measure each
@@ -104,15 +122,18 @@ resOp
 ## In practice, we'd recompute.  In qcs, we can take multiple measurements
 ## without re-simulating, or "repeating the experiment".
 
-## let's resimulate each circuit and save the resultant states
-notRes = pTrace(0,pureToDensity(simulate(not_cir,1)));
-idRes = pTrace(0,pureToDensity(simulate(id_cir,1)));
-oneRes = pTrace(0,pureToDensity(simulate(one_cir,1)));
-zeroRes = pTrace(0,pureToDensity(simulate(zero_cir,1)));
+## Here we simulate each circuit, trace out the work space, and sample
+## the results 50 times, and returns the majority answer.
+## The result is the integer value of the basis of the majority result
+## in the non-work subspace of the circuit, i.e. the answer you'd be
+## looking for if you ran this algorithm in practice.
+notRes = simulate(not_cir,1,"samples",50,"worksize",1);
+idRes = simulate(id_cir,1,"samples",50,"worksize",1);
+oneRes = simulate(one_cir,1,"samples",50,"worksize",1);
+zeroRes = simulate(zero_cir,1,"samples",50,"worksize",1);
 
-## now we can measure that state and take multiple samples.
-## let's just do 50 samples.
-assert(measure(notRes,"samples",50),1);
-assert(measure(idRes,"samples",50),1);
-assert(measure(oneRes,"samples",50),0);
-assert(measure(zeroRes,"samples",50),0);
+## and the expected results..
+assert(notRes,1);
+assert(idRes,1);
+assert(oneRes,0);
+assert(zeroRes,0);

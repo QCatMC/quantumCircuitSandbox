@@ -22,10 +22,13 @@ a1 = @(t) [QIR("T",t),QIR("S",t)];
 a2 = @(t) [QIR("H",t),QIR("Y",t)];
 
 ## let's be sure we know what state we're teleporting.
-s1 = simulate(a1(0),1);
-st1 = pureToDensity(s1)
+##  just run these on single qubit circuits
+st1 = simulate(a1(0),1);
 s2 = simulate(a2(0),1);
-st2 = pureToDensity(s2)
+## then view the density matrix because that's what we'll
+## see after tracing out part of the teleportation circuit
+st1 = pureToDensity(s1);
+st2 = pureToDensity(s2);
 
 ## time to teleport.
 
@@ -33,11 +36,13 @@ st2 = pureToDensity(s2)
 circ1 = [QIR,a1(2),Tele];
 circ2 = [QIR,a2(2),Tele];
 
-in = pTrace(1:2,pureToDensity(stdBasis(4,3))) # the input
+in = pTrace(1:2,stdBasis(4,3)) # the input
 
-## now run and trace out all but bit 0 (the result)
-c1Out = pTrace(1:2,pureToDensity(simulate(circ1,4)))
-c2Out = pTrace(1:2,pureToDensity(simulate(circ2,4)))
+## now run and trace out all but bit 0 (the result). again, we tag
+## the upper portion as work space here so that the simulator will
+## trace bits 2 and 1 out, leaving only the state of 0 as the result
+c1Out = simulate(circ1,4,"worklocation","Upper","worksize",2)
+c2Out = simulate(circ2,4,"worklocation","Upper","worksize",2)
 
 ## check against expected results
 assert(operr(c1Out,st1) < 2^-40)

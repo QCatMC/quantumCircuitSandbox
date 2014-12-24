@@ -43,19 +43,15 @@ OnZr = makeSDCirc({"Z"});
 ## Encode 11
 OnOn = makeSDCirc({"X","Z"});
 
-## Now let's try all 4
-res = zeros(4,4);
-res(:,1) = simulate(ZrZr,0);
-res(:,2) = simulate(ZrOn,0);
-res(:,3) = simulate(OnZr,0);
-res(:,4) = simulate(OnOn,0);
-
-## This is a deterministic algorithm, but why not 'repeat
-## and measure'. Let's get the results in binary.
+## Now let's try all 4. IT's a deterministic algorithm so
+## we can do a single sample of the result. Let's also get
+## the classical result as binary vectors, not integers.
 coded = zeros(4,2);
-for k = 1:4
-  coded(k,:) = measure(res(:,k),"samples",50,"binary",true);
-endfor
+coded(1,:) = simulate(ZrZr,0,"samples",1,"classicalout","Bin");
+coded(2,:) = simulate(ZrOn,0,"samples",1,"classicalout","Bin");
+coded(3,:) = simulate(OnZr,0,"samples",1,"classicalout","Bin");
+coded(4,:) = simulate(OnOn,0,"samples",1,"classicalout","Bin");
 
+## lets take a look at the result and verify it as well
 coded
 assert(isequal(coded,[0,0;0,1;1,0;1,1]));
