@@ -36,11 +36,13 @@ function s = simulate(cir,in,varargin)
 
 
   ## get/init optionals/initialize
-  [r,d,t,samps,worksize,workloc,clasOut] = ...
-     parseparams(varargin,"depth",1,"steps",-1, ...
-                          "samples",0,...
-                          "WorkLocation","Lower","WorkSize",0, ...
-                          "ClassicalOut","Int");
+  [r,d,t,samps,wsize,wloc,clasOut] = ...
+     parseparams(varargin,"depth",1, ...
+                          "steps",-1, ...
+                          "samples",0, ...
+                          "worksize",0, ...
+                          "worklocation","Lower", ...
+                          "classicalout","Int");
 
   ## error check optionals
   if( d < 1 || floor(d)!=ceil(d) )
@@ -55,15 +57,15 @@ function s = simulate(cir,in,varargin)
     positive integer.");
   endif
 
-  if( !strcmp(workloc,"Lower") && !strcmp(workloc,"Upper") )
-    error("simulate: Bad workspace location. %s",workloc);
+  if( !strcmp(wloc,"Lower") && !strcmp(wloc,"Upper") )
+    error("simulate: Bad workspace location. %s", wloc);
   endif
 
-  if( !isNat(worksize) || worksize > get(cir,"bits") )
-    error("simulate: Bad work space size. %f",worksize);
+  if( !isNat(wsize) || wsize > get(cir,"bits") )
+    error("simulate: Bad workspace size. %f",wsize);
   endif
 
-  if( !strcmp(clasOut,"Int") && !strcmp(clasOut,"Bin") )
+  if( !strcmp(clasOut,"Int") && !strcmp(clasOut,"Bin"))
     error("simulate: Bad classical output type. %s",clasOut);
   endif
 
@@ -80,20 +82,21 @@ function s = simulate(cir,in,varargin)
   ## post-process based on optionals
 
   ## Trace out work if needed
-  if( worksize > 0 )
-    if( strcmp(workloc,"Lower" )
-      spc = 0:(worksize-1);
+  if( wsize > 0 )
+    if( strcmp(wloc,"Lower") )
+      spc = 0:(wsize-1);
     else ## it's "Upper"
       n = get(cir,"bits");
-      spc = (n-worksize):(n-1);
+      spc = (n-wsize):(n-1);
     endif
     s = pTrace(spc,pureToDensity(s));
   endif
 
   ## sample if needed
   if( samps > 0 )
-    s = measure(s,"samples",samps,"Binary",strcmp("Bin",clasOut));
+    s = measure(s,"samples",samps,"binary",strcmp("Bin",clasOut));
   endif
+
 
 endfunction
 
@@ -137,4 +140,25 @@ endfunction
 %! assert(simulate(C,(0:1)'==1),simulate(C,[1]));
 %! assert(simulate(C,(0:1)'==1),simulate(C,1));
 
-## need tests on optional arguments!!
+%!test
+%! ##A Deutsch Algorithm circuit... balanced function (not)
+%! not_cir = [QIR,QIR("H",0:1), ...
+%!            [QIR("X",1),QIR("CNot",0,1), QIR("X",1)], ...
+%!            [QIR("H",1),QIR("Measure",1)]];
+%! a = simulate(not_cir,1,"steps",2);
+%! b = simulate([QIR("H",0:1),QIR("X",1),QIR("CNot",0,1), QIR("X",1)],1);
+%! assert(abs(a - b) < 2^-30);
+%! a = simulate(not_cir,1,"steps",3,"depth",2);
+%! b = simulate([QIR("H",0:1),QIR("X",1),QIR("CNot",0,1)],1);
+%! assert(abs(a - b) < 2^-30);
+%! a = simulate(not_cir,1,"WorkSize",1);
+%! assert(abs(a-[0,0;0,1]) < 2^-30);
+%! a = simulate(not_cir,1,"WorkLocation","Upper","WorkSize",1);
+%! b = 1/2 * [1,-1;-1,1];
+%! assert(abs(a - b) < 2^-30);
+%! a = simulate(not_cir,1,"samples",75);
+%! assert(a == 2 || a == 3);
+%! a = simulate(not_cir,1,"samples",75,"ClassicalOut","Bin");
+%! assert(isequal(a,[1,0]) || isequal(a,[1,1]));
+%! a = simulate(not_cir,1,"samples",75,"WorkSize",1);
+%! assert(a,1);
