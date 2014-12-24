@@ -1,10 +1,14 @@
+v1.2.1
+ - pTrace now works on state vectors.  Results are still given
+   as density matrices.
+
 v1.2.0
  - simulate accepts new options for automatic post processing
    as discussed in Issue #22.  Users can now specify the
    work space location and size to get traced out density
    matrices as output.  You can also specify a number of samples
    and get measured, classical output as either an integer
-   or a binary vector.  
+   or a binary vector.
 
 v1.1.0
  - qcc and simulate now work with optional arguments given
