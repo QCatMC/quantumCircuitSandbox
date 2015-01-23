@@ -13,20 +13,23 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = H(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} H (@var{n})
 ##
-## Compute the operator that applies the single qubit Hadamard gate to
-## n sequential qubits 
+## Compute the Hadamard Matrix.
 ##
-## 
+## Given no inputs @code{H} returns the single qubit Hadamard matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{H}.
+##
+## @seealso{Iop,S,T,X,Y,Z}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = H(n=1)
- 
+
   U = nBitOp(sqrt(1/2)*[1,1;1,-1],n);
-  
+
 endfunction
 
 

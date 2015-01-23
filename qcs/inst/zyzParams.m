@@ -13,6 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{p} =} zyzParams (@var{U})
+##
+## Compute the ZYZ parameters of a 2x2 unitary equivalent to @var{U}.
+##
+## Any 2x2 unitary matrix @var{U} can parameterized by as the composition of a rotation about the Z, then Y, then Z axes, possibly with a global phase factor. Calling @code{zyzParams(@var{U}} returns the ZYZ parameter vector @var{p} corresponding to unitary @var{U} where @code{@var{p}(1)} is angle of rotation for the first Z axis rotation, @code{@var{p}(2)} is the angle of rotation for the Y axis rotation, @code{@var{p}(3)} is the angle of rotation for the final Z axis rotation, and @code{@var{p}(4)} is the global phase factor.
+##
+## @seealso{phaseAmpParams,RnParams,U2zyz,U2Rn,U2phaseamp}
+## @end deftypefn
+
 ## usage: p = zyzParams(U,ep)
 ##
 ## Compute the Z-Y-Z decomposition angles for an arbitrary operator

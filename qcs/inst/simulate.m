@@ -13,18 +13,49 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = simulate(cir,in,d,t)
+
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} simulate (@var{cir},@var{in})
+## @deftypefnx {Function File} {@var{s} =} simulate (@var{cir},@var{in},@var{OPT-KEY},@var{OPT-VAL},...)
 ##
-## Simulate t steps, w.r.t. nesting depth d, of the circuit object cir on
-## input in.
+## Simulate the action of circuit @var{cir} on input @var{in}.
 ##
-## The input argument in can be a standard basis vector, a binary row
-## vector, or a natural number.
+## For a circuit @var{cir} on @math{n} qubits, the input @var{in} can be any natural number from @math{[0,2^n)}, a @math{n} bit binary number as a @math{n} row vector with length at most @math{n}, or an @math{n} qubit standard basis vector.
 ##
-## When the desired number of time steps t is not given, then the
-## entire circuit will be simulated and the depth value d is optional.
-## Thus, simulate(cir,in) will carry out a simulation of the entire
-## circuit.
+## The following optional arguments are passed as @var{OPT-KEY}-@var{OPT-VAL} pairs. They can be passed in any order.
+##
+## @b{``depth''}
+## @quotation
+## The ``depth'' option takes on as its value any positive integer. Simulations at depth @math{d} treat nested sub-circuits at a depth greater than or equal to @math{d} as atomic steps. This option is typically combined with the @b{``steps''} option to control how much of the circuit is simulated. The default depth value for simulation is @math{1}.
+## @end quotation
+##
+## @b{``steps''}
+## @quotation
+## The ``steps'' option takes on as its value any postive integer that is less than or equal to the circuit steps at the current simulation depth. Given a steps value of s, a simulation will run for exactly @math{s} steps with respect to the simulation depth. By default, the entire circuit is simulated and the steps value is the number of steps for the specified simulation depth.
+## @end quotation
+##
+## @b{``samples''}
+## @quotation
+## The ``samples'' option takes on as its value any positive integer. A simulation performed with a ``samples'' value of @math{s>1} will be repeated @math{s} times and at the end of each computation a measurement in the standard basis is performed. The majority result of those @math{s} samples is then returned as the result of the simulation. By default, no samples are taken and the output of the simulation is the output of the circuit.
+## @end quotation
+##
+## @b{``worklocation''}
+## @quotation
+## The ``worklocation'' option is either ``Lower'' or ``Upper'' and determines if the lower order qubits or upper order qubits are the work space of the circuit. When combined with the ``worksize'' option, this can induce a partial trace of the workspace after simulation. The default work space location is ``Lower''.
+## @end quotation
+##
+## @b{``worksize''}
+## @quotation
+## The ``worksize'' option takes on as its value any postive integer or zero.  When the worksize @math{w>0} is given the simulation will automatically do a partial trace over the work space as indicated by the ``worklocation'' option. As a result, the density matrix for the non-work qubits is returned as the simulation result. By default, the work space size is 0 and no partial trace is performed. If this option is combined with samples, then the measurement is take with respect to the traced-out state and the result is that of the non-work space and not the complete circuit space.
+## @end quotation
+##
+## @b{``classicalout''}
+## @quotation
+## The ``classicalout'' option is either ``Int'' or ``Bin''. When simulation is done with classical output and at least one sample measurement is taken, then the simulation result will be returned as classical output. The ``Int'' option value returns the integer index of the standard basis and the ``Bin'' option returns that same value as a binary column vector. If no samples are requested, then this option has no effect.
+## @end quotation
+##
+## @seealso{measure,binaryRep,stdBasis,pTrace}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation

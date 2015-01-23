@@ -13,6 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{b} =} stdBasis (@var{i},@var{n})
+## @deftypefn {Function File} {@var{b} =} stdBasis (@var{i},@var{n},@var{t})
+##
+## Compute the @var{n} qubit standard basis state for positive integer @math{i}.
+##
+## For integer @var{i} in @math{[0,2^@var{n})}, compute the equivalent standard basis vector.  When @var{t} is given and is either ``double'', ``complex'', ``single'',``int'', or ``logical'', then the vector elements will be of type @var{t}. By default, @var{t} is ``double''.
+## @end deftypefn
+
+
 ## usage: b = stdBasis(i,n,t)
 ##
 ## Given a natural number i OR binary representation of i as a vector

@@ -13,10 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: p = phaseAmpParams(U)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{p} =} phaseAmpParams (@var{U})
 ##
-## Compute the phase & amplitude parameters for arbitrary operator
-## from U(2). Assumes that U is Unitary.
+## Compute the phase and amplitude parameters of for a 2x2 unitary that is equivalent to the 2x2 unitary matrix @var{U}.
+##
+## Any 2x2 unitary matrix @var{U} can parameterized by 4 independent, real-valued parameters. Calling @code{phaseAmpParams(@var{U}} returns the parameter vector @var{p} where @code{@var{p}(1)} is the amplitude parameter and @code{@var{p}(2:4)} are the row, column, and global phase parameters respectively. 
+##
+## @seealso{RnParams,zyzParams,U2Rn,U2zyz,U2phaseamp}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators

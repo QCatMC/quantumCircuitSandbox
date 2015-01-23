@@ -13,25 +13,28 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Iop(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} Iop (@var{n})
 ##
-## Compute the operator that applies the single qubit Identity gate to
-## n sequential qubits, i.e. the n qubit Identity 
+## Compute the Identity Matrix.
 ##
-## 
+## Given no inputs @code{Iop} returns the single qubit Identity matrix. For any @math{@var{n}>1} it returns the @var{N} qubit Identity matrix.
+##
+## @seealso{H,S,T,X,Y,Z}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = Iop(n=1)
- 
+
   ## error check number of qubits
   if( n < 0 )
     error("Number of qubits must be 0 or greater. Given n=%d",n);
   endif
 
   U = eye(2^n);
-  
+
 endfunction
 
 

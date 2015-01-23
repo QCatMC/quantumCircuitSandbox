@@ -13,11 +13,80 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: C = QIR(...)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{G} =} QIR (@var{name},@var{params},...)
+## @deftypefnx {Function File} {@var{G} =} QIR
+## @deftypefnx {Function File} {@var{G} =} QIR()
 ##
-## Factor method for construting QIR gate objects
+## Construct a gate from the QIR family of gates or an empty QIR circuit.
+##
+## The @code{QIR} function is the primary method of constructing gates for circuits. When no arguments are give, then @var{G} is an empty QIR circuit. Otherwise @var{G} is a QIR gate. When constructing gates, the first argument is always the name of the gate. The remaining arguments depend on the type of gate to be constructed.
+##
+## ``I'',``X'',``Y'',``Z'',``S'',``T'',``H'',``I'@w{}'',``X'@w{}'',``Y'@w{}'',``Z'@w{}'',``S'@w{}'',``T'@w{}'',``H'@w{}''
+##
+## @quotation
+## These QASM gates take a single param, @var{t} which is a vector of the indexes of the target qubits to which the gate will be applied. The target vector @var{t} should contain a proper subset of the natrual numbers. For example, @code{QIR("H",0:3)} produces the gate that applies the single qubit Hadamard gate to the four lowest order qubits.
+## @end quotation
+##
+## ``CNot''
+##
+## @quotation
+##   @code{QIR("CNot",@var{t},@var{c})} is the Controlled Not gate with target @var{t} and control @var{c}. The target index @var{t} and the control index @var{c} must be natural numbers and cannot be equivalent.
+## @end quotation
+##
+## ``Toffoli''
+##
+## @quotation
+##   @code{QIR("Toffoli",@var{t},@var{c})} is the three qubit Toffoli gate, aka Controlled-Controlled-Not, with target @var{t} and controls @var{c}.  The controls @var{c} must be a pair of non-equivalent natrual numbers. The target @var{t} must also be a natrual number and cannot be equivalent to either of the targets.
+## @end quotation
+##
+## ``Swap''
+##
+## @quotation
+##   @code{QIR("Swap",@var{t1},@var{t2})} is the Swap gate which swaps qubit @var{t1} and @var{t2}. The targets must be natural numbers and cannot be equivalent.
+## @end quotation
+##
+## ``Fredkin''
+##
+## @quotation
+##   @code{QIR("Fredkin",@var{t},@var{c})} is the three qubit Fredkin gate, or Controlled-Swap, with targets @var{t} and control @var{c}. The targets @var{t} must be a pair of unique natural numbers and the control @var{c} must be a natural number that is not equivalent to either target.
+## @end quotation
+##
+## ``Measure''
+##
+## @quotation
+##    @code{QIR("Measure",@var{t})} is a measurement in the standard basis on the target qubits @var{t}. The target vector @var{t} must contain a proper subset of the natural numbers.
+## @end quotation
+##
+## ``Rn''
+##
+## @quotation
+##  @code{QIR("Rn",@var{p},@var{t})} is an arbitrary single qubit operation, expressed as a rotation about an axis, applied to target qubits @var{t}. The target vector @var{t} must be a proper subset of the natural numbers. The parameters of the operator are given by the parameter vector @var{p} which must either be length four or five. In both cases, @code{@var{p}(1)} is the angle of rotation and @code{@var{p}(2:4)} are the @math{(x,y,z)} coordinates of the axis. If given, @code{@var{p}(5)} is the global phase shift applied to the rotation.
+## @end quotation
+##
+## ``PhAmp''
+##
+## @quotation
+##  @code{QIR("PhAmp",@var{p},@var{t})} is an arbitrary single qubit operation, expressed with Phase and Amplitude parameters, applied to target qubits @var{t}. The target vector @var{t} must be a proper subset of the natural numbers. The parameters of the operator are given by the parameter vector @var{p} which must either be length three or four. In both cases, @code{@var{p}(1)} is the amplitude parameter and  @code{@var{p}(2:3)} are the row and column phases. If given, @code{@var{p}(4)} is the global phase.
+## @end quotation
+##
+## ``ZYZ''
+##
+## @quotation
+##  @code{QIR("ZYZ",@var{p},@var{t})} is an arbitrary single qubit operation, expressed as a sequence of rotations about the Z, then Y, then Z axes, applied to target qubits @var{t}. The target vector @var{t} must be a proper subset of the natural numbers. The parameters of the operator are given by the parameter vector @var{p} which must either be length three or four. In both cases, @code{@var{p}(1)} is angle of rotation for the first Z axis rotation, @code{@var{p}(2)} is the angle of rotation for the Y axis rotation, and @code{@var{p}(3)} is the angle of rotation for the final Z axis rotation. If given, @code{@var{p}(4)} is the global phase.
+## @end quotation
+##
+## ``CU''
+##
+## @quotation
+##  @code{QIR("CU",@var{o},@var{t},@var{c})} is a Controlled arbitrary single qubit operator applied to target qubit @var{t} based on control qubit @var{c}.  The operator is specified by the argument @var{o}. For QASM gates, the operator specifier @var{o} can either be the name of a gate given as a string or a cell array containing only the string name. For arbitrary unitary gates, the operator specifier @var{o} is a length two cell array where @code{@var{o}@{1@}} is the name of the parameterized gate and @code{@var{o}@{2@}} is its parameter vector.
+## @end quotation
 ##
 ##
+##  Gates and circuits can be used to construct circuits using the @code{[]} operators in a fashion simlar to constructing vectors. For gates a,b, and c, @code{[a,b,c]} produces a depth one circuit. Circuits may also be nested within other circuits but in order to ensure proper nesting you must begin a circuit with the empty circuit. For example, @code{[a,[b,c]]},@code{[[a,b],c]}, and @code{[a,b,c]} all produce the same depth 1 circuit with no nesting but @code{[QIR,a,[b,c]]} and @code{[QIR,[a,b],c]} will produce depth 2 circuits. The former with @code{[b,c]} at depth 2 and the later with @code{[a,b]} at depth 2.
+##
+## @seealso{phaseAmpParams,RnParams,zyzParams}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

@@ -13,20 +13,22 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = U2phaseamp(p)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} U2phaseamp (@var{p})
 ##
-## Compute a 2x2 Unitary given phase and amplitude parameters. p can
-## take two forms: [theta,R,C] and [theta,R,C,G].  The first produces
-## a Special Unitary operator (det(U) = 1). The later introduces a
-## global phase factor of G/2. All parameters must be Real valued.
-##  
+## Compute the 2x2 unitary @var{U} parameterized by phase and amplitude parameters @var{p}.
+##
+## Any 2x2 unitary matrix @var{U} can parameterized by 4 independent, real-valued parameters. Calling @code{U2phaseamp(@var{p}} returns the 2x2 unitary parameterized by  vector @var{p} where @code{@var{p}(1)} is the amplitude parameter and @code{@var{p}(2:4)} are the row, column, and global phase parameters respectively.
+##
+## @seealso{phaseAmpParams,RnParams,zyzParams,U2Rn,U2zyz,}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = U2phaseamp(p)
 
-  if( !isequal(size(p),[1,3]) && !isequal(size(p),[1,4]) ) 
+  if( !isequal(size(p),[1,3]) && !isequal(size(p),[1,4]) )
     error("Parameter vector must be a length 3 or 4 row vector. \
 Given something else.");
   elseif( !isreal(p) )
@@ -45,7 +47,7 @@ Given something else.");
     U = e^(i*p(4))*U;
   endif
 
-	 
+
 endfunction
 
 %!test

@@ -13,18 +13,22 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: B = binaryRep(k,n)
+
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{B} =} binaryRep (@var{k},@var{n})
 ##
-## Compute the |k|xn matrix containing the n bit binary
-## representations of the natural numbers found in the vector k such
-## that B(i) is the representation of k(i).   
+## Compute the binary representation, as a row vector, of a  positive integer.
+##
+## The @var{n}-bit binary representation of positive integer @var{k} is returned as a row vector. When @var{k} is a vector of integers, then the binary represtation of all the integers is returned as a @code{length(k)} by @var{n} matrix where row @math{i} is the binary reprentation of @code{k(i)}.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc
 
 function b = binaryRep(k,n)
   b = zeros(length(k),n);
-	 
+
   for j=1:length(k)
     b(j,:) = uint8(bitget(k(j),n:-1:1));
   endfor

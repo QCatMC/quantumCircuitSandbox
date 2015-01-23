@@ -13,18 +13,33 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usages:
-##   C = qcc(cir)
-##     For non QASM circuits cir, this compiles cir to a QASM circuit
-##     that approximates cir with precision <= 2^-7
-##   C = qcc(cir,tar)
-##     Compile cir to target language tar. If tar is QASM, then approximation
-##     precision is <= 2^-7
-##   C = qcc(cir,eta)
-##     Copile cir to QASM circuit with approximation precision <= eta
-##   C = qcc(cir,eta,tar)
-##     Compile cir to target langauge tar with approximation precision <= eta
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} qcc (@var{cir})
+## @deftypefnx {Function File} {@var{C} =} qcc (@var{cir},@var{opt},@var{opt-val},...)
 ##
+## Quantum Circuit Compiler. Compile a high-level circuit to an equivalent or approxmiate lower-level circuit.
+##
+## The quantum circuit compiler (qcc) is used to produce a lower level circuit @var{C} from a higher level circuit @var{cir}. For QIR to QIASM compilation, the two circuits are equivalent. For QIASM to QASM compilation, the QASM circuit will be an approximation that results from the application of the Soloay-Kitaev algorithm. Optional arguments can be used to control the target language and approximation accuracy.
+##
+## By default, @code{qcc(@var{C})} will compile to a circuit one level down the QIR > QIASM > QASM hierarchy and use an approximation accuracy of 2^-7.  The following options allow the user to control the target and accuracy.
+##
+## ``target''
+##
+## @quotation
+##  The ``target'' option can be either ``QIR'', ``QIASM'', or ``QASM''.  It should be a circuit langauge of equal or lower level than @var{cir}.
+## @end quotation
+##
+## ``accuracy''
+##
+## @quotation
+## The accuracy value should be a positive, real-valued number from (0,1). When the target langauge is not QASM, this option has no effect. Currently, the Solovay-Kitave compilation process can take considerable time. Users are encouraged to install and load the parallel packge from Octave forge as qcc will take advantage of this to speed up the compilation process. Requesting circuit accuracy better than the default 2^-7 is likely to result in lengthy compilations.
+## @end quotation
+##
+## The circuit argument can also be so-called circuit descriptor.  This is simply a cell array representing a qcs circuit.  Building circuits from descriptors is not recommended and support for this may be dropped in future versions. Users are encouraged to use @code{QIR} and @code{horzcat}, or @code{[a,b]}, to construct their circuits. QIR circuits can then be compiled to lower level representations as needed.
+##
+## @seealso{QIR}
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

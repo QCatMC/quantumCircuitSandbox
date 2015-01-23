@@ -13,6 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{D} =} pureToDensity (@var{p})
+##
+## Compute the density matrix @var{D} for quantum pure state @var{p} where @var{p} is in state vector form.
+##
+## @end deftypefn
+
+
 ## usage D = pureToDensity(p)
 ##
 ## Compute the density matrix for pure state p

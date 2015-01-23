@@ -13,11 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: p = RnParams(U)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{p} =} RnParams (@var{U})
 ##
-## Compute the Rn parameters for an arbitrary operator
-## from U(2).
+## Compute the parameters of a Rotation about an axis operation and global phase change that is equivalent to 2x2 unitary matrix @var{U}.
 ##
+## Any 2x2 unitary matrix @var{U} can be rewritten as a 2x2 special unitary matrix @math{R} for a rotation about an axis of the Bloch sphere with a possible phase factor @math{g} such that @math{@var{U}=e^{i*g} * R}.  Calling @code{RnParam(@var{U}} returns the parameter vector @var{p} where @code{@var{p}(1)} is the angle of rotation, @code{@var{p}(2:4)} are the @math{(x,y,z)} corrdinates of the normalized axis of rotation, and @code{@var{p}(5)} is the global phase factor.
+##
+## @seealso{phaseAmpParams,zyzParams,U2Rn,U2zyz,U2phaseamp}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators

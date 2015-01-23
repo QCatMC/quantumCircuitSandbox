@@ -13,26 +13,28 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = U2zyz(p)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} U2zyz (@var{p})
 ##
-## Compute a 2x2 Unitary given zyz decomposition parameters. p can
-## take two forms: [z,y,z] and [z,y,z,g]. The first produces
-## a Special Unitary operator (det(U) = 1). The later introduces a
-## global phase factor of g/2. All parameters must be Real valued.
-##  
+## Compute the 2x2 unitary parameterized by the ZYZ parameters @var{p}.
+##
+## Any 2x2 unitary matrix @var{U} can parameterized by as the composition of a rotation about the Z, then Y, then Z axes, possibly with a global phase factor. Calling @code{U2zyz(@var{p}} returns the 2x2 unitary that corresponds to ZYZ parameter vector @var{p} where @code{@var{p}(1)} is angle of rotation for the first Z axis rotation, @code{@var{p}(2)} is the angle of rotation for the Y axis rotation, @code{@var{p}(3)} is the angle of rotation for the final Z axis rotation, and @code{@var{p}(4)} is the global phase factor.
+##
+## @seealso{phaseAmpParams,RnParams,zyzParams,U2Rn,U2phaseamp}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = U2zyz(p)
 
-  if( !isequal(size(p),[1,3]) && !isequal(size(p),[1,4]) ) 
+  if( !isequal(size(p),[1,3]) && !isequal(size(p),[1,4]) )
     error("Parameter vector must be a length 3 or 4 row vector. \
 Given something else.");
   elseif( !isreal(p) )
     error("Paramters are not real valued. They should be.");
   endif
-  
+
   ## SU(2) component
   U = (Rz(p(1))*Ry(p(2))*Rz(p(3)));
 
@@ -40,8 +42,8 @@ Given something else.");
   if( length(p) == 4 && abs(p(4)) > 2^(-60) )
     U = e^(i*p(4))*U;
   endif
-  
-	 
+
+
 endfunction
 
 
@@ -53,4 +55,3 @@ endfunction
 %! fail('U2zyz([i,i,i,i])');
 %! fail('U2zyz([pi,pi])');
 %! fail('U2zyz(zeros(1,6))');
-

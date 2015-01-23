@@ -13,12 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: Q = pTrace(r,P)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{Q} =} pTrace (@var{r},@var{P})
 ##
-## Trace out the space of bits r in the state represented by
-## density matrix P.
+## Perform a partial trace over the qubit space @var{r} of the quantum state @var{P}.
 ##
-## For n bit state, r is either [0,m], or [m,n) for 0<m<n
+## Where @var{P} is a @math{n} qubit quantum state and @var{r} is either @code{0:m} or @code{m:(n-1)} for @math{0<m<n}, then a partial trace of the qubit space specified by @var{r} is performed. State @var{P} can be either a pure state vector or a density matrix. The result @var{Q} is always a density matrix.
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States

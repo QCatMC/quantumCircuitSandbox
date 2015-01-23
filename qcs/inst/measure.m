@@ -13,16 +13,28 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = measure(q)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} measure (@var{q})
+## @deftypefnx {Function File} {@var{s} =} measure (@var{q},@var{opt},@var{opt-val},...)
 ##
-## carry out a complete measurement of q in the standard basis and
-## get the integer value/label for the measurement. The state q
-## may be a state vector or density matrix
-## Optional arguments:
-## "binary" takes true or false. When true, the result is a binary
-## vector. When false (default) the result is a positive integer.
-## "samples", n will repeat the measurement n times and return the
-## majority result. The default is 1.
+## Perform a complete measurement in the standard basis of a quantum state.
+##
+## Where @var{q} is a quantum state vector or density matrix, measure will perform a complete measurement in the standard basis on this state and return the resultant classical state. The @code{simulate} function can also carry out the same actions as @code{measure} by way of optional arguments. By default, @code{measure} performs a single measurement and @var{s} is the integer value of the corresponding classical state of @var{q} that results from that measurement. Optional arguments allow for multiple measurements and different formats for return values.
+##
+## The following options are allow with measure:
+##
+## ``binary''
+## @quotation
+## The ``binary'' option is either @code{true} or @code{false}. When it is @code{true} then for @math{n} qubit state @var{q}, the @math{n} bit binary representation of the classical state of each qubit is returned as a length @math{n} row vector. By default ``binary'' is @code{false} and integer values are returned.
+## @end quotation
+##
+## ``samples''
+## @quotation
+## Then ``samples'' option can be any positive valued integer. When @math{s > 1} samples are taken, then the measurement is repeated @math{s} times and the majority result is returned. In the event of a tie, the leasted-valued majority result is returned. Only a single sample is taken by default.
+## @end quotation
+##
+## @seealso{binaryRep,stdBasis,pureToDensity,simulate}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Simulation
@@ -42,7 +54,7 @@ function res = measure(q,varargin)
     error("measure: Input does not seem to be a qubit state" );
   endif
 
-  ## parase optionals, error check.
+  ## parse optionals, error check.
   if( !isempty(varargin) )
 
     [r,outBin,numSamps] = parseparams(varargin,"binary",false,"samples",1);

@@ -13,24 +13,29 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = U2Rn(p)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} U2Rn (@var{p})
 ##
-## Compute a 2x2 Unitary for rotating t radians about the vector (n1,n2,n3) of
-## the Bloch sphere.  
-##  
+## Compute the 2x2 unitary @var{U} corresponding to the Rotation about an axis parameters @var{p}.
+##
+## Any 2x2 unitary matrix @var{U} can be rewritten as a 2x2 special unitary matrix @math{R} for a rotation about an axis of the Bloch sphere with a possible phase factor @math{g} such that @math{@var{U}=e^{i*g} * R}.  Calling @code{U2Rn(@var{p}} returns the unitary @var{U} where @code{@var{p}(1)} is the angle of rotation, @code{@var{p}(2:4)} are the @math{(x,y,z)} corrdinates of the normalized axis of rotation, and @code{@var{p}(5)} is the global phase factor. The global phase factor may be ommited from @var{p}.
+##
+## @seealso{Rnparams, phaseAmpParams,zyzParams,U2zyz,U2phaseamp}
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = U2Rn(p)
 
-  if( !isequal(size(p),[1,4]) && !isequal(size(p),[1,5]) ) 
+  if( !isequal(size(p),[1,4]) && !isequal(size(p),[1,5]) )
     error("Parameter vector must be a length 4 or 5 row vector. \
 Given something else.");
   elseif( !isreal(p) )
     error("Paramters are not real valued. They should be.");
   endif
-  
+
   ## get global phase;
   if( length(p) == 4)
     g = 0;
@@ -42,7 +47,7 @@ Given something else.");
   n = p(2:4);
 
   U = e^(i*g)*Rn(t,n);
-	 
+
 endfunction
 
 
@@ -54,4 +59,3 @@ endfunction
 %! fail('U2Rn([i,i,i,i])');
 %! fail('U2Rn([pi,pi])');
 %! fail('U2Rn(zeros(1,6))');
-
