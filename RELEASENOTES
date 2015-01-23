@@ -1,3 +1,6 @@
+v1.2.2
+ - Improved documentation for core functions and features.
+
 v1.2.1
  - pTrace now works on state vectors.  Results are still given
    as density matrices.
