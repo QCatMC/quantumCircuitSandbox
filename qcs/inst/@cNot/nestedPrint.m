@@ -13,13 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(cNGate,dep)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} nestedPrint {}
 ##
-## Display with indentation
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
 function nestedPrint(cNGate,dep)
   pad = blanks(dep*3);

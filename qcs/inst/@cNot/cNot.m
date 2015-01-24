@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @cNot(tar,ctrl)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} cNot {}
 ##
-## Constructor for a cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits

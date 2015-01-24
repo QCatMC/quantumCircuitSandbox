@@ -13,11 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @meas(tars)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} meas {}
 ##
-## Construct a gate object for measuring the qubits with indexs given
-## by the set of natural numbers tars
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits

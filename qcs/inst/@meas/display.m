@@ -13,18 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(mGate)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} display {}
 ##
-## Display measure gate 
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: circuits
 
 function display(mGate)
 
   if(!strcmp(inputname(1),"") )
-    fprintf ("%s = \n", inputname (1)); 
+    fprintf ("%s = \n", inputname (1));
   endif
 
   nestedPrint(mGate,1);

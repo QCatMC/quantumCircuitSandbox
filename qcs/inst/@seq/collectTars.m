@@ -13,11 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: t = collectTars(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} collectTars {}
 ##
-## get the set of qubit indices used by gates in the sequence. the set
-## is returned sorted, not in order affected.
-
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -25,7 +26,7 @@
 function t = collectTars(this)
 
   t = [];
-  ## collect 
+  ## collect
   for idx = 1:length(this.seq)
 
     subtars = collectTars(this.seq{idx});

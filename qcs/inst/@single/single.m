@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @single(name,tar,params)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} single {}
 ##
-## Construct a gate object 'name' gate to target qubit number
-## tar with parameters params
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits

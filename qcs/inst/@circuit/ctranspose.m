@@ -13,13 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = ctranspose(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} ctranspose {}
 ##
-## invert a gate via g'
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
+
+
+## inverts the circuit
 
 function s = ctranspose(g)
 

@@ -13,12 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = @circuit(seq,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} circuit {}
 ##
-## Constructs an n qubit circuit object from a @seq object.
-## Statistics about nesting depth and stepts at each allowable depth
-## are computed at the time of construction  
-## 
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -41,5 +41,3 @@ function c = circuit(seq,bits,maxDep,stepsAt,tars)
   c = class(c,"circuit");
 
 endfunction
-
-

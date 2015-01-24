@@ -13,11 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: d = maxDepth(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} maxDepth {}
 ##
-##  used to compute maxDepth of a circuit. The max depth of a gate
-##  node is always 0.
-## 
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -25,4 +26,3 @@
 function d = maxDepth(g)
   d=0;
 endfunction
-

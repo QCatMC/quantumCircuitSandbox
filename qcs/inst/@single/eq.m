@@ -13,14 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} eq {}
 ##
-## returns true if @singleGate this is equivalent to other.
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
- 
+
 
 function b = eq(this,other)
 
@@ -30,7 +32,7 @@ function b = eq(this,other)
   elseif( strcmp(this.name,other.name) && ...
 	  this.tar == other.tar && ...
 	  isequal(this.params,other.params) )
-    b=true; 
+    b=true;
   else
     b=false;
   endif
@@ -47,4 +49,3 @@ endfunction
 %! assert(!eq(a,b));
 %! assert(eq(@single("PhAmp",0,[pi,pi,pi]),...
 %!           @single("PhAmp",0,[pi,pi,pi])));
-          

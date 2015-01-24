@@ -13,13 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: t = stepsAt(cir,d)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} stepsAt {}
 ##
-## Returns the number of steps at depth d for the circuit object cir
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
+## Returns the number of steps at depth d for the circuit object cir
 function t = stepsAt(cir,d)
 
   if( floor(d) != ceil(d) || !(d > 0) )

@@ -13,12 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = ctranspose(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} ctranspose {}
 ##
-##   Technically, measurement has no inverse/revesre/complex conjugate.
-##   it's a destructive, non-reversible operation. That being said,
-##   Projector's are self-inverse, so that's what we'll return.
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits

@@ -13,12 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cir)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} display {}
 ##
-## Display function for circuit objects.
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
+## @end deftypefn
+
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuit
+
+## Display function for circuit objects.
 
 function display(cir)
 

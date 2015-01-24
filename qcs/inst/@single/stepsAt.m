@@ -13,11 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} stepsAt {}
 ##
-##  used to compute number of steps at depth d of a circuit. Gates are
-##  always 1 step regardless of the depth
-## 
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
@@ -25,4 +26,3 @@
 function s = stepsAt(g,d)
   s = 1;
 endfunction
-

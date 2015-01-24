@@ -13,15 +13,20 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = simulate(cir,in,d,t)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} sim {}
 ##
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
+
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Keywords: circuit
+
+
 ## simulate t steps, with respect to nesting depth d, of the Circuit
 ## cir on input in. Input in must be a valid pure state
 ## representation of a standard basis state for the qubit space of cir.
-
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
-
 function s = sim(cir,in,d,t)
 
   if( d > cir.maxDepth )

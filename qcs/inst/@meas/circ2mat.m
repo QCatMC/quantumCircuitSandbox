@@ -13,14 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} circ2mat {}
 ##
-##  used to compute the n qubit operator corresponding to the
-##  measurement operator g. CURRENTLY DOES NOT FUNCTION.
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
+## bit of a cludge but is the least offensive option
 function U = circ2mat(g,n)
   U = speye(2^n);
 endfunction
