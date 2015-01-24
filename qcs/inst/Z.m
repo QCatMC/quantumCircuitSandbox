@@ -13,28 +13,32 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Z(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} Z (@var{n})
 ##
-## Compute the operator that applies the single qubit Pauli Z gate to
-## n sequential qubits
-## 
+## Compute the Pauli Z matrix.
+##
+## Given no inputs @code{Z} returns the single qubit Pauli Z matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{Z}.
+##
+## @seealso{Iop,H,Y,X,S,T,Rx,Ry,Rz,Rn,Ph}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = Z(n=1)
- 
+
   ## error check number of qubits
   if( n <= 0 )
     error("Number of qubits must be 1 or greater. Given n=%d",n);
   endif
- 
+
   U = [1];
   Z1 = [1,0;0,-1];
   for i = 1:n
     U = kron(U,Z1);
   endfor
-  
+
 endfunction
 
 

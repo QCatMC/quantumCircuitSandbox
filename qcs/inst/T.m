@@ -13,21 +13,24 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Iop(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} T (@var{n})
 ##
-## Compute the operator that applies the single qubit T, pi/8, gate to
-## n sequential qubits 
+## Compute the T phase shift, or pi/8 gate, matrix.
 ##
-## 
+## Given no inputs @code{T} returns the single qubit T matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{T}.
+##
+## @seealso{Iop,X,Y,Z,S,H,Rx,Ry,Rz,Rn,Ph}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = T(n=1)
- 
+
   T1 = [1,0;0,e^(i*pi/4)];
   U = nBitOp(T1,n);
-  
+
 endfunction
 
 

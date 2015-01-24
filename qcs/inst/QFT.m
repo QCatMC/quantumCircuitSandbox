@@ -13,11 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: C = QFT(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QFTr (@var{n})
 ##
-## Compute the circuit n qubit Quantum Forier Transform.  Note that
-## QFT(n)' is often called the phase estimation circuit
+## Compute the QIR circuit for an @var{n} qubit quantum fourier transform.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits

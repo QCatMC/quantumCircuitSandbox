@@ -13,20 +13,24 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Y(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} Y (@var{n})
 ##
-## Compute the operator that applies the single qubit Pauli Y gate to
-## n sequential qubits
-## 
+## Compute the Pauli Y matrix.
+##
+## Given no inputs @code{Y} returns the single qubit Pauli Y matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{Y}.
+##
+## @seealso{Iop,H,X,Z,S,T,Rx,Ry,Rz,Rn,Ph}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = Y(n=1)
- 
+
   Y1 = i*[0,-1;1,0];
   U = nBitOp(Y1,n);
-  
+
 endfunction
 
 

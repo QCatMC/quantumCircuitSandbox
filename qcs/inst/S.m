@@ -13,20 +13,31 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} S (@var{n})
+##
+## Compute the S phase shift matrix.
+##
+## Given no inputs @code{S} returns the single qubit S matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{S}.
+##
+## @seealso{Iop,X,Y,Z,H,T,Rx,Ry,Rz,Rn,Ph}
+## @end deftypefn
+
+
 ## usage: U = S(n)
 ##
 ## Compute the operator that applies the single qubit S (Phase) gate to
 ## n sequential qubits
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = S(n=1)
-	 
+
   S1 = [1,0;0,i];
   U = nBitOp(S1,n);
-	 
+
 endfunction
 
 

@@ -20,7 +20,7 @@
 ##
 ## Given no inputs @code{Iop} returns the single qubit Identity matrix. For any @math{@var{n}>1} it returns the @var{N} qubit Identity matrix.
 ##
-## @seealso{H,S,T,X,Y,Z}
+## @seealso{H,X,Y,Z,S,T,Rx,Ry,Rz,Rn,Ph}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

@@ -13,10 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Ph(t)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} Ph (@var{t})
 ##
-## Compute a 2x2 Unitary for a global phase shift by e^(it)
+## Compute a matrix from U(2) that applies a global phase shift of @math{e^(i@var{t})}.
 ##
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators

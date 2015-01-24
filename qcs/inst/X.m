@@ -13,24 +13,28 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = X(n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} X (@var{n})
 ##
-## Compute the operator that applies the single qubit Pauli X gate
-## (Not) to  n sequential qubits
-## 
+## Compute the Pauli X matrix.
+##
+## Given no inputs @code{X} returns the single qubit Pauli X matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{X}.
+##
+## @seealso{Iop,H,Y,Z,S,T,Rx,Ry,Rz,Rn,Ph}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
 function U = X(n=1)
- 
+
   ## error check number of qubits
   if( n < 0 )
     error("Number of qubits must be 0 or greater. Given n=%d",n);
   endif
 
   U = fliplr(eye(2^n));
-  
+
 endfunction
 
 

@@ -13,10 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: [SU,gp] = SUafy(U)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{SU} =} SUafy (@var{U})
+## @deftypefn {Function File} {[@var{SU},@var{gp}] =} SUafy (@var{U})
 ##
-##  Given a Unitary matrix U, compute the Special Unitary and
-##  and phase components s.t. U = e^(i*gp)*SU
+## Decompose a global phase factor and Special Uniatry matrix for an arbitrary Unitary @var{U}
+##
+## Any unitary matrix @var{U} can be written as a Special Unitary matrix @var{SU}(with determinant 1) and a glolbal phase factor @var{gp} such that @math{@var{U}=e^(i*gp)*SU}. Calling @code{SUafy(@var{U})} recovers such a special unitary, and if needed the global phase, for any unitary matrix. It is assumed that @var{U} is unitary.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc

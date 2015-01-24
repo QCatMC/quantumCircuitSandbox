@@ -13,10 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: Q = tensor(A, ...)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{Q} =} tensor (@var{A},...)
 ##
-##  Compute the tensor of the arguments in the order in which they were given
-## 
+## Compute and n-ary tensor product.
+##
+##
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Misc

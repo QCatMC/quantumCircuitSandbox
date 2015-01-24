@@ -20,7 +20,7 @@
 ##
 ## Given no inputs @code{H} returns the single qubit Hadamard matrix. For any @math{@var{n}>1} it returns the @var{N}th tensor power of @code{H}.
 ##
-## @seealso{Iop,S,T,X,Y,Z}
+## @seealso{Iop,X,Y,Z,S,T,Rx,Ry,Rz,Rn,Ph}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

@@ -13,12 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: eta = operr(U,V)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{eta} =} operr (@var{U},@var{V})
 ##
-## Compute the error, or distance, between V and U where V and U are
-## both n qubit operators. a.k.a d(U,V) or E(U,V). This is the
-## operator norm of the difference, || U-V ||.
+## Compute the operator error, or distance, between matrices @var{U} and @var{V}.
 ##
+## Compute the distance, @math{d(@var{U},@var{V})}, aka the operator error, between matrices @var{U} and @var{V}. This is just the operator norm of the difference.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators

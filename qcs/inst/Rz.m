@@ -13,11 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Rz(t)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} Rz (@var{t})
 ##
-## Compute a 2x2 Unitary for rotating t radians about the z axis of
-## the Bloch sphere. 
-##  
+## Compute a 2x2 Unitary for rotating t radians about the z-axis of the the Bloch sphere.
+##
+## @seealso{Iop,H,X,Y,Z,S,T,Rn,Ry,Rx,Ph}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
@@ -27,9 +29,9 @@ function U = Rz(t)
   if( !isscalar(t) ||  !isreal(t) )
     error("Angle theta must be real. Given something else.")
   endif
-  
+
   U = e^(-i*t/2*Z);
-	 
+
 endfunction
 
 %!test

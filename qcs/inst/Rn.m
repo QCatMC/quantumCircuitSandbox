@@ -13,11 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: U = Rn(t,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{U} =} Rn (@var{t},@var{n})
 ##
-## Compute a 2x2 Unitary for rotating t radians about the axis (n1,n2,n3) on
-## the Bloch sphere. 
-##  
+## Compute a 2x2 Unitary for rotating t radians about the unit length @math(x,y,z) axis @var{n} the Bloch sphere.
+##
+## @seealso{Iop,H,X,Y,Z,S,T,Rx,Ry,Rz,Ph}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
@@ -31,10 +33,10 @@ function U = Rn(t,n)
   elseif( abs(1 - n*n') > 0.0000001)
     error("Rotation axis must have unit length.");
   endif
-  
+
   A = n(1)*X + n(2)*Y + n(3)*Z;
   U = e^(-i*t/2*A);
-	 
+
 endfunction
 
 %!test
