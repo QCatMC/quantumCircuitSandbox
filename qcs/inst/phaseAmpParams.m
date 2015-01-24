@@ -36,7 +36,9 @@ function p = phaseAmpParams(U,ep=0.00001)
 
   ## get global phase
   gp = arg(det(U))/2;
+  ## gp values range from (-pi/2,pi/2]
   p(4) = gp;
+
   ## factor global phase out of U to get SU(2) component
   U = e^(-i*gp)*U;
 

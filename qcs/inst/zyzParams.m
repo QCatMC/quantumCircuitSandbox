@@ -40,6 +40,15 @@ function p = zyzParams(U)
 
   ## get phase amp params
   ph = phaseAmpParams(U);
+  ## p(2:3) range from [-pi,pi].. we need to
+  ## adjust to the expected [0,2pi) range for
+  ## rotations
+  if( ph(2) < 0 )
+     ph(2) += 2*pi;
+  endif
+  if( ph(3) < 0 )
+    ph(3) += 2*pi;
+  endif
 
   ## [z1,y,z2,global]
   p = [ph(3),(2*ph(1)),ph(2),ph(4)];

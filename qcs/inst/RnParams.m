@@ -34,16 +34,16 @@ function p = RnParams(U)
   endif
 
   ## factor out global phase to get SU(2) component
-  gp = arg(det(U))/2;
+  gp = arg(det(U))/2; #[-pi/2,pi/2]
 
   U = e^(-i*gp)*U; #factor out global phase
 
-  theta = 2*acos( (U(1,1)+ U(2,2)) / 2);
+  theta = 2*acos( (U(1,1) + U(2,2)) / 2);
+
   ## disregard rounding in imaginary... should be ~0
+  ##assert(abs(imag(theta)) < minval );
 
-  assert(abs(imag(theta)) < minval );
-
-  theta = real(theta);
+  theta = real(theta); #[0,2pi)
 
   n = zeros(1,3);
 
@@ -64,7 +64,7 @@ function p = RnParams(U)
     n(1) = -(U(1,2)+U(2,1))/(2*i*sin(theta/2));
   endif
 
-  assert(abs(imag(n)) < minval );
+  ##assert(abs(imag(n)) < minval );
   n = real(n);
 
   p = [theta,n,gp];
