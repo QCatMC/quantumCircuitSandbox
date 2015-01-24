@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{U} =} Rn (@var{t},@var{n})
 ##
-## Compute a 2x2 Unitary for rotating t radians about the unit length @math(x,y,z) axis @var{n} the Bloch sphere.
+## Compute a 2x2 Unitary for rotating t radians about the unit length @math{(x,y,z)} axis @var{n} the Bloch sphere.
 ##
 ## @seealso{Iop,H,X,Y,Z,S,T,Rx,Ry,Rz,Ph}
 ## @end deftypefn

@@ -15,7 +15,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{SU} =} SUafy (@var{U})
-## @deftypefn {Function File} {[@var{SU},@var{gp}] =} SUafy (@var{U})
+## @deftypefnx {Function File} {[@var{SU},@var{gp}] =} SUafy (@var{U})
 ##
 ## Decompose a global phase factor and Special Uniatry matrix for an arbitrary Unitary @var{U}
 ##

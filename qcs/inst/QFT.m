@@ -14,7 +14,7 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{C} =} QFTr (@var{n})
+## @deftypefn {Function File} {@var{C} =} QFT (@var{n})
 ##
 ## Compute the QIR circuit for an @var{n} qubit quantum fourier transform.
 ##

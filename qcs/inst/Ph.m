@@ -18,7 +18,6 @@
 ##
 ## Compute a matrix from U(2) that applies a global phase shift of @math{e^(i@var{t})}.
 ##
-##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

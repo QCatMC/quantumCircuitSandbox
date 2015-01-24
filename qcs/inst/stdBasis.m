@@ -15,20 +15,13 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{b} =} stdBasis (@var{i},@var{n})
-## @deftypefn {Function File} {@var{b} =} stdBasis (@var{i},@var{n},@var{t})
+## @deftypefnx {Function File} {@var{b} =} stdBasis (@var{i},@var{n},@var{t})
 ##
 ## Compute the @var{n} qubit standard basis state for positive integer @math{i}.
 ##
 ## For integer @var{i} in @math{[0,2^@var{n})}, compute the equivalent standard basis vector.  When @var{t} is given and is either ``double'', ``complex'', ``single'',``int'', or ``logical'', then the vector elements will be of type @var{t}. By default, @var{t} is ``double''.
+##
 ## @end deftypefn
-
-
-## usage: b = stdBasis(i,n,t)
-##
-## Given a natural number i OR binary representation of i as a vector
-## of length less than or equal to n, return the 2^n column vector of type t
-## values corresponding to the standard basis for i in n qubit space.
-##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: States
