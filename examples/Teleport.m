@@ -23,12 +23,12 @@ a2 = @(t) [QIR("H",t),QIR("Y",t)];
 
 ## let's be sure we know what state we're teleporting.
 ##  just run these on single qubit circuits
-st1 = simulate(a1(0),1);
+s1 = simulate(a1(0),1);
 s2 = simulate(a2(0),1);
 ## then view the density matrix because that's what we'll
 ## see after tracing out part of the teleportation circuit
-st1 = pureToDensity(s1);
-st2 = pureToDensity(s2);
+st1 = pureToDensity(s1)
+st2 = pureToDensity(s2)
 
 ## time to teleport.
 
