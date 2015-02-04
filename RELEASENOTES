@@ -1,8 +1,11 @@
+v1.2.3
+ - Fixed QFT constructor
+
 v1.2.2
  - Improved documentation for core functions and features.
  - Bug fixes in U(2) parameterization/construction functions.
     principal values for these functions are explicitly documented
-    in the U2* functions.   
+    in the U2* functions.
 
 v1.2.1
  - pTrace now works on state vectors.  Results are still given
