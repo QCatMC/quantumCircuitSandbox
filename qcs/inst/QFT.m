@@ -24,7 +24,7 @@
 ## Keywords: circuits
 
 function C = QFT(n)
-  C = QIR;
+  C = revOrder(n);
   for k = 0:(n-1)
     Q = [QIR,QIR("H",k)];
     for l = (k+1):(n-1)
@@ -44,3 +44,33 @@ function rk = consCRk(k,t,c)
   rnp = RnParams(Rk(k));
   rk = QIR("CU",{"Rn",rnp},t,c);
 endfunction
+
+## Revere qubit order
+function C = revOrder(n)
+  C = QIR;
+  if( n > 1 )
+    for k = floor(n/2):(n-1)
+      if( (n-1-k) != k )
+        C =[C,QIR("Swap",(n-1)-k,k)];
+      endif
+    endfor
+  endif
+
+endfunction
+
+%!function Q = qft(n)
+%!  Q = (1/sqrt(2^n))*ones(2^n);
+%!  for k = 2:2^n
+%!    for j = 2:2^n
+%!      Q(k,j) = Q(k,j)*e^(2*pi*i/(2^n))^(mod((j-1)*(k-1),2^n));
+%!    endfor
+%!  endfor
+%!endfunction
+
+%!test
+%! for l = 1:5
+%!  U = full(circ2mat(QFT(l)));
+%!  V = qft(l);
+%!  err = operr(U,V);
+%!  assert(err < 2^(-30), "%f ",err );
+%! endfor
