@@ -13,9 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## usage: t = stepsAt(cir,d)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} stepsAt (@var{C},@var{d})
 ##
-## Returns the number of steps at depth d for the circuit object cir
+## Compute the number of steps at depth @var{d} for the circuit @var{C}
+##
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits

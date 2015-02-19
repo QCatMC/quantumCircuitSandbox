@@ -13,15 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: c = @QASMcircuit(seq,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QASMcircuit (@var{s},@var{n})
 ##
-## Users should use the buildQASMCircuit function to construct
-## oct-circuits rather than expicitly constuct the object themselves.
-## 
-## Constructs an n qubit circuit object from a @QASMseq object.
-## Statistics about nesting depth and stepts at each allowable depth
-## are computed at the time of construction  
-## 
+## Construct an @var{n} qubit circuit from sequence object @var{s}.
+## Users should not construct circuits directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
@@ -54,5 +57,3 @@ function c = QASMcircuit(cNode,n)
   c = class(c,"QASMcircuit");
 
 endfunction
-
-

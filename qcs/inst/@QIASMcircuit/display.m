@@ -13,10 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(cir)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} display (@var{C})
 ##
-## Display function for circuit objects.
+## Display the circuit.
 ##
+##
+## @end deftypefn
+
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 

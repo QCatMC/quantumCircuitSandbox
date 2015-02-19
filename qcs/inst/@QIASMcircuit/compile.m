@@ -13,11 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: q = compile(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} compile (@var{C},@var{ETA})
 ##
-## returns approximate @QASMcircuit to @QIASMcircuit this. Non-QASM operators
-## are approximated.
+## Approximate @var{C} to within an error of @var{ETA} with a @QASMcircuit
+## Users should not use this directly, but should instead use the
+## quantum circuit compiler (qcc)
 ##
+##
+## @seealso{qcc}
+##
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM

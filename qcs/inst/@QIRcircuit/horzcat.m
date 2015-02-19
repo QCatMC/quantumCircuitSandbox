@@ -13,10 +13,19 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: C = horzcat(this,other)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} horzcat (@var{A},@var{B},...)
 ##
-## returns @QIRcircuit C = [a,b]
+## Concatenate circuits or gates to the end of circuit @var{C}.
 ##
+## Concatenating gates to @var{C} adds the gates at depth 1 of
+## @var{c}. Contenating a circuit places the concatenated circuit
+## as a nested sub-circuit of @var{C}.
+##
+## @seealso{QIR}
+##
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

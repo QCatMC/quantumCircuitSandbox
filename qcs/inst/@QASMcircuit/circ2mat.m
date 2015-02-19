@@ -13,10 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{u} =} circ2mat (@var{c})
 ##
-##  used to compute the n qubit unitary corresponding to the single
-##  qubit gate g.
+## Compute the matrix representation of the circuit @var{c}.
+##
+## Computes the unitary operator corresponding to the circuit @var{c}.
+## Measurement operations are effectively ignored when computing unitaries.
+##
+## @end deftypefn
+
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM

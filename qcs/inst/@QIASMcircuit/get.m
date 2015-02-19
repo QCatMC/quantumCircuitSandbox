@@ -13,9 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = get(cir, f)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} get (@var{C},@var{f})
 ##
-## QIASMcircuit field selector
+## Select field/property @var{f} of circuit @var{C}
+##
+## @end deftypefn
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

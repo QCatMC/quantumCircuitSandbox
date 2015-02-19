@@ -13,6 +13,19 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} subsref (@var{C},@var{idx})
+##
+## Select subcircuit of circuit @var{C}.
+##
+##  @var{C}(a,b) selects
+## steps a with respect to depth d. The steps argument, a maybe
+## a vector of positive integers where the depth argument d must be
+## a positive integer scalar.
+##
+## @end deftypefn
+
+
 ## Usage: C = subsref(this,idx)
 ##
 ## QASM circuit  sub-circuit selector

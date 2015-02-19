@@ -13,14 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{b} =} eq (@var{C},@var{D})
 ##
-## returns true if @QIRcircuit this is equivalent to other.
+## Determine if circuits @var{C} and @var{D} are extensionally equivalent
 ##
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
   b = isa(other,"QIRcircuit") && eq(this.cir,other.cir);
@@ -32,7 +35,4 @@ endfunction
 %! B = @QIRcircuit(@QIRseq({@QIRsingle("X",2)}));
 %! C = @QIRcircuit(@QIRseq({@QIRsingle("H",1)}));
 %! assert(!eq(A,B)); #same tars different ops
-%! assert(!eq(A,C)); 
-
-
-
+%! assert(!eq(A,C));

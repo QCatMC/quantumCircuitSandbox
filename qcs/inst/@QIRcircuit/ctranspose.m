@@ -13,10 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = ctranspose(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} ctranspose (@var{C})
 ##
-## invert a gate via g'
+## Computes the reverse of the circuit @var{C}. Enables @var{C}'.
 ##
+## Computes the reverse of the circuit, which is also the conjugate
+## transpose when circuits have strictly unitary representation.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

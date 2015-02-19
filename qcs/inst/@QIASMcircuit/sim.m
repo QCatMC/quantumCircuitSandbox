@@ -13,11 +13,18 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = simulate(cir,in,d,t)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} sim (@var{C},@var{in},@var{d},@var{t})
 ##
-## simulate t steps, with respect to nesting depth d, of the Circuit
-## cir on input in. Input in must be a valid pure state
-## representation of a standard basis state for the qubit space of cir.
+## simulate @var{t} steps, with respect to nesting depth @var{d}, of the Circuit
+## @var{c} on input @var{in}. Input in must be a valid pure state
+## representation of a standard basis state for the qubit space of cir. Users
+## should not call this function directly. Simulation should be done via the
+## simulate function
+##
+## @seealso{simulate}
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM

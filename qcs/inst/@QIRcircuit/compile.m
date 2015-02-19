@@ -13,13 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: q = compile(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} compile (@var{A})
 ##
-## returns exact @QIASMcircuit to @QIRcircuit this.
+## Compile @var{A} to an equivalent @QASMcircuit.
+## Users should not use this directly, but should instead use the
+## quantum circuit compiler (qcc)
 ##
-
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIR
+##
+## @seealso{qcc}
+##
+## @end deftypefn
 
 
 function q = compile(this)
