@@ -13,14 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{b} =} eq (@var{C},@var{D})
 ##
-## returns true if @QASMcNot this is equivalent to other.
+## Determine if cNot gate @var{C} gate @var{D} are extensionally equivalent
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
- 
+
 
 function b = eq(this,other)
   b = isa(other,"QASMcNot") && ...

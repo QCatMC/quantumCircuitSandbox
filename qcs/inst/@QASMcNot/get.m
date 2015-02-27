@@ -13,9 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = get(sg, f)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} get (@var{C},@var{f})
 ##
-## QASMcNot field selector
+## Select field/property @var{f} of cNot gate @var{C}
+##
+## @end deftypefn
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -26,7 +29,7 @@ function s = get(cng,f)
     s = get(cng.cn);
   else
     s = get(cng.cn,f);
-  endif    
+  endif
 endfunction
 
 %!test

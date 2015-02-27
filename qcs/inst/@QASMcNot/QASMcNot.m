@@ -13,10 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QASMcNot(tar,ctrl)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QASMcNot (@var{t},@var{c})
 ##
-## Constructor for a QASM cNot gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## Construct an cNot gate that targets qubit @var{t} with control qubit
+## @var{c}. Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
