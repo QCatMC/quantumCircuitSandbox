@@ -13,10 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIRcU(tar,ctrl,U)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QIRcU (@var{t},@var{c},@var{U})
 ##
-## Constructor for a QIR c-U gate object. Gate targets qubit number tar
-## with control qubit ctrl
+## Construct a controlled version of the single qubit unitary @var{U} with
+## targets qubit @var{t} and control qubit @var{c}. Users should not construct
+## gates directly but instead use some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

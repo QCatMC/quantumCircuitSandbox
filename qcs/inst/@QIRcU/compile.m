@@ -13,11 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: q = compile(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} compile (@var{g},@var{e})
 ##
-## returns equivalent @QIASMcNot when @QIRcU is cNot, otherwise
-## returns an equivalent @QIASMseq
+##  Computes an equivalent @@QIASMcNot to gate @var{g} when @var{g} is a
+##  CNot gate. Otherwise a circuit that approximates @var{g} to within
+##  and error of @var{e} is computed. Users should use qcc for all
+##  circuit/gate compilation.
 ##
+## @seealso{qcc}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

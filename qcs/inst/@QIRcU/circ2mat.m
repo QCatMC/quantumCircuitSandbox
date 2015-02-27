@@ -14,13 +14,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{u} =} circ2mat (@var{g},@var{n})
 ##
-##  used to compute the n qubit unitary corresponding to the
-##  controlled-U operator g
+## Compute the matrix representation for the cU gate @var{g} in @var{n} qubit
+## space
+##
+## @seealso{@@QIRcircuit/circ2mat}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: circuits
+## Keywords: QIR
 
 function U = circ2mat(g,n)
   ## get target and control
@@ -36,7 +40,7 @@ function U = circ2mat(g,n)
     p = oparr{2};
   endif
 
-  ## compute the unitary.. hacky code reuse to get 2x2 unitary 
+  ## compute the unitary.. hacky code reuse to get 2x2 unitary
   opU = circ2mat(@single(op,0,p),1);
 
   ## compute size of non-ctrl/tar spaces then compute Identity for them
