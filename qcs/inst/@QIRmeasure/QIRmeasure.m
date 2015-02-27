@@ -13,11 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIRmeasure(tars)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QIRmeasure (@var{t},@var{c})
 ##
-## Construct a gate object for measuring the qubits with indexs given
-## by the set of natural numbers tars
+## Construct a measurement gate that targets qubits @var{t}
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
 ##
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

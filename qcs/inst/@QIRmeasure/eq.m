@@ -13,14 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{b} =} eq (@var{C},@var{D})
 ##
-## returns true if @QIRmeasure this is equivalent to other.
+## Determine if measurement gate @var{C} gate @var{D} are extensionally equivalent
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
- 
+
 
 function b = eq(this,other)
   b = isa(other,"QIRmeasure") && eq(this.meas,other.meas);
