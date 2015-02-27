@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(cNGate,dep)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} nestedPrint (@var{g},@var{d})
 ##
-## Display with indentation
+## Display the cNot gate @var{g} with indentation depth @var{d}
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM

@@ -13,9 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: t = collectTars(this,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{t} =} collectTars (@var{g})
 ##
-## returns the target set
+## Compute the qubit indices for the control and target of the gate @var{g}
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
