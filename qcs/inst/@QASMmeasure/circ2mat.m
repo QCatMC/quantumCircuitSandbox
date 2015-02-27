@@ -13,10 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{u} =} circ2mat (@var{g},@var{n})
 ##
-##  used to compute the n qubit operator corresponding to the
-##  measurement operator g
+## Currently returns a @var{n} qubit identity matrix as Measurement
+## cannot be represented as a unitary operator.
+##
+## @seealso{@@QASMcircuit/circ2mat}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM

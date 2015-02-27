@@ -12,10 +12,12 @@
 ##
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-## Usage: g = get(mg, f)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} get (@var{C},@var{f})
 ##
-## QASMmeasure field selector
+## Select field/property @var{f} of measurement gate @var{C}
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
