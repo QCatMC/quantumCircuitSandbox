@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} display (@var{g})
 ##
-## Display the measurement gate @var{g}
+## Display the gate sequence @var{g}
 ##
 ## @end deftypefn
 

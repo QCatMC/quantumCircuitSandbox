@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{C} =} compile (@var{g},@var{e})
 ##
-##  Computes a @@QASMseq that approximates @@QIASMmeasure @var{g} to within
+##  Computes a @@QASMseq that approximates @@QIASMseq @var{g} to within
 ##  @var{e}. Users should use qcc for all circuit/gate compilation.
 ##
 ## @seealso{qcc}

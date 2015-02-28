@@ -14,7 +14,7 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{C} =} QASMmeasure (@var{s})
+## @deftypefn {Function File} {@var{C} =} QASMseq (@var{s})
 ##
 ## Construct a gate sequence from cell array of gates @var{s}.
 ## Users should not construct gates directly but instead use
