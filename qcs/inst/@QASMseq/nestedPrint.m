@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: nestedPrint(snode,dep)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} nestedPrint (@var{g},@var{d})
 ##
-## Display seqNode with indentation
+## Display the gate sequence @var{g} with indentation depth @var{d}
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM

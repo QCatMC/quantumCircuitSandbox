@@ -13,11 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} stepsAt (@var{C},@var{d})
 ##
-##  used to compute number of steps at depth d of a circuit.
+## Computes the number of steps at depth @var{d} for the gate sequence @var{C}.
 ##
-##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM

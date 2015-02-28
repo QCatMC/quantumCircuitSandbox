@@ -13,11 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: d = maxDepth(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{d} =} maxDepth (@var{g})
 ##
-##  used to compute maxDepth of a circuit. The max depth of seq node
-##  is one more than the max of the sequence
+## Used in circuit construction. Compute the max nesting depth of the
+## gate sequence @var{g}. 
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM

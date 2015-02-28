@@ -14,7 +14,7 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{C} =} QASMmeasure (@var{t},@var{c})
+## @deftypefn {Function File} {@var{C} =} QASMmeasure (@var{t})
 ##
 ## Construct a measurement gate that targets qubits @var{t}
 ## Users should not construct gates directly but instead use

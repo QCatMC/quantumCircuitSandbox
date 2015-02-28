@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{s} =} stepsAt (@var{C},@var{d})
 ##
-## Computes the number of steps at depth @var{d} for the gate @var{d}.
+## Computes the number of steps at depth @var{d} for the gate @var{C}.
 ## CU Gates always take 1 time step.
 ##
 ## @end deftypefn
