@@ -13,10 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIASMseq(cirList)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QASMmeasure (@var{s})
 ##
-## Construct a QIASMseq node where cirList is a cell array of @QIASMsingle, 
-## @QIASMcNot, and @QIASMseq.  
+## Construct a gate sequence from cell array of gates @var{s}.
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -24,10 +30,10 @@
 function s = QIASMseq(cirList)
 
   if( nargin == 0 )
-    s.seq = @seq({});	 
+    s.seq = @seq({});
   else
     s.seq = @seq(cirList);
-  endif  
+  endif
   s = class(s,"QIASMseq");
 
 endfunction

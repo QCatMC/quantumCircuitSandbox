@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(snode)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} display (@var{g})
 ##
-## Display QIASMseq node. Contained operators are indented.
+## Display the measurement gate @var{g}
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM

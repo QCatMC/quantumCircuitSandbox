@@ -13,10 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: t = collectTars(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{t} =} collectTars (@var{g})
 ##
-## get the set of qubit indices used by gates in the sequence. the set
-## is returned sorted, not in order affected.
+## Compute the qubit indices for all qubits targeted by @var{g}. Results
+## are returned in sorted order
+##
+## @end deftypefn
 
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>

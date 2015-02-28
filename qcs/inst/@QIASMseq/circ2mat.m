@@ -13,10 +13,15 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{u} =} circ2mat (@var{g},@var{n})
 ##
-##  used to compute the n qubit unitary corresponding to the sequences
-##  of gates g
+## Compute the unitary matrix for the sequence of gates @var{g} in
+## @var{n}  qubit space.  Any measurement operations in @var{g} are
+## effectively ignored.
+##
+## @seealso{@@QIASMcircuit/circ2mat}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM

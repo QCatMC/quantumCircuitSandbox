@@ -13,11 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: n = numapprox(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{n} =} numapprox (@var{C})
 ##
-## Returns the number of non-elementary operators in this, i.e.
-## the number that must be approximated.
+## Compute the number of non-elementary gates in sequence @var{C}.
+## Used for @@QIASMcircuit construction. 
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
