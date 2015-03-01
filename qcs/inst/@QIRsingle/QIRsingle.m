@@ -13,11 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIRsingle(name,tars)
-##        g = @QIRsingle(name,tars,params)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QIRsingle (@var{n},@var{t},@var{p})
 ##
-## Construct a gate object for apply 'name' gate to target qubits given in
-## tars. Tars is assumed to be in sorted, ascending order
+## Construct single qubit gate @var{n} with and parameters @var{p} that
+## targets the qubits listed in @var{t}.
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
