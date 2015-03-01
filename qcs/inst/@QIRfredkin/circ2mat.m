@@ -1,4 +1,3 @@
-
 ## Copyright (C) 2014  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
@@ -14,10 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: U = circ2mat(g,n)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{u} =} circ2mat (@var{g},@var{n})
 ##
-##  used to compute the n qubit unitary corresponding to the
-##  controlled-not operator g
+## Compute the matrix representation for the Fredkin gate @var{g}
+## in @var{n} qubit space
+##
+## @seealso{@@QIRcircuit/circ2mat}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

@@ -13,10 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIRfredkin(tars,ctrl)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{G} =} QIRfredkin (@var{t},@var{c})
 ##
-## Construct a gate object for a Fredkin gate controlled from ctrl
-## targetting tars
+## Construct Fredkin gate with control @var{c} and targets @var{t}.
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

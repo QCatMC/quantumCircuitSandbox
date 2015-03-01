@@ -13,9 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: t = collectTars(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{t} =} collectTars (@var{g})
 ##
-## returns the target set
+## Return the swap targets for gate @var{g}
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

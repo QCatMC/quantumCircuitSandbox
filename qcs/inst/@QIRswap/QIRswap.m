@@ -13,9 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIRswap(tar1,tar2)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QIRswap (@var{t},@var{s})
 ##
-## Construct a swap gate object
+## Construct swap gate that swaps qubits @var{t} and @var{s}
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

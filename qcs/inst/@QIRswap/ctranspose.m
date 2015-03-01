@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = ctranspose(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{h} =} ctranspose (@var{g})
 ##
-## invert a gate via g'
+## Computes the reverse of the swap gate @var{g}. Enables @var{g}'.
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

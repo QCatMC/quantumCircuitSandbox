@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(sGate)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} display (@var{g})
 ##
-## Display Fredkin gate
+## Display the Fredkin gate @var{g}
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

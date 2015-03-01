@@ -13,10 +13,16 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIRtoffoli(tar,ctrls)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QIRswap (@var{t},@var{c})
 ##
-## Construct a gate object for a Toffoli gate controlled from ctrls
-## targetting tar
+## Construct Toffoli gate with target @var{t} and controls @var{c}
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR

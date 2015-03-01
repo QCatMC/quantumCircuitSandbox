@@ -13,10 +13,14 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: q = compile(this)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} compile (@var{g},@var{e})
 ##
-## returns equivalent @QIASMseq to @QIRfredkin
+##  Computes a @@QIASMseqthat is equivalent to @QIRfredkin @var{g}.
+##  Users should use qcc for all circuit/gate compilation.
 ##
+## @seealso{qcc}
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
