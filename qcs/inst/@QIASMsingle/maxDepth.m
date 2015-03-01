@@ -13,11 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: d = maxDepth(g)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{d} =} maxDepth (@var{g})
 ##
-##  used to compute maxDepth of a circuit. The max depth of a gate
-##  node is always 0.
-## 
+## Used in circuit construction. The maxDepth of a single qubit
+## gate is always 0.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -25,4 +27,3 @@
 function d = maxDepth(g)
   d=maxDepth(g.sing);
 endfunction
-

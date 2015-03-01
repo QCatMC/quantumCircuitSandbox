@@ -13,10 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: g = @QIASMsingle(name,tar)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{C} =} QASMsingle (@var{n},@var{t},@var{p})
 ##
-## Construct a gate object for apply 'name' gate to target qubit number
-## tar
+## Construct single qubit gate @var{n} with target qubit @var{t} and
+## parameters @var{p}.
+##  Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM

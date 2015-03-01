@@ -13,14 +13,17 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: b = eq(this,other)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{b} =} eq (@var{C},@var{D})
 ##
-## returns true if @singleGate this is equivalent to other.
+## Determine if single qubit gate @var{C} gate @var{D} are
+## extensionally equivalent
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
- 
+
 
 function b = eq(this,other)
   b = isa(other,"QIASMsingle") && ...
@@ -37,4 +40,3 @@ endfunction
 %! assert(!eq(a,b));
 %! assert(eq(@QIASMsingle("PhAmp",0,[pi,pi,pi]),...
 %!           @QIASMsingle("PhAmp",0,[pi,pi,pi])));
-          

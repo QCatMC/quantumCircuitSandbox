@@ -13,11 +13,13 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: s = stepsAt(g,d)
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{s} =} stepsAt (@var{C},@var{d})
 ##
-##  used to compute number of steps at depth d of a circuit. Gates are
-##  always 1 step regardless of the depth
-## 
+## Computes the number of steps at depth @var{d} for the gate @var{C}.
+## Single qubit gates always take 1 time step.
+##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -25,4 +27,3 @@
 function s = stepsAt(g,d)
   s = stepsAt(g.sing,d);
 endfunction
-

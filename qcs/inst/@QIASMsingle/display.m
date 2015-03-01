@@ -13,10 +13,12 @@
 ##  You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## Usage: display(sGate)
+## -*- texinfo -*-
+## @deftypefn {Function File} {} display (@var{g})
 ##
-## Display singleGate
+## Display the single qubit gate @var{g}
 ##
+## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
@@ -24,7 +26,7 @@
 function display(sGate)
 
   if(!strcmp(inputname(1),"") )
-    fprintf ("%s = \n", inputname (1)); 
+    fprintf ("%s = \n", inputname (1));
   endif
 
   nestedPrint(sGate,1);
