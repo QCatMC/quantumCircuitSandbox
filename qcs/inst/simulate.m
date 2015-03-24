@@ -54,7 +54,7 @@
 ## The ``classicalout'' option is either ``Int'' or ``Bin''. When simulation is done with classical output and at least one sample measurement is taken, then the simulation result will be returned as classical output. The ``Int'' option value returns the integer index of the standard basis and the ``Bin'' option returns that same value as a binary column vector. If no samples are requested, then this option has no effect.
 ## @end quotation
 ##
-## @seealso{measure,binaryRep,stdBasis,pTrace}
+## @seealso{measure,binaryrep,stdbasis,ptrace}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -82,8 +82,8 @@ function s = simulate(cir,in,varargin)
 
   if( t == -1 )
     ## default initialization
-    t=get(cir,"stepsAt")(d);
-  elseif(!isNat(t))
+    t=get(cir,"stepsat")(d);
+  elseif(!isnat(t))
     error("simulate: Number of time steps must be zero or a \
     positive integer.");
   endif
@@ -92,7 +92,7 @@ function s = simulate(cir,in,varargin)
     error("simulate: Bad workspace location. %s", wloc);
   endif
 
-  if( !isNat(wsize) || wsize > get(cir,"bits") )
+  if( !isnat(wsize) || wsize > get(cir,"bits") )
     error("simulate: Bad workspace size. %f",wsize);
   endif
 
@@ -120,7 +120,7 @@ function s = simulate(cir,in,varargin)
       n = get(cir,"bits");
       spc = (n-wsize):(n-1);
     endif
-    s = pTrace(spc,pureToDensity(s));
+    s = ptrace(spc,puretodensity(s));
   endif
 
   ## sample if needed
@@ -134,7 +134,7 @@ endfunction
 ## check and converting circuit input
 function s = processIn(in,n)
 
-  s = stdBasis(0,n);
+  s = stdbasis(0,n);
 
   if( !isvector(in) )
     error("simulate: Second argument must be a natural number, pure state \
@@ -144,10 +144,10 @@ vector, or a bit vector.");
       error("simulate: Scalar input must be a natural number in \
 [0,|cir|)");
     else
-      s = stdBasis(in,n);
+      s = stdbasis(in,n);
     endif
-  elseif( length(in) == n && isBitArray(in) )
-    s = stdBasis(in,n);
+  elseif( length(in) == n && isbitarray(in) )
+    s = stdbasis(in,n);
   elseif( length(in) == 2^n && sum(in==0) == (2^n-1) && sum(in==1) == 1)
     s = in;
   else

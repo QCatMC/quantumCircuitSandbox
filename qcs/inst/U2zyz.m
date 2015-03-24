@@ -18,9 +18,9 @@
 ##
 ## Compute the 2x2 unitary parameterized by the ZYZ parameters @var{p}.
 ##
-## Any 2x2 unitary matrix @var{U} can parameterized by as the composition of a rotation about the Z, then Y, then Z axes, possibly with a global phase factor. Calling @code{U2zyz(@var{p}} returns the 2x2 unitary that corresponds to ZYZ parameter vector @var{p} where @code{@var{p}(1)} is angle of rotation for the first Z axis rotation, @code{@var{p}(2)} is the angle of rotation for the Y axis rotation, @code{@var{p}(3)} is the angle of rotation for the final Z axis rotation, and @code{@var{p}(4)} is the global phase factor. For consistency with zyzParams, the Z axis rotations should range from [0,2pi], the Y axis rotation should range from [0,pi], and the global phase factor should range from [-pi/2,pi/2].
+## Any 2x2 unitary matrix @var{U} can parameterized by as the composition of a rotation about the Z, then Y, then Z axes, possibly with a global phase factor. Calling @code{U2zyz(@var{p}} returns the 2x2 unitary that corresponds to ZYZ parameter vector @var{p} where @code{@var{p}(1)} is angle of rotation for the first Z axis rotation, @code{@var{p}(2)} is the angle of rotation for the Y axis rotation, @code{@var{p}(3)} is the angle of rotation for the final Z axis rotation, and @code{@var{p}(4)} is the global phase factor. For consistency with zyzparams, the Z axis rotations should range from [0,2pi], the Y axis rotation should range from [0,pi], and the global phase factor should range from [-pi/2,pi/2].
 ##
-## @seealso{phaseAmpParams,RnParams,zyzParams,U2Rn,U2phaseamp}
+## @seealso{phaseampparams,Rnparams,zyzparams,U2Rn,U2phaseamp}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -62,7 +62,7 @@ endfunction
 %!   randparams = [unifrnd(0,2*pi,1,1),unifrnd(0,pi,1,1), ...
 %!                 unifrnd(0,2*pi,1,1), unifrnd(-pi/2,pi/2,1,1)];
 %!   U = U2zyz(randparams);
-%!   p = zyzParams(U);
+%!   p = zyzparams(U);
 %!   diff = abs(randparams-p);
 %!   assert( diff < close , "%f ", randparams, p  );
 %! endfor

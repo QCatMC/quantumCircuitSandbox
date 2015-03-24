@@ -41,7 +41,7 @@ endfunction
 
 ## Create Controlled-Rk with target t and control c
 function rk = consCRk(k,t,c)
-  rnp = RnParams(Rk(k));
+  rnp = Rnparams(Rk(k));
   rk = QIR("CU",{"Rn",rnp},t,c);
 endfunction
 

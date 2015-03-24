@@ -18,9 +18,9 @@
 ##
 ## Compute the 2x2 unitary @var{U} parameterized by phase and amplitude parameters @var{p}.
 ##
-## Any 2x2 unitary matrix @var{U} can parameterized by 4 independent, real-valued parameters. Calling @code{U2phaseamp(@var{p}} returns the 2x2 unitary parameterized by  vector @var{p} where @code{@var{p}(1)} is the amplitude parameter and @code{@var{p}(2:4)} are the row, column, and global phase parameters respectively. For consistency with @code{phaseAmpParams}, the amplitude should fall in [0,pi/2], the row and column parameters should fall in [-pi,pi] and the global phase should fall in [-pi/2,pi/2].  Under these conditions than one can expect phaseAmpParams(U2phaseamp(p)) to be equivalent to p.
+## Any 2x2 unitary matrix @var{U} can parameterized by 4 independent, real-valued parameters. Calling @code{U2phaseamp(@var{p}} returns the 2x2 unitary parameterized by  vector @var{p} where @code{@var{p}(1)} is the amplitude parameter and @code{@var{p}(2:4)} are the row, column, and global phase parameters respectively. For consistency with @code{phaseampparams}, the amplitude should fall in [0,pi/2], the row and column parameters should fall in [-pi,pi] and the global phase should fall in [-pi/2,pi/2].  Under these conditions than one can expect phaseampparams(U2phaseamp(p)) to be equivalent to p.
 ##
-## @seealso{phaseAmpParams,RnParams,zyzParams,U2Rn,U2zyz,}
+## @seealso{phaseampparams,Rnparams,zyzparams,U2Rn,U2zyz,}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -66,7 +66,7 @@ endfunction
 %!   randparams = [unifrnd(0,pi/2,1,1),unifrnd(-pi,pi,1,2),...
 %!                 unifrnd(-pi/2,pi/2,1,1)];
 %!   U = U2phaseamp(randparams);
-%!   p = phaseAmpParams(U);
+%!   p = phaseampparams(U);
 %!   diff = abs(randparams-p);
 %!   assert( diff < close );
 %! endfor

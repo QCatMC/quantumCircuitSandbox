@@ -29,6 +29,6 @@ function display(mGate)
     fprintf ("%s = \n", inputname (1));
   endif
 
-  nestedPrint(mGate,1);
+  nestedprint(mGate,1);
 
 endfunction

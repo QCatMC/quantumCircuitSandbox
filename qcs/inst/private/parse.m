@@ -62,7 +62,7 @@ endfunction
 ## parses gate descriptors
 function C = parseGate(gDesc)
   ## Check if gate name is one of the known, able to be simulated, set
-  if( QIRvalidOp(gDesc{1}) )
+  if( QIRvalidop(gDesc{1}) )
     op = gDesc{1};
     ## single qubit op?
     if( isSingle(op) )
@@ -108,7 +108,7 @@ function C = parseSingle(gDesc)
     if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
       error("parse error: expecting 2 arguments for %s given 1",op);
     ## verify targets
-    elseif( !isvector(gDesc{2}) ||  !isTargetVector(gDesc{2}) )
+    elseif( !isvector(gDesc{2}) ||  !istargetvector(gDesc{2}) )
       error("parse error: %s targets must be a set of natural numbers.");
     else
       C = @QIRsingle(op,sort(gDesc{2},"descend"));
@@ -119,7 +119,7 @@ function C = parseSingle(gDesc)
     if( !strcmp(op,"PhAmp") && !strcmp(op,"Rn") && !strcmp(op,"ZYZ") )
       error("parse error: expecting 1 arguments for %s given 2",op);
     ## verify targets
-    elseif(  !isvector(gDesc{3}) || !isTargetVector(gDesc{3}) )
+    elseif(  !isvector(gDesc{3}) || !istargetvector(gDesc{3}) )
       error("parse error: %s target must be a set of natural number.");
     else
       ## Error check params gDesc{2}
@@ -155,7 +155,7 @@ function C = parseBinary(gDesc)
 	error("parse error: CNot expects 2 arguments. Given %d",length(gDesc)-1);
       ## check target and control
       elseif( !isscalar(gDesc{2}) || !isscalar(gDesc{3}) || ...
-	      !isNat(gDesc{2}) || !isNat(gDesc{3}) )
+	      !isnat(gDesc{2}) || !isnat(gDesc{3}) )
 	error("parse error: CNot target and control must be natural \
 numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
       ## check target neq control
@@ -171,7 +171,7 @@ numbers. Given tar=%f and ctrl=%f.",gDesc{2},gDesc{3});
 	error("parse error: CU expects 3 arguments. Given %d",length(gDesc)-1);
       ## target and control check
       elseif( !isscalar(gDesc{3}) || !isscalar(gDesc{4}) || ...
-	      !isNat(gDesc{3}) || !isNat(gDesc{4}) )
+	      !isnat(gDesc{3}) || !isnat(gDesc{4}) )
 	error("parse error: CU target and control must be natural numbers.");
       ## tar neq ctrl
       elseif( gDesc{3} == gDesc{4} )
@@ -217,7 +217,7 @@ operator form. Given %s",gDesc{2}{1});
 	error("parse error: Swap expects 3 arguments. Given %d",length(gDesc)-1);
       ## tar checks
       elseif( !isscalar(gDesc{2}) || !isscalar(gDesc{3}) || ...
-	      !isNat(gDesc{2}) || !isNat(gDesc{3}) )
+	      !isnat(gDesc{2}) || !isnat(gDesc{3}) )
 	error("parse error: Swap targets must be natural \
 numbers. Given tar1=%f and tar2=%f.",gDesc{2},gDesc{3});
       ## don't self-swap
@@ -247,7 +247,7 @@ scalar.");
     ##it's a vector
 
     ## Nat check
-    if( !isNat(gDesc{2}) )
+    if( !isnat(gDesc{2}) )
       error("parse error: Measurement targets must be natrual \
 numbers");
 
@@ -272,11 +272,11 @@ function C = parseTernary(gDesc)
       if( length(gDesc) != 3 )
 	error("parse error: Toffoli expects 2 arguments.");
       ## control check
-      elseif( !isequal(size(gDesc{3}),[1,2]) || !isNat(gDesc{3}) || ...
+      elseif( !isequal(size(gDesc{3}),[1,2]) || !isnat(gDesc{3}) || ...
 	      gDesc{3}(1) == gDesc{3}(2) )
 	error("parse error: Toffoli given bad controls");
       ## target check
-      elseif( !isscalar(gDesc{2}) || !isNat(gDesc{2}) || ...
+      elseif( !isscalar(gDesc{2}) || !isnat(gDesc{2}) || ...
 	      !isequal([0,0],gDesc{3}==gDesc{2}) )
 	error("parse error: Toffoli given bad target");
       endif
@@ -288,11 +288,11 @@ function C = parseTernary(gDesc)
       if( length(gDesc) != 3 )
 	error("parse error: Fredkin expects 2 arguments.");
       ## control check
-      elseif( !isequal(size(gDesc{2}),[1,2]) || !isNat(gDesc{2}) || ...
+      elseif( !isequal(size(gDesc{2}),[1,2]) || !isnat(gDesc{2}) || ...
 	      gDesc{2}(1) == gDesc{2}(2) )
 	error("parse error: Fredkin given bad controls");
       ## target check
-      elseif( !isscalar(gDesc{3}) || !isNat(gDesc{3}) || ...
+      elseif( !isscalar(gDesc{3}) || !isnat(gDesc{3}) || ...
 	      !isequal([0,0],gDesc{2}==gDesc{3}) )
 	error("parse error: Fredkin given bad control");
       endif

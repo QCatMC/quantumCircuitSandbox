@@ -29,9 +29,9 @@
 ## representation of a standard basis state for the qubit space of cir.
 function s = sim(cir,in,d,t)
 
-  if( d > cir.maxDepth )
+  if( d > cir.maxdepth )
     error("simulate: given depth exceeds circuit max depth.");
-  elseif( t > cir.stepsAt(d) )
+  elseif( t > cir.stepsat(d) )
     error("simulate: given number of simulation steps exceepds max \
 for given depth.");
   endif

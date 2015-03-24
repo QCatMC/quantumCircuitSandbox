@@ -28,7 +28,7 @@
 
 function U = H(n=1)
 
-  U = nBitOp(sqrt(1/2)*[1,1;1,-1],n);
+  U = nbitop(sqrt(1/2)*[1,1;1,-1],n);
 
 endfunction
 

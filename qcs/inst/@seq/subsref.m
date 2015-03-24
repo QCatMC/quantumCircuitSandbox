@@ -35,9 +35,9 @@ function C = subsref(this,idx)
       if( length(subs) == 1 || (length(subs) == 2 && subs{2}==1) )
 
         steps = subs{1};
-        if( !isvector(steps) ||  !isNat(steps) )
+        if( !isvector(steps) ||  !isnat(steps) )
           error("subsref: Steps must be a vector of positve natural numbers");
-        elseif( max(steps) > stepsAt(this,1) )
+        elseif( max(steps) > stepsat(this,1) )
           error("subsref: Max step exceeds number of steps");
         else
           seq = get(this,"seq");
@@ -51,17 +51,17 @@ function C = subsref(this,idx)
         depth = subs{2};
 
         ## check depth
-        if( !isscalar(depth) || !isNat(depth) )
+        if( !isscalar(depth) || !isnat(depth) )
           error("subsref: depth must be positive natural number.")
-        #elseif( depth > get(this,"maxDepth") )
+        #elseif( depth > get(this,"maxdepth") )
         #  error("subsref: depth exceeds circuit max depth");
         endif
         ## depth OK
 
         ## check steps
-        if( !isvector(steps) || !isNat(steps) )
+        if( !isvector(steps) || !isnat(steps) )
           error("subsref: Steps must be a vector of positve natural numbers");
-        elseif( max(steps) > stepsAt(this,depth) )
+        elseif( max(steps) > stepsat(this,depth) )
           error("subsref: Max step exceeds number of steps for given depth");
         endif
         ## steps OK
@@ -74,7 +74,7 @@ function C = subsref(this,idx)
         ## dSteps(i) is the number of steps, w.r.t. depth, at seq{i}
         dSteps = zeros(1,length(seq));
         for k = 1:length(dSteps)
-          dSteps(k) = stepsAt(seq{k},depth-1);
+          dSteps(k) = stepsat(seq{k},depth-1);
         endfor
 
         ## stepsUpTo(i) is the total number of steps, w.r.t. depth, for
@@ -140,7 +140,7 @@ function C = subsref(this,idx)
 
 endfunction
 
-function b = isNat(n)
+function b = isnat(n)
 
   for k = 1:length(n)
     if(!isscalar(n(k)) || floor(n(k))!=ceil(n(k)) || n(k) < 1 )

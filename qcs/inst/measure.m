@@ -33,7 +33,7 @@
 ## Then ``samples'' option can be any positive valued integer. When @math{s > 1} samples are taken, then the measurement is repeated @math{s} times and the majority result is returned. In the event of a tie, the leasted-valued majority result is returned. Only a single sample is taken by default.
 ## @end quotation
 ##
-## @seealso{binaryRep,stdBasis,pureToDensity,simulate}
+## @seealso{binaryrep,stdbasis,puretodensity,simulate}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -63,7 +63,7 @@ function res = measure(q,varargin)
       error("measure: Binary Output argument must be true or false");
     endif
 
-    if(!isNat(numSamps) || numSamps < 1)
+    if(!isnat(numSamps) || numSamps < 1)
       error("measure: Number of samples must be postive valued integer.");
     endif
   endif
@@ -89,29 +89,29 @@ function res = measure(q,varargin)
 
   ## go binary if requested
   if( outBin )
-    res = binaryRep(res,n);
+    res = binaryrep(res,n);
   endif
 
 endfunction
 
 %!test
-%! assert(measure(stdBasis(3,4)),3)
-%! assert(measure(stdBasis(5,4)),5)
-%! assert(measure(stdBasis(12,4)),12)
-%! assert(measure(pureToDensity(stdBasis(3,4))),3)
-%! assert(measure(pureToDensity(stdBasis(5,4))),5)
-%! assert(measure(pureToDensity(stdBasis(13,4))),13)
+%! assert(measure(stdbasis(3,4)),3)
+%! assert(measure(stdbasis(5,4)),5)
+%! assert(measure(stdbasis(12,4)),12)
+%! assert(measure(puretodensity(stdbasis(3,4))),3)
+%! assert(measure(puretodensity(stdbasis(5,4))),5)
+%! assert(measure(puretodensity(stdbasis(13,4))),13)
 
 %!test
-%! assert(isequal(measure(stdBasis(3,4),"binary",true),binaryRep(3,4)))
-%! assert(isequal(measure(stdBasis(5,4),"binary",true),binaryRep(5,4)))
-%! assert(isequal(measure(stdBasis(7,4),"binary",true),binaryRep(7,4)))
+%! assert(isequal(measure(stdbasis(3,4),"binary",true),binaryrep(3,4)))
+%! assert(isequal(measure(stdbasis(5,4),"binary",true),binaryrep(5,4)))
+%! assert(isequal(measure(stdbasis(7,4),"binary",true),binaryrep(7,4)))
 
 %!test
-%! assert(measure(stdBasis(6,5),"samples",5),6)
-%! assert(measure(stdBasis(6,5),"samples",15),6)
-%! assert(measure(stdBasis(6,5),"samples",25),6)
-%! assert(measure(stdBasis(6,5),"samples",35),6)
-%! assert(measure(stdBasis(6,5),"samples",55),6)
+%! assert(measure(stdbasis(6,5),"samples",5),6)
+%! assert(measure(stdbasis(6,5),"samples",15),6)
+%! assert(measure(stdbasis(6,5),"samples",25),6)
+%! assert(measure(stdbasis(6,5),"samples",35),6)
+%! assert(measure(stdbasis(6,5),"samples",55),6)
 
 ## need statistical tests

@@ -43,15 +43,15 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
 endfunction
 
-## all tests use binaryRep and stdBasis
+## all tests use binaryrep and stdbasis
 %!test
 %! for k = 0:3
 %!   for c = 0:1
 %!        t = mod(c+1,2); # target
 %!        in = (0:3==k)';
-%!        out = binaryRep(k,2);
+%!        out = binaryrep(k,2);
 %!        out(2-t) = mod(out(2-c)+out(2-t),2);
-%!        out = stdBasis(out,2);
+%!        out = stdbasis(out,2);
 %!        [y,ti] = sim(@cNot(t,c),in,2,0,1,0,1);
 %!        assert(isequal(y,out),
 %!               "error on in = %d ctrl=%d tar=%d. got %d expected %d",...
@@ -65,9 +65,9 @@ endfunction
 %!   for c = 0:3
 %!     for t = setdiff(0:3,[c])
 %!        in = (0:(2^4-1)==k)';
-%!        out = binaryRep(k,4);
+%!        out = binaryrep(k,4);
 %!        out(4-t) = mod(out(4-c)+out(4-t),2);
-%!        out = stdBasis(out,4);
+%!        out = stdbasis(out,4);
 %!        [y,ti] = sim(@cNot(t,c),in,4,0,1,0,1);
 %!        assert(ti==1);
 %!        assert(isequal(y,out), ...
@@ -83,9 +83,9 @@ endfunction
 %!   for c = 0:4
 %!     for t = setdiff(0:4,[c])
 %!        in = (0:(2^5-1)==k)';
-%!        out = binaryRep(k,5);
+%!        out = binaryrep(k,5);
 %!        out(5-t) = mod(out(5-c)+out(5-t),2);
-%!        out = stdBasis(out,5);
+%!        out = stdbasis(out,5);
 %!        [y,ti] = sim(@cNot(t,c),in,5,2,1,0,1);
 %!        assert(ti==0);
 %!        assert(isequal(y,out), ...

@@ -36,7 +36,7 @@ function [tidx,newU] = skalgo(U,n)
   else
 
     [Unm1idx,Unm1] = skalgo(U,n-1);
-    [V,W] = getGroupComm(U*(Unm1'));
+    [V,W] = getgroupcomm(U*(Unm1'));
     [Vnm1idx,Vnm1] = skalgo(V,n-1);
     [Wnm1idx,Wnm1] = skalgo(W,n-1);
 

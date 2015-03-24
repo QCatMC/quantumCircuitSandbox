@@ -36,7 +36,7 @@
 function U = S(n=1)
 
   S1 = [1,0;0,i];
-  U = nBitOp(S1,n);
+  U = nbitop(S1,n);
 
 endfunction
 

@@ -34,7 +34,7 @@ function display(cir)
   pad = blanks(3);
   if( length(cir.tars) > 0 )
     fprintf("%sseq = \n",pad);
-    nestedPrint(cir.seq,2);
+    nestedprint(cir.seq,2);
   else
     fprintf("%sseq = {}\n",pad);
   endif
@@ -47,11 +47,11 @@ function display(cir)
     fprintf("]\n");
   endif
 
-  fprintf("%smax depth = %d\n",pad,cir.maxDepth);
+  fprintf("%smax depth = %d\n",pad,cir.maxdepth);
 
-  for d = 1:cir.maxDepth
+  for d = 1:cir.maxdepth
 
-    s=cir.stepsAt(d);
+    s=cir.stepsat(d);
     if( s == 1)
       sstr = "step";
     else

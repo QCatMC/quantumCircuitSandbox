@@ -28,6 +28,6 @@ function display(snode)
     fprintf ("%s = \n", inputname (1));
   endif
 
-  nestedPrint(snode,1);
+  nestedprint(snode,1);
 
 endfunction

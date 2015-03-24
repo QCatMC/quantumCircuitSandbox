@@ -85,7 +85,7 @@
 ##
 ##  Gates and circuits can be used to construct circuits using the @code{[]} operators in a fashion simlar to constructing vectors. For gates a,b, and c, @code{[a,b,c]} produces a depth one circuit. Circuits may also be nested within other circuits but in order to ensure proper nesting you must begin a circuit with the empty circuit. For example, @code{[a,[b,c]]},@code{[[a,b],c]}, and @code{[a,b,c]} all produce the same depth 1 circuit with no nesting but @code{[QIR,a,[b,c]]} and @code{[QIR,[a,b],c]} will produce depth 2 circuits. The former with @code{[b,c]} at depth 2 and the later with @code{[a,b]} at depth 2.
 ##
-## @seealso{phaseAmpParams,RnParams,zyzParams}
+## @seealso{phaseampparams,Rnparams,zyzparams}
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
@@ -137,9 +137,9 @@ function [t,c] = parseCNot(args)
   t = args{1};
   c = args{2};
 
-  if( !isscalar(t) && !isNat(t) )
+  if( !isscalar(t) && !isnat(t) )
     error("CNot: Bad target");
-  elseif( !isscalar(c) && !isNat(c) )
+  elseif( !isscalar(c) && !isnat(c) )
     error("CNot: Bad control");
   elseif( t == c)
     error("CNot: Target and control cannot be the same");
@@ -154,7 +154,7 @@ function t = parseQASM(name,args)
 
   t = args{1};
 
-  if(!isNat(t))
+  if(!isnat(t))
     error("%s: Bad Target");
   elseif( numel(t) != numel(unique(t)) )
     error("%s: Contains duplicate targets");
@@ -185,7 +185,7 @@ function [t,p] = parseQIASM(name,args)
   endswitch
 
   ## check targets
-  if( !isNat(t) )
+  if( !isnat(t) )
     error("%s: Bad target",name);
   elseif( numel(t) != numel(unique(t)) )
     error("%s: Contains duplicate targets");
@@ -204,12 +204,12 @@ function [t,c] = parseTof(args)
     c = args{2};
 
     ## control check
-    if( !isequal(size(c),[1,2]) || !isNat(c) || c(1) == c(2) )
+    if( !isequal(size(c),[1,2]) || !isnat(c) || c(1) == c(2) )
       error("Toffoli: Given bad controls");
     endif
 
     ## target check
-    if( !isscalar(t) || !isNat(t) || !isequal([0,0],t==c ) )
+    if( !isscalar(t) || !isnat(t) || !isequal([0,0],t==c ) )
       error("Toffoli: Given bad target");
     endif
 
@@ -229,12 +229,12 @@ function [t,c] = parseFred(args)
   c = args{2};
 
   ## control check
-  if( !isequal(size(t),[1,2]) || !isNat(t) || t(1) == t(2) )
+  if( !isequal(size(t),[1,2]) || !isnat(t) || t(1) == t(2) )
     error("Fredkin: given bad targets");
   endif
 
   ## target check
-  if( !isscalar(c) || !isNat(c) || !isequal([0,0],c==t) )
+  if( !isscalar(c) || !isnat(c) || !isequal([0,0],c==t) )
     error("Fredkin: given bad control");
   endif
 
@@ -251,7 +251,7 @@ function [t1,t2] = parseSwap(args)
   t1 = args{1};
   t2 = args{2};
 
- if( !isscalar(t1) || !isscalar(t2) || !isNat(t1) || !isNat(t2) )
+ if( !isscalar(t1) || !isscalar(t2) || !isnat(t1) || !isnat(t2) )
   error("Swap: targets must be natural \
 numbers. Given tar1=%f and tar2=%f.",t1,t2);
  endif
@@ -278,7 +278,7 @@ function t = parseMeasure(args)
   if( !isvector(t) )
      error("Measure: target must be a vector or scalar.");
   ## Nat check
-  elseif( !isNat(t) )
+  elseif( !isnat(t) )
      error("Measure: targets must be natrual numbers");
   ## no-dup check
 elseif( numel(unique(t)) != numel(t) )
@@ -330,7 +330,7 @@ function [o,t,c] = parseCU(args)
    o = {o};
  endif
 
- if( !isNat(c) )
+ if( !isnat(c) )
   error("CU: bad control index");
  elseif( t==c )
    error("CU: Target and Control cannot match");

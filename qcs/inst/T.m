@@ -29,7 +29,7 @@
 function U = T(n=1)
 
   T1 = [1,0;0,e^(i*pi/4)];
-  U = nBitOp(T1,n);
+  U = nbitop(T1,n);
 
 endfunction
 

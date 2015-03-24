@@ -56,7 +56,7 @@ function s = stdMeasure(q,t=[])
     ## get result
     i = discrete_rnd([0:length(q)-1],pmf,1);
     ## compute basis of result
-    s = stdBasis(i,n);
+    s = stdbasis(i,n);
   ## partial measurement of |t|<n qubits
   else
     ## initial state is current
@@ -98,10 +98,10 @@ function s = stdMeasure(q,t=[])
 endfunction
 
 %!test
-%! x = stdBasis(5,3);
+%! x = stdbasis(5,3);
 %! for i = 1:30
 %!  s =  sim(@meas([]),x,3,0,1,0,1);
-%!  assert(s,stdBasis(5,3))
+%!  assert(s,stdbasis(5,3))
 %! endfor
 
 ## probably better ways to test in the presence of

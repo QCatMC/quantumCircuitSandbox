@@ -23,20 +23,20 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function c = circuit(seq,bits,maxDep,stepsAt,tars)
+function c = circuit(seq,bits,maxDep,stepsat,tars)
 
   if(nargin == 0 )
     c.bits = 0;
     c.seq = @seq({});
-    c.maxDepth = 0;
-    c.stepsAt = [];
+    c.maxdepth = 0;
+    c.stepsat = [];
     c.tars = [];
   else
     c.bits = bits;
     c.seq = seq;
-    c.maxDepth = maxDep;
+    c.maxdepth = maxDep;
     c.tars = tars;
-    c.stepsAt = stepsAt;
+    c.stepsat = stepsat;
   endif
   c = class(c,"circuit");
 

@@ -36,12 +36,12 @@ function c = QASMcircuit(cNode,n)
   elseif(nargin == 1 || nargin == 2)
     bits = 0;
     seq = cNode;
-    maxDepth = maxDepth(seq);
-    tars = collectTars(seq);
-    stps = zeros(maxDepth,1);
+    maxdepth = maxdepth(seq);
+    tars = collecttars(seq);
+    stps = zeros(maxdepth,1);
 
-    for d = 1:maxDepth
-      stps(d) = stepsAt(seq,d);
+    for d = 1:maxdepth
+      stps(d) = stepsat(seq,d);
     endfor
 
     if( nargin == 2 )
@@ -50,7 +50,7 @@ function c = QASMcircuit(cNode,n)
       bits = 1+max(tars);
     endif
 
-    c.cir = @circuit(seq,bits,maxDepth,stps,tars);
+    c.cir = @circuit(seq,bits,maxdepth,stps,tars);
 
   endif
 

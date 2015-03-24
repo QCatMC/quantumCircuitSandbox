@@ -29,5 +29,5 @@ function display(sGate)
     fprintf ("%s = \n", inputname (1));
   endif
 
-  nestedPrint(sGate.sing,1);
+  nestedprint(sGate.sing,1);
 endfunction

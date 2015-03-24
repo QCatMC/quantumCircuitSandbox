@@ -35,11 +35,11 @@ function c = QIRcircuit(cNode,n)
     c.cir = @circuit(@QIRseq({}),0,0,[],[]);
   elseif(nargin == 1 || nargin == 2)
     seq = cNode;
-    maxDepth = maxDepth(seq);
-    tars = collectTars(seq);
-    stps = zeros(maxDepth,1);
-    for d = 1:maxDepth
-      stps(d) = stepsAt(seq,d);
+    maxdepth = maxdepth(seq);
+    tars = collecttars(seq);
+    stps = zeros(maxdepth,1);
+    for d = 1:maxdepth
+      stps(d) = stepsat(seq,d);
     endfor
     if( nargin == 2 )
       bits = n;
@@ -48,7 +48,7 @@ function c = QIRcircuit(cNode,n)
     endif
 
     ## set class fields
-    c.cir = @circuit(seq,bits,maxDepth,stps,tars);
+    c.cir = @circuit(seq,bits,maxdepth,stps,tars);
 
   endif
 

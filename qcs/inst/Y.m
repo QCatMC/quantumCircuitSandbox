@@ -29,7 +29,7 @@
 function U = Y(n=1)
 
   Y1 = i*[0,-1;1,0];
-  U = nBitOp(Y1,n);
+  U = nbitop(Y1,n);
 
 endfunction
 

@@ -28,5 +28,5 @@ function display(cNGate)
     fprintf ("%s = ", inputname (1));
   endif
 
-  nestedPrint(cNGate,1);
+  nestedprint(cNGate,1);
 endfunction
