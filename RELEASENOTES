@@ -1,3 +1,11 @@
+v1.3.0
+  - Many functions renamed to better conform to the octave
+  style of all lowercase letters.
+  - Printing circuits now clips to first and last 8 nodes
+  to avoid lengthy, slow printing by default. Users can
+  view the entire circuit by using the viewcircuit function
+  on any circuit object.
+
 v1.2.4
  - Documentation improvements
 
