@@ -27,8 +27,8 @@ s1 = simulate(a1(0),1);
 s2 = simulate(a2(0),1);
 ## then view the density matrix because that's what we'll
 ## see after tracing out part of the teleportation circuit
-st1 = pureToDensity(s1)
-st2 = pureToDensity(s2)
+st1 = puretodensity(s1)
+st2 = puretodensity(s2)
 
 ## time to teleport.
 
@@ -36,7 +36,7 @@ st2 = pureToDensity(s2)
 circ1 = [QIR,a1(2),Tele];
 circ2 = [QIR,a2(2),Tele];
 
-in = pTrace(1:2,stdBasis(4,3)) # the input
+in = ptrace(1:2,stdBasis(4,3)) # the input
 
 ## now run and trace out all but bit 0 (the result). again, we tag
 ## the upper portion as work space here so that the simulator will

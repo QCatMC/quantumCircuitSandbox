@@ -37,12 +37,12 @@ res = simulate(id_cir,1)
 ## trace out the low order bit. Partial traces work on density operators
 
 ## first get the density operator of res
-resOp = pureToDensity(res);
+resOp = puretodensity(res);
 ## now trace out the space of bit 0. We should see |1><1|
-resOp = pTrace(0,resOp);
+resOp = ptrace(0,resOp);
 ## We can also just trace the vector directly and get the same
 ## result. pTrace just does the vector->matrix conversion for us
-resOp = pTrace(0,res);
+resOp = ptrace(0,res);
 ## let's just double check that they're more or less the same
 ## via the operator norm based operr
 assert(operr(resOp,[0,0;0,1]) < 2^-30);
@@ -71,7 +71,7 @@ res = simulate(one_cir,[0,1],"worksize",1,"samples",1);
 assert(res,0);
 
 ## You can also pass in basis vectors as initial inputs
-res = simulate(one_cir,stdBasis(1,2),"worksize",1,"samples",1);
+res = simulate(one_cir,stdbasis(1,2),"worksize",1,"samples",1);
 assert(res,0);
 
 ## simulate also allows you to dictate depth and steps carried out by the
@@ -82,7 +82,7 @@ assert(res,0);
 ## result. At this depth gates are grouped logically: inital state
 ## prep, oracle, final 'decode' and measurement. Let's look at the
 ## quantum state result to get the complete picture.
-res = zeros(4,stepsAt(not_cir,1)+1);
+res = zeros(4,stepsat(not_cir,1)+1);
 for k = 1:length(res)
   res(:,k) = simulate(not_cir,1,"depth",1,"steps",k-1);
 endfor
@@ -93,14 +93,14 @@ display(res)
 ## using density operators
 resOp = zeros(2,2,length(res));
 for k = 1:length(resOp)
-  resOp(:,:,k) = pTrace(0,res(:,k));
+  resOp(:,:,k) = ptrace(0,res(:,k));
 endfor
 display(resOp)
 
 ## Now let's get a more fine grained picture by stepping through depth
 ## 2.  For this circuit, this gives us a gate by gate picture of what's
 ## happening.  Let's skip right to the density matrix for the work space
-res = zeros(2,2,stepsAt(not_cir,2)+1);
+res = zeros(2,2,stepsat(not_cir,2)+1);
 for k = 1:length(res)
   res(:,:,k) = simulate(not_cir,1,"depth",2,"steps",k-1,"worksize",1);
 endfor
@@ -109,7 +109,7 @@ display(res)
 ## Maybe you'd like to see what's happening in the work space. We can
 ## trick the simulator into thinking the data space is the work space
 ## by setting worklocation to "Upper".
-reswork = zeros(2,2,stepsAt(not_cir,2)+1);
+reswork = zeros(2,2,stepsat(not_cir,2)+1);
 for k = 1:length(resOp)
   resOp(:,:,k) = simulate(not_cir,1,"depth",2,"steps",k-1,...
                           "worksize",1,"worklocation","Upper");
