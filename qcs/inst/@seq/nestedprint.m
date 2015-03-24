@@ -23,12 +23,31 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function nestedprint(snode,dep)
+function nestedprint(snode,dep,clip=16)
+
+  if( !isnat(clip) )
+    error("nestedprint: clip value must be a natural number");
+  endif
+
   pad = blanks(dep*3);
   fprintf ("%s{\n",pad);
-  for k = [1:length(snode.seq)];
-    nestedprint(get(snode,"seq"){k},dep+1);
-  endfor
+  len = length(snode.seq);
+  if( len <= clip || clip == 0 )
+    for k = [1:length(snode.seq)];
+      nestedprint(get(snode,"seq"){k},dep+1,clip);
+    endfor
+  else
+    ## print first clip/2
+    for k = [1:ceil(clip/2)];
+      nestedprint(get(snode,"seq"){k},dep+1,clip);
+    endfor
+    ## clip
+    fprintf("\n%s...\n\n",pad);
+    ## print last clip/2
+    for k = [len-floor(clip/2)+1:len];
+      nestedprint(get(snode,"seq"){k},dep+1,clip);
+    endfor
+  endif
   fprintf ("%s}\n",pad);
 
 endfunction

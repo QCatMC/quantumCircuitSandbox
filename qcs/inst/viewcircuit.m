@@ -14,26 +14,24 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} nestedprint {}
+## @deftypefn {Function File} {} viewcircuit (@var{C})
 ##
-## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+## Display the complete circuit.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: circuits
+## Keywords: Misc
 
-function nestedprint(sGate,dep,clip=16)
-  pad = blanks(dep*3);
-  fprintf("%s{",pad);
-  op=sGate.name;
-  if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
-    fprintf("\"%s(",op);
-    fprintf("%.3f,",sGate.params(1:(length(sGate.params)-1)));
-    fprintf("%.3f)\"",sGate.params( length(sGate.params) ));
-  else
-    fprintf ("\"%s\"",op);
+function viewcircuit(C)
+
+  ## verify that C is QIR,QIASM,QASM circuit. Error if not.
+  if( !isa(C,"QIRcircuit") && !isa(C,"QIASMcircuit") && ...
+      !isa(C,"QASMcircuit") )
+    error("viewcircuit: expected a circuit. given something else");
   endif
 
-  fprintf(",%d}\n",sGate.tar);
+  ## call non-clipping display
+  noclipdisp(C);
+
 endfunction

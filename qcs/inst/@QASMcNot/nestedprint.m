@@ -23,6 +23,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QASM
 
-function nestedprint(cNGate,dep)
-  nestedprint(cNGate.cn,dep);
+function nestedprint(cNGate,dep,clip=16)
+  nestedprint(cNGate.cn,dep,clip);
 endfunction

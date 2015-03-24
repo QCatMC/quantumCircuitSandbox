@@ -23,7 +23,8 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function nestedprint(cNGate,dep)
+function nestedprint(cNGate,dep,clip=16)
+  
   pad = blanks(dep*3);
   fprintf ("%s{\"CNot\",%d,%d}\n",pad,cNGate.tar,cNGate.ctrl );
 

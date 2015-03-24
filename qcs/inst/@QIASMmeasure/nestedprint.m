@@ -23,6 +23,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function nestedprint(mGate,dep)
-  nestedprint(mGate.meas,dep);
+function nestedprint(mGate,dep,clip=16)
+  nestedprint(mGate.meas,dep,clip);
 endfunction

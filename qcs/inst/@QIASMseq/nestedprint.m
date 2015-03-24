@@ -23,6 +23,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function nestedprint(snode,dep)
-  nestedprint(snode.seq,dep);
+function nestedprint(snode,dep,clip=16)
+  nestedprint(snode.seq,dep,clip);
 endfunction

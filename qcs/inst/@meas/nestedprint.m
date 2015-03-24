@@ -23,7 +23,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function nestedprint(mGate,dep)
+function nestedprint(mGate,dep,clip=16)
 
   pad = blanks(dep*3);
 

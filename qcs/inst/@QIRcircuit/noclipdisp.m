@@ -14,26 +14,21 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} nestedprint {}
+## @deftypefn {Function File} {} noclipdisp (@var{C})
 ##
-## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+## Display the complete circuit sequence without clipping to 16 gates.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: circuits
+## Keywords: QIR
 
-function nestedprint(sGate,dep,clip=16)
-  pad = blanks(dep*3);
-  fprintf("%s{",pad);
-  op=sGate.name;
-  if( strcmp(op,"PhAmp") || strcmp(op,"Rn") || strcmp(op,"ZYZ") )
-    fprintf("\"%s(",op);
-    fprintf("%.3f,",sGate.params(1:(length(sGate.params)-1)));
-    fprintf("%.3f)\"",sGate.params( length(sGate.params) ));
-  else
-    fprintf ("\"%s\"",op);
+function noclipdisp(C)
+
+  if(!strcmp(inputname(1),"") )
+    fprintf ("%s = \n", inputname (1));
   endif
 
-  fprintf(",%d}\n",sGate.tar);
+  noclipdisp(C.cir);
+
 endfunction

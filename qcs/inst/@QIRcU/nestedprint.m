@@ -23,7 +23,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function nestedprint(cNGate,dep)
+function nestedprint(cNGate,dep,clip=16)
   pad = blanks(dep*3);
 
   if( length(cNGate.op) == 1)

@@ -23,7 +23,7 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function nestedprint(sGate,dep)
+function nestedprint(sGate,dep,clip=16)
   pad = blanks(dep*3);
   fprintf("%s{",pad);
   op=sGate.name;
