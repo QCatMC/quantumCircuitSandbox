@@ -38,6 +38,3 @@ function C = subsref(this,idx)
   C = @QIRcircuit(subsref(get(this,"seq"),idx),get(this,"bits"));
 
 endfunction
-
-%!test
-%! assert(false);

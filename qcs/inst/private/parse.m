@@ -304,6 +304,3 @@ function C = parseTernary(gDesc)
   endswitch
 
 endfunction
-
-%!test
-%! assert(false);

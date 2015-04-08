@@ -31,6 +31,3 @@ function C = subsref(this,idx)
     otherwise
       error("invalid subscript type")
 endfunction
-
-%!test
-%! assert(false);

@@ -29,6 +29,3 @@ function s = ctranspose(g)
    s.seq = ctranspose(g.seq);
 
 endfunction
-
-%!test
-%! assert(false);

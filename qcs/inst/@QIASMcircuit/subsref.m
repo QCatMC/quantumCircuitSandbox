@@ -38,6 +38,3 @@ function C = subsref(this,idx)
   C = @QIASMcircuit(subsref(get(this,"seq"),idx),get(this,"bits"));
 
 endfunction
-
-%!test
-%! assert(false);

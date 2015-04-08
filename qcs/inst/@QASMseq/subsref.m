@@ -33,6 +33,3 @@ function C = subsref(this,idx)
   C = @QASMseq();
   C.seq = subsref(this.seq,idx);
 endfunction
-
-%!test
-%! assert(false);

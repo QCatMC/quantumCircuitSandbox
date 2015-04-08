@@ -17,7 +17,7 @@
 ##
 ## Checks if OpStr is a valid operation descriptor string for QIR and returns
 ## true if it is.
-## 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
@@ -32,14 +32,11 @@ function b = QIRvalidop(OpStr)
     else
       switch (OpStr)
 	case { "Toffoli","Fredkin","Swap","CU" }
-	  b = true; 
+	  b = true;
 	otherwise
-	  b = false; 
+	  b = false;
       endswitch
     endif
   endif
 
 end
-
-%!test
-%! assert(false)

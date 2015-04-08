@@ -45,7 +45,3 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
   endif
 
 endfunction
-
-
-%!test
-%! assert(false);
