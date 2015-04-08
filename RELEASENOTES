@@ -1,3 +1,9 @@
+v1.3.1
+  - changed 'depth' to 'ndepth', for nesting depth. This was
+  done to avoid confusion with circuit depth used in the cost/complexity
+  sense.
+
+
 v1.3.0
   - Many functions renamed to better conform to the octave
   style of all lowercase letters.
