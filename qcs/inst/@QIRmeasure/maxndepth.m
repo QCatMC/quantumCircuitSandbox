@@ -14,15 +14,15 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{d} =} maxdepth (@var{g})
+## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
 ##
-## Used in circuit construction. The maxdepth of a cU gate is always 0.
+## Used in circuit construction. The maxndepth of a measurement gate is always 0.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function d = maxdepth(g)
-  d=0;
+function d = maxndepth(g)
+  d=maxndepth(g.meas);
 endfunction

@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {} nestedprint (@var{g},@var{d})
 ##
-## Display the Tpffoli gate @var{g} with indentation depth @var{d}
+## Display the Tpffoli gate @var{g} with indentation ndepth @var{d}
 ##
 ## @end deftypefn
 

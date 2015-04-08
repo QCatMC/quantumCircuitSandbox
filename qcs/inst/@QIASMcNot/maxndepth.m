@@ -14,15 +14,15 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{d} =} maxdepth (@var{g})
+## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
 ##
-## Used in circuit construction. The maxdepth of a cNot gate is always 0.
+## Used in circuit construction. The maxndepth of a cNot gate is always 0.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIASM
 
-function d = maxdepth(g)
-  d=maxdepth(g.cn);
+function d = maxndepth(g)
+  d=maxndepth(g.cn);
 endfunction

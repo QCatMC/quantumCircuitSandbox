@@ -28,7 +28,7 @@ function s = get(cir,f)
   if (nargin == 1)
     s.bits = cir.bits;
     s.seq = cir.seq;
-    s.maxdepth = cir.maxdepth;
+    s.maxndepth = cir.maxndepth;
     s.stepsat = cir.stepsat;
     s.tars = cir.tars;
   elseif (nargin == 2)
@@ -38,8 +38,8 @@ function s = get(cir,f)
 	  s = cir.seq;
 	case "bits"
 	  s = cir.bits;
-	case "maxdepth"
-	  s = cir.maxdepth;
+	case "maxndepth"
+	  s = cir.maxndepth;
 	case "stepsat"
 	  s = cir.stepsat;
 	case "tars"
@@ -60,12 +60,12 @@ endfunction
 %! c = @circuit(@seq({@single("H",0)}),1,1,[1],[0]);
 %! assert(eq(get(c,"seq"),@seq({@single("H",0)})));
 %! assert(get(c,"bits"),1);
-%! assert(get(c,"maxdepth"),1);
+%! assert(get(c,"maxndepth"),1);
 %! assert(isequal(get(c,"stepsat"),[1]));
 %! assert(isequal(get(c,"tars"),[0]));
 %! s.seq = @seq({@single("H",0)});
 %! s.bits=1;
 %! s.tars = [0];
 %! s.stepsat = [1];
-%! s.maxdepth = 1;
+%! s.maxndepth = 1;
 %! assert(isequal(get(c),s));

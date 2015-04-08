@@ -24,8 +24,8 @@
 ## Keyword: circuits
 
 ##  simulate the action of a @seqNode 'gate' on pure state
-##  'in' in a system of size 'bits'.  The current simulation depth is
-##  currd and dlim is the user specified simulation depth limit.
+##  'in' in a system of size 'bits'.  The current simulation ndepth is
+##  currd and dlim is the user specified simulation ndepth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
 ##  dlim) and tlim is the user specified number of steps to simulate.
 ##  The simulation returns two results, the pure state y that results
@@ -40,7 +40,7 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
     if( currd == dlim )
       ## steps simulated from this sequence
       local_steps = min(length(gate.seq),(tlim-currt));
-      ## steps at depth limit are treated atomically (single step)
+      ## steps at ndepth limit are treated atomically (single step)
       for k = 1:local_steps
 	g = gate.seq{k};
 	[y,t] = sim(g,y,bits,currd+1,dlim,currt+(k-1),tlim);
@@ -54,7 +54,7 @@ function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 	k=k+1;
       endwhile
     elseif(currd > dlim)
-      ## above the depth limit don't count towards time steps
+      ## above the ndepth limit don't count towards time steps
       for k = 1:length(gate.seq)
 	g = gate.seq{k};
 	y = sim(g,y,bits,currd+1,dlim,currt,tlim);

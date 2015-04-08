@@ -14,16 +14,31 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{d} =} maxdepth (@var{g})
+## @deftypefn {Function File} {} maxndepth {}
 ##
-## Used in circuit construction. The maxdepth of a single qubit
-## gate is always 0.
+## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
 ## @end deftypefn
 
-## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
 
-function d = maxdepth(g)
-  d = maxdepth(g.sing);
+## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
+## Keywords: circuits
+
+function d = maxndepth(g)
+
+  childMax = zeros(length(g.seq),1);
+  for k = 1:length(g.seq)
+    childMax(k) = maxndepth(g.seq{k});
+  endfor
+  d = 1 + max(childMax);
+
 endfunction
+
+%!test
+%! a = @seq({@single("X",1)});
+%! b = @seq({@cNot(3,5),a});
+%! c = @seq({b,a,b,@meas()});
+%! assert(maxndepth(a),1);
+%! assert(maxndepth(b),2);
+%! assert(maxndepth(c),3);
+%! assert(maxndepth(@seq({}),1));

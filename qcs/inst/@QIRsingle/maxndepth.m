@@ -14,15 +14,16 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{d} =} maxdepth (@var{g})
+## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
 ##
-## Used in circuit construction. The maxdepth of a measurement gate is always 0.
+## Used in circuit construction. The maxndepth of a single qubit
+## gate is always 0.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QASM
+## Keywords: QIR
 
-function d = maxdepth(g)
-  d=maxdepth(g.meas);
+function d = maxndepth(g)
+  d = 0;
 endfunction

@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{s} =} stepsat (@var{C},@var{d})
 ##
-## Compute the number of steps at depth @var{d} for the circuit @var{C}
+## Compute the number of steps at ndepth @var{d} for the circuit @var{C}
 ##
 ## @end deftypefn
 

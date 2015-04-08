@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{s} =} sim (@var{C},@var{in},@var{d},@var{t})
 ##
-## simulate @var{t} steps, with respect to nesting depth @var{d}, of the Circuit
+## simulate @var{t} steps, with respect to nesting ndepth @var{d}, of the Circuit
 ## @var{c} on input @var{in}. Input in must be a valid pure state
 ## representation of a standard basis state for the qubit space of cir. Users
 ## should not call this function directly. Simulation should be done via the

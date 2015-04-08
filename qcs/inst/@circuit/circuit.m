@@ -28,13 +28,13 @@ function c = circuit(seq,bits,maxDep,stepsat,tars)
   if(nargin == 0 )
     c.bits = 0;
     c.seq = @seq({});
-    c.maxdepth = 0;
+    c.maxndepth = 0;
     c.stepsat = [];
     c.tars = [];
   else
     c.bits = bits;
     c.seq = seq;
-    c.maxdepth = maxDep;
+    c.maxndepth = maxDep;
     c.tars = tars;
     c.stepsat = stepsat;
   endif

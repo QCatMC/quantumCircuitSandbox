@@ -25,8 +25,8 @@
 
 
 ##  simulate the action of a @cNot 'gate' on pure state
-##  'in' in a system of size 'bits'.  The current simulation depth is
-##  currd and dlim is the user specified simulation depth limit.
+##  'in' in a system of size 'bits'.  The current simulation ndepth is
+##  currd and dlim is the user specified simulation ndepth limit.
 ##  Similarly, currt is the current simulation time step (w.r.t to
 ##  dlim) and tlim is the user specified number of steps to simulate.
 ##  The simulation returns two results, the pure state y that results
@@ -77,7 +77,7 @@ endfunction
 %!   endfor
 %! endfor
 
-## larger space and depth check
+## larger space and ndepth check
 %!test
 %! for k = 0:(2^5-1)
 %!   for c = 0:4

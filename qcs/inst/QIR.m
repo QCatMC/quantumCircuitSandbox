@@ -83,7 +83,7 @@
 ## @end quotation
 ##
 ##
-##  Gates and circuits can be used to construct circuits using the @code{[]} operators in a fashion simlar to constructing vectors. For gates a,b, and c, @code{[a,b,c]} produces a depth one circuit. Circuits may also be nested within other circuits but in order to ensure proper nesting you must begin a circuit with the empty circuit. For example, @code{[a,[b,c]]},@code{[[a,b],c]}, and @code{[a,b,c]} all produce the same depth 1 circuit with no nesting but @code{[QIR,a,[b,c]]} and @code{[QIR,[a,b],c]} will produce depth 2 circuits. The former with @code{[b,c]} at depth 2 and the later with @code{[a,b]} at depth 2.
+##  Gates and circuits can be used to construct circuits using the @code{[]} operators in a fashion simlar to constructing vectors. For gates a,b, and c, @code{[a,b,c]} produces a ndepth one circuit. Circuits may also be nested within other circuits but in order to ensure proper nesting you must begin a circuit with the empty circuit. For example, @code{[a,[b,c]]},@code{[[a,b],c]}, and @code{[a,b,c]} all produce the same ndepth 1 circuit with no nesting but @code{[QIR,a,[b,c]]} and @code{[QIR,[a,b],c]} will produce ndepth 2 circuits. The former with @code{[b,c]} at ndepth 2 and the later with @code{[a,b]} at ndepth 2.
 ##
 ## @seealso{phaseampparams,Rnparams,zyzparams}
 ## @end deftypefn

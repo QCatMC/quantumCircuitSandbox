@@ -19,8 +19,8 @@
 ##  Users should not simulate gates. Just circuits using the simulate function.
 ##
 ##  simulate the action of a @@QIRsingle @var{g} on pure state
-##  @var{in} in a system of size @var{b} qubits.  The current simulation depth is
-##  @var{d} and @var{dl} is the user specified simulation depth limit.
+##  @var{in} in a system of size @var{b} qubits.  The current simulation ndepth is
+##  @var{d} and @var{dl} is the user specified simulation ndepth limit.
 ##  Similarly, @var{ct} is the current simulation time step (w.r.t to
 ##  dl) and @var{tl} is the user specified number of steps to simulate.
 ##  The simulation returns two results, the pure state y that results

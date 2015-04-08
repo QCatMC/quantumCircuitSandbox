@@ -28,6 +28,6 @@
 
 function s = ctranspose(g)
 
-  s = @circuit(ctranspose(g.seq),g.bits,g.maxdepth,g.stepsat,g.tars);
+  s = @circuit(ctranspose(g.seq),g.bits,g.maxndepth,g.stepsat,g.tars);
 
 endfunction

@@ -24,14 +24,14 @@
 ##
 ## The following optional arguments are passed as @var{OPT-KEY}-@var{OPT-VAL} pairs. They can be passed in any order.
 ##
-## @b{``depth''}
+## @b{``ndepth''}
 ## @quotation
-## The ``depth'' option takes on as its value any positive integer. Simulations at depth @math{d} treat nested sub-circuits at a depth greater than or equal to @math{d} as atomic steps. This option is typically combined with the @b{``steps''} option to control how much of the circuit is simulated. The default depth value for simulation is @math{1}.
+## The ``ndepth'' option takes on as its value any positive integer. Simulations at ndepth @math{d} treat nested sub-circuits at a ndepth greater than or equal to @math{d} as atomic steps. This option is typically combined with the @b{``steps''} option to control how much of the circuit is simulated. The default ndepth value for simulation is @math{1}.
 ## @end quotation
 ##
 ## @b{``steps''}
 ## @quotation
-## The ``steps'' option takes on as its value any postive integer that is less than or equal to the circuit steps at the current simulation depth. Given a steps value of s, a simulation will run for exactly @math{s} steps with respect to the simulation depth. By default, the entire circuit is simulated and the steps value is the number of steps for the specified simulation depth.
+## The ``steps'' option takes on as its value any postive integer that is less than or equal to the circuit steps at the current simulation ndepth. Given a steps value of s, a simulation will run for exactly @math{s} steps with respect to the simulation ndepth. By default, the entire circuit is simulated and the steps value is the number of steps for the specified simulation ndepth.
 ## @end quotation
 ##
 ## @b{``samples''}
@@ -68,7 +68,7 @@ function s = simulate(cir,in,varargin)
 
   ## get/init optionals/initialize
   [r,d,t,samps,wsize,wloc,clasOut] = ...
-     parseparams(varargin,"depth",1, ...
+     parseparams(varargin,"ndepth",1, ...
                           "steps",-1, ...
                           "samples",0, ...
                           "worksize",0, ...
@@ -77,7 +77,7 @@ function s = simulate(cir,in,varargin)
 
   ## error check optionals
   if( d < 1 || floor(d)!=ceil(d) )
-    error("simulate: Depth must be a Zero or a positive integer.");
+    error("simulate: ndepth must be a Zero or a positive integer.");
   endif
 
   if( t == -1 )
@@ -179,7 +179,7 @@ endfunction
 %! a = simulate(not_cir,1,"steps",2);
 %! b = simulate([QIR("H",0:1),QIR("X",1),QIR("CNot",0,1), QIR("X",1)],1);
 %! assert(abs(a - b) < 2^-30);
-%! a = simulate(not_cir,1,"steps",3,"depth",2);
+%! a = simulate(not_cir,1,"steps",3,"ndepth",2);
 %! b = simulate([QIR("H",0:1),QIR("X",1),QIR("CNot",0,1)],1);
 %! assert(abs(a - b) < 2^-30);
 %! a = simulate(not_cir,1,"WorkSize",1);

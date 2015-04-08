@@ -38,7 +38,7 @@ function q = compile(this,eta)
 
     ## these numbers werechoosen without any real attention to contents
     ## of UZERO...
-    ## the larger |capp - sqrt(1/eta0)| the shallower the recrusion depth,
+    ## the larger |capp - sqrt(1/eta0)| the shallower the recrusion ndepth,
     ## the faster this gets done.  eta0 comes form dawson et. al.
     ## capprox was mostly choosen at random... these need attention
     eta0 = 0.16;
@@ -57,7 +57,7 @@ function q = compile(this,eta)
 
     else # need a better approximation. more work!
 
-      ## initial depth of SK algo
+      ## initial ndepth of SK algo
       skdep = uint32(ceil(log( (log(1/(eta*capprox^2))) / ...
 			       (log(1/(eta0*capprox^2))) ) / ...
 			  log(3/2)));

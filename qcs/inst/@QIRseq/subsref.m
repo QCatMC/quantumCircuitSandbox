@@ -18,9 +18,9 @@
 ##
 ## Select subsequence of sequence @var{C}.
 ##
-##  @var{C}(a,b) selects steps a with respect to depth d.
+##  @var{C}(a,b) selects steps a with respect to ndepth d.
 ## The steps argument, a may be
-## a vector of positive integers where the depth argument d must be
+## a vector of positive integers where the ndepth argument d must be
 ## a positive integer scalar.
 ##
 ## @end deftypefn

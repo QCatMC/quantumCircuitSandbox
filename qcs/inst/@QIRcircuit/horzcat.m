@@ -18,7 +18,7 @@
 ##
 ## Concatenate circuits or gates to the end of circuit @var{C}.
 ##
-## Concatenating gates to @var{C} adds the gates at depth 1 of
+## Concatenating gates to @var{C} adds the gates at ndepth 1 of
 ## @var{c}. Contenating a circuit places the concatenated circuit
 ## as a nested sub-circuit of @var{C}.
 ##
@@ -53,7 +53,7 @@ function C = horzcat(this,varargin)
          ## get the sequence cell array of the circuit
          s = get(get(other,"seq"),"seq");
          ## ignore empty circuits
-         ## for non-empty circuits, we'll create a new nesting depth
+         ## for non-empty circuits, we'll create a new nesting ndepth
          ## by appending other's seq
          ## when this is empty, nest other's seq.
          if( length(s) > 0 && length(seq) > 0 )

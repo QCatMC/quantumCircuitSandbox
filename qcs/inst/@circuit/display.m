@@ -47,9 +47,9 @@ function display(cir)
     fprintf("]\n");
   endif
 
-  fprintf("%smax depth = %d\n",pad,cir.maxdepth);
+  fprintf("%smax ndepth = %d\n",pad,cir.maxndepth);
 
-  for d = 1:cir.maxdepth
+  for d = 1:cir.maxndepth
 
     s=cir.stepsat(d);
     if( s == 1)
@@ -58,7 +58,7 @@ function display(cir)
       sstr = "steps";
     endif
 
-    fprintf("%s%d %s at Depth %d\n",blanks(3),s,sstr,d)
+    fprintf("%s%d %s at ndepth %d\n",blanks(3),s,sstr,d)
 
   endfor
 

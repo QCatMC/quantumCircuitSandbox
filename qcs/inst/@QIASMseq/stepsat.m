@@ -16,7 +16,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{s} =} stepsat (@var{C},@var{d})
 ##
-## Computes the number of steps at depth @var{d} for the gate sequence @var{C}.
+## Computes the number of steps at ndepth @var{d} for the gate sequence @var{C}.
 ##
 ## @end deftypefn
 

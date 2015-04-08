@@ -14,16 +14,16 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{d} =} maxdepth (@var{g})
+## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
 ##
-## Used in circuit construction. The maxdepth of a single qubit
-## gate is always 0.
+## Used in circuit construction. Compute the max nesting ndepth of the
+## gate sequence @var{g}. 
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: QIASM
+## Keywords: QASM
 
-function d = maxdepth(g)
-  d=maxdepth(g.sing);
+function d = maxndepth(g)
+  d = maxndepth(g.seq);
 endfunction

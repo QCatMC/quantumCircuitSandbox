@@ -31,7 +31,7 @@ function C = subsref(this,idx)
 
       subs = idx(1).subs;
 
-      ## depth 1 selection
+      ## ndepth 1 selection
       if( length(subs) == 1 || (length(subs) == 2 && subs{2}==1) )
 
         steps = subs{1};
@@ -44,25 +44,25 @@ function C = subsref(this,idx)
           C = @seq(seq(steps));
         endif
 
-      ## depth > 1 selection
+      ## ndepth > 1 selection
       elseif( length(subs) == 2 )
 
         steps = subs{1};
-        depth = subs{2};
+        ndepth = subs{2};
 
-        ## check depth
-        if( !isscalar(depth) || !isnat(depth) )
-          error("subsref: depth must be positive natural number.")
-        #elseif( depth > get(this,"maxdepth") )
-        #  error("subsref: depth exceeds circuit max depth");
+        ## check ndepth
+        if( !isscalar(ndepth) || !isnat(ndepth) )
+          error("subsref: ndepth must be positive natural number.")
+        #elseif( ndepth > get(this,"maxndepth") )
+        #  error("subsref: ndepth exceeds circuit max ndepth");
         endif
-        ## depth OK
+        ## ndepth OK
 
         ## check steps
         if( !isvector(steps) || !isnat(steps) )
           error("subsref: Steps must be a vector of positve natural numbers");
-        elseif( max(steps) > stepsat(this,depth) )
-          error("subsref: Max step exceeds number of steps for given depth");
+        elseif( max(steps) > stepsat(this,ndepth) )
+          error("subsref: Max step exceeds number of steps for given ndepth");
         endif
         ## steps OK
 
@@ -71,13 +71,13 @@ function C = subsref(this,idx)
         ## seq: the cell array of Gates/Seqs
         seq = get(this,"seq");
 
-        ## dSteps(i) is the number of steps, w.r.t. depth, at seq{i}
+        ## dSteps(i) is the number of steps, w.r.t. ndepth, at seq{i}
         dSteps = zeros(1,length(seq));
         for k = 1:length(dSteps)
-          dSteps(k) = stepsat(seq{k},depth-1);
+          dSteps(k) = stepsat(seq{k},ndepth-1);
         endfor
 
-        ## stepsUpTo(i) is the total number of steps, w.r.t. depth, for
+        ## stepsUpTo(i) is the total number of steps, w.r.t. ndepth, for
         ##  seq{1:i}
         stepsUpTo = cumsum(dSteps);
 
@@ -123,14 +123,14 @@ function C = subsref(this,idx)
             ## recurse on the sub sequence
             subseq = seq{isAt(currLow)};
             idx.type = "()";
-            idx.subs = {substeps,depth-1};
+            idx.subs = {substeps,ndepth-1};
             newseq{end+1} = subsref(subseq,idx);
           endif
 
         endwhile
         C = @seq(newseq);
       else
-        error("Can only select subcircuits by steps and depth");
+        error("Can only select subcircuits by steps and ndepth");
       endif
 
     otherwise

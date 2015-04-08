@@ -36,10 +36,10 @@ function c = QIASMcircuit(cNode,n)
     c.numtoapprox = 0;
   elseif(nargin == 1 || nargin == 2)
     seq = cNode;
-    maxdepth = maxdepth(seq);
+    maxndepth = maxndepth(seq);
     tars = collecttars(seq);
-    stps = zeros(maxdepth,1);
-    for d = 1:maxdepth
+    stps = zeros(maxndepth,1);
+    for d = 1:maxndepth
       stps(d) = stepsat(seq,d);
     endfor
     if( nargin == 2 )
@@ -50,7 +50,7 @@ function c = QIASMcircuit(cNode,n)
 
     ## set class fields
     c.numtoapprox = numapprox(cNode);
-    c.cir = @circuit(seq,bits,maxdepth,stps,tars);
+    c.cir = @circuit(seq,bits,maxndepth,stps,tars);
   endif
   c = class(c,"QIASMcircuit");
 

@@ -14,15 +14,15 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} maxdepth {}
+## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
 ##
-## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
+## Used in circuit construction. The maxndepth of a swap gate is always 0.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
-## Keywords: circuits
+## Keywords: QIR
 
-function d = maxdepth(g)
+function d = maxndepth(g)
   d=0;
 endfunction

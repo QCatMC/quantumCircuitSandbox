@@ -14,7 +14,7 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} maxdepth {}
+## @deftypefn {Function File} {} maxndepth {}
 ##
 ## THIS FUNCTION IS NOT INTENDED FOR DIRECT USE BY QCS USERS.
 ##
@@ -23,6 +23,6 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-function d = maxdepth(g)
+function d = maxndepth(g)
   d=0;
 endfunction

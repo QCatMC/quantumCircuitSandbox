@@ -23,15 +23,15 @@
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: circuits
 
-## Returns the number of steps at depth d for the circuit object cir
+## Returns the number of steps at ndepth d for the circuit object cir
 function t = stepsat(cir,d)
 
   if( floor(d) != ceil(d) || !(d > 0) )
-    error("Depth must be positive, non-zero integer.");
+    error("ndepth must be positive, non-zero integer.");
   endif
 
-  if(d >= cir.maxdepth)
-    t = cir.stepsat(cir.maxdepth);
+  if(d >= cir.maxndepth)
+    t = cir.stepsat(cir.maxndepth);
   else
     t = cir.stepsat(d);
   endif

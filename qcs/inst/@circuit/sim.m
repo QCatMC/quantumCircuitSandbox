@@ -24,16 +24,16 @@
 ## Keywords: circuit
 
 
-## simulate t steps, with respect to nesting depth d, of the Circuit
+## simulate t steps, with respect to nesting ndepth d, of the Circuit
 ## cir on input in. Input in must be a valid pure state
 ## representation of a standard basis state for the qubit space of cir.
 function s = sim(cir,in,d,t)
 
-  if( d > cir.maxdepth )
-    error("simulate: given depth exceeds circuit max depth.");
+  if( d > cir.maxndepth )
+    error("simulate: given ndepth exceeds circuit max ndepth.");
   elseif( t > cir.stepsat(d) )
     error("simulate: given number of simulation steps exceepds max \
-for given depth.");
+for given ndepth.");
   endif
 
   s = sim(cir.seq,in,cir.bits,1,d,0,t);
