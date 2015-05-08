@@ -35,12 +35,16 @@ function p = phaseampparams(U,ep=0.00001)
   p = zeros(1,4);
 
   ## get global phase
-  gp = arg(det(U))/2;
-  ## gp values range from (-pi/2,pi/2]
+  gp = arg(sqrt(det(U)));
+  if( gp < 0 )
+    gp = gp+(2*pi);
+  endif
+
+  ## gp is in [0,2pi)
   p(4) = gp;
 
   ## factor global phase out of U to get SU(2) component
-  U = e^(-i*gp)*U;
+  U = sqrt(det(U))'*U;
 
 
   minval = 2^(-50); #magnitude threshold for Zero
@@ -48,18 +52,39 @@ function p = phaseampparams(U,ep=0.00001)
   if( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
     p(1) = pi/2; # snap to theta = pi/2
     p(2) = 0; # let C be zero
-    p(3) = 2*( arg(U(2,1)) );
+    p(3) = arg(U(2,1)); #-r/2
+    # (-pi,pi] --> [0,2pi)
+    if( p(3) > 0 )
+      p(3) = -2*p(3) + 4*pi;
+    elseif( p(3) < 0 )
+      p(3) = -2*p(3);
+    endif
   ##diagonal
   elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval )
     p(1) = 0; # snap to theta = 0
     p(2) = 0;
-    p(3) = 2*( arg(U(2,2)) );
+    p(3) =  arg(U(2,2)); #r/2
+    if( p(3) < 0 )
+      p(3) = 2*p(3) + 4*pi;
+    elseif( p(3) > 0 )
+      p(3) = 2*p(3);
+    endif
   else
-    p(1) = acos(abs( U(1,1) ));
     ## row phase
     p(2) = arg( U(2,2)*U(2,1)' );
+    if( p(2) < 0 )
+      p(2) = p(2) + (2*pi);
+    endif
     ## col phase
     p(3) = arg( U(2,1)*U(1,1)' );
+    if( p(3) < 0 )
+      p(3) = p(3) + (2*pi);
+    endif
+    ## 'dephase' then get acos to get [0,pi/2]
+    a = e^(i*(p(2)+p(3))/2)*U(1,1);
+    ## the result should be real-valued, let's just force it
+    p(1) = acos( real(a) );
+
   endif
 
 endfunction
@@ -68,6 +93,6 @@ endfunction
 %! close = 2^(-50);
 %! assert(isequal(phaseampparams(eye(2)),zeros(1,4)));
 %! assert(abs(phaseampparams(Z)-[0,0,pi,pi/2]) < close);
-%! assert(abs(phaseampparams(X)-[pi/2,0,-pi,pi/2]) < close);
+%! assert(abs(phaseampparams(X)-[pi/2,0,pi,pi/2]) < close);
 %! assert(abs(phaseampparams(Y)-[pi/2,0,0,pi/2]) < close);
 %! assert(abs(phaseampparams(H)-[pi/4,pi,0,pi/2])< close);
