@@ -23,12 +23,6 @@
 ## @seealso{phaseampparams,Rnparams,U2zyz,U2Rn,U2phaseamp}
 ## @end deftypefn
 
-## usage: p = zyzparams(U,ep)
-##
-## Compute the Z-Y-Z decomposition angles for an arbitrary operator
-## from U(2).
-##
-
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Operators
 
@@ -40,18 +34,9 @@ function p = zyzparams(U)
 
   ## get phase amp params
   ph = phaseampparams(U);
-  ## p(2:3) range from [-pi,pi].. we need to
-  ## adjust to the expected [0,2pi) range for
-  ## rotations
-  if( ph(2) < 0 )
-     ph(2) += 2*pi;
-  endif
-  if( ph(3) < 0 )
-    ph(3) += 2*pi;
-  endif
 
   ## [z1,y,z2,global]
-  p = [ph(3),(2*ph(1)),ph(2),ph(4)];
+  p = [ph(3),2*ph(1),ph(2),ph(4)];
 
 
 endfunction
@@ -59,8 +44,20 @@ endfunction
 %!test
 %! close = 2^-50;
 %! fail('zyzparams(eye(3))');
-%! assert(abs(zyzparams(eye(2))-[0,0,0,0]) < close);
-%! assert(abs(zyzparams(X)-[-pi,pi,0,pi/2]) < close);
-%! assert(abs(zyzparams(Y)-[0,pi,0,pi/2]) < close);
-%! assert(abs(zyzparams(Z)-[pi,0,0,pi/2]) < close);
-%! assert(abs(zyzparams(H)-[0,pi/2,pi,pi/2]) < close);
+%! assert(abs(zyzparams(eye(2))-[0,0,0,0]) < close,"I failed");
+%! assert(abs(zyzparams(X)-[pi,pi,0,pi/2]) < close, "X failed");
+%! assert(abs(zyzparams(Y)-[0,pi,0,pi/2]) < close, "Y failed");
+%! assert(abs(zyzparams(Z)-[pi,0,0,pi/2]) < close, "Z failed");
+%! assert(abs(zyzparams(H)-[0,pi/2,pi,pi/2]) < close, "H failed");
+
+%!test
+%! close = 2^(-35);
+%! for k = 1:200
+%!   randparams = [unifrnd(0,2*pi,1,1),unifrnd(0,pi,1,1), ...
+%!                 unifrnd(0,2*pi,1,2)];
+%!   U = U2zyz(randparams);
+%!   p = zyzparams(U);
+%!   diff = abs(randparams-p);
+%!   assert( diff < close , "%f ", randparams, p  );
+%! endfor
+%!

@@ -59,11 +59,13 @@ endfunction
 %!test
 %! close = 2^(-35);
 %! for k = 1:200
-%!   randparams = [unifrnd(0,2*pi,1,1),unifrnd(0,pi,1,1), ...
-%!                 unifrnd(0,2*pi,1,1), unifrnd(-pi/2,pi/2,1,1)];
-%!   U = U2zyz(randparams);
+%!   rp = [unifrnd(0,2*pi,1,1),unifrnd(0,pi,1,1), ...
+%!              unifrnd(0,2*pi,1,2)];
+%!   U = U2zyz(rp);
 %!   p = zyzparams(U);
-%!   diff = abs(randparams-p);
-%!   assert( diff < close , "%f ", randparams, p  );
+%!   V = Rz(rp(1))*Ry(rp(2))*Rz(rp(3))*Ph(rp(4));
+%!   diff = abs(rp-p);
+%!   assert( diff < close , "%f ", rp, p  );
+%!   assert(norm(U-V) < close );
 %! endfor
 %!
