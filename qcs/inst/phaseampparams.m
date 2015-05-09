@@ -18,7 +18,7 @@
 ##
 ## Compute the phase and amplitude parameters of for a 2x2 unitary that is equivalent to the 2x2 unitary matrix @var{U}.
 ##
-## Any 2x2 unitary matrix @var{U} can parameterized by 4 independent, real-valued parameters. Calling @code{phaseampparams(@var{U}} returns the parameter vector @var{p} where @code{@var{p}(1)} is the amplitude parameter and @code{@var{p}(2:4)} are the row, column, and global phase parameters respectively.
+## Any 2x2 unitary matrix @var{U} can parameterized by 4 independent, real-valued parameters. Calling @code{phaseampparams(@var{U}} returns the parameter vector @var{p} where @code{@var{p}(1)} is the amplitude parameter from [0,pi/2] and @code{@var{p}(2:4)} are the row, column, and global phase parameters from [0,2pi) respectively.
 ##
 ## @seealso{Rnparams,zyzparams,U2Rn,U2zyz,U2phaseamp}
 ## @end deftypefn
@@ -81,9 +81,17 @@ function p = phaseampparams(U,ep=0.00001)
       p(3) = p(3) + (2*pi);
     endif
     ## 'dephase' then get acos to get [0,pi/2]
-    a = e^(i*(p(2)+p(3))/2)*U(1,1);
+    a = e^(i*(-p(2)-p(3))/2)'*U(1,1);
     ## the result should be real-valued, let's just force it
     p(1) = acos( real(a) );
+    if( p(1) > pi/2 )
+      if(p(4) + pi >2*pi )
+        p(4) -= pi;
+      else
+        p(4) += pi;
+      endif
+      p(1) = acos(real(e^(i*(-p(2)-p(3)+2*pi)/2)'*U(1,1)));
+    endif
 
   endif
 
@@ -96,3 +104,15 @@ endfunction
 %! assert(abs(phaseampparams(X)-[pi/2,0,pi,pi/2]) < close);
 %! assert(abs(phaseampparams(Y)-[pi/2,0,0,pi/2]) < close);
 %! assert(abs(phaseampparams(H)-[pi/4,pi,0,pi/2])< close);
+
+## check consistency with U2 covstructor function for principal values
+%!test
+%! close = 2^(-35);
+%! for k = 1:200
+%!   randparams = [unifrnd(0,pi/2,1,1),unifrnd(0,2*pi,1,3)];
+%!   U = U2phaseamp(randparams);
+%!   p = phaseampparams(U);
+%!   diff = abs(randparams-p);
+%!   assert( diff < close );
+%! endfor
+%!
