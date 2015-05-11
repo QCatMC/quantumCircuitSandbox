@@ -33,48 +33,70 @@ function p = Rnparams(U)
     error("Operator size mismatch. Must be 2x2 Unitary.");
   endif
 
+  paparams = phaseampparams(U);
   ## factor out global phase to get SU(2) component
-  gp = arg(det(U))/2; #[-pi/2,pi/2]
-
-  U = e^(-i*gp)*U; #factor out global phase
-
-  theta = 2*acos( (U(1,1) + U(2,2)) / 2);
-
-  ## disregard rounding in imaginary... should be ~0
-  ##assert(abs(imag(theta)) < minval );
-
-  theta = real(theta); #[0,2pi)
-
+  gp = paparams(4);
+  theta = 0;
   n = zeros(1,3);
 
-  if( abs(theta) < minval )#Identity
+  r = paparams(2);
+  c = paparams(3);
+  phi = paparams(1);
+  ##Identity
+  if( abs(phi) < minval && abs(r) < minval && abs(c) < minval )
     theta=0;
     n(3)=1;
   ## Diagonal Matrix
-  elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval )
+  elseif( abs(phi) < minval  )
     n(3) = 1;
+    theta = 2*acos(real(e^(i*(r+c)/2)*cos(phi)));
   ## Off-Diagonal Matrix
-  elseif( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
+  elseif( abs(pi/2 - phi) < minval )
     theta = pi;
-    n(2) = -(U(1,2)-U(2,1))/2;
-    n(1) = -(U(1,2)+U(2,1))/(2*i);
+    n(2) = real(e^(i*(-r+c)/2));
+    n(1) = -imag(e^(i*(-r+c)/2));
+    if( abs(n(1)) < minval )
+      n(1) = 0;
+    endif
+  ## general matrix
   else
-    n(3) = -(U(1,1)-U(2,2))/(2*i*sin(theta/2));
-    n(2) = -(U(1,2)-U(2,1))/(2*sin(theta/2));
-    n(1) = -(U(1,2)+U(2,1))/(2*i*sin(theta/2));
+    theta = 2*acos(real(e^(i*(r+c)/2)*cos(phi)));
+    n(3) = (-imag( e^(i*(-r-c)/2)*cos(phi) ))/sin(theta/2);
+    n(2) = real( e^(i*(-r+c)/2)*sin(phi)/sin(theta/2) );
+    n(1) = -imag( e^(i*(-r+c)/2)*sin(phi)/sin(theta/2) );
   endif
 
-  ##assert(abs(imag(n)) < minval );
-  n = real(n);
+  ## re-normalize and force real ... just in case? This
+  ## may be a bad idea
+  n = real(n/norm(n));
 
+  ## set params
   p = [theta,n,gp];
 
 endfunction
 
 %!test
-%! assert(isequal(Rnparams(eye(2)),[0,0,0,1,0]));
-%! assert(isequal(Rnparams(X),[pi,1,0,0,pi/2]));
-%! assert(isequal(Rnparams(Y),[pi,0,1,0,pi/2]));
-%! assert(isequal(Rnparams(Z),[pi,0,0,1,pi/2]));
-%! assert(isequal(Rnparams(H),[pi,sqrt(1/2),0,sqrt(1/2),pi/2]));
+%! minval = 2^-40;
+%! assert( abs(Rnparams(eye(2)) - [0,0,0,1,0]) < minval );
+%! assert( abs(Rnparams(X)-[pi,1,0,0,pi/2]) < minval );
+%! assert( abs(Rnparams(Y)-[pi,0,1,0,pi/2]) < minval );
+%! assert( abs(Rnparams(Z)-[pi,0,0,1,pi/2]) < minval );
+%! assert( abs(Rnparams(H)-[pi,sqrt(1/2),0,sqrt(1/2),pi/2]) < minval);
 %! fail('Rnparams(eye(3))');
+
+## check consistency with parameterization function for principal values
+## Note that Rnparams(U2Rn(p)) might be a rotation around the negation
+## of the axis given in p. The operators themselves are 'equivalent'
+%!test
+%! close = 2^(-35);
+%! for k = 1:500
+%!   axis = unifrnd(-1,1,1,3);
+%!   axis = axis/(norm(axis));
+%!   rp = [unifrnd(0,2*pi,1,1),axis,unifrnd(0,2*pi,1,1)];
+%!   U = U2Rn(rp);
+%!   p = Rnparams(U);
+%!   V = U2Rn(p);
+%!   assert( operr(U,V) < close, "failed: [%f,%f,%f,%f,%f]", ...
+%!    rp(1),rp(2),rp(3),rp(4),rp(5));
+%! endfor
+%!

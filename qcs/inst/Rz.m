@@ -30,7 +30,7 @@ function U = Rz(t)
     error("Angle theta must be real. Given something else.")
   endif
 
-  U = e^(-i*t/2*Z);
+  U = cos(t/2)*eye(2)-i*sin(t/2)*[1,0; 0,-1];
 
 endfunction
 

@@ -30,12 +30,12 @@ function U = Rn(t,n)
     error("Angle theta must be real. Given something else.")
   elseif( !isreal(n) || !isequal(size(n),[1,3]) )
     error("Rotation axis n must be a 3D real vector");
-  elseif( abs(1 - n*n') > 0.0000001)
+  elseif( abs(1 - norm(n)) > 2^(-16))
     error("Rotation axis must have unit length.");
   endif
 
   A = n(1)*X + n(2)*Y + n(3)*Z;
-  U = e^(-i*t/2*A);
+  U = cos(t/2)*eye(2) - i*sin(t/2)*A;
 
 endfunction
 

@@ -51,23 +51,23 @@ function p = phaseampparams(U,ep=0.00001)
   ##off-diagonal
   if( abs(U(1,1)) < minval && abs(U(2,2)) < minval )
     p(1) = pi/2; # snap to theta = pi/2
-    p(2) = 0; # let C be zero
-    p(3) = arg(U(2,1)); #-r/2
+    p(3) = 0; # let C be zero
+    p(2) = arg(U(2,1)); #-r/2
     # (-pi,pi] --> [0,2pi)
-    if( p(3) > 0 )
-      p(3) = -2*p(3) + 4*pi;
-    elseif( p(3) < 0 )
-      p(3) = -2*p(3);
+    if( p(2) > 0 )
+      p(2) = -2*p(2) + 4*pi;
+    elseif( p(2) < 0 )
+      p(2) = -2*p(2);
     endif
   ##diagonal
   elseif( abs(U(1,2)) < minval && abs(U(2,1)) < minval )
     p(1) = 0; # snap to theta = 0
-    p(2) = 0;
-    p(3) =  arg(U(2,2)); #r/2
-    if( p(3) < 0 )
-      p(3) = 2*p(3) + 4*pi;
-    elseif( p(3) > 0 )
-      p(3) = 2*p(3);
+    p(3) = 0;
+    p(2) =  arg(U(2,2)); #r/2
+    if( p(2) < 0 )
+      p(2) = 2*p(2) + 4*pi;
+    elseif( p(2) > 0 )
+      p(2) = 2*p(2);
     endif
   else
     ## row phase
@@ -84,12 +84,16 @@ function p = phaseampparams(U,ep=0.00001)
     a = e^(i*(-p(2)-p(3))/2)'*U(1,1);
     ## the result should be real-valued, let's just force it
     p(1) = acos( real(a) );
+
+    # fix for hidden factors of -1
     if( p(1) > pi/2 )
-      if(p(4) + pi >2*pi )
+      # factor in e^(i*pi) = -1 to global phase
+      if(p(4) + pi > 2*pi )
         p(4) -= pi;
       else
         p(4) += pi;
       endif
+      # recompute  amplitude
       p(1) = acos(real(e^(i*(-p(2)-p(3)+2*pi)/2)'*U(1,1)));
     endif
 
@@ -100,8 +104,8 @@ endfunction
 %!test
 %! close = 2^(-50);
 %! assert(isequal(phaseampparams(eye(2)),zeros(1,4)));
-%! assert(abs(phaseampparams(Z)-[0,0,pi,pi/2]) < close);
-%! assert(abs(phaseampparams(X)-[pi/2,0,pi,pi/2]) < close);
+%! assert(abs(phaseampparams(Z)-[0,pi,0,pi/2]) < close);
+%! assert(abs(phaseampparams(X)-[pi/2,pi,0,pi/2]) < close);
 %! assert(abs(phaseampparams(Y)-[pi/2,0,0,pi/2]) < close);
 %! assert(abs(phaseampparams(H)-[pi/4,pi,0,pi/2])< close);
 

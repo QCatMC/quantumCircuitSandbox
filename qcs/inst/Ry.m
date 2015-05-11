@@ -30,7 +30,7 @@ function U = Ry(t)
     error("Angle theta must be real. Given something else.")
   endif
 
-  U = e^(-i*t/2*Y);
+  U = cos(t/2)*eye(2)-i*sin(t/2)*[0,-i;i,0];
 
 endfunction
 

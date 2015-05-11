@@ -31,7 +31,7 @@ function U = Rx(t)
     error("Angle theta must be real. Given something else.")
   endif
 
-  U = e^(-i*t/2*X);
+  U = cos(t/2)*eye(2)-i*sin(t/2)*fliplr(eye(2));
 
 endfunction
 

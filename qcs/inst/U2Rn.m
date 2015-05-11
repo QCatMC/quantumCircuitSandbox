@@ -18,7 +18,7 @@
 ##
 ## Compute the 2x2 unitary @var{U} corresponding to the Rotation about an axis parameters @var{p}.
 ##
-## Any 2x2 unitary matrix @var{U} can be rewritten as a 2x2 special unitary matrix @math{R} for a rotation about an axis of the Bloch sphere with a possible phase factor @math{g} such that @math{@var{U}=e^(i*g) * R}.  Calling @code{U2Rn(@var{p}} returns the unitary @var{U} where @code{@var{p}(1)} is the angle of rotation, @code{@var{p}(2:4)} are the @math{(x,y,z)} corrdinates of the normalized axis of rotation, and @code{@var{p}(5)} is the global phase factor. The global phase factor may be ommited from @var{p}. For consistency with Rnparams, the angle of rotation should be from [0,2pi) and the global phase factor should be in [-pi/2,pi], and the axis of rotation should be a unit length vector from R^3.
+## Any 2x2 unitary matrix @var{U} can be rewritten as a 2x2 special unitary matrix @math{R} for a rotation about an axis of the Bloch sphere with a possible phase factor @math{g} such that @math{@var{U}=e^(i*g) * R}.  Calling @code{U2Rn(@var{p}} returns the unitary @var{U} where @code{@var{p}(1)} is the angle of rotation, @code{@var{p}(2:4)} are the @math{(x,y,z)} corrdinates of the normalized axis of rotation, and @code{@var{p}(5)} is the global phase factor. The global phase factor may be ommited from @var{p}. For consistency with Rnparams, the angle of rotation and global phase should be from [0,2pi) and the axis of rotation should be a unit length vector from R^3.
 ##
 ## @seealso{Rnparams, phaseampparams,zyzparams,U2zyz,U2phaseamp}
 ## @end deftypefn
@@ -61,15 +61,18 @@ endfunction
 %! fail('U2Rn(zeros(1,6))');
 
 ## check consistency with parameterization function for principal values
+## Note that Rnparams(U2Rn(p)) might be a rotation around the negation
+## of the axis given in p. The operators themselves are 'equivalent'
 %!test
 %! close = 2^(-35);
 %! for k = 1:500
 %!   axis = unifrnd(-1,1,1,3);
 %!   axis = axis/(norm(axis));
-%!   randparams = [unifrnd(0,2*pi,1,1),axis,unifrnd(-pi/2,pi/2,1,1)];
-%!   U = U2Rn(randparams);
+%!   rp = [unifrnd(0,2*pi,1,1),axis,unifrnd(0,2*pi,1,1)];
+%!   U = U2Rn(rp);
 %!   p = Rnparams(U);
-%!   diff = abs(randparams-p);
-%!   assert( diff < close );
+%!   V = U2Rn(p);
+%!   assert( operr(U,V) < close, "failed: [%f,%f,%f,%f,%f]", ...
+%!    rp(1),rp(2),rp(3),rp(4),rp(5));
 %! endfor
 %!
