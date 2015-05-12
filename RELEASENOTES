@@ -1,3 +1,12 @@
+v1.3.2
+  - bug fixes in single qubit parameterization functions. phaseamp, zyz, and
+  Rn parameterizations are now consistent with the corresponding U2 constructors.
+  The paramters themselves are also more logical. Angles are, for the most part,
+   taken from [0,2pi) with the exception of the amplitude parameter, which
+  is restricted to [0,pi/2].
+  - QIRcU compilation now works (or works again). 
+
+
 v1.3.1
   - changed 'depth' to 'ndepth', for nesting depth. This was
   done to avoid confusion with circuit depth used in the cost/complexity
