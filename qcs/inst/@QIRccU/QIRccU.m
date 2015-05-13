@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,17 +14,31 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {} nestedprint (@var{g},@var{d})
+## @deftypefn {Function File} {@var{C} =} QIRswap (@var{t},@var{c})
 ##
-## Display the Tpffoli gate @var{g} with indentation ndepth @var{d}
+## Construct CC-U gate with target @var{t} and controls @var{c} and
+## controlled Unitary U.
+## Users should not construct gates directly but instead use
+## some combination of QIR, horzcat, and qcc
+##
+## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function nestedprint(sGate,dep,clip=16)
-  pad = blanks(dep*3);
-  fprintf("%s{\"Toffoli\",%d,[%d,%d]}\n",...
-	  pad,sGate.tar,sGate.ctrls(1),sGate.ctrls(2));
+function g = QIRccU(tar,ctrls,op)
+
+  if( nargin == 0 )
+    ## default to bad gate
+    g.tar = 0;
+    g.ctrls = zeros(1,2);
+  else
+    g.tar = tar;
+    g.ctrls = ctrls;
+    g.op = op; # {"name"} | {"name",params}
+  endif
+  g = class(g,"QIRccU",@QIRgate());
+
 endfunction

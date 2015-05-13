@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,27 +14,16 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{b} =} eq (@var{C},@var{D})
+## @deftypefn {Function File} {@var{s} =} stepsat (@var{C},@var{d})
 ##
-## Determine if Toffoli gate @var{C} and gate @var{D} are
-## extensionally equivalent
+## Computes the number of steps at ndepth @var{d} for the gate @var{C}.
+## CC-U gates always take 1 time step.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-
-function b = eq(this,other)
-  b = isa(other,"QIRtoffoli") && ...
-      this.tar == other.tar && ...
-      isequal(this.ctrls,other.ctrls);
+function s = stepsat(g,d)
+  s = 1;
 endfunction
-
-
-
-%!test
-%! assert(eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[1,2])));
-%! assert(!eq(@QIRtoffoli(3,[1,2]),@QIRtoffoli(0,[1,2])));
-%! assert(!eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[1,3])));
-%! assert(!eq(@QIRtoffoli(0,[1,2]),@QIRtoffoli(0,[3,4])));

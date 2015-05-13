@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,29 +14,40 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{C} =} QIRswap (@var{t},@var{c})
+## @deftypefn {Function File} {@var{b} =} eq (@var{C},@var{D})
 ##
-## Construct Toffoli gate with target @var{t} and controls @var{c}
-## Users should not construct gates directly but instead use
-## some combination of QIR, horzcat, and qcc
-##
-## @seealso{QIR,qcc, @@QIRcircuit/horzcat }
+## Determine if CC-U gate @var{C} and gate @var{D} are
+## extensionally equivalent
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function g = QIRtoffoli(tar,ctrls)
 
-  if( nargin == 0 )
-    ## default to bad gate
-    g.tar = 0;
-    g.ctrls = zeros(1,2);
-  else
-    g.tar = tar;
-    g.ctrls = ctrls;
-  endif
-  g = class(g,"QIRtoffoli",@QIRgate());
-
+function b = eq(this,other)
+  b = isa(other,"QIRccU") && ...
+      this.tar == other.tar && ...
+      isequal(this.ctrls,other.ctrls) && ...
+      isequal(this.op,other.op);
 endfunction
+
+
+
+
+%!test
+%! a = @QIRccU(1,[2,0],{"X"});
+%! b = @QIRccU(2,[1,0],{"X"});
+%! c = @QIRccU(1,[2,0],{"X"});
+%! d = @QIRccU(3,[4,1],{"X"});
+%! assert(eq(a,a));
+%! assert(eq(a,c));
+%! assert(!eq(a,b));
+%! assert(!eq(a,d));
+
+%!test
+%! a = @QIRccU(1,[2,0],{"Rn",[pi/7,0,1,0,pi/3]});
+%! b = @QIRccU(1,[2,0],{"Rn",[pi/7,0,1,0,pi/3]});
+%! assert(eq(a,a));
+%! assert(eq(a,b));
+%! assert(eq(b,a));

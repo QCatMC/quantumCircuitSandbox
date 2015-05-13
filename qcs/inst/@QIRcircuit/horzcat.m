@@ -45,7 +45,7 @@ function C = horzcat(this,varargin)
     other = g{1};
     ## check other's type
     switch(class(other))
-      case {"QIRsingle","QIRswap","QIRtoffoli","QIRfredkin","QIRcU", ...
+    case {"QIRsingle","QIRswap","QIRccU","QIRfredkin","QIRcU", ...
       "QIRmeasure" }
          ## append gates
          seq{end+1} = other;
@@ -79,13 +79,13 @@ endfunction
 %!test
 %! a = @QIRseq({@QIRsingle("H",0), @QIRcU(0,1,{"X"}), @QIRswap(2,1), ...
 %!              @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
-%!              @QIRtoffoli(2,[0,1])  });
+%!              @QIRccU(2,[0,1],{"X"})  });
 %! A = @QIRcircuit(a);
 %! assert(eq(A,[A,QIR]));
 %! C = @QIRcircuit(@QIRseq({a}));
 %! assert(eq(C,[QIR,A]));
 %! b = @QIRseq({@QIRsingle("H",0), @QIRcU(0,1,{"X"}), @QIRswap(2,1), ...
 %!              @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
-%!              @QIRtoffoli(2,[0,1]),a});
+%!              @QIRccU(2,[0,1],{"X"}),a});
 %! B = @QIRcircuit(b);
 %! assert(eq(B,[A,A]));

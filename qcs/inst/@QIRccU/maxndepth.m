@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,16 +14,15 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{s} =} stepsat (@var{C},@var{d})
+## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
 ##
-## Computes the number of steps at ndepth @var{d} for the gate @var{C}.
-## Tofolli gates always take 1 time step.
+## Used in circuit construction. The maxndepth of a CC-U gate is always 0.
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function s = stepsat(g,d)
-  s = 1;
+function d = maxndepth(g)
+  d=0;
 endfunction

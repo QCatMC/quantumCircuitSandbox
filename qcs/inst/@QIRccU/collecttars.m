@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,15 +14,16 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{d} =} maxndepth (@var{g})
+## @deftypefn {Function File} {@var{t} =} collecttars (@var{g})
 ##
-## Used in circuit construction. The maxndepth of a swap gate is always 0.
+## Return the control and target set for CC-U gate @var{g}
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function d = maxndepth(g)
-  d=0;
+function t = collecttars(this)
+  bits = [this.tar,this.ctrls];
+  t = sort(bits);
 endfunction

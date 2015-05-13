@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,24 +14,29 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{t} =} collecttars (@var{g})
+## @deftypefn {Function File} {} nestedprint (@var{g},@var{d})
 ##
-## Return the control and target set for Toffoli gate @var{g}
+## Display the CC-U gate @var{g} with indentation ndepth @var{d}
 ##
 ## @end deftypefn
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function t = collecttars(this)
-  bits = [this.tar,this.ctrls];
-  t = sort(bits);
+function nestedprint(sGate,dep,clip=16)
+  pad = blanks(dep*3);
+  if( length(sGate.op) == 1)
+    switch(sGate.op{1})
+      case "X"
+      fprintf ("%s{\"Toffoli",pad);
+      otherwise
+      fprintf ("%s{\"CC-%s",pad,sGate.op{1});
+    endswitch
+  else
+    fprintf ("%s{\"CC-%s(",pad,sGate.op{1});
+    fprintf("%.3f,",sGate.op{2}(1:end-1));
+    fprintf("%.3f)",sGate.op{2}( end ));
+  endif
+  fprintf("\",%d,[%d,%d]}\n",sGate.tar,sGate.ctrls(1),sGate.ctrls(2) );
+  
 endfunction
-
-%!test
-%! assert(isequal([0,1,2],collecttars(@QIRtoffoli(0,[2,1]))));
-%! assert(isequal([0,1,2],collecttars(@QIRtoffoli(0,[1,2]))));
-%! assert(isequal([0,1,2],collecttars(@QIRtoffoli(1,[0,2]))));
-%! assert(isequal([0,1,2],collecttars(@QIRtoffoli(1,[2,0]))));
-%! assert(isequal([0,1,2],collecttars(@QIRtoffoli(2,[0,1]))));
-%! assert(isequal([0,1,2],collecttars(@QIRtoffoli(2,[1,0]))));

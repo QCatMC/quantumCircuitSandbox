@@ -82,6 +82,11 @@
 ##  @code{QIR("CU",@var{o},@var{t},@var{c})} is a Controlled arbitrary single qubit operator applied to target qubit @var{t} based on control qubit @var{c}.  The operator is specified by the argument @var{o}. For QASM gates, the operator specifier @var{o} can either be the name of a gate given as a string or a cell array containing only the string name. For arbitrary unitary gates, the operator specifier @var{o} is a length two cell array where @code{@var{o}@{1@}} is the name of the parameterized gate and @code{@var{o}@{2@}} is its parameter vector.
 ## @end quotation
 ##
+## ``CCU''
+##
+## @quotation
+##  @code{QIR("CCU",@var{o},@var{t},@var{c})} is a Doubly Controlled arbitrary single qubit operator applied to target qubit @var{t} based on control qubits @var{c}(1) and @var{c}(2).  The operator is specified by the argument @var{o}. For QASM gates, the operator specifier @var{o} can either be the name of a gate given as a string or a cell array containing only the string name. For arbitrary unitary gates, the operator specifier @var{o} is a length two cell array where @code{@var{o}@{1@}} is the name of the parameterized gate and @code{@var{o}@{2@}} is its parameter vector.
+## @end quotation
 ##
 ##  Gates and circuits can be used to construct circuits using the @code{[]} operators in a fashion simlar to constructing vectors. For gates a,b, and c, @code{[a,b,c]} produces a ndepth one circuit. Circuits may also be nested within other circuits but in order to ensure proper nesting you must begin a circuit with the empty circuit. For example, @code{[a,[b,c]]},@code{[[a,b],c]}, and @code{[a,b,c]} all produce the same ndepth 1 circuit with no nesting but @code{[QIR,a,[b,c]]} and @code{[QIR,[a,b],c]} will produce ndepth 2 circuits. The former with @code{[b,c]} at ndepth 2 and the later with @code{[a,b]} at ndepth 2.
 ##
@@ -100,7 +105,7 @@ function C = QIR(name,varargin)
   switch(name)
     case "Toffoli"
        [t,c] = parseTof(varargin);
-       C = @QIRtoffoli(t,c);
+       C = @QIRccU(t,c,{"X"});
     case "Fredkin"
        [t,c] = parseFred(varargin);
        C = @QIRfredkin(t,c);
@@ -123,6 +128,9 @@ function C = QIR(name,varargin)
           "I'","X'","Y'","Z'","S'","T'","H'"}
        t = parseQASM(name,varargin);
        C = @QIRsingle(name,sort(t,"descend"),[]);
+    case "CCU"
+      [o,t,c] = parseCCU(varargin);
+      C = @QIRccU(t,c,o);
     otherwise
        error('QIR: Unknown operator %s',name);
   endswitch
@@ -338,8 +346,64 @@ function [o,t,c] = parseCU(args)
 
 endfunction
 
+function [o,t,c] = parseCCU(args)
+
+ if( length(args) != 3 )
+   error("CCU: Expected three arguments given %d.",length(args));
+ endif
+
+ o = args{1}; # op spec
+ t = args{2}; # target index
+ c = args{3}; # ctrls index
+ p = []; ## params place holder
+
+ ## op spec check
+ if( !ischar(o) && !iscell(o) )
+   error("CCU: Operator specifier must be string or cell array.");
+ elseif( ischar(o) && !ismember(o, {"I","X","Y","Z","S","T","H" ...
+                                    "I'","X'","Y'","Z'","S'","T'","H'"}))
+   error("CCU: Expecting QASM operator and given something else");
+ elseif( iscell(o) && length(o) == 1 && ...
+         !ismember(o{1},{"I","X","Y","Z","S","T","H" ...
+                         "I'","X'","Y'","Z'","S'","T'","H'"}))
+   error("CCU: Expecting QASM operator and given something else");
+ elseif( iscell(o) && length(o) == 2 && ...
+         !ismember(o{1},{"PhAmp","Rn","ZYZ"}) )
+   error("CCU: Expecting QIASM operator and given something else");
+ endif
+ ## op spec is good
+
+ ##  reuse single qubit parsers to verify target and params
+ if(iscell(o) && length(o) == 1)
+   parseQASM(o{1},{t});
+ elseif(iscell(o) && length(o) == 2)
+   parseQIASM(o{1},{o{2},t});
+ else ##ischar
+   parseQASM(o,{t});
+ endif
+
+ ## repack string spec in cell spec
+ if( ischar(o) )
+   o = {o};
+ endif
+
+ if( !isequal(size(c),[1,2]) )
+   error("CCU: expected two control indexes. Got %d",length(c));
+ elseif( !isnat(c) )
+  error("CCU: bad control index");
+ elseif( t==c  )
+   error("CCU: Target and Control cannot match");
+ elseif( c(1) == c(2) )
+   error("CCU: Control indexes cannot match")
+ endif
+
+ c = [max(c),min(c)];
+
+endfunction
+
+
 %!test
-%! assert(eq(@QIRtoffoli(0,[2,1]), QIR("Toffoli",0,[1,2]) ));
+%! assert(eq(@QIRccU(0,[2,1],{"X"}), QIR("Toffoli",0,[1,2]) ));
 %! assert(eq(@QIRfredkin([1,0],2), QIR("Fredkin",0:1,2)));
 %! assert(eq(@QIRswap(2,1), QIR("Swap",1,2)));
 %! assert(eq(@QIRmeasure(2:-1:0), QIR("Measure",0:2)));
@@ -360,5 +424,11 @@ endfunction
 %!           QIR("ZYZ",[pi/3,pi/3,pi/3,pi/4 ],1)))
 %! assert(eq(@QIRsingle("Rn",1,[pi/3,sqrt(1/3),sqrt(2/3),0]), ...
 %!           QIR("Rn",[pi/3,sqrt(1/3),sqrt(2/3),0],1)))
+%! assert(eq(@QIRccU(0,[2,1],{"Z"}),QIR("CCU",{"Z"},0,[1,2])));
+%! assert(eq(@QIRccU(0,[2,1],{"Z"}),QIR("CCU","Z",0,[2,1])));
+%! assert(eq(@QIRccU(0,[2,1],{"PhAmp",pi/3*ones(1,3)}), ...
+%!           QIR("CCU",{"PhAmp",pi/3*ones(1,3)},0,[2,1])));
+
+
 
 ## Need to test error checking

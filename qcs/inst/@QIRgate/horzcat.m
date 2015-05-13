@@ -32,7 +32,7 @@ function C = horzcat(this,varargin)
     ## result differs by gate type
     switch(class(other))
       ## gates get appened to the sequence
-      case {"QIRsingle","QIRswap","QIRtoffoli","QIRfredkin","QIRcU", ...
+      case {"QIRsingle","QIRswap","QIRccU","QIRfredkin","QIRcU", ...
       "QIRmeasure" }
          seq{end+1} = other;
       ## when a circuit is encountered, add seq to the seq of that
@@ -61,15 +61,15 @@ endfunction
 %!test
 %! a = @QIRseq({@QIRsingle("H",0), @QIRcU(0,1,{"X"}), @QIRswap(2,1), ...
 %!              @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
-%!              @QIRtoffoli(2,[0,1])  });
+%!              @QIRccU(2,[0,1],{"X"})  });
 %! A = @QIRcircuit(a);
 %! B = [@QIRsingle("H",0), @QIRcU(0,1,{"X"}), @QIRswap(2,1), ...
 %!              @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
-%!              @QIRtoffoli(2,[0,1]), @QIRcircuit() ];
+%!              @QIRccU(2,[0,1],{"X"}), @QIRcircuit() ];
 %! assert(eq(A,B));
 %! B = [@QIR("H",0),A];
 %! a = @QIRseq({@QIRsingle("H",0),@QIRsingle("H",0), @QIRcU(0,1,{"X"}),  ...
 %!              @QIRswap(2,1), @QIRfredkin([0,1],2), @QIRmeasure(0:4), ...
-%!              @QIRtoffoli(2,[0,1])  });
+%!              @QIRccU(2,[0,1],{"X"})  });
 %! A = @QIRcircuit(a);
 %! assert(eq(A,B));

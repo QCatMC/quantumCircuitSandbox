@@ -1,4 +1,4 @@
-## Copyright (C) 2014  James Logan Mayfield
+## Copyright (C) 2015  James Logan Mayfield
 ##
 ##  This program is free software: you can redistribute it and/or modify
 ##  it under the terms of the GNU General Public License as published by
@@ -14,36 +14,21 @@
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{s} =} get (@var{C},@var{f})
+## @deftypefn {Function File} {} display (@var{g})
 ##
-## Select field/property @var{f} of Toffoli gate @var{C}
+## Display the CC-U gate @var{g}
 ##
 ## @end deftypefn
-
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: QIR
 
-function s = get(sg,f)
+function display(sGate)
 
-  if (nargin == 1)
-    s.tar = sg.tar;
-    s.ctrls = sg.ctrls;
-  elseif (nargin == 2)
-    if ( ischar(f) )
-      switch(f)
-        case "tar"
-          s = sg.tar;
-        case "ctrls"
-          s = sg.ctrls;
-        otherwise
-          error("get: invalid property %s",f);
-      endswitch
-    else
-      error("get: expecting the property to be a string");
-    endif
-  else
-      print_usage();
+  if(!strcmp(inputname(1),"") )
+    fprintf ("%s = \n", inputname (1));
   endif
+
+  nestedprint(sGate,1);
 
 endfunction

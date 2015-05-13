@@ -281,7 +281,7 @@ function C = parseTernary(gDesc)
 	error("parse error: Toffoli given bad target");
       endif
 
-      C = @QIRtoffoli(gDesc{2},sort(gDesc{3},"descend"));
+      C = @QIRccU(gDesc{2},sort(gDesc{3},"descend"),{"X"});
 
     case "Fredkin"
       ## desc length check
