@@ -1,10 +1,13 @@
+v1.4.0
+  - QIR now includes the CC-U class of gates. 
+
 v1.3.2
   - bug fixes in single qubit parameterization functions. phaseamp, zyz, and
   Rn parameterizations are now consistent with the corresponding U2 constructors.
   The paramters themselves are also more logical. Angles are, for the most part,
    taken from [0,2pi) with the exception of the amplitude parameter, which
   is restricted to [0,pi/2].
-  - QIRcU compilation now works (or works again). 
+  - QIRcU compilation now works (or works again).
 
 
 v1.3.1
