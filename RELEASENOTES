@@ -1,5 +1,10 @@
+v1.4.1
+  - stdbasis now returns sparse column vectors in order to allow
+    the potential the simulation of larger spaces
+  - isnat is now a public function
+
 v1.4.0
-  - QIR now includes the CC-U class of gates. 
+  - QIR now includes the CC-U class of gates.
 
 v1.3.2
   - bug fixes in single qubit parameterization functions. phaseamp, zyz, and

@@ -15,22 +15,22 @@
 
 ## Usage: b = isnat(n)
 ##
-## true if n is a natural number
-## 
+## true if n is a natural number or vector of natural numbers. 
+##
 
 ## Author: Logan Mayfield <lmayfield@monmouthcollege.edu>
 ## Keywords: Circuits
 
 
 function b = isnat(n)
-	 
+
   for k = 1:length(n)
     if(!isscalar(n(k)) || floor(n(k))!=ceil(n(k)) || n(k)<0)
       b = false;
       return;
     endif
   endfor
-  
+
   b=true;
 endfunction
 

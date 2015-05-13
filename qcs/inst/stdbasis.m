@@ -47,7 +47,8 @@ function b = stdbasis(i,n,t="double")
   endif
 
   tVal = tVal(1);
-  b = [0:(2^n -1 )]' == i;
+  b = sparse(2^n,1);
+  b(i+1) = 1;
 
   if( tVal  == 1 )
     b = double(b);
