@@ -35,10 +35,24 @@
 
 function [y,t] = sim(gate,in,bits,currd,dlim,currt,tlim)
 
-  op = circ2mat(gate,bits);
+  targets = get(gate,"tars");
+  if( length( targets) > 8 )
+    substeps = ceil(length(targets)/8);
+    y = in;
+    for i = [1:substeps]
+      fst = 8*(i-1)+1;
+      lst = min(8*i,length(targets));
+      g = @QIRsingle(get(gate,"name"),targets(fst:lst),get(gate,"params"));
+      op = circ2mat(g,bits);
+      y = op*y;
+    endfor
+  else
+    op = circ2mat(gate,bits);
+    ## compute output state
+    y = op*in;
+  endif
 
-  ## compute output state
-  y = op*in;
+
 
   ## time steps update, or not
   if( currd <= dlim )
