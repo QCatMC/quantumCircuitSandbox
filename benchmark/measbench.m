@@ -1,7 +1,6 @@
 ## Collect some basic benchmarks on the impact of multiple samples
 ## Looks slow and linear
 
-
 1;
 
 pkg load qcs;
