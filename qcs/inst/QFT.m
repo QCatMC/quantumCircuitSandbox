@@ -34,15 +34,14 @@ function C = QFT(n)
   endfor
 endfunction
 
-## Phase Change operator used in QFT circuits
-function U = Rk(k)
-   U = [1,0 ; 0,e^(2*i*pi/(2^k))];
-endfunction
-
 ## Create Controlled-Rk with target t and control c
 function rk = consCRk(k,t,c)
-  rnp = Rnparams(Rk(k));
-  rk = QIR("CU",{"Rn",rnp},t,c);
+  v = Rk(k,t);
+  if( k < 4 )
+    rk = QIR("CU",get(v,"name"),t,c);
+  else
+    rk = QIR("CU",{get(v,"name"),get(v,"params")},t,c);
+  endif
 endfunction
 
 ## Revere qubit order
