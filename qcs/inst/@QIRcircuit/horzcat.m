@@ -58,7 +58,7 @@ function C = horzcat(this,varargin)
          ## when this is empty, nest other's seq.
          if( length(s) > 0 && length(seq) > 0 )
             seq{end+1} =  get(other,"seq");
-          elseif( length(seq) == 0 )
+         elseif( length(s) > 0 && length(seq) == 0 )
             seq = {@QIRseq(s)};
          endif
 

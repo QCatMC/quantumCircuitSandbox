@@ -43,8 +43,8 @@ function U = Rk(k,t)
     case 3
       U = QIR("T",t);
     otherwise
-      p = phaseampparams([1,0 ; 0,e^(2*i*pi/(2^k))]);
-      U = QIR("PhAmp",p,t);
+      p = Rnparams([1,0 ; 0,e^(2*i*pi/(2^k))]);
+      U = QIR("Rn",p,t);
   endswitch
 
 
