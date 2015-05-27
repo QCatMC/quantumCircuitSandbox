@@ -1,7 +1,14 @@
+v1.4.3
+  - Fixed circuit horzcat bug with empty+empty concatenation
+  - Added Rk constructor (see help Rk) and integrated it
+     into QFT
+  - Added QFTconstadder for doing QFT-based addition of a constant. 
+
+
 v1.4.2
   - Multi-target single qubit operators now handles 8+ targets
     by doing the simulation in 8 operator sized chunks to avoid
-    computing overly large matricies. 
+    computing overly large matricies.
 
 v1.4.1
   - stdbasis now returns sparse column vectors in order to allow

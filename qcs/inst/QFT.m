@@ -67,7 +67,7 @@ endfunction
 %!endfunction
 
 %!test
-%! for l = 1:5
+%! for l = 1:8
 %!  U = full(circ2mat(QFT(l)));
 %!  V = qft(l);
 %!  err = operr(U,V);
