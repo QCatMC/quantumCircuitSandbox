@@ -11,11 +11,11 @@ bP = [QIR("H",1),QIR("CNot",0,1)];
 bM = [QIR("CNot",1,2),QIR("H",2),QIR("Measure",[2,1])];
 
 ## Cntrl-Z with control on 2 and target on 0
-cZ = [QIR("H",0),QIR("CNot",0,2),QIR("H",0)];
+#cZ = [QIR("H",0),QIR("CNot",0,2),QIR("H",0)];
 
 ## The teleportation circuit. Just prep bit 2 with the
 ## state to be teleported.
-Tele = [QIR,bP,bM,QIR("CNot",0,1),cZ];
+Tele = [QIR,bP,bM,QIR("CNot",0,1),QIR("CU","Z",0,2)];
 
 ## Some circuits to prep. Alice's state
 a1 = @(t) [QIR("T",t),QIR("S",t)];
@@ -27,6 +27,7 @@ s1 = simulate(a1(0),1);
 s2 = simulate(a2(0),1);
 ## then view the density matrix because that's what we'll
 ## see after tracing out part of the teleportation circuit
+printf("The states we're teleporting\n")
 st1 = puretodensity(s1)
 st2 = puretodensity(s2)
 
@@ -36,11 +37,13 @@ st2 = puretodensity(s2)
 circ1 = [QIR,a1(2),Tele];
 circ2 = [QIR,a2(2),Tele];
 
-in = ptrace(1:2,stdBasis(4,3)) # the input
+#printf("The initial state\n")
+in = ptrace(1:2,stdbasis(4,3)); # the input
 
 ## now run and trace out all but bit 0 (the result). again, we tag
 ## the upper portion as work space here so that the simulator will
 ## trace bits 2 and 1 out, leaving only the state of 0 as the result
+printf("Results of Simulation\n") 
 c1Out = simulate(circ1,4,"worklocation","Upper","worksize",2)
 c2Out = simulate(circ2,4,"worklocation","Upper","worksize",2)
 
