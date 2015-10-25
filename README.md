@@ -1,6 +1,6 @@
 # Quantum Circuit Sandbox (qcs)
 
-Quantum Circuit Sandbox (qcs) is a free, open-source [GNU Octave](https://www.gnu.org/software/octave/)<sup>1</sup> package that enables the construction, simulation, and synthesis of basic quantum circuits in an embedded, domain specific language fashion with Octave as the host langauge.
+Quantum Circuit Sandbox (qcs) is a free, open-source [GNU Octave](https://www.gnu.org/software/octave/)<sup>1</sup> package that enables the construction, simulation, and synthesis of basic quantum circuits in an embedded, domain specific language fashion with Octave as the host language.
 
 ## Installation
 
@@ -77,9 +77,9 @@ simulate(not_cir,1,"worksize",1,"sample",1);
 
 The acronym QIR is short for Quantum Intermediate Representation and comes from the work of Svore, et. al.<sup>3</sup>. The `qcc` function (short for Quantum Circuit Compiler) can be used to reduce QIR based circuits to elementary circuits that use only the two qubit Controlled-Not gate and single qubit operators. Running `help qcc` provides complete documentation.
 
-The first target of `qcc` is a Quantum Intermediate Assembly (QIASM) circuit. These circuits utilze arbitrary single qubit unitaries and C-Not. These circuits are equivalent to the QIR from which they are compiled.
+The first target of `qcc` is a Quantum Intermediate Assembly (QIASM) circuit. These circuits utilize arbitrary single qubit unitary matricies and C-Not. These circuits are equivalent to the QIR from which they are compiled.
 
-The second target of qcc is a Quantum Assembly (QASM) circuit. A QASM circuit is an approximation of the QIR circuit that uses a finite set of single qubit unitaries. An implementation of the Solovay-Kiteav algorithm<sup>4</sup> is used to perform the QIASM to QASM compilation do arbitrary precision. In its current state, compiling to QASM is very slow but can be sped up a bit by loading the parallel package. User be warned.
+The second target of qcc is a Quantum Assembly (QASM) circuit. A QASM circuit is an approximation of the QIR circuit that uses a finite set of single qubit unitary matricies. An implementation of the Solovay-Kiteav algorithm<sup>4</sup> is used to perform the QIASM to QASM compilation do arbitrary precision. In its current state, compiling to QASM is very slow but can be sped up a bit by loading the parallel package. User be warned.
 
 ##### References
 
