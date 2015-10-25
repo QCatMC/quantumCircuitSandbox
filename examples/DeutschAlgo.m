@@ -84,7 +84,7 @@ assert(res,0);
 ## quantum state result to get the complete picture.
 res = zeros(4,stepsat(not_cir,1)+1);
 for k = 1:length(res)
-  res(:,k) = simulate(not_cir,1,"depth",1,"steps",k-1);
+  res(:,k) = simulate(not_cir,1,"ndepth",1,"steps",k-1);
 endfor
 ## now we can see the quantum state at each logical step
 display(res)
@@ -102,7 +102,7 @@ display(resOp)
 ## happening.  Let's skip right to the density matrix for the work space
 res = zeros(2,2,stepsat(not_cir,2)+1);
 for k = 1:length(res)
-  res(:,:,k) = simulate(not_cir,1,"depth",2,"steps",k-1,"worksize",1);
+  res(:,:,k) = simulate(not_cir,1,"ndepth",2,"steps",k-1,"worksize",1);
 endfor
 display(res)
 
@@ -111,7 +111,7 @@ display(res)
 ## by setting worklocation to "Upper".
 reswork = zeros(2,2,stepsat(not_cir,2)+1);
 for k = 1:length(resOp)
-  resOp(:,:,k) = simulate(not_cir,1,"depth",2,"steps",k-1,...
+  resOp(:,:,k) = simulate(not_cir,1,"ndepth",2,"steps",k-1,...
                           "worksize",1,"worklocation","Upper");
 endfor
 display(resOp)

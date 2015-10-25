@@ -1,8 +1,12 @@
+v1.4.4
+  - Documentation release: added better README for the repo and
+     fixed some bugs in the examples
+
 v1.4.3
   - Fixed circuit horzcat bug with empty+empty concatenation
   - Added Rk constructor (see help Rk) and integrated it
      into QFT
-  - Added QFTconstadder for doing QFT-based addition of a constant. 
+  - Added QFTconstadder for doing QFT-based addition of a constant.
 
 
 v1.4.2
