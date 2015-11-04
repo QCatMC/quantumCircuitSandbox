@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -39,7 +39,7 @@
 <p>The qcs package is a proper GNU Octave package and is easily <a href="https://www.gnu.org/software/octave/doc/interpreter/Installing-and-Removing-Packages.html">installed</a> using the Octave <code>pkg</code> commands. Just download the gzipped compressed tar of the latest release
 and Octave will do the rest.</p>
 
-<pre><code>pkg install qcs-1.4.4.tar.gz
+<pre><code>pkg install qcs-1.4.3.tar.gz
 </code></pre>
 
 <p>Parts of qcs can make use of the Parallel package if you have it installed
@@ -76,7 +76,7 @@ using the <code>QIR</code> gate constructor function to specify individual gates
                      [QIR("H",1),QIR("Measure",1)]];
 </code></pre>
 
-<p>Circuits can be nested to capture the logical structure of the circuit. The <code>QIR</code> at the start of <code>not_cir' ensures proper nesting. In</code>not_cir<code>you see the initial Hadamard gate application to both qubits, the Oracle circuit,and finally the measurement. For the complete documentation of</code>QIR<code>run</code>help QIR` at the Octave prompt.</p>
+<p>Circuits can be nested to capture the logical structure of the circuit. The <code>QIR</code> at the start of <code>not_cir</code> ensures proper nesting. In <code>not_cir</code> you see the initial Hadamard gate application to both qubits, the Oracle circuit,and finally the measurement. For the complete documentation of <code>QIR</code> run <code>help QIR</code> at the Octave prompt.</p>
 
 <h4>
 <a id="simulating-circuits" class="anchor" href="#simulating-circuits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simulating Circuits</h4>
