@@ -47,7 +47,7 @@ not_cir = [QIR,...
 					 [QIR("H",1),QIR("Measure",1)]];
 ```
 
-Circuits can be nested to capture the logical structure of the circuit. The `QIR` at the start of `not_cir' ensures proper nesting. In `not_cir` you see the initial Hadamard gate application to both qubits, the Oracle circuit,and finally the measurement. For the complete documentation of `QIR` run `help QIR` at the Octave prompt.
+Circuits can be nested to capture the logical structure of the circuit. The `QIR` at the start of `not_cir` ensures proper nesting. In `not_cir` you see the initial Hadamard gate application to both qubits, the Oracle circuit,and finally the measurement. For the complete documentation of `QIR` run `help QIR` at the Octave prompt.
 
 #### Simulating Circuits
 
